@@ -11,7 +11,7 @@ var authenticated = require('./authenticated');
 var middlewares = {
     'auth': authenticated,
     'all': function (req, res, next) {
-        console.warn('user ', req.user);
+        //console.warn('user ', req.user);
         console.log('all Time:', Date.now());
         next();
     }

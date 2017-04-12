@@ -8,6 +8,7 @@ var setup = {
     createAdmin: function () {
         // create a new user
         var newUser = User({
+            username: config.get('project:admin:username'),
             name: 'Admin Admin',
             email: config.get('project:admin:email'),
             password: config.get('project:admin:password'),

@@ -12,11 +12,13 @@ var LocalStrategy = require('passport-local').Strategy;
 var config = require('./config');
 
 var setup = require('./setup');
+
 // mongo connect
 var mongo_uri = config.get('db:connection');
 console.log(mongo_uri);
-
+mongoose.Promise = Promise;
 mongoose.connect(mongo_uri);
+
 
 var User = require('./models/user');
 // add admin
@@ -31,6 +33,13 @@ var routes = require('./routes');
 
 var app = express();
 
+// Passport:
+
+app.use(require('express-session')({secret: 'secret', resave: true, saveUninitialized: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -43,9 +52,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Passport:
-app.use(passport.initialize());
-app.use(passport.session());
 
 // auth
 var userModel = User;
@@ -68,34 +74,30 @@ passport.deserializeUser(function (user_data, done) {
 
 passport.use(new LocalStrategy(
     {
-        usernameField: 'email',
+        usernameField: 'username',
         passwordField: 'password',
         passReqToCallback: true // with req
     },
-    function (req, email, password, done) {
+    function (req, username, password, done) {
         //console.log('username');
         //console.log(email);
 
         process.nextTick(function () {
 
-            userModel.findOne({email: email}).exec(function (err, user) {
+            userModel.findOne({username: username}).exec(function (err, user) {
                 if (user) {
 
                     console.log(user);
                     console.log(password);
-                    console.log(email);
 
                     user.comparePassword(password, function (err, isMatch) {
-
                         // check if the password was a match
                         if (isMatch) {
-                            req.user = user;
                             return done(null, user);
                         } else {
                             return done(null, false);
                         }
                     });
-
 
                 } else {
                     return done(null, false);
