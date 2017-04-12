@@ -24,7 +24,7 @@
                     title: 'Home',
                     userCount: results.userCount
                 };
-                res.render('pages/users', data);
+                res.render('pages/home', data);
             })
             .catch(function (err) {
                 res.send(500);

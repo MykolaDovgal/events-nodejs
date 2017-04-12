@@ -30,6 +30,7 @@ User.count({}, function (err, count) {
 
 // routes
 var routes = require('./routes');
+var api_routes = require('./routes/api');
 
 var app = express();
 
@@ -109,6 +110,7 @@ passport.use(new LocalStrategy(
 ));
 
 app.use(routes);
+app.use('/api', api_routes);
 
 
 // catch 404 and forward to error handler

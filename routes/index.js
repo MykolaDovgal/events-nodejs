@@ -3,25 +3,33 @@ var router = express.Router();
 var passport = require('passport');
 
 var middleware = require('../middlewares');
+var api_router = require('./api');
+var home = require('./home');
+var users = require('./users');
 
 router.all('*', middleware.all);
 router.all('*', middleware.auth);
 
+
 /* GET home page. */
-router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Home page'});
-});
+router.get('/', home);
+
+/* page users . */
+router.get('/users', users);
 
 // login
 router.get('/login', function (req, res, next) {
-    res.render('pages/login', {title: 'Login page'});
+    var data = {
+        title: 'Login'
+    };
+    res.render('pages/login', data);
 });
 
 router.post('/login', function (req, res, next) {
-    console.warn('someone trying to login');
+    console.warn('trying to login');
 
     passport.authenticate('local', {
-        successRedirect: '/private',
+        successRedirect: '/',
         failureRedirect: '/login'
     })(req, res, next);
 

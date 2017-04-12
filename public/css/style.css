@@ -8,6 +8,20 @@ body {
     height: 90px;
 }
 
+.logo {
+    margin: 0 auto;
+}
+
 .copyright {
     color: black !important;
+}
+
+.page-content-wrapper {
+    width: 90% !important;
+    float: none !important;
+    margin: 0 auto !important;
+}
+
+.page-content-wrapper .page-content {
+    margin-left: 0 !important;
 }
