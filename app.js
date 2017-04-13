@@ -52,6 +52,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -65,8 +66,6 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (user_data, done) {
-    console.log('des');
-    console.log(user_data);
     done(null, user_data);
     // userModel.findOne({email: user_data.email}, function (err, user) {
     // 	done(err, user);

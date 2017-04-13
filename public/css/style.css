@@ -26,6 +26,6 @@ body {
     margin-left: 0 !important;
 }
 
-#users-list-datatable .row img.profile-picture {
-    max-height: 100px;
+#users-list-datatable .profile-picture {
+    max-height: 100px !important;
 }
