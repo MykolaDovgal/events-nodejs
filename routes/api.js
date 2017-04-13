@@ -31,9 +31,12 @@ router.get('/users', function (req, res) {
         }).execAsync()
     })
         .then(function (results) {
-            console.warn(results);
+            //console.warn(results);
+            var data = {
+                data: results.users
+            };
 
-            res.json(results);
+            res.json(data);
         })
         .catch(function (err) {
             res.send(500);

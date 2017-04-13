@@ -22,10 +22,11 @@ mongoose.connect(mongo_uri);
 
 var User = require('./models/user');
 // add admin
-User.count({}, function (err, count) {
+User.count({username: config.get('project:admin:username')}, function (err, count) {
     if (count === 0) {
         setup.createAdmin();
     }
+    //setup.createDummyUser();
 });
 
 // routes

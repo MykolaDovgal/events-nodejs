@@ -3,11 +3,33 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 
+var autoIncrement = require('mongoose-auto-increment');
+
+autoIncrement.initialize(mongoose.connection);
+
 var UserSchema = new Schema({
+    id: {type: String, required: true, index: {unique: true}},
     username: {type: String, required: true, index: {unique: true}},
     email: {type: String, required: true, index: {unique: true}},
     password: {type: String, required: true},
-    name: {type: String}
+    firstname: {type: String, trim: true},
+    lastname: {type: String, trim: true},
+    realname: {type: String, trim: true},
+    permission_level: {type: Number},
+    facebook_profile: {type: String, trim: true},
+    profile_picture: {type: String, trim: true},
+    // friends: [{
+    //     userid: {type: Number},
+    //     time_added: {type: Number}
+    // }],
+    // friend_requests: [{
+    //     userid: {type: Number},
+    //     time_added: {type: Number}
+    // }],
+    about: {type: String},
+    dateofBirth: {type: Date, default: Date.now},
+    dateofBirth_visible: {type: Boolean},
+    age: {type: Number}
 });
 
 UserSchema.pre('save', function (next) {
@@ -56,5 +78,10 @@ UserSchema.options.toJSON = {
         return ret;
     }
 };
+
+UserSchema.plugin(autoIncrement.plugin, {
+    model: 'User',
+    field: 'id'
+});
 
 module.exports = mongoose.model('User', UserSchema);

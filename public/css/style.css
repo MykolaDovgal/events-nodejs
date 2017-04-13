@@ -25,3 +25,7 @@ body {
 .page-content-wrapper .page-content {
     margin-left: 0 !important;
 }
+
+#users-list-datatable .row img.profile-picture {
+    max-height: 100px;
+}
