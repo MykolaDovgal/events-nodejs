@@ -169,7 +169,7 @@
 						}, 350);
 
 				})
-				.append('<a class="close" href="#menu">Close</a>');
+				.append('<a class="closes" href="#menu"></a>');
 
 			$body
 				.on('click', 'a[href="#menu"]', function(event) {
