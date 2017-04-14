@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
+var Promise = require('bluebird');
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -18,6 +20,8 @@ var mongo_uri = config.get('db:connection');
 console.log(mongo_uri);
 mongoose.Promise = Promise;
 mongoose.connect(mongo_uri);
+
+Promise.promisifyAll(mongoose);
 
 
 var User = require('./models/user');

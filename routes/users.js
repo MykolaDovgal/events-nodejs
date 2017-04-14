@@ -7,11 +7,8 @@
     var _ = require('underscore');
     var express = require('express');
     var User = require('../models/user');
-
-    var mongoose = require('mongoose');
     var Promise = require('bluebird');
 
-    Promise.promisifyAll(mongoose);
 
     module.exports = function (req, res, next) {
 

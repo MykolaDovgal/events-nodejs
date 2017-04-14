@@ -11,14 +11,17 @@ body {
     background-image: url("/images/party-bg.jpg");
 }
 
-
-
 .logo {
     margin: 0 auto !important;
 }
 
 .copyright {
     color: black !important;
+}
+
+#users-list-datatable {
+    table-layout: fixed;
+    word-wrap: break-word;
 }
 
 .page-content-wrapper {
@@ -33,8 +36,8 @@ body {
 
 #users-list-datatable .profile-picture {
     max-height: 100px !important;
+    max-width: 140px !important;
 }
-
 
 .tiles {
     width: 60%;
@@ -247,7 +250,7 @@ body.is-touch .tiles article .content {
     opacity: 1;
 }
 
-#header{
+#header {
     padding: 25px 0;
 }
 
@@ -263,7 +266,7 @@ body.is-touch .tiles article .content {
     display: inline-block;
 }
 
-#header .logo img{
+#header .logo img {
     border-radius: 10px;
 }
 
@@ -557,7 +560,6 @@ body.is-menu-visible #menu .closes {
     opacity: 1;
 }
 
-
 /* Wrapper */
 
 #wrapper > * > .inner {
@@ -573,25 +575,24 @@ body.is-menu-visible #menu .closes {
     }
 }
 
-
 /********data********/
-.data-time{
+.data-time {
     text-align: left;
     position: absolute;
     left: 5em;
 }
 
-.time span{
+.time span {
     font-family: Montserrat-Regular;
     font-size: 55px;
     color: #fff;
 }
 
-.time .second{
+.time .second {
     font-size: 30px;
 }
 
-.data{
+.data {
     font-family: Montserrat-Regular;
     font-size: 30px;
     color: #fff;

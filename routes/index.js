@@ -3,11 +3,12 @@ var router = express.Router();
 var passport = require('passport');
 
 var User = require('../models/user');
+var util = require('../util');
 
-var path = require('path')
+var Promise = require('bluebird');
 
+var path = require('path');
 var crypto = require('crypto');
-
 var multer = require('multer');
 
 var uploadProfileImgs = multer({dest: './public/uploads/'}).single('profile-image');
@@ -63,14 +64,14 @@ router.post('/login', function (req, res, next) {
 router.post('/user/add', upload.single('profile-image'), function (req, res, next) {
 
     var result = {
-        message: 'error',
-        status: 0
+        message: 'User added',
+        status: 1
     };
     var array_field = [
         'username',
         'password', 'repeat-password',
         'firstname',
-        'lastname', 'email', 'profile-image',
+        'lastname', 'email',
         'dateofbirth'
     ];
 
@@ -85,45 +86,85 @@ router.post('/user/add', upload.single('profile-image'), function (req, res, nex
 
     var imageProfile = '';
     if (req.file) {
-        imageProfile = req.file.path
+        imageProfile = req.file.path + '';
+        imageProfile = imageProfile.replace(/\//g, '/');
+        imageProfile = imageProfile.replace('public', '');
+    }
+
+    var user_active = 0;
+    if (util.isset(body['active'])) {
+        if (body['active'].trim() !== '0') {
+            user_active = 1;
+        }
     }
 
 
     var userData = {
         username: body['username'],
         password: body['password'],
+        'repeat-password': body['repeat-password'],
         firstname: body['firstname'],
         lastname: body['lastname'],
         realname: body['firstname'] + ' ' + body['lastname'],
         email: body['email'],
         permission_level: 1,
+        active: user_active,
         profile_picture: imageProfile
     };
-    console.log(userData);
-
-    var user = new User(userData);
+    //console.log(userData);
 
 
-    if (checker_form) {
-        var saved = true;
-        //save the user
-        user.save(function (err) {
-            if (err) {
-                console.log(err);
-                saved = false;
-            } else {
+    Promise.props({
+        isEmail: User.count({email: userData.email}).execAsync(),
+        isLogin: User.count({username: userData.username}).execAsync()
+    })
+        .then(function (results) {
+
+            console.warn(results);
+            if (results.isEmail) {
                 result = {
-                    message: 'Success',
-                    status: 1
+                    message: 'This email already exists',
+                    status: 0
                 };
             }
+
+            if (results.isLogin) {
+                result = {
+                    message: 'This username already exists',
+                    status: 0
+                };
+            }
+
+            if (userData.password !== userData['repeat-password']) {
+                result = {
+                    message: 'Passwords are mismatch',
+                    status: 0
+                };
+            }
+
+            if (result.status) {
+                //save the user
+                var user = new User(userData);
+                user.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        result = {
+                            message: 'Error',
+                            status: 0
+                        };
+                    }
+                    console.log(result);
+                    res.json(result);
+                });
+            } else {
+                res.json(result);
+            }
+        })
+        .catch(function (err) {
+            res.send(500);
         });
-    }
-
-    console.log(result);
 
 
-    res.json(result);
 });
 
 
