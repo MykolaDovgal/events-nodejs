@@ -12,135 +12,98 @@
 <!-- Wrapper -->
 <div class="page-wrapper">
 
-    <!-- Header -->
     <header id="header" valign="botoom">
-        <div align="center" class="inner">
-            <div class="data-time">
-                <div class="time">
-                    <span class="hour">21:</span>
-                    <span class="minute">23</span>
-                    <span class="second">:08</span>
-                </div>
-                <p class="data">Monday, 3 April 2017</p>
-            </div>
-
-            <!-- Logo -->
-            <a href="/" class="logo">
-                <span class="symbol"><img align="center" src="images/logo.png" alt="" class="img-responsive"/></span>
-            </a>
-
-            <!-- Nav -->
-            <nav>
-                <ul>
-                    <li><a href="#menu">Menu</a></li>
-                </ul>
-            </nav>
-
-        </div>
+        <% include ../static/header %>
     </header>
 
 
-
     <!-- Main -->
-            <section class="tiles">
-                <article class="style1">
+    <section class="tiles">
+        <article class="style1">
 									<span class="image">
 										<img src="images/pic01.jpg" alt=""/>
 									</span>
-                    <a href="/users">
-                        <h2>Users
+            <a href="/users">
+                <h2>Users
 
-                        </h2>
-                        <div class="content">
-                            <p>All: <%= userCount %> </p>
-                            <p>Active: <%= userCount %></p>
-                        </div>
-                    </a>
-                </article>
-                <article class="style2">
+                </h2>
+                <div class="content">
+                    <span>All: <%= userAllCount %> </span><br/>
+                    <span>Active: <%= userAllActiveCount %></span>
+                </div>
+            </a>
+        </article>
+        <article class="style2">
 									<span class="image">
 										<img src="images/pic02.jpg" alt=""/>
 									</span>
-                    <a href="/">
-                        <h2>Lines</h2>
-                        <div class="content">
-                            <p>Today: 17 <br> Future: 78 <br> Past: 1,238</p>
-                        </div>
-                    </a>
-                </article>
+            <a href="/">
+                <h2>Lines</h2>
+                <div class="content">
+                    <p>Today: 17 <br> Future: 78 <br> Past: 1,238</p>
+                </div>
+            </a>
+        </article>
 
-                <article class="style3">
+        <article class="style3">
 									<span class="image">
 										<img src="images/pic02.jpg" alt=""/>
 									</span>
-                    <a href="/">
-                        <h2>Parties</h2>
-                        <div class="content">
-                            <p>Today: 17 <br> Future: 78 <br> Past: 1,238</p>
-                        </div>
-                    </a>
-                </article>
+            <a href="/">
+                <h2>Parties</h2>
+                <div class="content">
+                    <p>Today: 17 <br> Future: 78 <br> Past: 1,238</p>
+                </div>
+            </a>
+        </article>
 
-                <article class="style2">
+        <article class="style2">
 									<span class="image">
 										<img src="images/pic03.jpg" alt=""/>
 									</span>
-                    <a href="/">
-                        <h2>Events</h2>
-                        <div class="content">
-                            <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-                        </div>
-                    </a>
-                </article>
-                <article class="style4">
+            <a href="/">
+                <h2>Events</h2>
+                <div class="content">
+                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+            </a>
+        </article>
+        <article class="style4">
 									<span class="image">
 										<img src="images/pic04.jpg" alt=""/>
 									</span>
-                    <a href="/">
-                        <h2>Bars</h2>
-                        <div class="content">
-                            <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-                        </div>
-                    </a>
-                </article>
+            <a href="/">
+                <h2>Bars</h2>
+                <div class="content">
+                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+            </a>
+        </article>
 
-                <article class="style4">
+        <article class="style4">
 									<span class="image">
 										<img src="images/pic04.jpg" alt=""/>
 									</span>
-                    <a href="/">
-                        <h2>Bars</h2>
-                        <div class="content">
-                            <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-                        </div>
-                    </a>
-                </article>
+            <a href="/">
+                <h2>Bars</h2>
+                <div class="content">
+                    <p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
+                </div>
+            </a>
+        </article>
 
 
-            </section>
+    </section>
 
 </div>
 
 
 <footer>
-    <script src="/js/start/jquery.min.js"></script>
-    <script src="/js/start/skel.min.js"></script>
-    <script src="/js/start/util.js"></script>
-    <!--[if lte IE 8]>
-    <script src="/js/start/ie/respond.min.js"></script><![endif]-->
-    <script src="/js/start/main.js"></script>
+    <% include ../static/footer %>
 </footer>
-<!-- Menu -->
-<nav id="menu">
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/">Ipsum veroeros</a></li>
-        <li><a href="/">Tempus etiam</a></li>
-        <li><a href="/">Consequat dolor</a></li>
-        <li><a href="/">Elements</a></li>
-    </ul>
-</nav>
+
+<% include ../static/menu %>
+
 </body>
 </html>
 

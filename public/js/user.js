@@ -29,18 +29,20 @@ $(document).ready(function () {
                 width: '100'
             },
             {
-                "data": "username",
-                width: 200,
-                'render': function (data, type, full, meta) {
-                    console.log(full);
-                    var content = data;
-
-                    content = '<span class="badge badge-danger">Disable</span>';
-
-                    return content;
-                }
+                "data": 'username',
+                width: 200
             },
-            {"data": "realname"}
+            {"data": "realname"},
+            {
+                'data': 'facebook_profile',
+                'render': function (data, type, full, meta) {
+                    if (!data) {
+                        data = '/';
+                    }
+                    return '<a href="' + data + '">' + full.realname + '</a>';
+                },
+                width: '150'
+            }
         ],
         "columnDefs": [
             {

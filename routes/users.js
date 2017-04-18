@@ -13,13 +13,15 @@
     module.exports = function (req, res, next) {
 
         Promise.props({
-            userCount: User.count().execAsync()
+            userAllCount: User.count().execAsync(),
+            userAllActiveCount: User.count({active: true}).execAsync()
         })
             .then(function (results) {
                 console.warn(results);
                 var data = {
-                    title: 'Home',
-                    userCount: results.userCount
+                    title: 'Users',
+                    userAllCount: results.userAllCount,
+                    userAllActiveCount: results.userAllActiveCount
                 };
                 res.render('pages/users', data);
             })

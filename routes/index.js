@@ -31,6 +31,10 @@ var middleware = require('../middlewares');
 var api_router = require('./api');
 var home = require('./home');
 var users = require('./users');
+var logout = require('./logout');
+
+router.use(logout);
+
 
 router.all('*', middleware.all);
 router.all('*', middleware.auth);
@@ -45,7 +49,8 @@ router.get('/users', users);
 // login
 router.get('/login', function (req, res, next) {
     var data = {
-        title: 'Login'
+        title: 'Login',
+        showMenu: false
     };
     res.render('pages/login', data);
 });

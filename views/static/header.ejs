@@ -1,6 +1,29 @@
-<!-- BEGIN LOGO -->
-<div class="logo">
-    <a href="/">
-        <img src="/assets/pages/img/logo-big.png" alt=""/> </a>
+<div align="center" class="inner">
+    <div class="data-time" id="datetime">
+        <div class="time">
+            <span class="hour">00</span>
+            <span>:</span>
+            <span class="minute">00</span>
+            <span>:</span>
+            <span class="second">00</span>
+        </div>
+        <p class="data">Monday, 1 January 2097</p>
+    </div>
+
+    <!-- Logo -->
+    <a href="/" class="logo">
+        <span class="symbol">
+            <img align="center" src="images/logo.png" alt="" class="img-responsive"/>
+        </span>
+    </a>
+
+    <!-- Nav -->
+    <% if (showMenu){ %>
+    <nav>
+        <ul>
+            <li><a href="#menu">Menu</a></li>
+        </ul>
+    </nav>
+    <% } %>
+
 </div>
-<!-- END LOGO -->
