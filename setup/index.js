@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 
 var faker = require('faker');
 
@@ -6,6 +7,9 @@ var config = require('../config');
 // mongo connect
 var mongo_uri = config.get('db:connection');
 var User = require('../models/user');
+
+//var UserSchema = require('mongoose').model('Song').schema;
+var UserSchema = User.schema;
 
 const COUNT_OF_USERS = 100;
 const PASSWORD_USER = '12345';
@@ -19,7 +23,8 @@ var setup = {
             realname: 'Admin Admin',
             email: config.get('project:admin:email'),
             password: config.get('project:admin:password'),
-            profile_picture: '/images/icons/admin.png'
+            profile_picture: '/images/icons/admin.png',
+            profile_picture_circle: '/images/icons/admin.png'
         });
 
         // save the user
@@ -30,6 +35,13 @@ var setup = {
         });
     },
     createDummyUser: function () {
+
+        UserSchema.plugin(autoIncrement.plugin, {
+            model: 'User',
+            field: 'id',
+            startAt: 1
+        });
+
 
         for (var i = 0; i < COUNT_OF_USERS; i++) {
             // create a new user
@@ -42,11 +54,14 @@ var setup = {
                 lastname: last_name,
                 realname: faker.name.findName(),
                 email: faker.internet.email(),
-                permission_level: faker.random.number(3),
+                permission_level: faker.random.number(4),
                 about: faker.lorem.sentence(),
                 facebook_profile: faker.internet.url(),
                 profile_picture: faker.image.avatar(),
-                age: 0
+                profile_picture_circle: faker.image.avatar(),
+                age: faker.random.number(10, 90),
+                active: faker.random.boolean(),
+                date_of_birth: faker.date.past()
             };
             console.log(userData);
 

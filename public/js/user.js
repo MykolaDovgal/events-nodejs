@@ -9,7 +9,7 @@ $(document).ready(function () {
         "columns": [
             {"data": 'id', width: '90'},
             {
-                'data': 'profile_picture',
+                'data': 'profile_picture_circle',
                 'render': function (data, type, full, meta) {
                     return '<img class="profile-picture" src="' + data + '"/>';
                 },
@@ -97,6 +97,40 @@ $(document).ready(function () {
 
     });
 
+    // croppie
+    var $uploadCrop;
+
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $uploadCrop.croppie('bind', {
+                    url: e.target.result
+                });
+                $('.upload-demo').addClass('ready');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $uploadCrop = $('#upload-demo').croppie({
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    $('#form-profile-pic').on('change', function () {
+        readFile(this);
+    });
+
+    // croppie
+
 
     function updateUserTable() {
         user_tables.clear().draw();
@@ -140,7 +174,6 @@ $(document).ready(function () {
             'repeat-password': {
                 equalTo: "#form-password"
             }
-
         },
 
         invalidHandler: function (event, validator) { //display error alert on form submit
@@ -185,40 +218,55 @@ $(document).ready(function () {
     // submit handler
     form.submit(function (e) {
         e.preventDefault();
+
+
         var formData = new FormData(form[0]);
 
-        if (form.valid()) {
+        //set hidden cropped image
+        $uploadCrop.croppie('result', {
+            //type: 'canvas',
+            type: 'blob',
+            size: 'original',
+            circle: true
+        }).then(function (resp) {
+            console.log(resp);
+            formData.append('userpic', resp, 'userpic.png');
+            //$('#imagebase64').val(resp);
 
-            $.ajax({
-                url: '/user/add/',
-                type: 'POST',
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (data) {
-                    var status = data.status;
-                    var message = data.message;
 
-                    bootbox.alert({
-                        title: status ? 'Success' : 'Error',
-                        message: message,
-                        callback: function () {
-                            if (status) {
-                                $('#form_add_user')[0].reset();
-                                $('#add-new-user-modal').modal('hide');
-                                updateUserTable();
+            if (form.valid()) {
+
+                $.ajax({
+                    url: '/user/add/',
+                    type: 'POST',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        var status = data.status;
+                        var message = data.message;
+
+                        bootbox.alert({
+                            title: status ? 'Success' : 'Error',
+                            message: message,
+                            callback: function () {
+                                if (status) {
+                                    $('#form_add_user')[0].reset();
+                                    $('#add-new-user-modal').modal('hide');
+                                    updateUserTable();
+                                }
                             }
-                        }
-                    });
+                        });
 
-                },
-                error: function (jqXHR, textStatus, err) {
-                    bootbox.alert('Server error');
-                }
-            });
-        }
-        return false;
+                    },
+                    error: function (jqXHR, textStatus, err) {
+                        bootbox.alert('Server error');
+                    }
+                });
+            }
+        });
+        //return false;
     });
 
 

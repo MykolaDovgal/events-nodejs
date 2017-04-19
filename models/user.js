@@ -19,17 +19,18 @@ var UserSchema = new Schema({
     permission_level: {type: Number},
     facebook_profile: {type: String, trim: true},
     profile_picture: {type: String, trim: true},
-    // friends: [{
-    //     userid: {type: Number},
-    //     time_added: {type: Number}
-    // }],
-    // friend_requests: [{
-    //     userid: {type: Number},
-    //     time_added: {type: Number}
-    // }],
+    profile_picture_circle: {type: String, trim: true},
+    friends: [{
+        userid: {type: Number},
+        time_added: {type: Number}
+    }],
+    friend_requests: [{
+        userid: {type: Number},
+        time_added: {type: Number}
+    }],
     about: {type: String},
-    dateofBirth: {type: Date, default: Date.now},
-    dateofBirth_visible: {type: Boolean},
+    date_of_birth: {type: Date},
+    date_of_birth_visible: {type: Boolean},
     age: {type: Number}
 });
 
@@ -82,7 +83,8 @@ UserSchema.options.toJSON = {
 
 UserSchema.plugin(autoIncrement.plugin, {
     model: 'User',
-    field: 'id'
+    field: 'id',
+    startAt: 1
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -203,8 +203,8 @@
                                                     Birth </label>
                                                 <div class="col-md-9">
                                                     <div class="input-group input-medium date date-picker"
-                                                         data-date-format="dd-mm-yyyy" data-date-end-date="+0d">
-                                                        <input value="21-02-1990" id="form-date-of-birth"
+                                                         data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
+                                                        <input value="21.02.1990" id="form-date-of-birth"
                                                                name="dateofbirth" type="text"
                                                                class="form-control"
                                                                readonly/>
@@ -273,7 +273,15 @@
                                                            class="form-control"
                                                            value="Choose a file"
                                                            accept="image/*"/>
+
                                                     <div class="form-control-focus"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-md-line-input">
+                                                <div class="col-md-12">
+                                                    <div id="upload-demo"></div>
+                                                    <input type="hidden" id="imagebase64" name="imagebase64">
                                                 </div>
                                             </div>
 
