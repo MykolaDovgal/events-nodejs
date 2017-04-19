@@ -60,10 +60,11 @@ $(document).ready(function () {
         scrollY: 500,
         //deferRender: true,
         scroller: true,
-        responsive: true,
+        responsive: false,
         //scrollCollapse: true,
 
-        "dom": "<'row' <'col-md-12'B>> <'table-scrollable't><'row'<'col-md-12'i>>",
+        // "dom": "<'row' <'col-md-12' f B> > <'table-scrollable't><'row'<'col-md-12'i>>",
+        "dom": "<'row' <'col-md-12' f B> > t <'row'<'col-md-12'i>>",
 
         //stateSave: true,
         //"paging": false

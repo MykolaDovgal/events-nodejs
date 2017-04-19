@@ -20,6 +20,7 @@
                 console.warn(results);
                 var data = {
                     title: 'Users',
+                    showMenu: true,
                     userAllCount: results.userAllCount,
                     userAllActiveCount: results.userAllActiveCount
                 };
