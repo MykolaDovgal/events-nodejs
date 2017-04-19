@@ -17,7 +17,7 @@ var setup = require('./setup');
 
 // mongo connect
 var mongo_uri = config.get('db:connection');
-console.log(mongo_uri);
+//console.log(mongo_uri);
 mongoose.Promise = Promise;
 mongoose.connect(mongo_uri);
 
