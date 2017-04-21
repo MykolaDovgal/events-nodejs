@@ -226,7 +226,7 @@ $(document).ready(function () {
         $uploadCrop.croppie('result', {
             //type: 'canvas',
             type: 'blob',
-            size: 'original',
+            size: 'viewport',
             circle: true
         }).then(function (resp) {
             formData.append('userpic', resp, 'userpic.png');

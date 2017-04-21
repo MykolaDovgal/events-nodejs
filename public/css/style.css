@@ -45,6 +45,17 @@ body {
     background-color: transparent;
 }
 
+.profile-picture-big {
+    max-height: 200px !important;
+    max-width: 200px !important;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    padding: 3px;
+    border: 1px solid grey;
+    background-color: transparent;
+}
+
 .tiles {
     width: 60%;
     display: -moz-flex;
