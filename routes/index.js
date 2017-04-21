@@ -10,6 +10,7 @@ var middleware = require('../middlewares');
 var api_router = require('./api');
 var home = require('./home');
 var users = require('./users');
+var profile = require('./user/profile');
 var logout = require('./logout');
 
 var user_add = require('./user/add');
@@ -28,6 +29,7 @@ router.get('/', home);
 
 /* page users . */
 router.get('/users', users);
+router.all('/users/:id?', profile);
 
 // login
 router.get('/login', function (req, res, next) {
