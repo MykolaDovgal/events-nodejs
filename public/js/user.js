@@ -226,13 +226,11 @@ $(document).ready(function () {
         $uploadCrop.croppie('result', {
             //type: 'canvas',
             type: 'blob',
-            size: 'original',
+            size: 'viewport',
             circle: true
         }).then(function (resp) {
-            console.log(resp);
             formData.append('userpic', resp, 'userpic.png');
             //$('#imagebase64').val(resp);
-
 
             if (form.valid()) {
 
@@ -269,6 +267,10 @@ $(document).ready(function () {
         //return false;
     });
 
+    var table = $('#users-list-datatable').DataTable();
 
+    $('#users-list-datatable tbody').on( 'click', 'tr', function () {
+        window.location.href = "/users/" + $('#users-list-datatable').DataTable().row(this).data().id;
+    } );
 });
 

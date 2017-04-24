@@ -10,7 +10,7 @@ autoIncrement.initialize(mongoose.connection);
 var UserSchema = new Schema({
     id: {type: String, required: true, index: {unique: true}},
     username: {type: String, required: true, index: {unique: true}},
-    email: {type: String, required: true},
+    email: {type: String, index: {unique: true}},
     active: {type: Boolean, default: true},
     password: {type: String, required: true},
     firstname: {type: String, trim: true},

@@ -28,4 +28,9 @@ node_modules
 
 # Debug log from npm
 npm-debug.log
+
+# Uploaded pictures
 /public/uploads/
+
+# WebStorm files
+.idea
