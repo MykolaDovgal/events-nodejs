@@ -1,101 +1,39 @@
 /**
- * Created by tegos on 12.04.2017.
+ * Created by tegos on 24.04.2017.
  */
 
 $(document).ready(function () {
-    var user_tables = $('#users-list-datatable').DataTable({
+    var user_activity = $('#table-user-activity').DataTable({
 
         "ajax": "/api/users/",
         "columns": [
-            {"data": 'id', width: '90'},
             {
-                'data': 'profile_picture_circle',
-                'render': function (data, type, full, meta) {
-                    return '<img class="profile-picture" src="' + data + '"/>';
-                },
-                width: '150'
+                "data": 'id', width: '90'
             },
-            {
-                'data': 'active',
-                'render': function (data, type, full, meta) {
-                    var content;
-                    if (data) {
-                        content = '<span class="badge badge-success">Active</span>'
-                    } else {
-                        content = '<span class="badge badge-danger">Disable</span>';
-                    }
-                    return content;
-                },
-                width: '100'
-            },
+
             {
                 "data": 'username',
                 width: 200
-            },
-            {"data": "realname"},
-            {
-                'data': 'facebook_profile',
-                'render': function (data, type, full, meta) {
-                    if (!data) {
-                        data = '/';
-                    }
-                    return '<a href="' + data + '">' + full.realname + '</a>';
-                },
-                width: '150'
             }
-        ],
-        "columnDefs": [
-            {
-                "targets": 'no-sort',
-                "orderable": false
-            }
-        ],
-        "autoWidth": false,
 
-        buttons: [
-            {extend: 'print', className: 'btn dark btn-outline'},
-            {extend: 'pdf', className: 'btn green btn-outline'},
-            {extend: 'csv', className: 'btn purple btn-outline '}
         ],
-        scrollY: 500,
+
+        //"autoWidth": false,
+
+
+        scrollY: 300,
         //deferRender: true,
         scroller: true,
-        responsive: false,
+        responsive: true,
         //scrollCollapse: true,
 
         // "dom": "<'row' <'col-md-12' f B> > <'table-scrollable't><'row'<'col-md-12'i>>",
-        "dom": "<'row' <'col-md-12' f B> > t <'row'<'col-md-12'i>>",
+        "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
 
         //stateSave: true,
         //"paging": false
     });
 
-    // reload table
-    $('#user-table-reload').click(function () {
-        updateUserTable();
-    });
-
-
-    // var uploadCrop = $('#upload-profile-pic').croppie({
-    //     enableExif: true,
-    //     viewport: {
-    //         width: 100,
-    //         height: 100,
-    //         type: 'circle'
-    //     },
-    //     boundary: {
-    //         width: 200,
-    //         height: 200
-    //     }
-    // });
-
-    //uploadCrop.croppie('bind');
-
-
-    $('#add-new-user-modal').on('shown.bs.modal', function (e) {
-
-
-    });
 
     // croppie
     var $uploadCrop;
@@ -131,14 +69,6 @@ $(document).ready(function () {
 
     // croppie
 
-
-    function updateUserTable() {
-        user_tables.clear().draw();
-        setTimeout(function () {
-            user_tables.ajax.reload();
-            user_tables.columns.adjust().draw();
-        }, 1000);
-    }
 
     var form = $('#form_add_user');
     var error = $('.alert-danger', form);
@@ -267,10 +197,6 @@ $(document).ready(function () {
         //return false;
     });
 
-    //var table = $('#users-list-datatable').DataTable();
 
-    $('#users-list-datatable tbody').on('click', 'tr', function () {
-        window.location.href = "/users/" + user_tables.row(this).data().id;
-    });
 });
 
