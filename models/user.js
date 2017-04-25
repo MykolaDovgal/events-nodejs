@@ -8,7 +8,7 @@ var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(mongoose.connection);
 
 var UserSchema = new Schema({
-    id: {type: String, required: true, index: {unique: true}},
+    id: {type: Number, required: true, index: {unique: true}},
     username: {type: String, required: true, index: {unique: true}},
     email: {type: String, index: {unique: true}},
     active: {type: Boolean, default: true},
