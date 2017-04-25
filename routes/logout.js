@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-
-// Todo: write method for saving logout time
+var User = require('models/user');
 
 router.get('/logout', function (req, res) {
+    User.setLogOutTime(req.user.id);
     req.session.destroy(function (err) {
         res.redirect('/');
     });

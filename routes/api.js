@@ -11,15 +11,7 @@ Promise.promisifyAll(mongoose);
 
 var middleware = require('../middlewares');
 
-
-/* json users . */
-router.get('/', function (req, res, next) {
-    res.json({'test': true});
-});
-
-router.get('/users', function (req, res) {
-
-
+router.get('/users', function (req, res, next) {
     Promise.props({
         users: User.find({}, function (err, users) {
             var userMap = {};
@@ -39,11 +31,23 @@ router.get('/users', function (req, res) {
             res.json(data);
         })
         .catch(function (err) {
-            res.send(500);
+            next(err)
         });
-
-
 });
 
+router.get('/activity/:id?', function (req, res, next) {
+    Promise.props({
+        activity: User.findOne({ id: req.params.id })
+            .select('activity')
+    }).then(function (results) {
+        var data = {
+            data: results.activity.activity
+        };
+
+        res.json(data);
+    }).catch(function (err) {
+        next(err);
+    });
+});
 
 module.exports = router;

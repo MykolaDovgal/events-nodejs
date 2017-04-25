@@ -5,33 +5,19 @@
 $(document).ready(function () {
     var user_activity = $('#table-user-activity').DataTable({
 
-        "ajax": "/api/users/",
+        "ajax": "/api/activity/" + user.id,
         "columns": [
             {
-                "data": 'id', width: '90'
+                "data": 'login_time'
             },
-
             {
-                "data": 'username',
-                width: 200
+                "data": 'logout_time'
             }
-
         ],
-
-        //"autoWidth": false,
-
-
         scrollY: 300,
-        //deferRender: true,
         scroller: true,
         responsive: true,
-        //scrollCollapse: true,
-
-        // "dom": "<'row' <'col-md-12' f B> > <'table-scrollable't><'row'<'col-md-12'i>>",
         "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
-
-        //stateSave: true,
-        //"paging": false
     });
 
 

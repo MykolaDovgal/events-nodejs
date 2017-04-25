@@ -96,6 +96,16 @@ UserSchema.statics.setLogInTime = function (userId) {
     });
 };
 
+UserSchema.statics.setLogOutTime = function (userId) {
+    var model = this.model('User');
+
+    model.findOne({id: userId}, function (err, user) {
+        user.activity[user.activity.length - 1].logout_time = new Date();
+        user.save();
+        console.log(user);
+    });
+};
+
 
 UserSchema.plugin(autoIncrement.plugin, {
     model: 'User',

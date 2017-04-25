@@ -122,26 +122,10 @@
                                                             <th>Log In</th>
                                                             <th>Log Out</th>
                                                             </thead>
-
-
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <!--<div class="col-md-5">-->
-                                            <!--<div>-->
-                                            <!--<div class="col-md-6">-->
-                                            <!--Log In-->
-                                            <!--</div>-->
-                                            <!--<div class="col-md-6">-->
-                                            <!--Log Out-->
-                                            <!--</div>-->
-
-                                            <!--</div>-->
-                                            <!--</div>-->
-
-
                                         </div>
 
                                     </div>
@@ -190,6 +174,10 @@
 <footer>
     <% include ../static/footer %>
 
+    <script>
+        var user = <%- JSON.stringify(user) %>;
+    </script>
+
     <script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
 
@@ -201,7 +189,6 @@
     <script src="/js/plugins/croppie.js" type="text/javascript"></script>
 
     <script src="/js/profile.js" type="text/javascript"></script>
-
 </footer>
 
 <% include ../static/menu %>

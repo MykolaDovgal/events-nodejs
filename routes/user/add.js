@@ -11,8 +11,6 @@ var util = require('../../util');
 var Promise = require('bluebird');
 var moment = require('moment');
 
-//var uploadProfileImgs = multer({dest: './public/uploads/'}).single('profile-image');
-
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './public/uploads/users/')
@@ -29,8 +27,6 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 
-
-// create user
 router.post('/user/add', upload.any(), function (req, res, next) {
 
     var files = req.files;
