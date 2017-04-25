@@ -37,11 +37,10 @@ router.get('/users', function (req, res, next) {
 
 router.get('/activity/:id?', function (req, res, next) {
     Promise.props({
-        activity: User.findOne({ id: req.params.id })
-            .select('activity')
+        user: User.findOne({ id: req.params.id })
     }).then(function (results) {
         var data = {
-            data: results.activity.activity
+            data: results.user.getActivity()
         };
 
         res.json(data);
