@@ -2,11 +2,15 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-var util = require('../util');
+require('rootpath')();
+
+var util = require('util');
 var Promise = require('bluebird');
 
+var User = require('models/user');
 
-var middleware = require('../middlewares');
+
+var middleware = require('middlewares');
 var api_router = require('./api');
 var home = require('./home');
 var users = require('./users');
@@ -33,8 +37,6 @@ router.get('/', home);
 router.get('/users', users);
 router.all('/users/:id?', profile);
 
-// GET Lines pages
-//router.use('/lines',lines);
 
 // login
 router.get('/login', function (req, res, next) {
@@ -48,10 +50,32 @@ router.get('/login', function (req, res, next) {
 router.post('/login', function (req, res, next) {
     console.warn('trying to login');
 
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login'
+    // passport.authenticate('local', {
+    //     successRedirect: '/',
+    //     failureRedirect: '/login'
+    // })(req, res, next);
+
+    passport.authenticate('local', function (err, user, info) {
+        if (err) {
+            return next(err)
+        }
+        if (!user) {
+            console.log(info);
+            return res.redirect('/login')
+        }
+        // user ok
+        req.logIn(user, function (err) {
+            console.log(info);
+            console.error(user);
+            // save login time
+            User.setLogInTime(user.id);
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/');
+        });
     })(req, res, next);
+
 
 });
 

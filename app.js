@@ -135,4 +135,6 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
+console.warn('App Started');
+
 module.exports = app;

@@ -22,16 +22,20 @@ var UserSchema = new Schema({
     profile_picture_circle: {type: String, trim: true},
     friends: [{
         userid: {type: Number},
-        time_added: {type: Number}
+        time_added: {type: Date, default: Date.now}
     }],
     friend_requests: [{
         userid: {type: Number},
-        time_added: {type: Number}
+        time_added: {type: Date, default: Date.now}
     }],
     about: {type: String},
     date_of_birth: {type: Date},
     date_of_birth_visible: {type: Boolean},
-    age: {type: Number}
+    age: {type: Number},
+    activity: [{
+        login_time: {type: Date, default: Date.now},
+        logout_time: {type: Date}
+    }]
 });
 
 UserSchema.pre('save', function (next) {
@@ -80,6 +84,18 @@ UserSchema.options.toJSON = {
         return ret;
     }
 };
+
+
+UserSchema.statics.setLogInTime = function (userId) {
+    var model = this.model('User');
+
+    model.findOne({id: userId}, function (err, user) {
+        user.activity.push({login_time: new Date()});
+        user.save();
+        console.log(user);
+    });
+};
+
 
 UserSchema.plugin(autoIncrement.plugin, {
     model: 'User',
