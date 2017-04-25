@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcrypt'),
+    moment = require('moment'),
     SALT_WORK_FACTOR = 10;
 
 var autoIncrement = require('mongoose-auto-increment');
@@ -76,6 +77,15 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
     });
 };
 
+UserSchema.methods.getActivity = function () {
+    return this.activity.map(function (activity) {
+        return {
+            login_time: moment(activity.login_time).format('DD/MM/YYYY HH:mm:ss'),
+            logout_time: activity.logout_time ? moment(activity.logout_time).format('DD/MM/YYYY HH:mm:ss') : '-'
+        }
+    });
+};
+
 UserSchema.options.toJSON = {
     transform: function (doc, ret, options) {
         delete ret.password;
@@ -87,22 +97,16 @@ UserSchema.options.toJSON = {
 
 
 UserSchema.statics.setLogInTime = function (userId) {
-    var model = this.model('User');
-
-    model.findOne({id: userId}, function (err, user) {
+    this.model('User').findOne({id: userId}, function (err, user) {
         user.activity.push({login_time: new Date()});
         user.save();
-        console.log(user);
     });
 };
 
 UserSchema.statics.setLogOutTime = function (userId) {
-    var model = this.model('User');
-
-    model.findOne({id: userId}, function (err, user) {
+    this.model('User').findOne({id: userId}, function (err, user) {
         user.activity[user.activity.length - 1].logout_time = new Date();
         user.save();
-        console.log(user);
     });
 };
 
