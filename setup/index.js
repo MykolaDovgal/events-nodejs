@@ -7,14 +7,19 @@ var config = require('../config');
 // mongo connect
 var mongo_uri = config.get('db:connection');
 var User = require('../models/user');
+var Line = require('../models/line');
 
 //var UserSchema = require('mongoose').model('Song').schema;
 var UserSchema = User.schema;
+var LineSchema = Line.schema;
 
 const COUNT_OF_USERS = 100;
+const COUNT_OF_LINES = 50;
 const PASSWORD_USER = '12345';
 
 var setup = {
+
+
     createAdmin: function () {
         // create a new user
         var newUser = User({
@@ -75,6 +80,56 @@ var setup = {
                 }
             });
         }
+    },
+
+    createLines: function () {
+
+	    LineSchema.plugin(autoIncrement.plugin, {
+		    model: 'Line',
+		    field: 'id',
+		    startAt: 1
+	    });
+	    faker.locale = "uk";
+
+	    for(var i = 0;i < COUNT_OF_LINES;i+=1)
+	    {
+	    	var manag = [];
+	    	var mus= [];
+	    	var count = faker.random.number(2, 10);
+	    	for(var j = 0; j < count;j+=1)
+		    {
+		    	manag.push({userid: j});
+			    mus.push(faker.lorem.word());
+		    }
+
+	    	var lineData = {
+	    		line_name_eng: faker.name.title() + '(eng)',
+			    line_name_ol: faker.name.title() + '(ol)',
+			    description_eng : faker.lorem.lines() + '(eng)',
+			    description_ol : faker.lorem.lines() + '(ol)',
+			    country: faker.address.country(),
+			    city: faker.address.city(),
+			    facebook_page: faker.internet.url(),
+			    website: faker.internet.url(),
+			    phone_number: faker.phone.phoneNumber(),
+			    cover_picture: faker.image.nightlife(),
+			    managers: manag,
+			    music: {
+				    music_genres:mus,
+				    music_sample: faker.lorem.word()
+			    }
+		    };
+
+		    var line = new Line(lineData);
+
+		    line.save(function (err) {
+			    if (err) {
+				    console.log(err);
+				    throw err;
+			    }
+		    });
+	    }
+
     }
 };
 

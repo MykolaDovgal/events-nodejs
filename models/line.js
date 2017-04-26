@@ -6,7 +6,7 @@ var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(mongoose.connection);
 
 var LineSchema = new Schema({
-	id: {type: String, required: true, index: {unique: true}},
+	id: {type: Number, required: true, index: {unique: true}},
 	line_name_eng: {type: String,trim:true},
 	line_name_ol: {type: String,trim:true},
 	description_eng: {type: String,trim:true},
@@ -24,6 +24,12 @@ var LineSchema = new Schema({
 		music_genres:[{type:String}],
 		music_sample:{type:String}
 	}
+});
+
+LineSchema.plugin(autoIncrement.plugin, {
+	model: 'Line',
+	field: 'id',
+	startAt: 1
 });
 
 module.exports = mongoose.model('Line', LineSchema);
