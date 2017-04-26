@@ -48,27 +48,45 @@
                             <div class="clearfix">
                                 <div id="js-filters-lightbox-gallery2" class="cbp-l-filters-button cbp-l-filters-left">
                                     <div data-filter="*" class="cbp-filter-item-active cbp-filter-item btn blue btn-outline uppercase">All</div>
-                                    <div data-filter=".graphic" class="cbp-filter-item btn blue btn-outline uppercase">Graphic</div>
-                                    <div data-filter=".logos" class="cbp-filter-item btn blue btn-outline uppercase">Logo</div>
-                                    <div data-filter=".motion" class="cbp-filter-item btn blue btn-outline uppercase">Motion</div>
+                                    <div data-filter=".graphic" class="cbp-filter-item btn blue btn-outline uppercase">With Parties</div>
+                                    <div data-filter=".logos" class="cbp-filter-item btn blue btn-outline uppercase">No Parties</div>
                                 </div>
                             </div>
                             <div id="js-grid-lightbox-gallery" class="cbp">
 
+                                <!--<div class="cbp-item web-design graphic print motion">-->
+                                    <!--<a href="../assets/global/plugins/cubeportfolio/ajax/project3.html" class="cbp-caption cbp-singlePageInline" data-title="World Clock Widget<br>by Paul Flavius Nechita" rel="nofollow">-->
+                                        <!--<div class="cbp-caption-defaultWrap">-->
+                                            <!--<img src="../assets/global/img/portfolio/600x600/01.jpg" alt=""> </div>-->
+                                        <!--<div class="cbp-caption-activeWrap">-->
+                                            <!--<div class="cbp-l-caption-alignLeft">-->
+                                                <!--<div class="cbp-l-caption-body">-->
+                                                    <!--<div class="cbp-l-caption-title">World Clock Widget</div>-->
+                                                    <!--<div class="cbp-l-caption-desc">by Paul Flavius Nechita</div>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+
+                                <% for(var i=0; i< lines.length ;i++) {%>
+
                                 <div class="cbp-item web-design graphic print motion">
-                                    <a href="../assets/global/plugins/cubeportfolio/ajax/project3.html" class="cbp-caption cbp-singlePageInline" data-title="World Clock Widget<br>by Paul Flavius Nechita" rel="nofollow">
+                                    <a href="<%= lines[i].website%>" class="cbp-caption cbp-singlePageInline" data-title="<%= lines[i].line_name_eng%>" rel="nofollow">
                                         <div class="cbp-caption-defaultWrap">
-                                            <img src="../assets/global/img/portfolio/600x600/01.jpg" alt=""> </div>
+                                            <img src="../assets/global/img/portfolio/600x600/01.jpg" alt="lolkekcheburek"> </div>
                                         <div class="cbp-caption-activeWrap">
                                             <div class="cbp-l-caption-alignLeft">
                                                 <div class="cbp-l-caption-body">
-                                                    <div class="cbp-l-caption-title">World Clock Widget</div>
-                                                    <div class="cbp-l-caption-desc">by Paul Flavius Nechita</div>
+                                                    <div class="cbp-l-caption-title"><%= lines[i].line_name_eng%></div>
+                                                    <div class="cbp-l-caption-desc"><%= lines[i].country + '/' + lines[i].city %></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
+                                <%} %>
+
 
                             </div>
                             <div id="js-loadMore-lightbox-gallery" class="cbp-l-loadMore-button">
