@@ -64,7 +64,8 @@ $(document).ready(function () {
         //scrollCollapse: true,
 
         // "dom": "<'row' <'col-md-12' f B> > <'table-scrollable't><'row'<'col-md-12'i>>",
-        "dom": "<'row' <'col-md-12' f B> > t <'row'<'col-md-12'i>>",
+        "dom": "<'row' <'col-md-12' B <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh'> > > > t <'row'<'col-md-12'i>>",
+      //  "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
 
         //stateSave: true,
         //"paging": false

@@ -2,8 +2,17 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
 
 @font-face {
-    font-family: Montserrat-Regular; /* Имя шрифта */
-    src: url(/fonts/Montserrat-Regular.otf); /* Путь к файлу со шрифтом */
+    font-family: Montserrat-Regular;
+    src: url(/fonts/Montserrat-Regular.otf);
+}
+
+@font-face {
+    font-family: Montserrat-Light;
+    src: url(/fonts/Montserrat-Light.otf);
+}
+
+*:not(.fa){
+    font-family: Montserrat-Regular ;
 }
 
 body {
@@ -32,6 +41,9 @@ body {
 
 .page-content-wrapper .page-content {
     margin-left: 0 !important;
+    background: #fff;
+    padding: 15px;
+    border-radius: 4px;
 }
 
 #users-list-datatable .profile-picture {
@@ -268,7 +280,7 @@ body.is-touch .tiles article .content {
 }
 
 #header {
-    padding: 25px 0;
+    padding: 20px 0;
 }
 
 #header .logo {
@@ -597,12 +609,14 @@ body.is-menu-visible #menu .closes {
     text-align: left;
     position: absolute;
     left: 5em;
+    padding-top: 15px;
 }
 
 .time span {
     font-family: Montserrat-Regular;
-    font-size: 55px;
+    font-size: 100px;
     color: #fff;
+    line-height: 40px;
 }
 
 .time .second {
@@ -610,8 +624,80 @@ body.is-menu-visible #menu .closes {
 }
 
 .data {
-    font-family: Montserrat-Regular;
-    font-size: 30px;
+    font-family: Montserrat-Light;
+    font-size: 25px;
     color: #fff;
     margin: 0;
+}
+
+.page-title{
+    color: #666;
+    font-weight: 300;
+    letter-spacing: -1px;
+    display: block;
+    padding: 0;
+    font-size: 22px;
+    margin: 0 0 21px 0;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: none;
+}
+
+.btn-reload{
+    background: url(/assets/global/img/portlet-reload-icon.png) no-repeat !important;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.table-toolbar {
+    margin-bottom: 0;
+}
+
+.dataTables_scroll{
+    margin-top: 20px;
+}
+
+.search>div>label{
+    color: transparent;
+    margin:0;
+    text-indent: -5000px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.search input{
+    margin:0 !important;
+    color:#000;
+    border-radius: 0px 50px 50px 0px;
+    border:1px solid #868686;
+    border-left: 0;
+}
+
+.search input:focus{
+    outline: none;
+}
+
+.search .fa-search{
+    height: 23px;
+    width: 25px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 50px 0px 0px 50px;
+    border:1px solid #868686;
+    border-right: none;
+}
+
+.group-input .fa-refresh{
+    font-size: 20px;
+    height: 23px;
+    width: 23px;
+    line-height: 25px;
+    text-align: center;
+    margin-right: 10px;
+    cursor: pointer;
 }

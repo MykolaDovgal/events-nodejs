@@ -3,11 +3,11 @@
 <head>
     <% include ../static/head %>
 
-    <!-- BEGIN THEME LAYOUT STYLES -->
-    <link href="/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>
+    <!-- BEGIN THEME LAYOUT STYLES
+   <link href="/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>-->
     <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
     <link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+
     <!-- END THEME LAYOUT STYLES -->
 
     <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
@@ -32,18 +32,19 @@
             <div class="page-content">
 
                 <!-- BEGIN PAGE TITLE-->
-                <h1 class="page-title"> Users
-                </h1>
+
                 <!-- END PAGE TITLE-->
                 <!-- END PAGE HEADER-->
                 <div class="row">
                     <div class="col-md-12">
                         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-                        <div class="portlet light bordered">
+                            <h1 class="page-title text-right"> Users</h1>
                             <div class="portlet-title">
-                                <div class="caption font-dark">
-                                    <i class="icon-settings font-dark"></i>
-                                    <span class="caption-subject bold uppercase"> List of Users</span>
+                                <div class="btn-group">
+                                    <button data-toggle="modal" href="#add-new-user-modal" id="add-new-user"
+                                            class="btn sbold green"> Add New
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
                                 <div class="actions">
                                     <div class="btn-group btn-group-devided" data-toggle="buttons">
@@ -55,29 +56,8 @@
                                         <!--id="option2">Settings</label>-->
                                     </div>
                                 </div>
-                                <div class="tools">
-                                    <a id="user-table-reload" href="javascript:;" class="reload"> </a>
-                                </div>
                             </div>
                             <div class="portlet-body">
-                                <div class="table-toolbar">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="btn-group">
-                                                <button data-toggle="modal" href="#add-new-user-modal" id="add-new-user"
-                                                        class="btn sbold green"> Add New
-                                                    <i class="fa fa-plus"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="btn-group pull-right">
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
 
                                 <table id="users-list-datatable"
                                        class="table table-striped table-bordered table-hover table-checkable order-column">
@@ -95,7 +75,6 @@
                                 </table>
 
                             </div>
-                        </div>
                         <!-- END EXAMPLE TABLE PORTLET-->
                     </div>
                 </div>
