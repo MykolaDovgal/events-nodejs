@@ -20,11 +20,13 @@ var lines = require('./line/lines');
 
 var user_add = require('./user/add');
 var user_update = require('./user/update');
+var user_delete = require('./user/delete');
 
 
 router.use(logout);
 router.use(user_add);
 router.use(user_update);
+router.use(user_delete);
 router.use(lines);
 
 

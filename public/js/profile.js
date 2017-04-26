@@ -204,5 +204,26 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#form_delete_user').submit(function(e) {
+        e.preventDefault();
+        $('#delete_id').val(user.id);
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '/user/delete/',
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                bootbox.alert('Saved');
+            },
+            error: function (jqXHR, textStatus, err) {
+                bootbox.alert('Server error');
+            }
+        });
+    });
 });
 
