@@ -60,7 +60,9 @@
                                     <div class="tab-pane fade active in" id="tab_general">
                                         <div class="row">
                                             <div class="col-md-7">
-                                                <form>
+                                                <form action="/user/update" method="post" class="form-horizontal"
+                                                      enctype="multipart/form-data" id="form_update_user">
+                                                    <input name="userId" hidden type="text"/>
                                                     <label for="username">User Name</label>
                                                     <input name="username" type="text" class="form-control"
                                                            placeholder="Enter User Name" value="<%= user.username %>"
@@ -81,19 +83,27 @@
                                                     <label for="username">Email Address</label>
                                                     <input name="email" type="email" class="form-control"
                                                            placeholder="Enter User Email" value="<%= user.email %>"/>
+                                                    <label for="dateofbirth"><%= user.date_of_birth ? 'Date of Birth (Age ' + Math.floor((Date.now() - user.date_of_birth) / 1000 / 3600 / 24 / 365) + ')' : 'Please set date of birth' %>
+                                                    </label>
+                                                    <div class="input-group input-medium date date-picker"
+                                                         data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
+
+                                                        <input value="<%= dateOfBirth %>"
+                                                               id="form-date-of-birth"
+                                                               name="dateofbirth" type="text"
+                                                               class="form-control"
+                                                               readonly/>
+                                                        <span class="input-group-btn">
+                                                                <button class="btn default" type="button">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </button>
+                                                        </span>
+                                                    </div>
+
                                                     <label for="about">About</label>
                                                     <textarea name="about" class="form-control"
-                                                              placeholder="Enter additional information"></textarea>
-                                                    <% if (user.date_of_birth) { %>
-                                                    Date of Birth: <%= user.date_of_birth.toLocaleDateString('en-us', {
-                                                        day: '2-digit',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                    }) %>
-                                                    (Age <%= Math.floor((Date.now() - user.date_of_birth) / 1000 / 3600 / 24 / 365) %>
-                                                    )
-                                                    <% } %>
-                                                    <br/>
+                                                              placeholder="Enter additional information"><%= user.about %></textarea>
+
 
                                                 </form>
                                             </div>
@@ -149,7 +159,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-right">
-                            <button class="btn btn-default" type="submit">Save</button>
+                            <button class="btn btn-default" form="form_update_user" type="submit">Save</button>
                             <button class="btn btn-default btn-danger">Delete</button>
                         </div>
                     </div>
@@ -180,6 +190,7 @@
 
 
     <script src="/js/plugins/croppie.js" type="text/javascript"></script>
+
 
     <script src="/js/profile.js" type="text/javascript"></script>
 </footer>

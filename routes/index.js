@@ -19,10 +19,12 @@ var logout = require('./logout');
 var lines = require('./line/lines');
 
 var user_add = require('./user/add');
+var user_update = require('./user/update');
 
 
 router.use(logout);
 router.use(user_add);
+router.use(user_update);
 router.use(lines);
 
 

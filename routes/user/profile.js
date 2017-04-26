@@ -7,6 +7,7 @@ var _ = require('underscore');
 var express = require('express');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
+var moment = require('moment');
 
 require('rootpath')();
 
@@ -28,7 +29,8 @@ module.exports = function (req, res, next) {
             var data = {
                 title: title_page,
                 showMenu: true,
-                user: user
+                user: user,
+                dateOfBirth: moment(user.date_of_birth).format('DD.MM.YYYY'),
             };
 
             res.render('pages/profile', data);

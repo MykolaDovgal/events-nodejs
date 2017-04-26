@@ -183,6 +183,26 @@ $(document).ready(function () {
         //return false;
     });
 
+    $('#form_update_user').submit(function(e) {
+        e.preventDefault();
+        $('input[name="userId"]').val(user.id);
 
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '/user/update/',
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                bootbox.alert('Saved');
+            },
+            error: function (jqXHR, textStatus, err) {
+                bootbox.alert('Server error');
+            }
+        });
+    });
 });
 
