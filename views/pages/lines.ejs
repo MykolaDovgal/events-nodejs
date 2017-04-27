@@ -16,6 +16,9 @@
 
     <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
+
+    <link href="/css/lines.css" rel="stylesheet" type="text/css"/>
+
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -76,25 +79,25 @@
                                 <!--</a>-->
                                 <!--</div>-->
 
-                                <% for(var i = 0; i < lines.length ;i++) { %>
+                                <% lines.forEach(function(line) { %>
 
                                 <div class="cbp-item web-design graphic print motion">
-                                    <a href="<%= lines[i].website %>" class="cbp-caption cbp-singlePageInline"
-                                       data-title="<%= lines[i].line_name_eng %>" rel="nofollow">
+                                    <a href="<%= line.website %>" class="cbp-caption cbp-singlePageInline"
+                                       data-title="<%= line.line_name_eng %>" rel="nofollow">
                                         <div class="cbp-caption-defaultWrap">
-                                            <img src="../assets/global/img/portfolio/600x600/01.jpg"
+                                            <img src="<%= line.cover_picture %> "
                                                  alt="lolkekcheburek"></div>
                                         <div class="cbp-caption-activeWrap">
                                             <div class="cbp-l-caption-alignLeft">
                                                 <div class="cbp-l-caption-body">
-                                                    <div class="cbp-l-caption-title"><%= lines[i].line_name_eng %></div>
-                                                    <div class="cbp-l-caption-desc"><%= lines[i].country + '/' + lines[i].city %></div>
+                                                    <div class="cbp-l-caption-title"><%= line.line_name_eng %></div>
+                                                    <div class="cbp-l-caption-desc"><%= line.country + '/' + line.city %></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                                <% } %>
+                                <% }); %>
 
                             </div>
                             <div id="js-loadMore-lightbox-gallery" class="cbp-l-loadMore-button">

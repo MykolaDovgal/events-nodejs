@@ -24,8 +24,6 @@ mongoose.connect(mongo_uri);
 Promise.promisifyAll(mongoose);
 
 
-var Line = require('./models/line');
-//setup.createLines();
 var User = require('./models/user');
 
 // add admin
@@ -34,6 +32,7 @@ User.count({username: config.get('project:admin:username')}, function (err, coun
         setup.createAdmin();
     }
     //setup.createDummyUser();
+    //setup.createLines();
 });
 
 // routes

@@ -1,0 +1,15 @@
+.portfolio-content.portfolio-3 .cbp-caption-zoom .cbp-caption-activeWrap, .portfolio-content.portfolio-4 .cbp-caption-zoom .cbp-caption-activeWrap {
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.cbp-caption-zoom .cbp-caption-activeWrap {
+    opacity: 0.9;
+}
+
+.cbp-caption-zoom .cbp-caption-activeWrap:hover {
+    background-color: rgba(0, 0, 0, .8) !important;
+}
+
+.cbp-caption-zoom .cbp-caption:hover .cbp-caption-defaultWrap {
+    transform: scale(2.5) !important;
+}
