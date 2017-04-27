@@ -34,16 +34,15 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="col-md-12 text-center">
-                            <img class="profile-picture-big" src="<%= user.profile_picture_circle %>">
+                            <img id="userpic" class="profile-picture-big" src="<%= user.profile_picture_circle %>">
                         </div>
                         <div class="col-md-12 text-center">
                             <br>
                             <button class="btn btn-default">Fit & Crop</button>
-                            <button class="btn btn-default">Change</button>
+                            <button class="btn btn-default" onclick="$('#change-picture-modal').modal().show()">Change</button>
                         </div>
                     </div>
                     <div class="col-md-10">
-
                         <div class="portlet light bordered">
                             <div class="portlet-body">
                                 <ul class="nav nav-pills">
@@ -60,7 +59,6 @@
                                             <div class="col-md-7">
                                                 <form action="/user/update" method="post" class="form-horizontal"
                                                       enctype="multipart/form-data" id="form_update_user">
-                                                    <input name="userId" hidden type="text"/>
                                                     <label for="username">User Name</label>
                                                     <input name="username" type="text" class="form-control"
                                                            placeholder="Enter User Name" value="<%= user.username %>"
@@ -76,8 +74,7 @@
                                                     <label for="firstname">Facebook Profile</label>
                                                     <input name="facebook" type="text" class="form-control"
                                                            placeholder="Enter Facebook Profile URL"
-                                                           value="<%= user.facebook_profile %>"
-                                                           required/>
+                                                           value="<%= user.facebook_profile %>"/>
                                                     <label for="username">Email Address</label>
                                                     <input name="email" type="email" class="form-control"
                                                            placeholder="Enter User Email" value="<%= user.email %>"/>
@@ -97,12 +94,9 @@
                                                                 </button>
                                                         </span>
                                                     </div>
-
                                                     <label for="about">About</label>
                                                     <textarea name="about" class="form-control"
                                                               placeholder="Enter additional information"><%= user.about %></textarea>
-
-
                                                 </form>
                                             </div>
 
@@ -128,7 +122,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="tab-pane fade" id="tab_managing">
                                         <p> Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin
@@ -145,13 +138,8 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
-
-
                     </div>
-
                 </div>
 
                 <div class="row">
@@ -169,6 +157,72 @@
         <!-- END CONTENT -->
     </div>
     <!-- END CONTAINER -->
+</div>
+
+<div id="change-picture-modal" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Change User Picture</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller" style="height:570px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN VALIDATION STATES-->
+                            <div class="portlet light portlet-fit portlet-form bordered">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class=" icon-layers font-green"></i>
+                                        <span class="caption-subject font-green sbold uppercase">User Picture</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <!-- BEGIN FORM-->
+                                    <form method="post" class="form-horizontal"
+                                          enctype="multipart/form-data" id="form_change_picture">
+                                        <div class="form-body">
+                                            <div class="form-group form-md-line-input">
+
+                                                <div class="upload-demo-wrap">
+                                                    <div id="upload-profile-pic"></div>
+                                                </div>
+
+                                                <label class="col-md-3 control-label" for="form-profile-pic">Profile
+                                                    Pic</label>
+                                                <div class="col-md-9">
+                                                    <input type="file" id="form-profile-pic" name="profile-image"
+                                                           class="form-control"
+                                                           value="Choose a file"
+                                                           accept="image/*"/>
+
+                                                    <div class="form-control-focus"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-md-line-input">
+                                                <div class="col-md-12">
+                                                    <div id="upload-demo"></div>
+                                                    <input type="hidden" id="imagebase64" name="imagebase64">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                            <!-- END VALIDATION STATES-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="button-cancel" type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
+                <button id="button-change-picture" class="btn green">Change Picture</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>

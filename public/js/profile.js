@@ -19,25 +19,75 @@ $(document).ready(function () {
         "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
     });
 
+    // croppie
+    var $uploadCrop;
+
+    function readFile(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $uploadCrop.croppie('bind', {
+                    url: e.target.result
+                });
+                $('.upload-demo').addClass('ready');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $uploadCrop = $('#upload-demo').croppie({
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    $('#form-profile-pic').on('change', function () {
+        readFile(this);
+    });
+    // croppie
+
+    $('#button-change-picture').on('click', function () {
+        $uploadCrop.croppie('result', 'base64').then(function(base64) {
+            $("#userpic").attr("src", base64);
+            $('#change-picture-modal').modal('hide');
+        });
+    });
+
     $('#form_update_user').submit(function(e) {
         e.preventDefault();
-        $('input[name="userId"]').val(user.id);
 
         var formData = new FormData(this);
+        formData.append('userId', user.id);
+        formData.append('profile-image', $('#form-profile-pic')[0].files[0]);
 
-        $.ajax({
-            url: '/user/update/',
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: formData,
-            success: function (data) {
-                bootbox.alert('Saved');
-            },
-            error: function (jqXHR, textStatus, err) {
-                bootbox.alert('Server error');
-            }
+        $uploadCrop.croppie('result', {
+            type: 'base64',
+            size: 'viewport',
+            circle: true
+        }).then(function (base64) {
+            formData.append('userpic', base64, 'userpic.png');
+                $.ajax({
+                    url: '/user/update/',
+                    type: 'POST',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                        bootbox.alert('Saved');
+                    },
+                    error: function (jqXHR, textStatus, err) {
+                        bootbox.alert('Server error');
+                    }
+                }).then(function() {
+                    console.log(blob);
+                });
         });
     });
 });

@@ -27,10 +27,11 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 
-router.post('/user/update', upload.any(), function (req, res, next) {
+router.post('/user/change-picture', upload.any(), function (req, res, next) {
+
     var files = req.files;
 
-    console.log(req.body);
+    console.log(files);
 
     var body = req.body;
 
@@ -56,27 +57,6 @@ router.post('/user/update', upload.any(), function (req, res, next) {
         profile_picture_circle: imageCircleProfile,
     };
     console.warn(userData);
-
-    Promise.props({
-        user: User.findOne({ id: req.body.userId })
-    }).then(function (results) {
-        if (userData.profile_picture)
-            results.user.profile_picture = userData.profile_picture;
-        if (userData.profile_picture_circle)
-            results.user.profile_picture_circle = userData.profile_picture_circle;
-        results.user.username = req.body.username;
-        results.user.firstname = req.body.firstname;
-        results.user.lastname = req.body.lastname;
-        results.user.facebook_profile = req.body.facebook;
-        results.user.email = req.body.email;
-        results.user.date_of_birth = util.stringToDate(req.body.dateofbirth, 'dd.mm.yyyy', '.');
-        results.user.about = req.body.about;
-        results.user.save();
-        res.json(results.user);
-    }).catch(function (err) {
-        next(err);
-    });
-
 });
 
 module.exports = router;

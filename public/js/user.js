@@ -134,7 +134,7 @@ $(document).ready(function () {
         messages: {},
         rules: {
             username: {
-                minlength: 5,
+                minlength: 3,
                 required: true
             },
             email: {
@@ -144,11 +144,11 @@ $(document).ready(function () {
 
             firstname: {
                 required: true,
-                minlength: 5
+                minlength: 2
             },
             lastname: {
                 required: true,
-                minlength: 5
+                minlength: 2
             },
 
 
