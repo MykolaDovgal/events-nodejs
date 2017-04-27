@@ -63,34 +63,15 @@ $(document).ready(function () {
         responsive: false,
         //scrollCollapse: true,
 
-        // "dom": "<'row' <'col-md-12' f B> > <'table-scrollable't><'row'<'col-md-12'i>>",
-        "dom": "<'row' <'col-md-12' B <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh'> > > > t <'row'<'col-md-12'i>>",
-      //  "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
 
-        //stateSave: true,
-        //"paging": false
+        "dom": "<'row' <'col-md-12' B <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
+        //  "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
     });
 
     // reload table
-    $('#user-table-reload').click(function () {
+    $('.update-table-users').click(function () {
         updateUserTable();
     });
-
-
-    // var uploadCrop = $('#upload-profile-pic').croppie({
-    //     enableExif: true,
-    //     viewport: {
-    //         width: 100,
-    //         height: 100,
-    //         type: 'circle'
-    //     },
-    //     boundary: {
-    //         width: 200,
-    //         height: 200
-    //     }
-    // });
-
-    //uploadCrop.croppie('bind');
 
 
     $('#add-new-user-modal').on('shown.bs.modal', function (e) {
