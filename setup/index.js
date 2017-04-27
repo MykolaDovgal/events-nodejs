@@ -89,7 +89,8 @@ var setup = {
             field: 'id',
             startAt: 1
         });
-        faker.locale = "uk";
+
+        //faker.locale = "uk";
 
         for (var i = 0; i < COUNT_OF_LINES; i += 1) {
             var manag = [];
@@ -100,9 +101,14 @@ var setup = {
                 mus.push(faker.lorem.word());
             }
 
+            var line_name = faker.name.title();
+            var color = faker.internet.color().replace('#', faker.random.arrayElement(['', '#']));
+            var cover_picture = 'http://placehold.it/500/' + color + '/000000?text=' + line_name;
+
+
             var lineData = {
-                line_name_eng: faker.name.title() + '(eng)',
-                line_name_ol: faker.name.title() + '(ol)',
+                line_name_eng: line_name + '(eng)',
+                line_name_ol: line_name + '(ol)',
                 description_eng: faker.lorem.lines() + '(eng)',
                 description_ol: faker.lorem.lines() + '(ol)',
                 country: faker.address.country(),
@@ -110,7 +116,7 @@ var setup = {
                 facebook_page: faker.internet.url(),
                 website: faker.internet.url(),
                 phone_number: faker.phone.phoneNumber(),
-                cover_picture: faker.image.nightlife(),
+                cover_picture: cover_picture,
                 managers: manag,
                 music: {
                     music_genres: mus,
