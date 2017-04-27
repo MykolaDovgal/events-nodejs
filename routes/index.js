@@ -11,9 +11,11 @@ var User = require('models/user');
 
 
 var middleware = require('middlewares');
-var api_router = require('./api');
+
+
 var home = require('./home');
 var users = require('./users');
+
 var profile = require('./user/profile');
 var logout = require('./logout');
 var lines = require('./line/lines');
@@ -23,15 +25,14 @@ var user_update = require('./user/update');
 var user_delete = require('./user/delete');
 
 
+router.all('*', middleware.all);
+router.all('*', middleware.auth);
+
 router.use(logout);
 router.use(user_add);
 router.use(user_update);
 router.use(user_delete);
 router.use(lines);
-
-
-router.all('*', middleware.all);
-router.all('*', middleware.auth);
 
 
 /* GET home page. */

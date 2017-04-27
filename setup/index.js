@@ -84,51 +84,49 @@ var setup = {
 
     createLines: function () {
 
-	    LineSchema.plugin(autoIncrement.plugin, {
-		    model: 'Line',
-		    field: 'id',
-		    startAt: 1
-	    });
-	    faker.locale = "uk";
+        LineSchema.plugin(autoIncrement.plugin, {
+            model: 'Line',
+            field: 'id',
+            startAt: 1
+        });
+        faker.locale = "uk";
 
-	    for(var i = 0;i < COUNT_OF_LINES;i+=1)
-	    {
-	    	var manag = [];
-	    	var mus= [];
-	    	var count = faker.random.number(2, 10);
-	    	for(var j = 0; j < count;j+=1)
-		    {
-		    	manag.push({userid: j});
-			    mus.push(faker.lorem.word());
-		    }
+        for (var i = 0; i < COUNT_OF_LINES; i += 1) {
+            var manag = [];
+            var mus = [];
+            var count = faker.random.number(2, 10);
+            for (var j = 0; j < count; j += 1) {
+                manag.push({userid: j});
+                mus.push(faker.lorem.word());
+            }
 
-	    	var lineData = {
-	    		line_name_eng: faker.name.title() + '(eng)',
-			    line_name_ol: faker.name.title() + '(ol)',
-			    description_eng : faker.lorem.lines() + '(eng)',
-			    description_ol : faker.lorem.lines() + '(ol)',
-			    country: faker.address.country(),
-			    city: faker.address.city(),
-			    facebook_page: faker.internet.url(),
-			    website: faker.internet.url(),
-			    phone_number: faker.phone.phoneNumber(),
-			    cover_picture: faker.image.nightlife(),
-			    managers: manag,
-			    music: {
-				    music_genres:mus,
-				    music_sample: faker.lorem.word()
-			    }
-		    };
+            var lineData = {
+                line_name_eng: faker.name.title() + '(eng)',
+                line_name_ol: faker.name.title() + '(ol)',
+                description_eng: faker.lorem.lines() + '(eng)',
+                description_ol: faker.lorem.lines() + '(ol)',
+                country: faker.address.country(),
+                city: faker.address.city(),
+                facebook_page: faker.internet.url(),
+                website: faker.internet.url(),
+                phone_number: faker.phone.phoneNumber(),
+                cover_picture: faker.image.nightlife(),
+                managers: manag,
+                music: {
+                    music_genres: mus,
+                    music_sample: faker.lorem.word()
+                }
+            };
 
-		    var line = new Line(lineData);
+            var line = new Line(lineData);
 
-		    line.save(function (err) {
-			    if (err) {
-				    console.log(err);
-				    throw err;
-			    }
-		    });
-	    }
+            line.save(function (err) {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                }
+            });
+        }
 
     }
 };

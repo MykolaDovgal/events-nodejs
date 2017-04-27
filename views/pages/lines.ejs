@@ -4,14 +4,14 @@
     <% include ../static/head %>
 
     <!-- BEGIN PAGE LEVEL STYLES -->
-    <link href="../assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
     <!-- END PAGE LEVEL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
 
-    <link href="../assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
-    <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
+          id="style_color"/>
+    <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
-
 
 
     <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
@@ -47,57 +47,65 @@
 
                             <div class="clearfix">
                                 <div id="js-filters-lightbox-gallery2" class="cbp-l-filters-button cbp-l-filters-left">
-                                    <div data-filter="*" class="cbp-filter-item-active cbp-filter-item btn blue btn-outline uppercase">All</div>
-                                    <div data-filter=".graphic" class="cbp-filter-item btn blue btn-outline uppercase">With Parties</div>
-                                    <div data-filter=".logos" class="cbp-filter-item btn blue btn-outline uppercase">No Parties</div>
+                                    <div data-filter="*"
+                                         class="cbp-filter-item-active cbp-filter-item btn blue btn-outline uppercase">
+                                        All
+                                    </div>
+                                    <div data-filter=".graphic" class="cbp-filter-item btn blue btn-outline uppercase">
+                                        With Parties
+                                    </div>
+                                    <div data-filter=".logos" class="cbp-filter-item btn blue btn-outline uppercase">No
+                                        Parties
+                                    </div>
                                 </div>
                             </div>
                             <div id="js-grid-lightbox-gallery" class="cbp">
 
                                 <!--<div class="cbp-item web-design graphic print motion">-->
-                                    <!--<a href="../assets/global/plugins/cubeportfolio/ajax/project3.html" class="cbp-caption cbp-singlePageInline" data-title="World Clock Widget<br>by Paul Flavius Nechita" rel="nofollow">-->
-                                        <!--<div class="cbp-caption-defaultWrap">-->
-                                            <!--<img src="../assets/global/img/portfolio/600x600/01.jpg" alt=""> </div>-->
-                                        <!--<div class="cbp-caption-activeWrap">-->
-                                            <!--<div class="cbp-l-caption-alignLeft">-->
-                                                <!--<div class="cbp-l-caption-body">-->
-                                                    <!--<div class="cbp-l-caption-title">World Clock Widget</div>-->
-                                                    <!--<div class="cbp-l-caption-desc">by Paul Flavius Nechita</div>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</a>-->
+                                <!--<a href="../assets/global/plugins/cubeportfolio/ajax/project3.html" class="cbp-caption cbp-singlePageInline" data-title="World Clock Widget<br>by Paul Flavius Nechita" rel="nofollow">-->
+                                <!--<div class="cbp-caption-defaultWrap">-->
+                                <!--<img src="../assets/global/img/portfolio/600x600/01.jpg" alt=""> </div>-->
+                                <!--<div class="cbp-caption-activeWrap">-->
+                                <!--<div class="cbp-l-caption-alignLeft">-->
+                                <!--<div class="cbp-l-caption-body">-->
+                                <!--<div class="cbp-l-caption-title">World Clock Widget</div>-->
+                                <!--<div class="cbp-l-caption-desc">by Paul Flavius Nechita</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</a>-->
                                 <!--</div>-->
 
-                                <% for(var i=0; i< lines.length ;i++) {%>
+                                <% for(var i = 0; i < lines.length ;i++) { %>
 
                                 <div class="cbp-item web-design graphic print motion">
-                                    <a href="<%= lines[i].website%>" class="cbp-caption cbp-singlePageInline" data-title="<%= lines[i].line_name_eng%>" rel="nofollow">
+                                    <a href="<%= lines[i].website %>" class="cbp-caption cbp-singlePageInline"
+                                       data-title="<%= lines[i].line_name_eng %>" rel="nofollow">
                                         <div class="cbp-caption-defaultWrap">
-                                            <img src="../assets/global/img/portfolio/600x600/01.jpg" alt="lolkekcheburek"> </div>
+                                            <img src="../assets/global/img/portfolio/600x600/01.jpg"
+                                                 alt="lolkekcheburek"></div>
                                         <div class="cbp-caption-activeWrap">
                                             <div class="cbp-l-caption-alignLeft">
                                                 <div class="cbp-l-caption-body">
-                                                    <div class="cbp-l-caption-title"><%= lines[i].line_name_eng%></div>
+                                                    <div class="cbp-l-caption-title"><%= lines[i].line_name_eng %></div>
                                                     <div class="cbp-l-caption-desc"><%= lines[i].country + '/' + lines[i].city %></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                                <%} %>
-
+                                <% } %>
 
                             </div>
                             <div id="js-loadMore-lightbox-gallery" class="cbp-l-loadMore-button">
-                                <a href="../assets/global/plugins/cubeportfolio/ajax/loadMore3.html" class="cbp-l-loadMore-link btn grey-mint btn-outline" rel="nofollow">
+                                <a href="../assets/global/plugins/cubeportfolio/ajax/loadMore3.html"
+                                   class="cbp-l-loadMore-link btn grey-mint btn-outline" rel="nofollow">
                                     <span class="cbp-l-loadMore-defaultText">LOAD MORE</span>
                                     <span class="cbp-l-loadMore-loadingText">LOADING...</span>
                                     <span class="cbp-l-loadMore-noMoreLoading">NO MORE WORKS</span>
                                 </a>
                             </div>
                         </div>
-
 
 
                     </div>
@@ -119,7 +127,6 @@
 
     <script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
-
 
 
     <script src="/js/plugins/croppie.js" type="text/javascript"></script>
