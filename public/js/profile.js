@@ -28,8 +28,9 @@ $(document).ready(function () {
             reader.onload = function (e) {
                 $uploadCrop.croppie('bind', {
                     url: e.target.result
+                }).then(function(){
+                    $('#upload-demo').addClass('ready');
                 });
-                $('.upload-demo').addClass('ready');
             };
             reader.readAsDataURL(input.files[0]);
         }
@@ -55,7 +56,7 @@ $(document).ready(function () {
     $('#button-change-picture').on('click', function () {
         $uploadCrop.croppie('result', 'base64').then(function(base64) {
             $("#userpic").attr("src", base64);
-            $('#change-picture-modal').modal('hide');
+            $('#form_update_user').submit();
         });
     });
 
@@ -67,11 +68,11 @@ $(document).ready(function () {
         formData.append('profile-image', $('#form-profile-pic')[0].files[0]);
 
         $uploadCrop.croppie('result', {
-            type: 'base64',
+            type: 'blob',
             size: 'viewport',
             circle: true
-        }).then(function (base64) {
-            formData.append('userpic', base64, 'userpic.png');
+        }).then(function (blob) {
+            formData.append('userpic', blob, 'userpic.png');
                 $.ajax({
                     url: '/user/update/',
                     type: 'POST',
@@ -80,6 +81,7 @@ $(document).ready(function () {
                     processData: false,
                     data: formData,
                     success: function (data) {
+                        $('#change-picture-modal').modal('hide');
                         bootbox.alert('Saved');
                     },
                     error: function (jqXHR, textStatus, err) {
