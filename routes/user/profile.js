@@ -1,18 +1,10 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
 var _ = require('underscore');
 var express = require('express');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var moment = require('moment');
-
-require('rootpath')();
-
-var dir = __dirname;
-var appRoot = process.env.PWD;
 
 Promise.promisifyAll(mongoose);
 
