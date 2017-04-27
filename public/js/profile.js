@@ -4,7 +4,6 @@
 
 $(document).ready(function () {
     var user_activity = $('#table-user-activity').DataTable({
-
         "ajax": "/api/activity/" + user.id,
         "columns": [
             {
@@ -16,7 +15,7 @@ $(document).ready(function () {
         ],
         scrollY: 300,
         scroller: true,
-        responsive: true,
+        responsive: false,
         "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
     });
 

@@ -8,6 +8,8 @@ router.post('/user/delete', function (req, res, next) {
 
     User.findOneAndRemove({ id: req.body.userId }, function(err) {
         res.send(200);
+        if (err)
+            next(err);
     });
 
 });
