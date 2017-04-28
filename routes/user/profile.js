@@ -22,7 +22,7 @@ module.exports = function (req, res, next) {
                 title: title_page,
                 showMenu: true,
                 user: user,
-                dateOfBirth: moment(user.date_of_birth).format('DD.MM.YYYY'),
+                dateOfBirth: moment(user.date_of_birth).format('DD.MM.YYYY')
             };
 
             res.render('pages/profile', data);
