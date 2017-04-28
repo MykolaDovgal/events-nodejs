@@ -18,7 +18,10 @@ var users = require('./users');
 
 var profile = require('./user/profile');
 var logout = require('./logout');
+
 var lines = require('./line/lines');
+var line = require('./line/line');
+var line_add = require('./line/add');
 
 var user_add = require('./user/add');
 var user_update = require('./user/update');
@@ -34,7 +37,10 @@ router.use(user_add);
 router.use(user_update);
 router.use(user_delete);
 router.use(user_changePicture);
+
 router.use(lines);
+router.use(line);
+router.use(line_add);
 
 
 /* GET home page. */
