@@ -2,14 +2,17 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-var User = require('../models/user');
+require('rootpath')();
+
+var User = require('models/user');
+var Line = require('models/line');
 
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 
 Promise.promisifyAll(mongoose);
 
-var middleware = require('../middlewares');
+var middleware = require('middlewares');
 
 router.get('/users', function (req, res, next) {
     Promise.props({
@@ -41,6 +44,27 @@ router.get('/activity/:id?', function (req, res, next) {
     }).then(function (results) {
         var data = {
             data: results.user.getActivity()
+        };
+
+        res.json(data);
+    }).catch(function (err) {
+        next(err);
+    });
+});
+
+router.post('/lines/:page?', function (req, res, next) {
+
+    var search = req.query.search;
+    var page = req.params.page || 0;
+
+    console.log(search);
+    console.log(page);
+
+    Promise.props({
+        lines: Line.find()
+    }).then(function (results) {
+        var data = {
+            data: results.lines
         };
 
         res.json(data);

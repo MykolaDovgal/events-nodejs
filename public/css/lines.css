@@ -13,3 +13,23 @@
 .cbp-caption-zoom .cbp-caption:hover .cbp-caption-defaultWrap {
     transform: scale(2.5) !important;
 }
+
+/*#js-grid-lines .line-item {*/
+/*width: 30%;*/
+/*height: 200px;*/
+/*}*/
+
+/*#js-grid-lines .line-item img {*/
+/*max-height: 200px;*/
+/*}*/
+
+#lines-gallery .mt-element-overlay img {
+
+    height: 200px;
+
+}
+
+#lines-gallery .mt-element-overlay {
+    max-height: 200px;
+    width: 250px;
+}

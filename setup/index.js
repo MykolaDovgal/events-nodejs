@@ -103,8 +103,8 @@ var setup = {
 
             var line_name = faker.name.title();
             var color = faker.internet.color().replace('#', faker.random.arrayElement(['', '#']));
-            var cover_picture = 'http://placehold.it/500/' + color + '/000000?text=' + line_name;
-
+            var cover_picture = 'http://dummyimage.com/415x240/000/fff.png?text=' + line_name;
+            //http://dummyimage.com/415x240/000/ffffff.png
 
             var lineData = {
                 line_name_eng: line_name + '(eng)',

@@ -8,25 +8,15 @@ var router = express.Router();
 
 router.post('/line/add', function (request, response, next) {
 
-	var form = $('#form_add_line');
 
-	let lineDate = {
+    let title_page = 'Line Page';
+    let data = {
+        title: title_page,
+        showMenu: true,
+    };
+    response.render('pages/line', data);
 
-	};
-
-	line.save().then(function (err,results) {
-		let title_page = 'Line Page';
-		let data = {
-			title: title_page,
-			showMenu: true,
-		};
-		response.render('pages/line', data);
-	})
-		.catch(function (err) {
-			next(err);
-		});
 });
-
 
 
 module.exports = router;
