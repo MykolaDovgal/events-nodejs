@@ -2,18 +2,26 @@
  * Created by tegos on 28.04.2017.
  */
 
+var global = {};
+
 $(document).ready(function () {
 
 
     var $gallery = $('#lines-gallery');
-
+    $gallery.justifiedGallery({
+        rowHeight: 300,
+        margins: 5
+    });
 
     //$gallery.justifiedGallery('norewind');
 
     function addNewLines(page) {
 
-        if (page === undefined) {
-            page = 0;
+        if (page === undefined || page < 1) {
+            page = 1;
+            global.page = page;
+        } else {
+            page = global.page;
         }
 
         $.ajax({
@@ -23,21 +31,15 @@ $(document).ready(function () {
             success: function (data) {
                 var lines = data.data;
 
-                if ($.isArray(lines)) {
+                if ($.isArray(lines) && lines.length) {
                     lines.forEach(function (line) {
                         $gallery.append(
                             generateLine(line)
                         );
-                    })
-                }
-
-                if (page === 0) {
-                    $gallery.justifiedGallery({
-                        rowHeight: 200,
-                        maxRowHeight: 200
                     });
-                } else {
+
                     $gallery.justifiedGallery('norewind');
+                    global.page++;
                 }
 
 
@@ -58,8 +60,7 @@ $(document).ready(function () {
 
     function generateLine(line) {
         let html = `<div class="mt-element-overlay">
-                    <div class="row">
-                        <div class="col-md-12">
+                    
                             <div class="mt-overlay-5"><img src="` + line.cover_picture + `"/>
                                 <div class="mt-overlay">
                                     <h2>` + line.line_name_eng + `</h2>
@@ -67,8 +68,7 @@ $(document).ready(function () {
                                         <a class="uppercase" href="` + line.website + `">Learn More</a>
                                     </p>
                                 </div>
-                            </div>
-                        </div>
+                            
                     </div>
                 </div>`;
         return html;
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-            addNewLines(10);
+            addNewLines(2);
         }
     });
 

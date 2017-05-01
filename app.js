@@ -32,7 +32,7 @@ User.count({username: config.get('project:admin:username')}, function (err, coun
         setup.createAdmin();
     }
     //setup.createDummyUser();
-    //setup.createLines();
+    setup.createLines();
 });
 
 // routes
@@ -73,9 +73,6 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (user_data, done) {
     done(null, user_data);
-    // userModel.findOne({email: user_data.email}, function (err, user) {
-    // 	done(err, user);
-    // });
 });
 
 

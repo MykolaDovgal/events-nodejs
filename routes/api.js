@@ -6,13 +6,13 @@ require('rootpath')();
 
 var User = require('models/user');
 var Line = require('models/line');
+let config = require('config');
 
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 
 Promise.promisifyAll(mongoose);
 
-var middleware = require('middlewares');
 
 router.get('/users', function (req, res, next) {
     Promise.props({
@@ -53,18 +53,21 @@ router.get('/activity/:id?', function (req, res, next) {
 });
 
 router.post('/lines/:page?', function (req, res, next) {
-
-    var search = req.query.search;
-    var page = req.params.page || 0;
+    let limit = config.get('project:lines:limit_on_page') || 9;
+    let search = req.query.search;
+    let page = req.params.page || 1;
+    if (page < 1) {
+        page = 1;
+    }
 
     console.log(search);
     console.log(page);
 
     Promise.props({
-        lines: Line.find()
+        lines: Line.paginate({}, {page: page, limit: limit})
     }).then(function (results) {
-        var data = {
-            data: results.lines
+        let data = {
+            data: results.lines.docs
         };
 
         res.json(data);

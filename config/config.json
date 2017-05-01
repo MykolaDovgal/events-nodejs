@@ -29,6 +29,9 @@
       "username": "admin",
       "email": "admin@admin.com",
       "password": "admin"
+    },
+    "lines": {
+      "limit_on_page": 9
     }
   }
 }

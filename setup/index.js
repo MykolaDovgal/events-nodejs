@@ -102,8 +102,8 @@ var setup = {
             }
 
             var line_name = faker.name.title();
-            var color = faker.internet.color().replace('#', faker.random.arrayElement(['', '#']));
-            var cover_picture = 'http://dummyimage.com/415x240/000/fff.png?text=' + line_name;
+            var color = faker.random.arrayElement(['FFFF00', 'CC0000', '663366', 'FF3366', '0099FF', '00FF66', 'FFFF99']);
+            var cover_picture = 'http://dummyimage.com/415x240/' + color + '/000.png';
             //http://dummyimage.com/415x240/000/ffffff.png
 
             var lineData = {

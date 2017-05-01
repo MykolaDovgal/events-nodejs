@@ -25,11 +25,23 @@
 
 #lines-gallery .mt-element-overlay img {
 
-    height: 200px;
+    height: 300px;
 
 }
 
 #lines-gallery .mt-element-overlay {
-    max-height: 200px;
-    width: 250px;
+    max-height: 300px;
+    width: 33%;
+}
+
+#lines-gallery {
+    /*width: 85vw;*/
+}
+
+.page-lines-list {
+    overflow-y: scroll;
+}
+
+.mt-element-overlay .mt-overlay-5 .mt-overlay {
+    background-color: rgba(0, 0, 0, 0.55);
 }
