@@ -11,9 +11,6 @@
     <link href="../assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
           id="style_color"/>
     <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet"
-          type="text/css"/>
-    <link href="../assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
 
 
@@ -150,7 +147,9 @@
 
 
 <!-- responsive modal -->
-<div id="responsive" class="modal fade" tabindex="-1" data-width="760">
+<div id="responsive" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
         <h4 class="modal-title">Create Line</h4>
@@ -280,10 +279,13 @@
             <!-- END FORM-->
         </div>
     </div>
+
     <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
         <button id="button-create-line" form="form_add_line" type="submit"
                 class="btn green"></button>
+    </div>
+    </div>
     </div>
 </div>
 

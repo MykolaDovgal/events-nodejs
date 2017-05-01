@@ -608,13 +608,13 @@ body.is-menu-visible #menu .closes {
 .data-time {
     text-align: left;
     position: absolute;
-    left: 5em;
+    left: 5%;
     padding-top: 15px;
 }
 
 .time span {
     font-family: Montserrat-Regular;
-    font-size: 100px;
+    font-size: 80px;
     color: #fff;
     line-height: 40px;
 }
