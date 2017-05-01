@@ -158,7 +158,7 @@
         <div class="row">
             <!-- BEGIN FORM-->
             <form action="/line/add" method="post" class="form-horizontal"
-                  enctype="multipart/form-data" id="form_add_line">
+                  id="form_add_line">
                 <div class="form-body">
                     <div class="container col-md-12">
                         <div class="alert alert-danger display-hide">
@@ -195,7 +195,7 @@
                                 <input id="form-line-english-name" type="text"
                                        class="form-control"
                                        placeholder="Name In English" value="newLine"
-                                       name="lineOriginName" required maxlength="40">
+                                       name="lineEnglishName" required maxlength="40">
                                 <div class="form-control-focus"></div>
                                 <span class="help-block">Name In English</span>
                             </div>
@@ -209,7 +209,8 @@
                             <div class="col-md-9">
                                 <select id="form-line-country-select"
                                         class="bs-select form-control" data-live-search="true"
-                                        data-size="8">
+                                        data-size="8"
+                                        name="countrySelect">
 
                                 </select>
                             </div>
@@ -222,8 +223,8 @@
                             <div class="col-md-9">
                                 <select id="form-line-city-select"
                                         class="bs-select form-control" data-live-search="true"
-                                        data-size="8">
-                                    <option value="AF">Afghanistan</option>
+                                        data-size="8"
+                                        name="citySelect">
                                 </select>
                             </div>
                         </div>
@@ -241,7 +242,8 @@
                                         </li>
                                         <li><a href="#origin-language-container"
                                                data-toggle="tab"
-                                               aria-expanded="false">Origin</a></li>
+                                               aria-expanded="false">Origin</a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active"
@@ -249,7 +251,7 @@
                                             <div class="form-group form-md-line-input">
                                                 <div class="col-md-12">
                                                                             <textarea id="english-language-textarea"
-                                                                                      class="form-control" name="memo"
+                                                                                      class="form-control" name="englishDescription"
                                                                                       rows="3"
                                                                                       style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
                                                     <div class="form-control-focus"></div>
@@ -260,7 +262,7 @@
                                             <div class="form-group form-md-line-input">
                                                 <div class="col-md-12">
                                                                             <textarea id="origin-language-textarea"
-                                                                                      class="form-control" name="memo"
+                                                                                      class="form-control" name="originDescription"
                                                                                       rows="3"
                                                                                       style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
                                                     <div class="form-control-focus"></div>
@@ -283,7 +285,7 @@
     <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
         <button id="button-create-line" form="form_add_line" type="submit"
-                class="btn green"></button>
+                class="btn green">Create</button>
     </div>
     </div>
     </div>
@@ -303,8 +305,6 @@
 
     <script src="/js/lines.js" type="text/javascript"></script>
 
-
-    <script src="/js/line.js" type="text/javascript"></script>
 </footer>
 
 <% include ../static/menu %>

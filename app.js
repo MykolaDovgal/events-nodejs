@@ -32,7 +32,7 @@ User.count({username: config.get('project:admin:username')}, function (err, coun
         setup.createAdmin();
     }
     //setup.createDummyUser();
-    setup.createLines();
+    //setup.createLines();
 });
 
 // routes

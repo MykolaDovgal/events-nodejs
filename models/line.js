@@ -8,7 +8,7 @@ autoIncrement.initialize(mongoose.connection);
 
 var LineSchema = new Schema({
     id: {type: Number, required: true, index: {unique: true}},
-    line_name_eng: {type: String, trim: true},
+	line_name_eng: {type: String, trim: true},
     line_name_ol: {type: String, trim: true},
     description_eng: {type: String, trim: true},
     description_ol: {type: String, trim: true},
