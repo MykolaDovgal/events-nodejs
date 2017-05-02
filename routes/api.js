@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var fs = require('fs');
+var _ = require('underscore');
 
 require('rootpath')();
 
@@ -16,16 +18,15 @@ Promise.promisifyAll(mongoose);
 
 router.get('/users', function (req, res, next) {
     Promise.props({
-        users: User.find({}, function (err, users) {
-            var userMap = {};
-
-            users.forEach(function (user) {
-                userMap[user._id] = user;
-            });
-
-        }).execAsync()
+        users: User.find({}).execAsync()
     })
         .then(function (results) {
+            results.users.map(function(user) {
+                if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
+                    user.profile_picture_circle = 'images/icons/no-pic.png';
+                return user;
+            });
+
             //console.warn(results);
             var data = {
                 data: results.users

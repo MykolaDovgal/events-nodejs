@@ -71,14 +71,6 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         }
     });
 
-
-    var user_active = 0;
-    if (util.isset(body['active'])) {
-        if (body['active'].trim() !== '0') {
-            user_active = 1;
-        }
-    }
-
     var dateofbirthObject = util.stringToDate(body['dateofbirth'], 'dd.mm.yyyy', '.');
 
 
@@ -91,7 +83,6 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         realname: body['firstname'] + ' ' + body['lastname'],
         email: body['email'],
         permission_level: 1,
-        active: user_active,
         profile_picture: imageOriginalProfile,
         profile_picture_circle: imageCircleProfile,
         date_of_birth: dateofbirthObject

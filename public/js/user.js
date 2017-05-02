@@ -13,7 +13,7 @@ $(document).ready(function () {
                 'render': function (data, type, full, meta) {
                     return '<img class="profile-picture" src="' + data + '"/>';
                 },
-                width: '150'
+                width: '35'
             },
             {
                 'data': 'active',
@@ -22,11 +22,11 @@ $(document).ready(function () {
                     if (data) {
                         content = '<span class="badge badge-success">Active</span>'
                     } else {
-                        content = '<span class="badge badge-danger">Disable</span>';
+                        content = '<span class="badge badge-danger">Disabled</span>';
                     }
                     return content;
                 },
-                width: '100'
+                width: '45'
             },
             {
                 "data": 'username',
