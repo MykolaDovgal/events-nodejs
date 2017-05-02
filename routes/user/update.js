@@ -64,6 +64,7 @@ router.post('/user/update', upload.any(), function (req, res, next) {
             results.user.profile_picture = userData.profile_picture;
         if (userData.profile_picture_circle)
             results.user.profile_picture_circle = userData.profile_picture_circle;
+        results.user.active = req.body.active ? true : false;
         results.user.username = req.body.username;
         results.user.firstname = req.body.firstname;
         results.user.lastname = req.body.lastname;

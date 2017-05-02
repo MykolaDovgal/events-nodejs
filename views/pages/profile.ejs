@@ -89,14 +89,18 @@
                                                                class="form-control"
                                                                readonly/>
                                                         <span class="input-group-btn">
-                                                                <button class="btn default" type="button">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </button>
-                                                        </span>
+                                                            <button class="btn default" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                    </span>
                                                     </div>
                                                     <label for="about">About</label>
                                                     <textarea name="about" class="form-control"
                                                               placeholder="Enter additional information"><%= user.about %></textarea>
+                                                <br/>
+                                                    <label for="active">Active</label>
+                                                    <input name="active" type="checkbox" class="make-switch form-control" <%= user.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
+
                                                 </form>
                                             </div>
 
