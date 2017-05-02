@@ -7,13 +7,13 @@ $(document).ready(function () {
 
         "ajax": "/api/users/",
         "columns": [
-            {"data": 'id', width: '90'},
+            {"data": 'id', width: '50'},
             {
                 'data': 'profile_picture_circle',
                 'render': function (data, type, full, meta) {
-                    return '<img class="profile-picture" src="' + data + '"/>';
+                    return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
                 },
-                width: '35'
+                width: '50'
             },
             {
                 'data': 'active',

@@ -30,11 +30,6 @@ var upload = multer({storage: storage});
 router.post('/user/update', upload.any(), function (req, res, next) {
     var files = req.files;
 
-    console.log(req.body);
-
-    var body = req.body;
-
-    var form_files = ['profile-image', 'userpic'];
     var imageOriginalProfile = '';
     var imageCircleProfile = '';
 
@@ -55,7 +50,6 @@ router.post('/user/update', upload.any(), function (req, res, next) {
         profile_picture: imageOriginalProfile,
         profile_picture_circle: imageCircleProfile,
     };
-    console.warn(userData);
 
     Promise.props({
         user: User.findOne({ id: req.body.userId })
@@ -64,6 +58,7 @@ router.post('/user/update', upload.any(), function (req, res, next) {
             results.user.profile_picture = userData.profile_picture;
         if (userData.profile_picture_circle)
             results.user.profile_picture_circle = userData.profile_picture_circle;
+        results.user.active = req.body.active ? true : false;
         results.user.username = req.body.username;
         results.user.firstname = req.body.firstname;
         results.user.lastname = req.body.lastname;
