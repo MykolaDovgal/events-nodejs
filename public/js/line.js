@@ -2,7 +2,7 @@ $(document).ready(function () {
 	var genres = [];
 	let genresCounter = 1;
 
-	$.getJSON( '../data/genres.json', function( data ) {
+	$.getJSON( '/data/genres.json', function( data ) {
 		$.each( data, function( key, val ) {
 			genres.push('<option value="'+ val +'">'+ val +'</option>');
 		});
@@ -60,8 +60,10 @@ $(document).ready(function () {
 
 
 		var formData1 = new FormData(form1[0]);
+		var formData = new FormData(this);
 
-		console.log(form1);
+		console.log(this);
+		console.log(formData);
 
 		//set hidden cropped image
 		$uploadCrop.croppie('result', {
@@ -94,7 +96,7 @@ $(document).ready(function () {
 					}
 				});
 		});
-		//return false;
+		return false;
 	});
 
 

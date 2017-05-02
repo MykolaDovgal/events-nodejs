@@ -5,10 +5,11 @@ var bodyParser = require("body-parser");
 var Line = require('models/line');
 
 var router = express.Router();
-var urlencodedParser = bodyParser.urlencoded({extended: false});
+var multer = require('multer');
+var upload = multer();
 
 
-router.post('/line/update', function (request, response, next) {
+router.post('/line/update', upload.any(), function (request, response, next) {
 
 	let body = request.body;
 	console.log(body);
