@@ -46,8 +46,12 @@
             <div class="page-content">
                 <div class="row">
                     <div class="col-md-3">
-                        <div style="border: solid black 1px;height: 200px" class="col-md-12">
+                        <div id="change-demo" class="col-md-12">
 
+                        </div>
+                        <div class="col-md-12">
+                            <input type="file" id="upload-profile-pic" name="profile-image" class="form-control" value="Choose a file" accept="image/*" aria-invalid="false" aria-describedby="form-profile-pic-error"><span id="form-profile-pic-error" class="help-block help-block-error"></span>
+                            <div class="form-control-focus"></div>
                         </div>
                         <div style="border: solid black 1px;height: 300px" class="col-md-12">
                             <div>
@@ -57,10 +61,10 @@
                         <div style="border: solid black 1px;height: 100px;text-align: center;"
                              class="col-md-12 form-group form-md-line-input">
                             <div class="col-md-5 ">
-                                <input id="form-line-origin-name" type="text"
+                                <input id="lineChangeCountry" type="text"
                                        class="form-control"
                                        placeholder="Enter Origin Name" value="<%= line.country %>"
-                                       name="lineOriginName" required maxlength="40">
+                                       name="lineCountry" required maxlength="40">
                                 <div class="form-control-focus"></div>
                                 <span class="help-block">Country</span>
                             </div>
@@ -68,10 +72,10 @@
 
                             </div>
                             <div class="col-md-5 ">
-                                <input id="form-line-origin-name" type="text"
+                                <input id="lineChangeCity" type="text"
                                        class="form-control"
                                        placeholder="Enter Origin Name" value="<%= line.city %>"
-                                       name="lineOriginName" required maxlength="40">
+                                       name="lineCity" required maxlength="40">
                                 <div class="form-control-focus"></div>
                                 <span class="help-block">City</span>
                             </div>
@@ -95,84 +99,102 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="general-container">
-                                    <div class="col-md-7 form-group form-md-line-input">
-                                        <div class="col-md-12">
-                                            <label class="col-md-4 control-label">
-                                                Title
-                                            </label>
-                                            <div class="col-md-8 form-group">
-                                                <div class="col-md-6">
-                                                    <input id="form-line-origin-name" type="text"
-                                                           class="form-control"
-                                                           placeholder="Enter Origin Name"
-                                                           value="<%= line.line_name_eng %>"
-                                                           name="lineOriginName" required maxlength="40">
-                                                    <div class="form-control-focus"></div>
-                                                    <span class="help-block">English Title</span>
+                                    <form enctype="multipart/form-data" action="/line/update" method="post" id="form_change_line">
+                                        <div class="col-md-7 form-group form-md-line-input">
+                                            <div class="col-md-12">
+                                                <label class="col-md-4 control-label">
+                                                    Title
+                                                </label>
+                                                <div class="col-md-8 form-group">
+                                                    <div class="col-md-6">
+                                                        <input  type="text"
+                                                               class="form-control"
+                                                               placeholder="Enter Origin Name"
+                                                               value="<%= line.line_name_eng %>"
+                                                               name="englishTitle" required maxlength="40">
+                                                        <div class="form-control-focus"></div>
+                                                        <span class="help-block">English Title</span>
+                                                    </div>
+
+                                                    <div class="col-md-6 ">
+                                                        <input  type="text"
+                                                               class="form-control"
+                                                               placeholder="Enter Origin Name"
+                                                               value="<%= line.line_name_ol %>"
+                                                               name="originalTitle" required maxlength="40">
+                                                        <div class="form-control-focus"></div>
+                                                        <span class="help-block">Original Title</span>
+                                                    </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="col-md-6 ">
-                                                    <input id="form-line-origin-name" type="text"
+                                            <div class="col-md-12">
+                                                <label class="col-md-4 control-label">
+                                                    Facebook Page
+                                                </label>
+                                                <div class="col-md-8">
+                                                    <input type="text"
                                                            class="form-control"
-                                                           placeholder="Enter Origin Name"
-                                                           value="<%= line.line_name_ol %>"
-                                                           name="lineOriginName" required maxlength="40">
+                                                           placeholder="Enter Origin Name" value="<%= line.facebook_page %>"
+                                                           name="facebookLink" required>
                                                     <div class="form-control-focus"></div>
-                                                    <span class="help-block">Original Title</span>
+                                                    <span class="help-block">Facebook Link</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+
+                                                <label class="col-md-4 control-label">
+                                                    Website
+                                                </label>
+                                                <div class="col-md-8 form-group form-md-line-input">
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           placeholder="Enter Origin Name" value="<%= line.website %>"
+                                                           name="websiteLink" required>
+                                                    <div class="form-control-focus"></div>
+                                                    <span class="help-block">Website Link</span>
+                                                </div>
+                                            </div>
+
+                                            <div class=" col-md-12">
+
+                                                <label class="col-md-4 control-label">
+                                                    Description
+                                                </label>
+                                                <textarea
+                                                        name="englishDescription"
+                                                        class=" col-md-8"
+                                                        rows="3"
+                                                        style="margin-top: 0px; margin-bottom: 0px; height: 96px; resize: none"><%= line.description_eng %></textarea>
+                                            </div>
+
+                                            <div class="form-group form-md-line-input has-info" style="border: solid black 1px;float: right;width: 500px;height: 200px;margin: 10px 10px 0 0">
+                                                <div class="col-md-5" id="select_container">
+                                                    <select name="genres0" class="form-control">
+                                                        <option value=""></option>
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                        <option value="3">Option 3</option>
+                                                        <option value="4">Option 4</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" id="add_genres_btn" class="btn btn-circle btn-icon-only blue">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-12">
-                                            <label class="col-md-4 control-label">
-                                                Facebook Page
-                                            </label>
-                                            <div class="col-md-8">
-                                                <input id="form-line-origin-name" type="text"
-                                                       class="form-control"
-                                                       placeholder="Enter Origin Name" value="<%= line.facebook_page %>"
-                                                       name="lineOriginName" required>
-                                                <div class="form-control-focus"></div>
-                                                <span class="help-block">Facebook Link</span>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-12">
-
-                                            <label class="col-md-4 control-label">
-                                                Website
-                                            </label>
-                                            <div class="col-md-8 form-group form-md-line-input">
-                                                <input id="form-line-origin-name" type="text"
-                                                       class="form-control"
-                                                       placeholder="Enter Origin Name" value="<%= line.website %>"
-                                                       name="lineOriginName" required>
-                                                <div class="form-control-focus"></div>
-                                                <span class="help-block">Website Link</span>
-                                            </div>
-                                        </div>
-
-                                        <div class=" col-md-12">
-
-                                            <label class="col-md-4 control-label">
-                                                Description
-                                            </label>
-                                                    <textarea
-                                                            class=" col-md-8"
-                                                            rows="3"
-                                                            style="margin-top: 0px; margin-bottom: 0px; height: 96px; resize: none"><%= line.description_eng %></textarea>
-                                        </div>
-
-                                        <div class="container"
-                                             style="border: solid black 1px;float: right;width: 500px;height: 200px;margin: 10px 10px 0 0">
+                                        <div class="col-md-5" style="border: solid black 1px;height: 550px;">
 
                                         </div>
+                                        <button type="submit" form="form_change_line"  class="btn btn-lg blue" style="float: right">
+                                            <i class="fa fa-file-o"></i> Blue </button>
+                                    </form>
 
-                                    </div>
-                                    <div class="col-md-5" style="border: solid black 1px;height: 550px;">
-
-                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="parties-container" style="border: solid black 1px">
@@ -182,6 +204,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="tab-pane" id="followers-container" style="border: solid black 1px">
                                     <div class="form-group form-md-line-input">
                                         <div class="col-md-12">
