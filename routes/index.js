@@ -22,6 +22,7 @@ var logout = require('./logout');
 var lines = require('./line/lines');
 var line = require('./line/line');
 var line_add = require('./line/add');
+var line_update = require('./line/update');
 
 var user_add = require('./user/add');
 var user_update = require('./user/update');
@@ -41,6 +42,7 @@ router.use(user_changePicture);
 router.use(lines);
 router.use(line);
 router.use(line_add);
+router.use(line_update);
 
 
 /* GET home page. */

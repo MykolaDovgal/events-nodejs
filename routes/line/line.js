@@ -7,12 +7,21 @@ var router = express.Router();
 
 router.get('/line/:id', function (request, response, next) {
 
-	let title_page = "Line Page";
-	let data = {
-		title: title_page,
-		showMenu: true,
-	};
-	response.render('pages/line', data);
+
+	Promise.props({
+		line: Line.findOne({id: request.params.id}).execAsync()
+	})
+		.then(function (results) {
+			let data = {
+				title: results.line.line_name_eng,
+				showMenu: true,
+				line : results.line
+			};
+			response.render('pages/line', data);
+		})
+		.catch(function (err) {
+			next(err);
+		});
 });
 
 

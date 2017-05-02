@@ -27,10 +27,8 @@ router.post('/line/add',urlencodedParser, function (request, response, next) {
 	};
 	newLine.save()
 		.then(function(doc){
-			console.log("Сохранен объект", doc.id);
 			data.line = doc;
-			console.log(data);
-			response.render('pages/line', data);
+			response.redirect('/line/' + doc.id);
 		})
 		.catch(function (err){
 			console.log(err);
