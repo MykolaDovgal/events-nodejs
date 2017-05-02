@@ -1,5 +1,5 @@
 'use strict';
-
+var fs = require('fs');
 var _ = require('underscore');
 var express = require('express');
 var mongoose = require('mongoose');
@@ -18,6 +18,10 @@ module.exports = function (req, res, next) {
         .then(function (results) {
             var user = results.user;
             var title_page = user.username + "'s Profile";
+
+            if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
+                user.profile_picture_circle = '/images/icons/no-pic.png';
+
             var data = {
                 title: title_page,
                 showMenu: true,
@@ -30,5 +34,4 @@ module.exports = function (req, res, next) {
         .catch(function (err) {
             next(err);
         });
-
 };
