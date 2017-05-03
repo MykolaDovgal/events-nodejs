@@ -49,12 +49,20 @@ body {
 #users-list-datatable .profile-picture {
     max-height: 100px !important;
     max-width: 140px !important;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 100%;
     padding: 1px;
     border: 1px solid grey;
     background-color: transparent;
+}
+
+.dataTables_scrollBody table.dataTable tbody th, .dataTables_scrollBody table.dataTable tbody td{
+padding: 5px 10px;
+}
+
+div.DTS div.dataTables_scrollBody{
+    background: rgba(204, 204, 204, 0.2) !important;
 }
 
 .profile-picture-big {
@@ -635,9 +643,9 @@ body.is-menu-visible #menu .closes {
     font-weight: 300;
     letter-spacing: -1px;
     display: block;
-    font-size: 22px;
+    font-size: 30px;
     margin: 0;
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
@@ -703,8 +711,8 @@ body.is-menu-visible #menu .closes {
 }
 
 .wrapper-title{
-    background: #00a3d7;
     border-radius: 4px 4px 0 0;
+    padding: 10px 0;
 }
 
 .content-border-radius{
