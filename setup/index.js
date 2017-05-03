@@ -90,8 +90,6 @@ var setup = {
             startAt: 1
         });
 
-        //faker.locale = "uk";
-
         for (var i = 0; i < COUNT_OF_LINES; i += 1) {
             var manag = [];
             var mus = [];
@@ -107,6 +105,7 @@ var setup = {
             //http://dummyimage.com/415x240/000/ffffff.png
 
             var lineData = {
+                active: faker.random.boolean(),
                 line_name_eng: line_name + '(eng)',
                 line_name_ol: line_name + '(ol)',
                 description_eng: faker.lorem.lines() + '(eng)',
