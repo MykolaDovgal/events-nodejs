@@ -21,15 +21,43 @@ router.get('/users', function (req, res, next) {
         users: User.find({}).execAsync()
     })
         .then(function (results) {
+            var lastActivities = [];
+
             results.users.map(function (user) {
+                var lastActivity = user.getActivity()[user.getActivity().length - 1] ? user.getActivity()[user.getActivity().length - 1].login_time : '-';
+                lastActivities.push(lastActivity);
                 if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
                     user.profile_picture_circle = 'images/icons/no-pic.png';
                 return user;
             });
 
-            //console.warn(results);
+            var users = [];
+
+            //TODO FIX THIS IMMEDIATELY
+            results.users.forEach(function(user, index) {
+                users.push({
+                    id: user.id,
+                    username: user.username,
+                    realname: user.realname,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                    profile_picture: user.profile_picture,
+                    profile_picture_circle: user.profile_picture_circle,
+                    about: user.about,
+                    date_of_birth: user.date_of_birth,
+                    facebook_progile: user.facebook_progile,
+                    active: user.active,
+                    lastActivity: lastActivities[index],
+                    //fake data for table
+                    bars: Math.floor(Math.sin(user.id).toString().substr(17)),
+                    events: Math.floor(Math.sin(user.id).toString().substr(18)),
+                    lines: Math.floor(Math.sin(user.id).toString().substr(17) / 2),
+                });
+            });
+
             var data = {
-                data: results.users
+                data: users,
             };
 
             res.json(data);

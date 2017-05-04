@@ -28,6 +28,9 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 router.post('/user/update', upload.any(), function (req, res, next) {
+    console.log(req.body);
+    console.log(req.files);
+
     var files = req.files;
 
     var imageOriginalProfile = '';

@@ -36,6 +36,20 @@ $(document).ready(function () {
         }
     }
 
+    $toCrop = $('#image-to-crop').croppie({
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+    
+
     $uploadCrop = $('#upload-demo').croppie({
         viewport: {
             width: 200,
@@ -58,6 +72,46 @@ $(document).ready(function () {
             $("#userpic").attr("src", base64);
             $('#form_update_user').submit();
         });
+    });
+
+    $('#button-open-crop').on('click', function() {
+        $('#crop-picture-modal').modal().show();
+        $toCrop.croppie('bind', {
+            url: $('#image-to-crop').attr('src')
+        });
+    });
+
+    $('#button-crop-picture').on('click', function() {
+        $toCrop.croppie('result', 'base64').then(function(base64) {
+            $('#userpic').attr("src", base64);
+            
+            var formData = new FormData($('#form_update_user')[0]);
+            formData.append('userId', user.id);
+            
+            $toCrop.croppie('result', {
+                type: 'blob',
+                size: 'viewport',
+                circle: true
+            }).then(function (blob) {
+                console.log(blob);
+                formData.append('userpic', blob, 'userpic.png');
+                    $.ajax({
+                        url: '/user/update/',
+                        type: 'POST',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function (data) {
+                            $('#crop-picture-modal').modal('hide');
+                            bootbox.alert('Saved');
+                        },
+                        error: function (jqXHR, textStatus, err) {
+                            bootbox.alert('Server error');
+                        }
+                    });
+            });
+        })
     });
 
     $('#form_update_user').submit(function(e) {
@@ -87,8 +141,6 @@ $(document).ready(function () {
                     error: function (jqXHR, textStatus, err) {
                         bootbox.alert('Server error');
                     }
-                }).then(function() {
-                    console.log(blob);
                 });
         });
     });

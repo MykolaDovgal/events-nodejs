@@ -31,8 +31,9 @@ $(document).ready(function () {
             {
                 "data": 'username',
                 width: 200
-            },
+            },     
             {"data": "realname"},
+            
             {
                 'data': 'facebook_profile',
                 'render': function (data, type, full, meta) {
@@ -42,7 +43,14 @@ $(document).ready(function () {
                     return '<a href="' + data + '">' + full.realname + '</a>';
                 },
                 width: '150'
-            }
+            },
+            {
+                'data': "lastActivity",
+                width: '150'
+            },
+            {"data": "bars"},
+            {"data": "events"},
+            {"data": "lines"},
         ],
         "columnDefs": [
             {

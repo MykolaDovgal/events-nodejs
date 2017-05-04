@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-md-12 text-center">
                             <br>
-                            <button class="btn btn-default">Fit & Crop</button>
+                            <button id="button-open-crop" class="btn btn-default">Fit & Crop</button>
                             <button class="btn btn-default" onclick="$('#change-picture-modal').modal().show()">Change</button>
                         </div>
                     </div>
@@ -171,17 +171,11 @@
                 <h4 class="modal-title">Change User Picture</h4>
             </div>
             <div class="modal-body">
-                <div class="scroller" style="height:570px" data-always-visible="1" data-rail-visible1="1">
+                <div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
                     <div class="row">
                         <div class="col-md-12">
                             <!-- BEGIN VALIDATION STATES-->
                             <div class="portlet light portlet-fit portlet-form bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class=" icon-layers font-green"></i>
-                                        <span class="caption-subject font-green sbold uppercase">User Picture</span>
-                                    </div>
-                                </div>
                                 <div class="portlet-body">
                                     <!-- BEGIN FORM-->
                                     <form method="post" class="form-horizontal"
@@ -222,8 +216,45 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="button-cancel" type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
                 <button id="button-change-picture" class="btn green">Change Picture</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="crop-picture-modal" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Crop User Picture</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN VALIDATION STATES-->
+                            <div class="portlet light portlet-fit portlet-form bordered">
+                                <div class="portlet-body">
+                                    <!-- BEGIN FORM-->
+                                    <form method="post" class="form-horizontal"
+                                          enctype="multipart/form-data" id="form_change_picture">
+                                        <div class="form-body">
+                                            <img id="image-to-crop" src="<%= user.profile_picture %>" />
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                            <!-- END VALIDATION STATES-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
+                <button id="button-crop-picture" class="btn green">Crop Picture</button>
             </div>
         </div>
     </div>
