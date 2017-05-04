@@ -14,16 +14,18 @@ var router = express.Router();
 router.get('/lines', function (request, response, next) {
 
     Promise.props({
-        lines: Line.find().execAsync()
+        lineTotalCount: Line.count().execAsync(),
+        lineActiveCount: Line.count({active: true}).execAsync(),
+        lineUnActiveCount: Line.count({active: false}).execAsync()
     }).then(function (results) {
         var lines = results.lines;
         var title_page = "Lines List";
-        var chunk_lines = chunks(lines, 3);
         var data = {
             title: title_page,
             showMenu: true,
-            chunk_lines: chunk_lines,
-            lines: lines
+            lineTotalCount: results.lineTotalCount,
+            lineActiveCount: results.lineActiveCount,
+            lineUnActiveCount: results.lineUnActiveCount,
         };
 
         //console.log(data.lines)

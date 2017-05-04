@@ -21,7 +21,7 @@ router.get('/users', function (req, res, next) {
         users: User.find({}).execAsync()
     })
         .then(function (results) {
-            results.users.map(function(user) {
+            results.users.map(function (user) {
                 if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
                     user.profile_picture_circle = 'images/icons/no-pic.png';
                 return user;
@@ -57,6 +57,10 @@ router.post('/lines/:page?', function (req, res, next) {
     let limit = config.get('project:lines:limit_on_page') || 9;
     let search = req.query.search;
     let page = req.params.page || 1;
+
+    let filter = req.query;
+    console.log(filter);
+
     if (page < 1) {
         page = 1;
     }
@@ -65,7 +69,7 @@ router.post('/lines/:page?', function (req, res, next) {
     console.log(page);
 
     Promise.props({
-        lines: Line.paginate({}, {page: page, limit: limit})
+        lines: Line.paginate(filter, {page: page, limit: limit})
     }).then(function (results) {
         let data = {
             data: results.lines.docs

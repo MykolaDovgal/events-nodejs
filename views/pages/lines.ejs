@@ -4,13 +4,13 @@
     <% include ../static/head %>
 
     <!-- BEGIN PAGE LEVEL STYLES -->
-    <link href="../assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
     <!-- END PAGE LEVEL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
 
-    <link href="../assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
+    <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
           id="style_color"/>
-    <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
 
 
@@ -43,86 +43,57 @@
             <!-- BEGIN CONTENT BODY -->
             <div class="page-content">
 
-                <!-- END PAGE TITLE-->
-                <!-- END PAGE HEADER-->
+
                 <div class="row">
                     <div class="col-md-12">
 
-                        <!--<% chunk_lines.forEach(function(lines) { %>-->
-                        <!--<div class="row">-->
-                        <!--<% lines.forEach(function(line) { %>-->
-                        <!--<div class="col-md-4">-->
-                        <!--<div class="thumbnail">-->
-                        <!--<a href="<%= line.website %>">-->
-                        <!--<img src="<%= line.cover_picture %>" alt="Lights" style="width:100%">-->
-                        <!--<div class="caption">-->
-                        <!--<p><%= line.line_name_eng %></p>-->
-                        <!--</div>-->
-                        <!--</a>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--<% }); %>-->
-                        <!--</div>-->
-                        <!--<% }); %>-->
 
-                        <div class="portfolio-content portfolio-3">
-
-                            <div class="clearfix">
-                                <div id="js-filters-lightbox-gallery2" class="cbp-l-filters-button cbp-l-filters-left">
-                                    <div data-filter="*"
-                                         class="cbp-filter-item-active cbp-filter-item btn blue btn-outline uppercase">
-                                        All
-                                    </div>
-                                    <div data-filter=".graphic" class="cbp-filter-item btn blue btn-outline uppercase">
-                                        With Parties
-                                    </div>
-                                    <div data-filter=".logos" class="cbp-filter-item btn blue btn-outline uppercase">No
-                                        Parties
-                                    </div>
-                                    <a class="cbp-filter-item btn btn-outline dark" data-target="#responsive" data-toggle="modal"> Add
-                                        Line </a>
-                                </div>
-
-
-                                <div class="pull-right group-input">
-                                    <div class="group-icon-text pull-left"><i class="fa fa-filter" aria-hidden="true"></i><span class="text-center">Filter by<br> country</span></div>
-                                    <div class="group-icon-text pull-left"><i class="fa fa-filter" aria-hidden="true"></i><span class="text-center">Filter by<br> city</span></div>
-                                    <span class="fa fa-refresh"></span>
-                                    <div class="form-group search-block pull-right">
-                                        <div class="input-icon input-circle-left">
-                                            <i class="fa fa-search"></i>
-                                            <input type="text" class="form-control"> </div>
-                                    </div>
-                                </div>
-
+                        <div class="pull-left group-btn">
+                            <div class="pull-left">
+                                <a class="filter-all btn blue btn-outline">
+                                    All
+                                </a>
+                                <span><%= lineTotalCount %></span>
                             </div>
 
+                            <div class="pull-left">
+                                <a data-status="true" class="filter-status btn btn-outline btn-success"> Active
+                                </a>
+                                <span><%= lineActiveCount %></span>
+                            </div>
+                            <div class="pull-left">
+                                <a data-status="false" class="filter-status btn btn-outline btn-danger"> Unactive
+                                </a>
+                                <span><%= lineUnActiveCount %></span>
+                            </div>
+                            <a class="btn btn-outline dark" data-target="#modal-add-line"
+                               data-toggle="modal"> Add
+                                Line <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </a>
+                        </div>
 
-                            <div id="js-grid-lines" class="cbp9">
 
-                                <!--<% lines.forEach(function(line) { %>-->
-
-                                <!--<div class="cbp-item line-item graphic print motion">-->
-                                <!--<a href="<%= line.website %>" class="cbp-caption cbp-singlePageInline"-->
-                                <!--data-title="<%= line.line_name_eng %>" rel="nofollow">-->
-                                <!--<div class="cbp-caption-defaultWrap">-->
-                                <!--<img class="img-responsive" src="<%= line.cover_picture %> "-->
-                                <!--alt="lolkekcheburek"></div>-->
-                                <!--<div class="cbp-caption-activeWrap">-->
-                                <!--<div class="cbp-l-caption-alignLeft">-->
-                                <!--<div class="cbp-l-caption-body">-->
-                                <!--<div class="cbp-l-caption-title"><%= line.line_name_eng %></div>-->
-                                <!--<div class="cbp-l-caption-desc"><%= line.country + '/' + line.city %></div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</a>-->
-                                <!--</div>-->
-                                <!--<% }); %>-->
-
+                        <div class="pull-right group-input">
+                            <div class="group-icon-text pull-left">
+                                <i class="fa fa-filter"
+                                   aria-hidden="true"></i><span
+                                        class="text-center">Filter by<br> country</span>
+                            </div>
+                            <div class="group-icon-text pull-left">
+                                <i class="fa fa-filter"
+                                   aria-hidden="true"></i><span
+                                        class="text-center">Filter by<br> city</span>
+                            </div>
+                            <div id="refresh-lines" class="group-icon-text pull-left">
+                                <span class="fa fa-refresh"></span>
                             </div>
 
-
+                            <div class="form-group search-block pull-right">
+                                <div class="input-icon input-circle-left">
+                                    <i class="fa fa-search"></i>
+                                    <input placeholder="Filter lines" name="search" type="text" class="form-control">
+                                </div>
+                            </div>
                         </div>
 
 
@@ -147,147 +118,150 @@
 
 
 <!-- responsive modal -->
-<div id="responsive" class="modal fade" tabindex="-1" aria-hidden="true">
+<div id="modal-add-line" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h4 class="modal-title">Create Line</h4>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <!-- BEGIN FORM-->
-            <form action="/line/add" method="post" class="form-horizontal"
-                  id="form_add_line">
-                <div class="form-body">
-                    <div class="container col-md-12">
-                        <div class="alert alert-danger display-hide">
-                            <button class="close" data-close="alert"></button>
-                            You have some form errors. Please check below.
-                        </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Create Line</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- BEGIN FORM-->
+                    <form action="/line/add" method="post" class="form-horizontal"
+                          id="form_add_line">
+                        <div class="form-body">
+                            <div class="container col-md-12">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    You have some form errors. Please check below.
+                                </div>
 
-                        <div class="alert alert-success display-hide">
-                            <button class="close" data-close="alert"></button>
-                            Your form validation is successful!
-                        </div>
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    Your form validation is successful!
+                                </div>
 
-                        <div class="form-group form-md-line-input">
-                            <label class="col-md-3 control-label" for="form-line-origin-name">Name
-                                In Origin Language
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-9">
-                                <input id="form-line-origin-name" type="text"
-                                       class="form-control"
-                                       placeholder="Enter Origin Name" value="newLine"
-                                       name="lineOriginName" required maxlength="40">
-                                <div class="form-control-focus"></div>
-                                <span class="help-block">Name In Origin Language</span>
-                            </div>
-                        </div>
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-3 control-label" for="form-line-origin-name">Name
+                                        In Origin Language
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input id="form-line-origin-name" type="text"
+                                               class="form-control"
+                                               placeholder="Enter Origin Name" value="newLine"
+                                               name="lineOriginName" required maxlength="40">
+                                        <div class="form-control-focus"></div>
+                                        <span class="help-block">Name In Origin Language</span>
+                                    </div>
+                                </div>
 
-                        <div class="form-group form-md-line-input">
-                            <label class="col-md-3 control-label" for="form-line-english-name">Name
-                                In English
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-9">
-                                <input id="form-line-english-name" type="text"
-                                       class="form-control"
-                                       placeholder="Name In English" value="newLine"
-                                       name="lineEnglishName" required maxlength="40">
-                                <div class="form-control-focus"></div>
-                                <span class="help-block">Name In English</span>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group form-md-line-input">
-                            <label class="control-label col-md-3">Country
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-9">
-                                <select id="form-line-country-select"
-                                        class="bs-select form-control" data-live-search="true"
-                                        data-size="8"
-                                        name="countrySelect">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group form-md-line-input">
-                            <label class="control-label col-md-3">City
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-9">
-                                <select id="form-line-city-select"
-                                        class="bs-select form-control" data-live-search="true"
-                                        data-size="8"
-                                        name="citySelect">
-                                </select>
-                            </div>
-                        </div>
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-3 control-label" for="form-line-english-name">Name
+                                        In English
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input id="form-line-english-name" type="text"
+                                               class="form-control"
+                                               placeholder="Name In English" value="newLine"
+                                               name="lineEnglishName" required maxlength="40">
+                                        <div class="form-control-focus"></div>
+                                        <span class="help-block">Name In English</span>
+                                    </div>
+                                </div>
 
 
-                        <div class="form-group form-md-line-input">
-                            <label class="control-label col-md-3">Description</label>
+                                <div class="form-group form-md-line-input">
+                                    <label class="control-label col-md-3">Country
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <select id="form-line-country-select"
+                                                class="bs-select form-control" data-live-search="true"
+                                                data-size="8"
+                                                name="countrySelect">
 
-                            <div class="col-md-9">
-                                <div class="tabbable-line">
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#english-language-container"
-                                                              data-toggle="tab"
-                                                              aria-expanded="true">English</a>
-                                        </li>
-                                        <li><a href="#origin-language-container"
-                                               data-toggle="tab"
-                                               aria-expanded="false">Origin</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active"
-                                             id="english-language-container">
-                                            <div class="form-group form-md-line-input">
-                                                <div class="col-md-12">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="control-label col-md-3">City
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <select id="form-line-city-select"
+                                                class="bs-select form-control" data-live-search="true"
+                                                data-size="8"
+                                                name="citySelect">
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="control-label col-md-3">Description</label>
+
+                                    <div class="col-md-9">
+                                        <div class="tabbable-line">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#english-language-container"
+                                                                      data-toggle="tab"
+                                                                      aria-expanded="true">English</a>
+                                                </li>
+                                                <li><a href="#origin-language-container"
+                                                       data-toggle="tab"
+                                                       aria-expanded="false">Origin</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active"
+                                                     id="english-language-container">
+                                                    <div class="form-group form-md-line-input">
+                                                        <div class="col-md-12">
                                                                             <textarea id="english-language-textarea"
-                                                                                      class="form-control" name="englishDescription"
+                                                                                      class="form-control"
+                                                                                      name="englishDescription"
                                                                                       rows="3"
                                                                                       style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
-                                                    <div class="form-control-focus"></div>
+                                                            <div class="form-control-focus"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="origin-language-container">
-                                            <div class="form-group form-md-line-input">
-                                                <div class="col-md-12">
+                                                <div class="tab-pane" id="origin-language-container">
+                                                    <div class="form-group form-md-line-input">
+                                                        <div class="col-md-12">
                                                                             <textarea id="origin-language-textarea"
-                                                                                      class="form-control" name="originDescription"
+                                                                                      class="form-control"
+                                                                                      name="originDescription"
                                                                                       rows="3"
                                                                                       style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
-                                                    <div class="form-control-focus"></div>
+                                                            <div class="form-control-focus"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
-
-                    </div>
+                    </form>
+                    <!-- END FORM-->
                 </div>
-            </form>
-            <!-- END FORM-->
-        </div>
-    </div>
+            </div>
 
-    <div class="modal-footer">
-        <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
-        <button id="button-create-line" form="form_add_line" type="submit"
-                class="btn green">Create</button>
-    </div>
-    </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+                <button id="button-create-line" form="form_add_line" type="submit"
+                        class="btn green">Create
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

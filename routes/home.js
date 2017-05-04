@@ -36,6 +36,6 @@ module.exports = function (req, res, next) {
             res.render('pages/home', data);
         })
         .catch(function (err) {
-            res.send(500);
+            res.send(err);
         });
 };

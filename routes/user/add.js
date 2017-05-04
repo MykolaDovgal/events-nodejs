@@ -139,7 +139,7 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         })
         .catch(function (err) {
             console.error(err);
-            res.send(500);
+            res.send(err);
         });
 
 

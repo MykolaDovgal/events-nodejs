@@ -14,15 +14,6 @@
     transform: scale(2.5) !important;
 }
 
-/*#js-grid-lines .line-item {*/
-/*width: 30%;*/
-/*height: 200px;*/
-/*}*/
-
-/*#js-grid-lines .line-item img {*/
-/*max-height: 200px;*/
-/*}*/
-
 #lines-gallery .mt-element-overlay img {
 
     height: 300px;
@@ -44,4 +35,8 @@
 
 .mt-element-overlay .mt-overlay-5 .mt-overlay {
     background-color: rgba(0, 0, 0, 0.55);
+}
+
+#lines-gallery .line-item .mt-overlay {
+    cursor: pointer;
 }
