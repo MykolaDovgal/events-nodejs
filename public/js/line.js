@@ -59,12 +59,12 @@ $(document).ready(function () {
 	var $uploadCrop;
 	$uploadCrop = $('#change-demo').croppie({
 		viewport: {
-			width: 415,
-			height: 240,
+			width: 368,
+			height: 200,
 		},
 		boundary: {
-			width: 415,
-			height: 240
+			width: 368,
+			height: 200
 		}
 	});
 	$('#upload-profile-pic').on('change', function () {
