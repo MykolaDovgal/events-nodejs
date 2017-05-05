@@ -755,3 +755,133 @@ body.is-menu-visible #menu .closes {
 .group-btn > *:not(:last-child) {
     margin-right: 10px;
 }
+
+/***style page line***/
+.cr-boundary{
+   width: auto !important;
+    height: 200px !important;
+    background: rgba(204, 204, 204, 0.11);
+    border:1px solid #e7ecf1;
+}
+
+.file-btn:hover, .file-btn input:hover, .file-btn input[type="file"]:hover{
+    cursor: pointer;
+}
+
+.file-btn input[type="file"] {
+    cursor: pointer;
+    font-size: 100px;
+    filter: alpha(opacity=1);
+    -moz-opacity: 0.01;
+    opacity: 0.01;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.croppie-container{
+    position: relative;
+}
+
+.croppie-container .file-btn{
+    display: block;
+    position: absolute;
+    right: 25px;
+    bottom: 43px;
+    z-index:9999;
+    overflow: hidden;
+    cursor:pointer;
+}
+
+.croppie-container .cr-viewport{
+    width: 100% !important;
+    border:none !important;
+}
+
+.map{
+    height: 300px;
+    clear: both;
+}
+
+.border-line{
+    border:1px solid #e7ecf1;
+    padding: 15px !important;
+}
+
+.title-block{
+    float: left;
+    background: #fff;
+    margin: 0;
+    padding: 5px 10px;
+    margin-top: -30px;
+    margin-left: 18px;
+}
+
+.offset-top-2{
+    margin-top: 20px !important;
+}
+
+.wrapper-location{
+    display: inline-block;
+    width: 100%;
+}
+
+.wrapper-location.form-md-line-input .form-control{
+    width: 100% !important;
+    padding-right:0 !important;
+}
+
+.editable-input{
+    margin-bottom: 5px;
+}
+
+.tabbable-line>.nav-tabs>li.active, .tabbable-line>.nav-tabs>li:hover, .tabbable-line>.nav-tabs>li:focus{
+    border: 1px solid #36c6d3;
+    background: #36c6d3;
+}
+
+.tabbable-line>.nav-tabs>li.active a, .tabbable-line>.nav-tabs>li:hover a, .tabbable-line>.nav-tabs>li:focus a{
+    color: #fff;
+}
+
+.tabbable-line>.nav-tabs>li{
+    width: 15%;
+    border:1px solid #e7ecf1;
+    border-radius: 4px 4px 0 0;
+}
+
+.tabbable-line>.nav-tabs>li a{
+    text-align: center;
+}
+
+.tabbable-line>.tab-content{
+    width: 100%;
+    display: inline-block;
+    padding: 30px 15px;
+    border: 1px solid #eef1f5;
+}
+
+.description-general{
+    padding:0 30px;
+}
+
+.editable-input textarea, .form-inline .form-group{
+    width: 100% !important;
+}
+
+.wrapper-line{
+    width: 100%;
+    display: inline-block;
+}
+
+.form-group.form-md-line-input{
+    margin: 0 auto;
+}
+
+.block-music{
+    padding: 0;
+}
+
+.block-manager{
+    height: 500px;
+}
