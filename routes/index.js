@@ -29,6 +29,7 @@ var user_update = require('./user/update');
 var user_delete = require('./user/delete');
 var user_changePicture = require('./user/changePicture');
 
+let notification_add = require('./notification/add');
 
 router.all('*', middleware.all);
 router.all('*', middleware.auth);
@@ -43,6 +44,10 @@ router.use(lines);
 router.use(line);
 router.use(line_add);
 router.use(line_update);
+
+router.use(notification_add);
+
+
 
 
 /* GET home page. */

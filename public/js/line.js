@@ -2,6 +2,8 @@
 
 $(document).ready(function () {
 
+
+
 	jQuery(document).ready(function() {
 		FormEditable.init();
 	});
@@ -18,7 +20,7 @@ $(document).ready(function () {
 		$('select[name="genres0"]').html(genres.join(""));
 	});
 
-	$(document).on('change', 'select[name^="genres"]', function() {
+	$(document).on('change', 'select[name="genres"]', function() {
 		updateGenres();
 	});
 
@@ -26,7 +28,7 @@ $(document).ready(function () {
 	$('#add_genres_btn').on({
 		click: function () {
 			if(genresCounter <5){
-				let selectItem = $('<select></select>').addClass('form-control').attr('name','genres'+ genresCounter);
+				let selectItem = $('<select></select>').addClass('form-control').attr('name','genres');
 				selectItem.html(genres.join(""));
 				$('#select_container').append(selectItem);
 				genresCounter+=1;
@@ -52,7 +54,6 @@ $(document).ready(function () {
 		}).then(function() {
 		});
 	}
-
 
 
 
@@ -184,5 +185,29 @@ $(document).ready(function () {
 		};
 	}();
 
+
+	//notification ajax
+	$('#button_send_notification').on({
+
+		click: function () {
+
+			let data = $('#notification_form').serialize();
+			console.log(data);
+
+			$.ajax({
+				url: '/notification/add' + '/?' + data,
+				type: 'POST',
+				data: {},
+				success: function (data) {
+					toastr.options.showMethod = 'slideDown';
+					toastr.success('Notification successfully sent!')
+				},
+				error: function (jqXHR, textStatus, err) {
+				}
+			}).then(function() {
+			});
+		}
+
+	})
 
 });
