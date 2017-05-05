@@ -622,7 +622,7 @@
                     }
 
                     // To prevent select all from firing onChange: #575
-                    this.options.onChange($option, checked);
+                   this.options.onChange($option, checked);
 
                     // Do not update select all or optgroups on select all change!
                     this.updateSelectAll();
