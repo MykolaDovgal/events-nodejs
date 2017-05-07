@@ -1,23 +1,22 @@
-/**
- * Created by tegos on 12.04.2017.
- */
-
 $(document).ready(function () {
     var user_tables = $('#users-list-datatable').DataTable({
 
         "ajax": "/api/users/",
         "columns": [
-            {"data": 'id', width: '50'},
-            {
-                'data': 'profile_picture_circle',
-                'render': function (data, type, full, meta) {
-                    return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
-                },
-                width: '50'
+            { 
+                data: 'id', 
+                width: '5%'
             },
             {
-                'data': 'active',
-                'render': function (data, type, full, meta) {
+                data: 'profile_picture_circle',
+                render: function (data, type, full, meta) {
+                    return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+                },
+                width: '8%'
+            },
+            {
+                data: 'active',
+                render: function (data, type, full, meta) {
                     var content;
                     if (data) {
                         content = '<span class="badge badge-success">Active</span>'
@@ -26,31 +25,39 @@ $(document).ready(function () {
                     }
                     return content;
                 },
-                width: '45'
+                width: '8%'
             },
             {
-                "data": 'username',
-                width: 200
+                data: 'username',
+                width: '14%'
             },     
-            {"data": "realname"},
-            
             {
-                'data': 'facebook_profile',
-                'render': function (data, type, full, meta) {
+                data: "realname",
+                width: '14%'
+            },  
+            {
+                data: 'facebook_profile',
+                render: function (data, type, full, meta) {
                     if (!data) {
                         data = '/';
                     }
                     return '<a href="' + data + '">' + full.realname + '</a>';
                 },
-                width: '150'
+                width: '14%'
             },
             {
-                'data': "lastActivity",
-                width: '150'
+                data: 'lastActivity',
+                width: '14%'
             },
-            {"data": "bars"},
-            {"data": "events"},
-            {"data": "lines"},
+            {
+                data: 'bars',
+            },
+            {
+                data: 'events',
+            },
+            {
+                data: 'lines',
+            },
         ],
         "columnDefs": [
             {
@@ -58,7 +65,7 @@ $(document).ready(function () {
                 "orderable": false
             }
         ],
-        "autoWidth": false,
+        autoWidth: false,
 
         buttons: [
             {extend: 'print', className: 'btn dark btn-outline'},
@@ -66,28 +73,18 @@ $(document).ready(function () {
             {extend: 'csv', className: 'btn purple btn-outline '}
         ],
         scrollY: 500,
-        //deferRender: true,
         scroller: true,
         responsive: false,
-        //scrollCollapse: true,
 
 
         "dom": "<'row' <'col-md-12' B <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
-        //  "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>"
     });
 
-    // reload table
     $('.update-table-users').click(function () {
         updateUserTable();
     });
 
-
-    $('#add-new-user-modal').on('shown.bs.modal', function (e) {
-
-
-    });
-
-    // croppie
+    // -- CROPPIE --
     var $uploadCrop;
 
     function readFile(input) {
@@ -118,8 +115,7 @@ $(document).ready(function () {
     $('#form-profile-pic').on('change', function () {
         readFile(this);
     });
-
-    // croppie
+    // -- CROPPIE --
 
 
     function updateUserTable() {
@@ -158,7 +154,6 @@ $(document).ready(function () {
                 required: true,
                 minlength: 2
             },
-
 
             password: "required",
             'repeat-password': {
@@ -209,18 +204,15 @@ $(document).ready(function () {
     form.submit(function (e) {
         e.preventDefault();
 
-
         var formData = new FormData(form[0]);
 
         //set hidden cropped image
         $uploadCrop.croppie('result', {
-            //type: 'canvas',
             type: 'blob',
             size: 'viewport',
             circle: true
         }).then(function (resp) {
             formData.append('userpic', resp, 'userpic.png');
-            //$('#imagebase64').val(resp);
 
             if (form.valid()) {
 
@@ -256,8 +248,6 @@ $(document).ready(function () {
         });
         //return false;
     });
-
-    //var table = $('#users-list-datatable').DataTable();
 
     $('#users-list-datatable tbody').on('click', 'tr', function () {
         window.location.href = "/users/" + user_tables.row(this).data().id;
