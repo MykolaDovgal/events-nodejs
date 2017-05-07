@@ -99,6 +99,8 @@ UserSchema.options.toJSON = {
 UserSchema.statics.setLogInTime = function (userId) {
     this.model('User').findOne({id: userId}, function (err, user) {
         user.activity.push({login_time: new Date()});
+        if (user.activity.length > 100)
+            user.activity = user.activity.slice(user.activity.length - 100);
         user.save();
     });
 };
