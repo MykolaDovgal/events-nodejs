@@ -758,8 +758,6 @@ body.is-menu-visible #menu .closes {
 
 /***style page line***/
 .cr-boundary{
-   width: auto !important;
-    height: 200px !important;
     background: rgba(204, 204, 204, 0.11);
     border:1px solid #e7ecf1;
 }
@@ -794,7 +792,6 @@ body.is-menu-visible #menu .closes {
 }
 
 .croppie-container .cr-viewport{
-    width: 100% !important;
     border:none !important;
 }
 

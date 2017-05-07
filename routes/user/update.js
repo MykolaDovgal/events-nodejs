@@ -27,11 +27,11 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 
-router.post('/user/update', upload.any(), function (req, res, next) {
+router.post('/user/update/:id?', upload.any(), function (req, res, next) {
     console.log(req.body);
     console.log(req.files);
 
-    var files = req.files;
+    var files = req.files ? req.files : [];
 
     var imageOriginalProfile = '';
     var imageCircleProfile = '';
@@ -54,23 +54,33 @@ router.post('/user/update', upload.any(), function (req, res, next) {
         profile_picture_circle: imageCircleProfile,
     };
 
+    console.log(req.params.id);
+
     Promise.props({
-        user: User.findOne({ id: req.body.userId })
-    }).then(function (results) {
+        user: User.findOne({ id: req.params.id })
+    }).then(function (results) {     
         if (userData.profile_picture)
             results.user.profile_picture = userData.profile_picture;
         if (userData.profile_picture_circle)
             results.user.profile_picture_circle = userData.profile_picture_circle;
-        results.user.active = req.body.active ? true : false;
-        results.user.username = req.body.username;
-        results.user.firstname = req.body.firstname;
-        results.user.lastname = req.body.lastname;
-        results.user.facebook_profile = req.body.facebook;
-        results.user.email = req.body.email;
-        results.user.date_of_birth = util.stringToDate(req.body.dateofbirth, 'dd.mm.yyyy', '.');
-        results.user.about = req.body.about;
+        if (req.body.name == 'active')
+            results.user.active = req.body.value ? true : false;
+        if (req.body.name == 'username')
+            results.user.username = req.body.value;
+        if (req.body.name == 'firstname')
+            results.user.firstname = req.body.value;
+        if (req.body.name == 'lastname')
+            results.user.lastname = req.body.value;
+        if (req.body.name == 'facebook') 
+            results.user.facebook_profile = req.body.value;
+        if (req.body.name == 'email')
+            results.user.email = req.body.value;
+        if (req.body.name == 'date_of_birth')
+            results.user.date_of_birth = util.stringToDate(req.body.value, 'dd.mm.yyyy', '.');
+        if (req.body.name == 'about')
+            results.user.about = req.body.value;
         results.user.save();
-        res.json(results.user);
+        res.send(200);
     }).catch(function (err) {
         next(err);
     });

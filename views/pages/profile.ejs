@@ -4,6 +4,8 @@
     <% include ../static/head %>
 
     <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="/assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
+
    <!-- <link href="/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>-->
     <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
     <link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
@@ -58,49 +60,66 @@
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <form action="/user/update" method="post" class="form-horizontal"
-                                                      enctype="multipart/form-data" id="form_update_user">
-                                                    <label for="username">User Name</label>
-                                                    <input name="username" type="text" class="form-control"
-                                                           placeholder="Enter User Name" value="<%= user.username %>"
-                                                           required readonly/>
-                                                    <label for="firstname">First Name</label>
-                                                    <input name="firstname" type="text" class="form-control"
-                                                           placeholder="Enter First Name" value="<%= user.firstname %>"
-                                                           required/>
-                                                    <label for="lastname">Last Name</label>
-                                                    <input name="lastname" type="text" class="form-control"
-                                                           placeholder="Enter User Name" value="<%= user.lastname %>"
-                                                           required/>
-                                                    <label for="firstname">Facebook Profile</label>
-                                                    <input name="facebook" type="text" class="form-control"
-                                                           placeholder="Enter Facebook Profile URL"
-                                                           value="<%= user.facebook_profile %>"/>
-                                                    <label for="username">Email Address</label>
-                                                    <input name="email" type="email" class="form-control"
-                                                           placeholder="Enter User Email" value="<%= user.email %>"/>
-                                                    <label for="dateofbirth"><%= user.date_of_birth ? 'Date of Birth (Age ' + Math.floor((Date.now() - user.date_of_birth) / 1000 / 3600 / 24 / 365) + ')' : 'Please set date of birth' %>
-                                                    </label>
-                                                    <div class="input-group input-medium date date-picker"
-                                                         data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
+                                                            enctype="multipart/form-data" id="form_update_user">
+                                                    <div class="col-md-12 form-group form-md-line-input">
+                                                        <div class="row">
+                                                            <label class="col-md-3 control-label">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>  User Name
+                                                            </label>
+                                                            <div class="col-md-9 form-group">
+                                                                <a id="username" data-type="text" data-pk="1" class="editable editable-click"> <%= user.username %> </a>
+                                                            </div>
+                                                        </div>
 
-                                                        <input value="<%= dateOfBirth %>"
-                                                               id="form-date-of-birth"
-                                                               name="dateofbirth" type="text"
-                                                               class="form-control"
-                                                               readonly/>
-                                                        <span class="input-group-btn">
-                                                            <button class="btn default" type="button">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </button>
-                                                    </span>
+                                                        <div class="row">
+                                                            <label class="col-md-3 control-label">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>  First Name
+                                                            </label>
+                                                            <div class="col-md-9 form-group">
+                                                                <a id="firstname" data-type="text" data-pk="1" class="editable editable-click"> <%= user.firstname %> </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-md-3 control-label">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>  Last Name
+                                                            </label>
+                                                            <div class="col-md-9 form-group">
+                                                                <a id="lastname" data-type="text" data-pk="1" class="editable editable-click"> <%= user.lastname %> </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-md-3 control-label">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>  Facebook Profile
+                                                            </label>
+                                                            <div class="col-md-9 form-group">
+                                                                <a id="facebook" data-type="text" data-pk="1" class="editable editable-click"> <%= user.facebook_profile %> </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-md-3 control-label">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>  Email Address
+                                                            </label>
+                                                            <div class="col-md-9 form-group">
+                                                                <a id="email" data-type="text" data-pk="1" class="editable editable-click"> <%= user.email %> </a>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="col-md-3 control-label">
+                                                                <i class="fa fa-pencil" aria-hidden="true"></i>  About
+                                                            </label>
+                                                            <div class="col-md-9 description-general form-group">
+                                                                <pre id="about" data-pk="1" data-type="wysihtml5"  data-original-title="Enter notes" class="editable editable-open" tabindex="-1">
+                                                                    <%= user.about %>
+                                                                </pre>
+                                                            </div>
+                                                        </div>
+
+                                                        
                                                     </div>
-                                                    <label for="about">About</label>
-                                                    <textarea name="about" class="form-control"
-                                                              placeholder="Enter additional information"><%= user.about %></textarea>
-                                                <br/>
-                                                    <label for="active">Active</label>
-                                                    <input name="active" type="checkbox" class="make-switch form-control" <%= user.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
-
                                                 </form>
                                             </div>
 
@@ -270,7 +289,7 @@
     <script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
     <script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
 
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
+
     <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 

@@ -19,6 +19,8 @@ $(document).ready(function () {
         "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
     });
 
+    FormEditable.init();
+
     // croppie
     var $uploadCrop;
 
@@ -86,7 +88,6 @@ $(document).ready(function () {
             $('#userpic').attr("src", base64);
             
             var formData = new FormData($('#form_update_user')[0]);
-            formData.append('userId', user.id);
             
             $toCrop.croppie('result', {
                 type: 'blob',
@@ -96,7 +97,7 @@ $(document).ready(function () {
                 console.log(blob);
                 formData.append('userpic', blob, 'userpic.png');
                     $.ajax({
-                        url: '/user/update/',
+                        url: '/user/update/' + user.id,
                         type: 'POST',
                         cache: false,
                         contentType: false,
@@ -118,7 +119,6 @@ $(document).ready(function () {
         e.preventDefault();
 
         var formData = new FormData(this);
-        formData.append('userId', user.id);
         formData.append('profile-image', $('#form-profile-pic')[0].files[0]);
 
         $uploadCrop.croppie('result', {
@@ -128,7 +128,7 @@ $(document).ready(function () {
         }).then(function (blob) {
             formData.append('userpic', blob, 'userpic.png');
                 $.ajax({
-                    url: '/user/update/',
+                    url: '/user/update/' + user.id,
                     type: 'POST',
                     cache: false,
                     contentType: false,
@@ -168,3 +168,85 @@ function showDeleteConfirmation() {
     })
 }
 
+//inline edit
+let FormEditable = function() {
+    let initEditables = function() {
+
+
+        //global settings
+        $.fn.editable.defaults.inputclass = 'form-control';
+        $.fn.editable.defaults.url = '/user/update/' + user.id;
+        $.fn.editable.defaults.mode = 'inline';
+
+        //editables element samples
+
+
+        $('#username').editable({
+            type: 'text',
+            pk: 1,
+            name: 'username',
+            title: 'Enter User Name'
+        });
+        $('#firstname').editable({      
+            type: 'text',
+            pk: 1,
+            name: 'firstname',
+            title: 'Enter First Name'
+        });
+        $('#lastname').editable({               
+            type: 'text',
+            pk: 1,
+            name: 'lastname',
+            title: 'Enter Last Name'
+        });
+        $('#facebook').editable({           
+            type: 'text',
+            pk: 1,
+            name: 'facebook',
+            title: 'Enter Facebook Profile'
+        });
+        $('#email').editable({              
+            type: 'text',
+            pk: 1,
+            name: 'email',
+            title: 'Enter Email'
+        });
+        $('#about').editable({
+            type: 'text',
+            pk: 1,
+            name: 'about',
+            title: 'Enter description'
+        });
+    };
+    return {
+        //main function to initiate the module
+        init: function() {
+            // init editable elements
+
+
+            initEditables();
+
+            // init editable toggler
+            $('#enable').click(function() {
+                $('#user .editable').editable('toggleDisabled');
+            });
+
+            // handle editable elements on hidden event fired
+            $('#user .editable').on('hidden', function(e, reason) {
+                if (reason === 'save' || reason === 'nochange') {
+                    var $next = $(this).closest('tr').next().find('.editable');
+                    if ($('#autoopen').is(':checked')) {
+                        setTimeout(function() {
+                            $next.editable('show');
+                        }, 300);
+                    } else {
+                        $next.focus();
+                    }
+                }
+            });
+
+
+        }
+
+    };
+}();
