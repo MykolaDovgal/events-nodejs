@@ -34,7 +34,7 @@ router.get('/users', function (req, res, next) {
             var users = [];
 
             //TODO FIX THIS IMMEDIATELY
-            results.users.forEach(function(user, index) {
+            results.users.forEach(function (user, index) {
                 users.push({
                     id: user.id,
                     username: user.username,
@@ -107,6 +107,41 @@ router.post('/lines/:page?', function (req, res, next) {
     }).catch(function (err) {
         next(err);
     });
+});
+
+// get line managers
+router.get('/line/managers/:lineid?', function (req, res, next) {
+    var lineid = req.params.lineid;
+    console.log(lineid);
+    if (lineid > 0) {
+        Promise.props({
+            managers: Line.findOne({id: lineid}).select('managers').lean()
+        }).then(function (results) {
+            var users = [];
+            results.managers.managers.forEach(function (manager) {
+                users.push(manager.user_id);
+            });
+
+            User.find({
+                'id': {$in: users}
+            })
+                .select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
+                .exec(function (err, users) {
+                    console.warn(users);
+                    var data = {
+                        data: users
+                    };
+
+                    res.json(data);
+                });
+
+
+        }).catch(function (err) {
+            next(err);
+        });
+    } else {
+        next();
+    }
 });
 
 module.exports = router;

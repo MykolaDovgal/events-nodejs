@@ -15,7 +15,7 @@
     <link href="/assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
 
-    <link href="/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
 
     <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
@@ -55,10 +55,13 @@
                         </div>
                         <div class="form-group form-md-line-input wrapper-line border-line offset-top-2">
                             <div class="col-md-6 ">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>  <a id="line_country" data-type="text" data-pk="1" class="editable editable-click"> <%= line.country %> </a>
+                                <i class="fa fa-pencil" aria-hidden="true"></i> <a id="line_country" data-type="text"
+                                                                                   data-pk="1"
+                                                                                   class="editable editable-click"> <%= line.country %> </a>
                             </div>
                             <div class="col-md-6 ">
-                                <a id="line_city" data-type="text" data-pk="1" class="editable editable-click"> <%= line.city %> </a>
+                                <a id="line_city" data-type="text" data-pk="1"
+                                   class="editable editable-click"> <%= line.city %> </a>
                             </div>
                         </div>
                     </div>
@@ -86,14 +89,16 @@
 
                                             <div class="row">
                                                 <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i>  Title
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Title
                                                 </label>
                                                 <div class="col-md-9 form-group">
                                                     <div class="col-md-6">
-                                                        <a id="line_name_eng" data-type="text" data-pk="1" class="editable editable-click"> <%= line.line_name_eng %> </a>
+                                                        <a id="line_name_eng" data-type="text" data-pk="1"
+                                                           class="editable editable-click"> <%= line.line_name_eng %> </a>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <a id="line_name_ol" data-type="text" data-pk="1" class="editable editable-click"> <%= line.line_name_ol %> </a>
+                                                        <a id="line_name_ol" data-type="text" data-pk="1"
+                                                           class="editable editable-click"> <%= line.line_name_ol %> </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,66 +108,100 @@
                                                     <i class="fa fa-pencil" aria-hidden="true"></i> Facebook Page
                                                 </label>
                                                 <div class="col-md-9">
-                                                    <div class="col-xs-12">   <a id="line_facebook_page" data-type="text" data-pk="1" class="editable editable-click"> <%= line.facebook_page %> </a></div>
+                                                    <div class="col-xs-12"><a id="line_facebook_page" data-type="text"
+                                                                              data-pk="1"
+                                                                              class="editable editable-click"> <%= line.facebook_page %> </a>
+                                                    </div>
                                                 </div>
                                             </div>
 
 
                                             <div class="row">
                                                 <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i>  Website
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Website
                                                 </label>
                                                 <div class="col-md-9">
-                                                    <div class="col-xs-12">  <a href="<%= line.website %>" id="line_website" data-type="text" data-pk="1" class="editable editable-click"> <%= line.website %> </a></div>
+                                                    <div class="col-xs-12"><a href="<%= line.website %>"
+                                                                              id="line_website" data-type="text"
+                                                                              data-pk="1"
+                                                                              class="editable editable-click"> <%= line.website %> </a>
+                                                    </div>
                                                 </div>
                                             </div>
 
                                             <div class="row">
 
                                                 <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i>  Description
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Description
                                                 </label>
                                                 <div class="col-md-9 description-general form-group">
-                                                <pre id="description_eng" data-pk="1" data-type="wysihtml5"  data-original-title="Enter notes" class="editable editable-open" tabindex="-1">
-                                                    <%= line.description_eng%>
+                                                <pre id="description_eng" data-pk="1" data-type="wysihtml5"
+                                                     data-original-title="Enter notes" class="editable editable-open"
+                                                     tabindex="-1">
+                                                    <%= line.description_eng %>
                                                 </pre>
 
+                                                </div>
+
+
                                             </div>
-
-
-                                        </div>
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
-                                                <p class="title-block">Music</p>
+                                                        <p class="title-block">Music</p>
                                                         <div class="col-md-5" id="select_container">
 
                                                             <% line.music.music_genres.forEach(function(el, index) { %>
-                                                                <select data-value="<%= el%>" name="genres" class="form-control">
-                                                                </select>
+
+                                                            <!--<script>console.log("<%= el %>")</script>-->
+
+                                                            <select data-value="<%= el %>" name="genres"
+                                                                    class="form-control">
+
+                                                            </select>
                                                             <% }); %>
 
-
                                                         </div>
-                                                <div class="col-md-1">
-                                                    <button type="button" id="add_genres_btn"
-                                                            class="btn btn-circle btn-icon-only green">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
+                                                        <div class="col-md-1">
+                                                            <button type="button" id="add_genres_btn"
+                                                                    class="btn btn-circle btn-icon-only green">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                            </div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-5 border-line block-manager">
+
+                                            <div class="portlet-title">
+                                                <div class="caption font-red">
+                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                    <span class="caption-subject bold">Managers</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body table-both-scroll">
+                                                <table class="table table-striped table-bordered table-hover order-column"
+                                                       id="table-line-managers">
+                                                    <thead>
+                                                    <th></th>
+                                                    <th>Picture</th>
+                                                    <th>UserID</th>
+                                                    <th>User Name</th>
+                                                    <th>Permission</th>
+                                                    </thead>
+                                                </table>
+                                            </div>
+
                                         </div>
                                         <div class="col-xs-12 offset-top-2">
-                                            <a class="btn red btn-outline btn-lg sbold" data-toggle="modal" href="#send_notification"> Send Notification </a>
+                                            <a class="btn red btn-outline btn-lg sbold" data-toggle="modal"
+                                               href="#send_notification"> Send Notification </a>
                                             <div class="pull-right group-btn">
-                                            <button type="submit" class="btn btn-lg red btn-outline pull-left">
-                                                Delet line
-                                            </button>
+                                                <button type="submit" class="btn btn-lg red btn-outline pull-left">
+                                                    Delete line
+                                                </button>
                                                 <button type="submit" class="btn btn-lg green pull-right">
                                                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                                 </button>
@@ -221,7 +260,7 @@
                                           class="form-control"
                                           name="notification_content"
                                           rows="5" rows="3"></textarea>
-                                <div class="form-control-focus"> </div>
+                                <div class="form-control-focus"></div>
                             </div>
                         </div>
 
@@ -243,7 +282,8 @@
                             <label class="control-label col-md-3">Send Time</label>
                             <div class="col-md-9">
                                 <div id="datetime_input" class="input-group date">
-                                    <input name="notification_time" class="form-control" type="text" style="width: 100%" data-date-format="yyyy-mm-dd hh:ii">
+                                    <input name="notification_time" class="form-control" type="text" style="width: 100%"
+                                           data-date-format="yyyy-mm-dd hh:ii">
                                     <span class="input-group-addon"><i class="fa fa-times"></i></span>
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -289,11 +329,23 @@
 
     <script src="/assets/pages/scripts/ui-extended-modals.min.js" type="text/javascript"></script>
 
+    <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+
     <script src="/js/plugins/croppie.js" type="text/javascript"></script>
 
-    <script src="../assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
+    <script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
+
+
+    <script>
+        var line = <%- JSON.stringify(line) %>;
+    </script>
+
 
     <script src="/js/line.js" type="text/javascript"></script>
+
+    <script src="/js/line/managers.js" type="text/javascript"></script>
+
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd0ndp9LRz4gemHk611veMLaeoatrquGg&callback=initMap">
     </script>
@@ -301,12 +353,12 @@
 
     <script>
 
-	    $('#datetime_input').datetimepicker({
-		    format: 'yyyy-mm-dd hh:ii',
-		    autoclose: true,
-		    useCurrent: false,
-		    setDate : Date.now()
-	    });
+        $('#datetime_input').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            autoclose: true,
+            useCurrent: false,
+            setDate: Date.now()
+        });
 
 
         function initMap() {
