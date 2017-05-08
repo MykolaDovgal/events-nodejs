@@ -40,3 +40,8 @@
 #lines-gallery .line-item .mt-overlay {
     cursor: pointer;
 }
+
+#table-line-managers .profile-picture {
+    width: 15px;
+    height: 15px;
+}

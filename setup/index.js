@@ -29,7 +29,8 @@ var setup = {
             email: config.get('project:admin:email'),
             password: config.get('project:admin:password'),
             profile_picture: '/images/icons/admin.png',
-            profile_picture_circle: '/images/icons/admin.png'
+            profile_picture_circle: '/images/icons/admin.png',
+            permission_level: 5
         });
 
         // save the user
