@@ -144,4 +144,25 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
     }
 });
 
+router.get('/users/usersname', function (req, res, next) {
+	Promise.props({
+		users: User.find({}).execAsync()
+	})
+		.then(function (results) {
+			let data = [];
+
+			results.users.forEach(function (user, index) {
+				data.push({
+					id: user.id,
+					username: user.username,
+					name: user.firstname + ' ' + user.lastname
+				});
+			});
+			res.json(data);
+		})
+		.catch(function (err) {
+			next(err)
+		});
+});
+
 module.exports = router;
