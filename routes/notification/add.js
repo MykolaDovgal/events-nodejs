@@ -11,10 +11,14 @@ var urlencodedParser = bodyParser.urlencoded({extended: false});
 router.post('/notification/add',urlencodedParser, function (request, response, next) {
 
 	let query = request.query;
+	console.log(query['notification_time']);
+	let date = new Date(query['notification_time']);
 
+
+	console.log(date);
 
 	let newNotification = new Notification({
-		//time: query['notification_time'],
+		time: date.getDate(),
 		content: query['notification_content'],
 		link:query['notification_link'],
 		sender: query['notificationSender'],

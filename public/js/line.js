@@ -13,16 +13,34 @@ $(document).ready(function () {
 	let genres = [];
 	let genresCounter = 1;
 
+	function setOptions(genresArray) {
+		let selects = $('select[name="genres"]');
+		selects.each(function (item) {
+			let select = $(this);
+			var value = select.data('value');
+			genresArray.map( (item) => {
+				if($(item).text() == value){
+					return '<option value="'+ value +'">'+ value +'</option>'
+				}
+				return item;
+			});
+			select.html(genresArray.join(""));
+		});
+
+	}
+
 	$.getJSON( '/data/genres.json', function( data ) {
 		$.each( data, function( key, val ) {
 			genres.push('<option value="'+ val +'">'+ val +'</option>');
 		});
-		$('select[name="genres0"]').html(genres.join(""));
+		setOptions(genres);
 	});
 
 	$(document).on('change', 'select[name="genres"]', function() {
 		updateGenres();
 	});
+
+
 
 
 	$('#add_genres_btn').on({
@@ -195,7 +213,7 @@ $(document).ready(function () {
 			console.log(data);
 
 			$.ajax({
-				url: '/notification/add' + '/?' + data,
+				url: '/notification/add' + '/?' + data.toString(),
 				type: 'POST',
 				data: {},
 				success: function (data) {

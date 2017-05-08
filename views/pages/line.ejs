@@ -127,20 +127,31 @@
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>  Description
                                                 </label>
                                                 <div class="col-md-9 description-general form-group">
-                                                    <pre id="description_eng" data-pk="1" data-type="wysihtml5"  data-original-title="Enter notes" class="editable editable-open" tabindex="-1">
-                                                        <%= line.description_eng%>
-                                                    </pre>
-                                                </div>
+                                                <pre id="description_eng" data-pk="1" data-type="wysihtml5"  data-original-title="Enter notes" class="editable editable-open" tabindex="-1">
+                                                    <%= line.description_eng%>
+                                                </pre>
+
                                             </div>
-                                            
+
+
+                                        </div>
                                             <div class="row">
                                                 <div class="col-xs-12">
                                                     <div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
                                                 <p class="title-block">Music</p>
-                                                <div class="col-md-5" id="select_container">
-                                                    <select name="genres" class="form-control">
-                                                    </select>
-                                                </div>
+                                                        <div class="col-md-5" id="select_container">
+
+                                                            <% line.music.music_genres.forEach(function(el, index) { %>
+
+                                                            <!--<script>console.log("<%=el%>")</script>-->
+
+                                                                <select data-value="<%= el%>" name="genres" class="form-control">
+
+                                                                </select>
+                                                            <% }); %>
+
+
+                                                        </div>
                                                 <div class="col-md-1">
                                                     <button type="button" id="add_genres_btn"
                                                             class="btn btn-circle btn-icon-only green">
@@ -239,8 +250,8 @@
                         <div class="col-xs-12 form-group form-md-line-input">
                             <label class="control-label col-md-3">Send Time</label>
                             <div class="col-md-9">
-                                <div class="input-group date form_datetime bs-datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p">
-                                    <input name="notification_time" class="form-control" type="text" style="width: 100%">
+                                <div id="datetime_input" class="input-group date">
+                                    <input name="notification_time" class="form-control" type="text" style="width: 100%" data-date-format="yyyy-mm-dd hh:ii">
                                     <span class="input-group-addon"><i class="fa fa-times"></i></span>
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
@@ -296,8 +307,16 @@
     </script>
 
 
-
     <script>
+
+	    $('#datetime_input').datetimepicker({
+		    format: 'yyyy-mm-dd hh:ii',
+		    autoclose: true,
+		    useCurrent: false,
+		    setDate : Date.now()
+	    });
+
+
         function initMap() {
             var uluru = {lat: -25.363, lng: 131.044};
             var map = new google.maps.Map(document.getElementById('map'), {
