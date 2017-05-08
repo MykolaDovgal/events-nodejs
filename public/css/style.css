@@ -882,3 +882,17 @@ body.is-menu-visible #menu .closes {
 .block-manager{
     height: 500px;
 }
+
+.cover-picture {
+    width: 100%;
+}
+
+.wrapper-line.border-line {
+    position: relative;
+}
+
+.cover-button {
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+}
