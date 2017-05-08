@@ -9,50 +9,61 @@ $(document).ready(function () {
 	});
 	let loc = window.location.pathname.split('/');
 	let id = loc[loc.length-1];
-
 	let genres = [];
-	let genresCounter = 1;
 
-	function setOptions(genresArray) {
-		let selects = $('select[name="genres"]');
-		selects.each(function (item) {
-			let select = $(this);
-			var value = select.data('value');
-			genresArray.map( (item) => {
-				if($(item).text() == value){
-					return '<option value="'+ value +'">'+ value +'</option>'
-				}
-				return item;
+	let genresCounter = 0;
+
+	$.getJSON( '/data/genres.json', function( data, ) {
+		let selectItems = $('select[name="genres"]');
+
+		data.forEach((item,i,arr) => {
+			genres.push('<option value="'+ item +'">'+ item +'</option>');
+		});
+
+
+		//if user select genres previously
+		if (selectItems.length > 0) {
+			selectItems.each(function (key, value) {
+				let tmpGenres = [];
+				data.forEach(function (dataItem, i, arr) {
+					let optionItem = $('<option value="' + dataItem + '">' + dataItem + '</option>');
+					if ($(value).data('value') == dataItem) {
+						optionItem.attr('selected', true);
+					}
+					tmpGenres.push(optionItem);
+				});
+				$(value).html(tmpGenres);
+				genresCounter += 1;
 			});
-			select.html(genresArray.join(""));
-		});
-
-	}
-
-	$.getJSON( '/data/genres.json', function( data ) {
-		$.each( data, function( key, val ) {
-			genres.push('<option value="'+ val +'">'+ val +'</option>');
-		});
-		setOptions(genres);
+		}
+		else {
+			generateDefaultSelect();
+		}
 	});
+
+
+
+
 
 	$(document).on('change', 'select[name="genres"]', function() {
 		updateGenres();
 	});
 
-
-
-
 	$('#add_genres_btn').on({
 		click: function () {
 			if(genresCounter <5){
-				let selectItem = $('<select></select>').addClass('form-control').attr('name','genres');
-				selectItem.html(genres.join(""));
-				$('#select_container').append(selectItem);
-				genresCounter+=1;
+				generateDefaultSelect();
 			}
 		}
 	});
+
+	function generateDefaultSelect() {
+		let selectItem = $('<select></select>').addClass('form-control').attr('name','genres');
+		selectItem.html(genres.join(""));
+		$('#select_container').append(selectItem);
+		genresCounter+=1;
+	}
+
 	function updateGenres() {
 		let genresArray = [];
 		let selectItems = $('#select_container > select');
