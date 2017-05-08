@@ -46,8 +46,9 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="wrapper-line border-line">
-                            <img id="cover_picture" class="cover-picture" src="/images/cover-picture.jpg">
-                            <button class="btn btn-default cover-button">Upload</button>
+                            <img id="cover_picture" class="cover-picture" src="<%= line.cover_picture ? line.cover_picture : '/images/cover-picture.jpg' %>">
+                            <button id="upload_button" class="btn btn-default cover-button">Upload</button>
+                            <input id="cover_picture_upload" type="file" accept="image/*" style="position: absolute;left: -9999px;">
                         </div>
                         <div class="wrapper-line border-line offset-top-2">
                             <p class="title-block">Map</p>

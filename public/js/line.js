@@ -239,4 +239,39 @@ $(document).ready(function () {
 
 	})
 
+	$('#upload_button').click(function() {
+		$('#cover_picture_upload').focus().trigger('click');
+	});
+
+	$('#cover_picture_upload').change(function() {
+		if (this.files && this.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#cover_picture')
+					.attr('src', e.target.result).width('100%');
+				};
+				reader.readAsDataURL(this.files[0]);
+
+				var formData = new FormData();
+				formData.append('cover_picture', this.files[0], 'cover_picture.png');
+
+				console.log(formData);
+
+				$.ajax({
+					url: '/line/update/' + id,
+					type: 'POST',
+					cache: false,
+					contentType: false,
+					processData: false,
+					data: formData,
+					success: function (data) {
+						toastr.success('Saved!');
+					},
+					error: function (jqXHR, textStatus, err) {
+						console.error(err);
+						toastr.error('Server error!');
+					}
+				});
+			}
+	});
 });
