@@ -28,9 +28,6 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 router.post('/user/update/:id?', upload.any(), function (req, res, next) {
-    console.log(req.body);
-    console.log(req.files);
-
     var files = req.files ? req.files : [];
 
     var imageOriginalProfile = '';
@@ -55,6 +52,7 @@ router.post('/user/update/:id?', upload.any(), function (req, res, next) {
     };
 
     console.log(req.params.id);
+    console.log(req.body);
 
     Promise.props({
         user: User.findOne({ id: req.params.id })
@@ -64,7 +62,7 @@ router.post('/user/update/:id?', upload.any(), function (req, res, next) {
         if (userData.profile_picture_circle)
             results.user.profile_picture_circle = userData.profile_picture_circle;
         if (req.body.name == 'active')
-            results.user.active = req.body.value ? true : false;
+            results.user.active = req.body.value;
         if (req.body.name == 'username')
             results.user.username = req.body.value;
         if (req.body.name == 'firstname')

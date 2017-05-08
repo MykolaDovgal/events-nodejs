@@ -19,6 +19,7 @@ $(document).ready(function () {
         "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
     });
 
+    toastr.options.showMethod = 'slideDown'; 
     FormEditable.init();
 
     // croppie
@@ -105,10 +106,10 @@ $(document).ready(function () {
                         data: formData,
                         success: function (data) {
                             $('#crop-picture-modal').modal('hide');
-                            bootbox.alert('Saved');
+                            toastr.success('Saved!');
                         },
                         error: function (jqXHR, textStatus, err) {
-                            bootbox.alert('Server error');
+                            toastr.error('Server error!');
                         }
                     });
             });
@@ -136,12 +137,36 @@ $(document).ready(function () {
                     data: formData,
                     success: function (data) {
                         $('#change-picture-modal').modal('hide');
-                        bootbox.alert('Saved');
+                        toastr.success('Saved!');
                     },
                     error: function (jqXHR, textStatus, err) {
-                        bootbox.alert('Server error');
+                        toastr.error('Server error!');
                     }
                 });
+        });
+    });
+
+    $('#form-date-of-birth').change(function() {
+        var date_of_birth = { name: 'date_of_birth', value: $(this).val(), pk: 1 };
+        console.log(date_of_birth);
+        $.ajax({
+            url: '/user/update/' + user.id,
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(date_of_birth),
+        });
+    });
+
+    $('#active').on('change', function() {
+        $(this).attr('checked') ? $(this).removeAttr('checked') : $(this).attr('checked', '');
+        var active = { name: 'active', value: !!$(this).attr('checked'), pk: 1 };
+        $.ajax({
+            url: '/user/update/' + user.id,
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(active)  
         });
     });
 });
@@ -160,7 +185,7 @@ function showDeleteConfirmation() {
                         window.location.replace('/users');
                     },
                     error: function (jqXHR, textStatus, err) {
-                        bootbox.alert('Server error');
+                        toastr.error('Server error!');
                     }
                 });
             }
