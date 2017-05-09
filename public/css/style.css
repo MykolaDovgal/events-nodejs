@@ -885,6 +885,7 @@ body.is-menu-visible #menu .closes {
 
 .cover-picture {
     width: 100%;
+    max-height: 200px;
 }
 
 .wrapper-line.border-line {

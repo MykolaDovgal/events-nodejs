@@ -165,4 +165,35 @@ router.get('/users/usersname', function (req, res, next) {
 		});
 });
 
+router.get('/user/lines/:id?', function (req, res, next) {
+    Promise.props({
+		lines: Line.find({
+            'managers':{$elemMatch:{ user_id :{$in:[ req.params.id ]}}}
+        }).execAsync()
+	})
+		.then(function (results) {
+			let lines = [];
+
+			results.lines.forEach(function (line, index) {
+				lines.push({
+					id: line.id,
+					name: line.line_name_eng,
+					country: line.address.country,
+                    city: line.address.city
+				});
+			});
+
+            let data = {
+                data: lines
+            }
+
+            console.warn(data);
+
+			res.json(data);
+		})
+		.catch(function (err) {
+			next(err)
+		});
+});
+
 module.exports = router;

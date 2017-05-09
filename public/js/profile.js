@@ -7,17 +7,19 @@ $(document).ready(function () {
         "ajax": "/api/activity/" + user.id,
         "columns": [
             {
-                "data": 'login_time'
+                data: 'login_time'
             },
             {
-                "data": 'logout_time'
+                data: 'logout_time'
             }
         ],
         scrollY: 300,
         scroller: true,
         responsive: false,
-        "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+        "dom": "<'row' <'col-md-12'>> t <'row'<'col-md-12'>>",
     });
+
+    var lines;
 
     toastr.options.showMethod = 'slideDown'; 
     FormEditable.init();
@@ -169,7 +171,37 @@ $(document).ready(function () {
             data: JSON.stringify(active)  
         });
     });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        if (typeof lines === 'undefined')
+            lines = $('#table-lines').DataTable({
+                "ajax": "/api/user/lines/" + user.id,
+                "columns": [
+                    {
+                        data: 'id'
+                    },
+                    {
+                        data: 'name'
+                    },
+                    {
+                        data: 'country'
+                    },
+                    {
+                        data: 'city'
+                    },
+                ],
+                scrollY: 300,
+                scroller: true,
+                responsive: false,
+                "dom": "<'row' <'col-md-12'>> t <'row'<'col-md-12'>>",
+            });
+            $('#table-lines tbody').on('click', 'tr', function () {
+                window.location.href = "/line/" + lines.row(this).data().id;
+            });
+    });
+ 
 });
+
 
 function showDeleteConfirmation() {
     bootbox.confirm({

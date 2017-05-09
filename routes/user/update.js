@@ -30,8 +30,6 @@ var upload = multer({storage: storage});
 router.post('/user/update/:id?', upload.any(), function (req, res, next) {
     var files = req.files ? req.files : [];
 
-    console.log(files);
-
     var imageOriginalProfile = '';
     var imageCircleProfile = '';
 
@@ -53,7 +51,6 @@ router.post('/user/update/:id?', upload.any(), function (req, res, next) {
         profile_picture_circle: imageCircleProfile,
     };
 
-    console.log(req.params.id);
     console.log(req.body);
 
     Promise.props({
