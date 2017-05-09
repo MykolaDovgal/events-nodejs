@@ -25,10 +25,8 @@ var upload = multer({storage: storage});
 
 
 router.post('/line/update/:id', upload.any(), function (request, response, next) {
+	let body;
 
-    console.log(request.files);
-
-    let body;
 
     if (request.files) {
         var file = request.files[0];

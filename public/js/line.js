@@ -5,11 +5,12 @@ $(document).ready(function () {
         FormEditable.init();
     });
 
-    let loc = window.location.pathname.split('/');
-    let id = loc[loc.length - 1];
-    let genres = [];
 
-    let genresCounter = 0;
+	let loc = window.location.pathname.split('/');
+	let id = loc[loc.length-1];
+	let genres = [];
+	let genresCounter = 0;
+	let selectedResult = {};
 
 
     //genres setup
@@ -215,7 +216,6 @@ $(document).ready(function () {
         click: function () {
 
             let data = $('#notification_form').serialize();
-            console.log(data);
 
             $.ajax({
                 url: '/notification/add' + '/?' + data.toString(),
@@ -270,48 +270,66 @@ $(document).ready(function () {
     });
 
 
-    var substringMatcher = function (strs) {
 
-        return function findMatches(q, cb) {
-            var matches, substringRegex;
+	//user dataset for search
+	let users = new Bloodhound({
+		datumTokenizer : function(datum) {
+			let emailTokens = Bloodhound.tokenizers.whitespace(datum.id);
+			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
+			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
 
-            // an array that will be populated with substring matches
-            matches = [];
+			return emailTokens.concat(lastNameTokens).concat(firstNameTokens);
+		},
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		prefetch: {
+			url: '/api/users/usersname',
+			cache: false ,
+			transform: function(response) {
+				return $.map(response, function(item) {
+					return {
+						id: item.id,
+						name: item.name,
+						username: item.username,
+					};
+				});
+			}
+		}
+	});
 
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
+	//display searched result
+	$('#user_search').typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1
+		},
+		{
+			name: 'users_dataset',
+			display: 'name',
+			source: users,
+			templates: {
+				suggestion: function (item) {
+					return '<div>' + item.id + '    <strong>' + item.name + '</strong> -'  + '</div>';
+				}
+			}
+		}).bind('typeahead:select', (ev, suggestion) => selectedResult = suggestion);
 
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function (i, str) {
-                if (substrRegex.test(str)) {
-                    matches.push(str);
-                }
-            });
 
-            cb(matches);
-        };
-    };
+	$('#add_manager_user').click(() => {
+		selectedResult.lineId = line.id;
+		let data = JSON.stringify(selectedResult);
+		$.ajax({
+			url: '/api/line/manager/add',
+			type: 'POST',
+			data: selectedResult ,
+			success: function (data) {
+			},
+			error: function (jqXHR, textStatus, err) {
+			}
+		}).then(function () {
+		});
+		selectedResult = {};
+		$('#user_search').val('');
 
-    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
-
-    $('#user_search').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            name: 'states',
-            source: substringMatcher(states)
-        });
+	});
 
 });

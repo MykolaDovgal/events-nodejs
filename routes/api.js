@@ -138,7 +138,7 @@ router.post('/lines/:page?', function (req, res, next) {
 // get line managers
 router.get('/line/managers/:lineid?', function (req, res, next) {
     var lineid = req.params.lineid;
-    console.log(lineid);
+
     if (lineid > 0) {
         Promise.props({
             managers: Line.findOne({id: lineid}).select('managers').lean()
@@ -153,7 +153,6 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
             })
                 .select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
                 .exec(function (err, users) {
-                    console.warn(users);
                     var data = {
                         data: users
                     };
@@ -170,6 +169,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
     }
 });
 
+//get user information to search
 router.get('/users/usersname', function (req, res, next) {
     Promise.props({
         users: User.find({}).execAsync()
@@ -220,6 +220,30 @@ router.get('/user/lines/:id?', function (req, res, next) {
         .catch(function (err) {
             next(err)
         });
+});
+
+router.post('/line/manager/add', function (req, res, next) {
+
+	let body = req.body;
+	Promise.props({
+		line: Line.update( {id: body.lineId}, { $push: { "managers" : { user_id: body.id } } } ).execAsync()
+	}).then(function (results) {
+		res.send(200);
+	})
+		.catch(function (err) {
+			next(err);
+		});
+});
+
+router.post('/line/manager/delete', function (req, res, next) {
+	Promise.props({
+		line: Line.update( { id : req.body.lineId }, { $pull : { managers : { user_id : req.body.userId } } }  ).execAsync()
+	}).then(function (results) {
+		res.send(200);
+	})
+    .catch(function (err) {
+        next(err);
+    });
 });
 
 module.exports = router;
