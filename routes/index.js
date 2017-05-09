@@ -23,6 +23,8 @@ var lines = require('./line/lines');
 var line = require('./line/line');
 var line_add = require('./line/add');
 var line_update = require('./line/update');
+var line_delete = require('./line/delete');
+
 
 var user_add = require('./user/add');
 var user_update = require('./user/update');
@@ -44,6 +46,7 @@ router.use(lines);
 router.use(line);
 router.use(line_add);
 router.use(line_update);
+router.use(line_delete);
 
 router.use(notification_add);
 

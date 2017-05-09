@@ -211,7 +211,7 @@ router.get('/user/lines/:id?', function (req, res, next) {
 
             let data = {
                 data: lines
-            }
+            };
 
             console.warn(data);
 
@@ -223,7 +223,7 @@ router.get('/user/lines/:id?', function (req, res, next) {
 });
 
 router.post('/line/manager/add', function (req, res, next) {
-
+	//TODO fix: add only one user
 	let body = req.body;
 	Promise.props({
 		line: Line.update( {id: body.lineId}, { $push: { "managers" : { user_id: body.id } } } ).execAsync()

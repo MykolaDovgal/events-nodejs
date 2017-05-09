@@ -231,7 +231,7 @@ $(document).ready(function () {
             });
         }
 
-    })
+    });
 
     $('#upload_button').click(function () {
         $('#cover_picture_upload').focus().trigger('click');
@@ -271,65 +271,31 @@ $(document).ready(function () {
 
 
 
-	//user dataset for search
-	let users = new Bloodhound({
-		datumTokenizer : function(datum) {
-			let emailTokens = Bloodhound.tokenizers.whitespace(datum.id);
-			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
-			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
 
-			return emailTokens.concat(lastNameTokens).concat(firstNameTokens);
-		},
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		prefetch: {
-			url: '/api/users/usersname',
-			cache: false ,
-			transform: function(response) {
-				return $.map(response, function(item) {
-					return {
-						id: item.id,
-						name: item.name,
-						username: item.username,
-					};
-				});
-			}
-		}
-	});
 
-	//display searched result
-	$('#user_search').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-		},
-		{
-			name: 'users_dataset',
-			display: 'name',
-			source: users,
-			templates: {
-				suggestion: function (item) {
-					return '<div>' + item.id + '    <strong>' + item.name + '</strong> -'  + '</div>';
+	$('#delete_line').click(function(event ){
+		event.preventDefault();
+		bootbox.confirm("Are you sure?", function(result) {
+			$.ajax({
+				url: '/line/delete/' + line.id,
+				type: 'POST',
+				data: {},
+				success: function (data) {
+					window.location = '/lines';
+				},
+				error: function (jqXHR, textStatus, err) {
+
 				}
-			}
-		}).bind('typeahead:select', (ev, suggestion) => selectedResult = suggestion);
-
-
-	$('#add_manager_user').click(() => {
-		selectedResult.lineId = line.id;
-		let data = JSON.stringify(selectedResult);
-		$.ajax({
-			url: '/api/line/manager/add',
-			type: 'POST',
-			data: selectedResult ,
-			success: function (data) {
-			},
-			error: function (jqXHR, textStatus, err) {
-			}
-		}).then(function () {
+			});
 		});
-		selectedResult = {};
-		$('#user_search').val('');
 
+		return false;
 	});
+
+
+
+
+
+
 
 });
