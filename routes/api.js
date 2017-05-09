@@ -120,7 +120,6 @@ router.post('/lines/:page?', function (req, res, next) {
         filter.push({});
     }
 
-    //console.warn(filter);
 
     Promise.props({
         lines: Line.paginate({$or: filter}, {page: page, limit: limit})
@@ -145,17 +144,26 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
         }).then(function (results) {
             var users = [];
             results.managers.managers.forEach(function (manager) {
-                users.push(manager.user_id);
+            	if (manager.user_id > 0){
+		            users.push(manager.user_id);
+	            }
+
             });
+
 
             User.find({
                 'id': {$in: users}
             })
                 .select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
                 .exec(function (err, users) {
+                	if (users === undefined){
+                		users = [];
+	                }
+
                     var data = {
                         data: users
                     };
+
 
                     res.json(data);
                 });
@@ -213,7 +221,7 @@ router.get('/user/lines/:id?', function (req, res, next) {
                 data: lines
             };
 
-            console.warn(data);
+
 
             res.json(data);
         })
