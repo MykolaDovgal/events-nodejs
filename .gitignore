@@ -30,7 +30,9 @@ node_modules
 npm-debug.log
 
 # Uploaded pictures
-/public/uploads/
+/public/uploads/*.*
 
 # WebStorm files
 .idea
+!/public/uploads/lines/cover-picture.jpg
+!/public/uploads/users/no-pic.png

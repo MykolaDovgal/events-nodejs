@@ -10,6 +10,8 @@ var User = require('models/user');
 var Line = require('models/line');
 let config = require('config');
 
+var default_image_line = config.get('images:default_image_line');
+
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 
@@ -124,8 +126,21 @@ router.post('/lines/:page?', function (req, res, next) {
     Promise.props({
         lines: Line.paginate({$or: filter}, {page: page, limit: limit})
     }).then(function (results) {
+
+        let lines = results.lines.docs;
+        lines.forEach(function (line) {
+            var cover_img = line.cover_picture;
+            if (cover_img.indexOf('http://') === -1) {
+                if (!fs.existsSync('public' + cover_img)) {
+                    line.cover_picture = default_image_line;
+                }
+
+            }
+        });
+
+        //console.warn(lines);
         let data = {
-            data: results.lines.docs
+            data: lines
         };
 
         res.json(data);
@@ -144,9 +159,9 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
         }).then(function (results) {
             var users = [];
             results.managers.managers.forEach(function (manager) {
-            	if (manager.user_id > 0){
-		            users.push(manager.user_id);
-	            }
+                if (manager.user_id > 0) {
+                    users.push(manager.user_id);
+                }
 
             });
 
@@ -156,9 +171,9 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
             })
                 .select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
                 .exec(function (err, users) {
-                	if (users === undefined){
-                		users = [];
-	                }
+                    if (users === undefined) {
+                        users = [];
+                    }
 
                     var data = {
                         data: users
@@ -222,7 +237,6 @@ router.get('/user/lines/:id?', function (req, res, next) {
             };
 
 
-
             res.json(data);
         })
         .catch(function (err) {
@@ -231,28 +245,28 @@ router.get('/user/lines/:id?', function (req, res, next) {
 });
 
 router.post('/line/manager/add', function (req, res, next) {
-	//TODO fix: add only one user
-	let body = req.body;
-	Promise.props({
-		line: Line.update( {id: body.lineId}, { $push: { "managers" : { user_id: body.id } } } ).execAsync()
-	}).then(function (results) {
-		res.send(200);
-	})
-		.catch(function (err) {
-			next(err);
-		});
+    //TODO fix: add only one user
+    let body = req.body;
+    Promise.props({
+        line: Line.update({id: body.lineId}, {$push: {"managers": {user_id: body.id}}}).execAsync()
+    }).then(function (results) {
+        res.send(200);
+    })
+        .catch(function (err) {
+            next(err);
+        });
 });
 
 router.post('/line/manager/delete', function (req, res, next) {
-	Promise.props({
-		line: Line.update( { id : req.body.lineId }, { $pull : { managers : { user_id : req.body.userId } } }  ).execAsync()
-	}).then(function (results) {
-		res.send(200);
-	})
-    .catch(function (err) {
-        console.log(err);
-        next(err);
-    });
+    Promise.props({
+        line: Line.update({id: req.body.lineId}, {$pull: {managers: {user_id: req.body.userId}}}).execAsync()
+    }).then(function (results) {
+        res.send(200);
+    })
+        .catch(function (err) {
+            console.log(err);
+            next(err);
+        });
 });
 
 module.exports = router;

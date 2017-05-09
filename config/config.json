@@ -33,5 +33,9 @@
     "lines": {
       "limit_on_page": 9
     }
+  },
+  "images": {
+    "default_image_line": "/uploads/lines/cover-picture.jpg",
+    "default_image_user": "/uploads/users/no-pic.png"
   }
 }
