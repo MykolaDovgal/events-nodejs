@@ -84,20 +84,46 @@ router.get('/activity/:id?', function (req, res, next) {
 router.post('/lines/:page?', function (req, res, next) {
     let limit = config.get('project:lines:limit_on_page') || 9;
     let search = req.query.search;
+    let active = req.query.active;
     let page = req.params.page || 1;
 
-    let filter = req.query;
-    console.log(filter);
+    delete req.query.search;
+
+    let filter = [];
 
     if (page < 1) {
         page = 1;
     }
 
-    console.log(search);
-    console.log(page);
+    if (search !== undefined && search.length > 1) {
+        var id = parseInt(search, 10);
+        if (Number.isNaN(Number(id))) {
+            id = 0;
+        }
+
+        var filter_search = [{'id': id},
+            {'line_name_eng': new RegExp(search, "i")},
+            {'line_name_eng': new RegExp(search, "i")},
+            {'description_ol': new RegExp(search, "i")},
+            {'description_eng': new RegExp(search, "i")},
+            {'phone_number': new RegExp(search, "i")}];
+
+
+        filter = filter_search;
+    }
+
+    if (active !== undefined) {
+        filter.push({'active': active});
+    }
+
+    if (filter.length === 0) {
+        filter.push({});
+    }
+
+    //console.warn(filter);
 
     Promise.props({
-        lines: Line.paginate(filter, {page: page, limit: limit})
+        lines: Line.paginate({$or: filter}, {page: page, limit: limit})
     }).then(function (results) {
         let data = {
             data: results.lines.docs
@@ -145,43 +171,43 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 });
 
 router.get('/users/usersname', function (req, res, next) {
-	Promise.props({
-		users: User.find({}).execAsync()
-	})
-		.then(function (results) {
-			let data = [];
+    Promise.props({
+        users: User.find({}).execAsync()
+    })
+        .then(function (results) {
+            let data = [];
 
-			results.users.forEach(function (user, index) {
-				data.push({
-					id: user.id,
-					username: user.username,
-					name: user.firstname + ' ' + user.lastname
-				});
-			});
-			res.json(data);
-		})
-		.catch(function (err) {
-			next(err)
-		});
+            results.users.forEach(function (user, index) {
+                data.push({
+                    id: user.id,
+                    username: user.username,
+                    name: user.firstname + ' ' + user.lastname
+                });
+            });
+            res.json(data);
+        })
+        .catch(function (err) {
+            next(err)
+        });
 });
 
 router.get('/user/lines/:id?', function (req, res, next) {
     Promise.props({
-		lines: Line.find({
-            'managers':{$elemMatch:{ user_id :{$in:[ req.params.id ]}}}
+        lines: Line.find({
+            'managers': {$elemMatch: {user_id: {$in: [req.params.id]}}}
         }).execAsync()
-	})
-		.then(function (results) {
-			let lines = [];
+    })
+        .then(function (results) {
+            let lines = [];
 
-			results.lines.forEach(function (line, index) {
-				lines.push({
-					id: line.id,
-					name: line.line_name_eng,
-					country: line.address.country,
+            results.lines.forEach(function (line, index) {
+                lines.push({
+                    id: line.id,
+                    name: line.line_name_eng,
+                    country: line.address.country,
                     city: line.address.city
-				});
-			});
+                });
+            });
 
             let data = {
                 data: lines
@@ -189,11 +215,11 @@ router.get('/user/lines/:id?', function (req, res, next) {
 
             console.warn(data);
 
-			res.json(data);
-		})
-		.catch(function (err) {
-			next(err)
-		});
+            res.json(data);
+        })
+        .catch(function (err) {
+            next(err)
+        });
 });
 
 module.exports = router;

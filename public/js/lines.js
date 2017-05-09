@@ -32,9 +32,6 @@ $(document).ready(function () {
     }
 
 
-    //$gallery.justifiedGallery('norewind');
-
-
     buildLines();
 
     $(window).scroll(function () {
@@ -61,6 +58,35 @@ $(document).ready(function () {
         buildLines(filter);
     });
 
+    //$('#search-lines');
+    $('#search-lines').bind('input keyup', function () {
+        var $this = $(this);
+        var delay = 700;
+
+        clearTimeout($this.data('timer'));
+        $this.data('timer', setTimeout(function () {
+            $this.removeData('timer');
+
+            var search = $this.val();
+
+            if (search.length > 1) {
+                var filter = global.filter;
+                if (!filter) {
+                    filter = {};
+                }
+                filter['search'] = search;
+
+                global.filter = filter;
+
+
+            } else {
+                delete global.filter.search;
+            }
+            buildLines();
+
+        }, delay));
+    });
+
 
 });
 
@@ -68,10 +94,6 @@ $(document).ready(function () {
 // go to the line item
 $('#lines-gallery').on('click', '.line-item', function () {
     var t = $(this);
-
-    // if (t.attr('class').indexOf('line-item') === -1) {
-    //     t = t.parents('.line-item').first();
-    // }
 
     var line_url = '/line/';
     var line_id = +t.data('line');
@@ -90,7 +112,6 @@ function initGallery() {
 
 
 function buildLines(filter) {
-
 
     $gallery.html('');
     initGallery();
@@ -169,4 +190,4 @@ var serialize = function (obj, prefix) {
         }
     }
     return str.join("&");
-}
+};
