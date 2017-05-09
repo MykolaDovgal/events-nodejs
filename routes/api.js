@@ -242,6 +242,7 @@ router.post('/line/manager/delete', function (req, res, next) {
 		res.send(200);
 	})
     .catch(function (err) {
+        console.log(err);
         next(err);
     });
 });

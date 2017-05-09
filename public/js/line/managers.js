@@ -105,13 +105,30 @@ $(document).ready(function () {
 	}
 
     $('#table-line-managers tbody').on('click', 'tr', function () {
-        let data = JSON.stringify({ userId: line_managers_table.row(this).data().id, lineId: line.id });
-        $.ajax({
-			url: '/api/line/manager/delete',
-			type: 'POST',
-            dataType: 'json',
-            contentType: "application/json; charset=utf-8",
-			data: data,
-		});
+        let self = this;
+        bootbox.confirm({
+            size: "small",
+            message: "Are you sure you want to remove this user from managers?",
+            callback: function(result) {
+                console.log(line);
+                if (result) {
+                    let data = JSON.stringify({ userId: line_managers_table.row(self).data().id, lineId: line.id });
+                    $.ajax({
+                        url: '/api/line/manager/delete',
+                        type: 'POST',
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        data: data,
+						//TODO fix this KOSTYL
+                        success: function() {
+							updateManagersTable();
+                        },
+						error: function() {
+							updateManagersTable();
+						}
+                    });
+                }
+            }
+        })     
     });
 });
