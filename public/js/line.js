@@ -332,7 +332,4 @@ $(document).ready(function () {
 
 	});
 
-
-
-
 });

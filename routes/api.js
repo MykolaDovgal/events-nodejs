@@ -209,4 +209,15 @@ router.post('/line/manager/add', function (req, res, next) {
 		});
 });
 
+router.post('/line/manager/delete', function (req, res, next) {
+	Promise.props({
+		line: Line.update( { id : req.body.lineId }, { $pull : { managers : { user_id : req.body.userId } } }  ).execAsync()
+	}).then(function (results) {
+		res.send(200);
+	})
+    .catch(function (err) {
+        next(err);
+    });
+});
+
 module.exports = router;
