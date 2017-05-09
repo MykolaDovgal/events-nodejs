@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 function initMap() {
 
-    $("#geocomplete_line").geocomplete({
+    var geocomplete_line = $("#geocomplete_line").geocomplete({
         map: '#map',
         details: '.geo-data',
         types: ['(cities)']
@@ -48,6 +48,21 @@ function initMap() {
 
     $("#find_geocomplete").click(function () {
         $("#geocomplete_line").trigger("geocode");
+    });
+
+    let center = {lat: 0, lng: 0};
+    try {
+        center = {lat: line.address.latitude || 0, lng: line.address.longitude || 0};
+    } catch (e) {
+
+    }
+
+    let map = geocomplete_line.geocomplete("map");
+
+    map.setCenter(center);
+    new google.maps.Marker({
+        position: center,
+        map: map
     });
 
 
