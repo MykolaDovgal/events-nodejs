@@ -1,3 +1,8 @@
+.empty-message {
+    padding: 5px 10px;
+    text-align: center;
+}
+
 .portfolio-content.portfolio-3 .cbp-caption-zoom .cbp-caption-activeWrap, .portfolio-content.portfolio-4 .cbp-caption-zoom .cbp-caption-activeWrap {
     background-color: rgba(0, 0, 0, .3);
 }
