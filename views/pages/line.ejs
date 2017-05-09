@@ -41,11 +41,9 @@
         <div class="page-content-wrapper">
             <div class="wrapper-title">
                 <h1 class="page-title text-center"><%= line.line_name_eng %></h1>
-<<<<<<< HEAD
+
                 <h3 class="page-title text-center">in <%= line.address.country + ', ' + line.address.city %></h3>
-=======
-                <h3 class="page-title text-center">in <%= line.address.country + '/' + line.address.city %></h3>
->>>>>>> 3a389e69d084492cd5cebbade0fb0291e906dd65
+
             </div>
             <!-- BEGIN CONTENT BODY -->
             <div class="page-content">
@@ -64,7 +62,7 @@
                         </div>
                         <div class=" wrapper-line border-line offset-top-2">
                             <div class="input-group">
-                                <input value="<%= line.address.country %><%= line.address.country ? ', ' : '' %><%= line.address.city %>"
+                                <input value="<%= line.address.country %> <%= line.address.country ? ', ' : '' %> <%= line.address.city %>"
                                        type="text" id="geocomplete_line" class="form-control"
                                        placeholder="Search for city, country">
                                 <span class="input-group-btn">
