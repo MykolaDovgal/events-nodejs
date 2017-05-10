@@ -16,6 +16,7 @@ function initMap() {
 
     }).on('geocode:result', function (e, result) {
         var geo_data = $('.geo-data');
+
         var data = {
             lat: $('#lat').val(),
             lng: $('#lng').val(),
@@ -24,17 +25,16 @@ function initMap() {
             country_short: $('#country_short').val(),
         };
 
-        console.log(data);
-
         $.ajax({
             url: '/line/update/address/' + line.id,
             type: 'POST',
             data: data,
-            success: function (data) {
-                if (data.status) {
-                    toastr.success(data.msg);
+            success: function (req) {
+                if (req.status) {
+	                $('#place_title').text('in ' + data['country'] + ', ' + data['locality']);
+                    toastr.success(req.msg);
                 } else {
-                    toastr.error(data.msg);
+                    toastr.error(req.msg);
                 }
 
             },
