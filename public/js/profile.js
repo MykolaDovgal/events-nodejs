@@ -160,9 +160,8 @@ $(document).ready(function () {
         });
     });
 
-    $('#active').on('change', function() {
-        $(this).attr('checked') ? $(this).removeAttr('checked') : $(this).attr('checked', '');
-        var active = { name: 'active', value: !!$(this).attr('checked'), pk: 1 };
+    $('#active-switch').on('switchChange.bootstrapSwitch', function(event, state) {
+        var active = { name: 'active', value: state, pk: 1 };
         $.ajax({
             url: '/user/update/' + user.id,
             type: 'POST',

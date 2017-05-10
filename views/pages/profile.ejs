@@ -146,13 +146,7 @@
                                                         <div class="row">
                                                             <label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>                                                                     
                                                             <div class="col-md-9 md-checkbox-inline">
-                                                                <div class="md-checkbox">
-                                                                    <input type="checkbox" id="active" class="md-check" <%= user.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
-                                                                    <label for="active">
-                                                                    <span></span>
-                                                                    <span class="check"></span>
-                                                                    <span class="box"></span></label>
-                                                                </div>
+                                                                <input id="active-switch" type="checkbox" class="make-switch form-control" <%= user.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
                                                             </div>
                                                         </div>
                                                     </div>
