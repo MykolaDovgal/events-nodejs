@@ -130,7 +130,8 @@ router.post('/lines/:page?', function (req, res, next) {
 		let lines = results.lines.docs;
 		lines.forEach(function (line) {
 			var cover_img = line.cover_picture;
-			if (cover_img !== undefined && cover_img.indexOf('http://') === -1) {
+			console.log(cover_img);
+			if (cover_img !== undefined && cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
 				if (!fs.existsSync('public' + cover_img)) {
 					line.cover_picture = default_image_line;
 				}
