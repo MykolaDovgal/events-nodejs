@@ -147,9 +147,11 @@
 											</div>
 
 											<div class="row">
-												<label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>                                                                     
+												<label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>
 												<div class="col-md-9 md-checkbox-inline">
-													<input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
+                                                    <div class="col-xs-12">
+                                                        <input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled"/>
+                                                    </div>
 												</div>
 											</div>
 

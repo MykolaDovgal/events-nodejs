@@ -136,7 +136,7 @@
                                                             <label class="col-md-3 control-label">
                                                                 <i class="fa fa-pencil" aria-hidden="true"></i>  About
                                                             </label>
-                                                            <div class="col-md-9 description-general form-group">
+                                                            <div class="col-md-9  form-group">
                                                                 <pre id="about" data-pk="1" data-type="wysihtml5"  data-original-title="Enter notes" class="editable editable-open" tabindex="-1">
                                                                     <%= user.about %>
                                                                 </pre>
@@ -146,7 +146,9 @@
                                                         <div class="row">
                                                             <label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>                                                                     
                                                             <div class="col-md-9 md-checkbox-inline">
-                                                                <input id="active-switch" type="checkbox" class="make-switch form-control" <%= user.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
+                                                                <div class="row">
+                                                                    <input id="active-switch" type="checkbox" class="make-switch form-control" <%= user.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled"/>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
