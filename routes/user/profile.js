@@ -5,6 +5,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var moment = require('moment');
+var config = require('config');
+var default_image_user = config.get('images:default_image_user');
 
 Promise.promisifyAll(mongoose);
 
@@ -20,7 +22,7 @@ module.exports = function (req, res, next) {
             var title_page = user.username + "'s Profile";
 
             if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
-                user.profile_picture_circle = '/images/icons/no-pic.png';
+                user.profile_picture_circle = default_image_user;
 
             var data = {
                 title: title_page,

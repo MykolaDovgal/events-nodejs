@@ -11,6 +11,7 @@ var Line = require('models/line');
 let config = require('config');
 
 var default_image_line = config.get('images:default_image_line');
+var default_image_user = config.get('images:default_image_user');
 
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
@@ -29,7 +30,7 @@ router.get('/users', function (req, res, next) {
 				var lastActivity = user.getActivity()[user.getActivity().length - 1] ? user.getActivity()[user.getActivity().length - 1].login_time : '-';
 				lastActivities.push(lastActivity);
 				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
-					user.profile_picture_circle = 'images/icons/no-pic.png';
+					user.profile_picture_circle = default_image_user;
 				return user;
 			});
 
