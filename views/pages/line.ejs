@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <% include ../static/head %>
+	<% include ../static/head %>
 
-    <!-- BEGIN PAGE LEVEL STYLES -->
-    <link href="/assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
-    <!-- END PAGE LEVEL STYLES -->
-    <!-- BEGIN THEME LAYOUT STYLES -->
+	<!-- BEGIN PAGE LEVEL STYLES -->
+	<link href="/assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
+	<!-- END PAGE LEVEL STYLES -->
+	<!-- BEGIN THEME LAYOUT STYLES -->
 
-    <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
-          id="style_color"/>
-    <link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
+		  id="style_color"/>
+	<link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="/assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
-    <!-- END THEME LAYOUT STYLES -->
+	<link href="/assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+	<!-- END THEME LAYOUT STYLES -->
 
-    <link href="/assets/global/plugins/typeahead/typeahead.css" rel="stylesheet" type="text/css"/>
+	<link href="/assets/global/plugins/typeahead/typeahead.css" rel="stylesheet" type="text/css"/>
 
-    <link href="/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
 
-    <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
-    <link href="/css/lines.css" rel="stylesheet" type="text/css"/>
+	<link href="/css/lines.css" rel="stylesheet" type="text/css"/>
 
 </head>
 
@@ -30,418 +30,425 @@
 
 <div class="page-wrapper">
 
-    <header id="header" valign="botoom">
-        <% include ../static/header %>
-    </header>
+	<header id="header" valign="botoom">
+		<% include ../static/header %>
+	</header>
 
-    <!-- BEGIN CONTAINER -->
-    <div class="page-container">
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
 
-        <!-- BEGIN CONTENT -->
-        <div class="page-content-wrapper">
-            <div class="wrapper-title">
-                <h1 class="page-title text-center"><%= line.line_name_eng %></h1>
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<div class="wrapper-title">
+				<h1 class="page-title text-center"><%= line.line_name_eng %></h1>
 
-                <h3 class="page-title text-center">in <%= line.address.country + ', ' + line.address.city %></h3>
+				<h3 class="page-title text-center">in <%= line.address.country + ', ' + line.address.city %></h3>
 
-            </div>
-            <!-- BEGIN CONTENT BODY -->
-            <div class="page-content">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="wrapper-line border-line">
-                            <img id="cover_picture" class="cover-picture"
-                                 src="<%= line.cover_picture ? line.cover_picture : '/images/cover-picture.jpg' %>">
-                            <button id="upload_button" class="btn btn-default cover-button">Upload</button>
-                            <input id="cover_picture_upload" type="file" accept="image/*"
-                                   style="position: absolute;left: -9999px;">
-                        </div>
-                        <div class="wrapper-line border-line offset-top-2">
-                            <p class="title-block">Map</p>
-                            <div id="map" class="map"></div>
-                        </div>
-                        <div class=" wrapper-line border-line offset-top-2">
-                            <div class="input-group">
-                                <input value="<%= line.address.country %> <%= line.address.country ? ', ' : '' %> <%= line.address.city %>"
-                                       type="text" id="geocomplete_line" class="form-control"
-                                       placeholder="Search for city, country">
-                                <span class="input-group-btn">
-                                <button id="find_geocomplete" class="btn green"
-                                        type="button">Save address</button>
-                              </span>
-                            </div>
-
-
-                            <div class="geo-data">
-                                <input id="lat" name="lat" type="text" value=""/>
-                                <input id="lng" name="lng" type="text" value=""/>
-                                <input id="locality" name="locality" type="text" value=""/>
-                                <input id="country" name="country" type="text" value=""/>
-                                <input id="country_short" name="country_short" type="text" value=""/>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="tabbable-line line-tab-width">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#general-container"
-                                                      data-toggle="tab"
-                                                      aria-expanded="true">General</a>
-                                </li>
-                                <li><a href="#parties-container"
-                                       data-toggle="tab"
-                                       aria-expanded="false">Parties</a>
-                                </li>
-                                <li><a href="#followers-container"
-                                       data-toggle="tab"
-                                       aria-expanded="false">Followers</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="general-container">
-                                    <form enctype="multipart/form-data" method="post"
-                                          id="form_change_line">
-                                        <div class="col-md-7 form-group form-md-line-input">
-
-                                            <div class="row">
-                                                <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Title
-                                                </label>
-                                                <div class="col-md-9 form-group">
-                                                    <div class="col-md-6">
-                                                        <a id="line_name_eng" data-type="text" data-pk="1"
-                                                           class="editable editable-click"> <%= line.line_name_eng %> </a>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <a id="line_name_ol" data-type="text" data-pk="1"
-                                                           class="editable editable-click"> <%= line.line_name_ol %> </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Facebook Page
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <div class="col-xs-12"><a id="line_facebook_page" data-type="text"
-                                                                              data-pk="1"
-                                                                              class="editable editable-click"> <%= line.facebook_page %> </a>
-                                                    </div>
-                                                </div>
-                                            </div>
+			</div>
+			<!-- BEGIN CONTENT BODY -->
+			<div class="page-content">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="wrapper-line border-line">
+							<img id="cover_picture" class="cover-picture"
+								 src="<%= line.cover_picture ? line.cover_picture : '/images/cover-picture.jpg' %>">
+							<button id="upload_button" class="btn btn-default cover-button">Upload</button>
+							<input id="cover_picture_upload" type="file" accept="image/*"
+								   style="position: absolute;left: -9999px;">
+						</div>
+						<div class="wrapper-line border-line offset-top-2">
+							<p class="title-block">Map</p>
+							<div id="map" class="map"></div>
+						</div>
+						<div class=" wrapper-line border-line offset-top-2">
+							<div class="input-group">
+								<input value="<%= line.address.country %> <%= line.address.country ? ', ' : '' %> <%= line.address.city %>"
+									   type="text" id="geocomplete_line" class="form-control"
+									   placeholder="Search for city, country">
+								<span class="input-group-btn">
+								<button id="find_geocomplete" class="btn green"
+										type="button">Save address</button>
+							  </span>
+							</div>
 
 
-                                            <div class="row">
-                                                <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Website
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <div class="col-xs-12"><a href="<%= line.website %>"
-                                                                              id="line_website" data-type="text"
-                                                                              data-pk="1"
-                                                                              class="editable editable-click"> <%= line.website %> </a>
-                                                    </div>
-                                                </div>
-                                            </div>
+							<div class="geo-data">
+								<input id="lat" name="lat" type="text" value=""/>
+								<input id="lng" name="lng" type="text" value=""/>
+								<input id="locality" name="locality" type="text" value=""/>
+								<input id="country" name="country" type="text" value=""/>
+								<input id="country_short" name="country_short" type="text" value=""/>
+							</div>
 
-                                            <div class="row">
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div class="tabbable-line line-tab-width">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#general-container"
+													  data-toggle="tab"
+													  aria-expanded="true">General</a>
+								</li>
+								<li><a href="#parties-container"
+									   data-toggle="tab"
+									   aria-expanded="false">Parties</a>
+								</li>
+								<li><a href="#followers-container"
+									   data-toggle="tab"
+									   aria-expanded="false">Followers</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="general-container">
+									<form enctype="multipart/form-data" method="post"
+										  id="form_change_line">
+										<div class="col-md-7 form-group form-md-line-input">
 
-                                                <label class="col-md-3 control-label">
-                                                    <i class="fa fa-pencil" aria-hidden="true"></i> Description
-                                                </label>
-                                                <div class="col-md-9 description-general form-group">
-                                                <pre id="description_eng" data-pk="1" data-type="wysihtml5"
-                                                     data-original-title="Enter notes" class="editable editable-open"
-                                                     tabindex="-1">
-                                                    <%= line.description_eng %>
-                                                </pre>
+											<div class="row">
+												<label class="col-md-3 control-label">
+													<i class="fa fa-pencil" aria-hidden="true"></i> Title
+												</label>
+												<div class="col-md-9 form-group">
+													<div class="col-md-6">
+														<a id="line_name_eng" data-type="text" data-pk="1"
+														   class="editable editable-click"> <%= line.line_name_eng %> </a>
+													</div>
+													<div class="col-md-6">
+														<a id="line_name_ol" data-type="text" data-pk="1"
+														   class="editable editable-click"> <%= line.line_name_ol %> </a>
+													</div>
+												</div>
+											</div>
 
-                                                </div>
+											<div class="row">
+												<label class="col-md-3 control-label">
+													<i class="fa fa-pencil" aria-hidden="true"></i> Facebook Page
+												</label>
+												<div class="col-md-9">
+													<div class="col-xs-12"><a id="line_facebook_page" data-type="text"
+																			  data-pk="1"
+																			  class="editable editable-click"> <%= line.facebook_page %> </a>
+													</div>
+												</div>
+											</div>
 
 
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
-                                                        <p class="title-block">Music</p>
-                                                        <div class="col-md-5" id="select_container">
+											<div class="row">
+												<label class="col-md-3 control-label">
+													<i class="fa fa-pencil" aria-hidden="true"></i> Website
+												</label>
+												<div class="col-md-9">
+													<div class="col-xs-12"><a href="<%= line.website %>"
+																			  id="line_website" data-type="text"
+																			  data-pk="1"
+																			  class="editable editable-click"> <%= line.website %> </a>
+													</div>
+												</div>
+											</div>
 
-                                                            <% line.music.music_genres.forEach(function(el, index) { %>
+											<div class="row">
+												<label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>                                                                     
+												<div class="col-md-9 md-checkbox-inline">
+													<input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled">
+												</div>
+											</div>
 
-                                                            <!--<script>console.log("<%= el %>")</script>-->
+											<div class="row">
 
-                                                            <select data-value="<%= el %>" name="genres"
-                                                                    class="form-control">
+												<label class="col-md-3 control-label">
+													<i class="fa fa-pencil" aria-hidden="true"></i> Description
+												</label>
+												<div class="col-md-9 description-general form-group">
+												<pre id="description_eng" data-pk="1" data-type="wysihtml5"
+													 data-original-title="Enter notes" class="editable editable-open"
+													 tabindex="-1">
+													<%= line.description_eng %>
+												</pre>
 
-                                                            </select>
-                                                            <% }); %>
+												</div>
 
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <button type="button" id="add_genres_btn"
-                                                                    class="btn btn-circle btn-icon-only green">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-md-5 border-line block-manager">
+											</div>
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
+														<p class="title-block">Music</p>
+														<div class="col-md-5" id="select_container">
 
-                                            <div class="portlet-title">
-                                                <div class="caption font-red">
-                                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                                    <span class="caption-subject bold">Managers</span>
-                                                </div>
-                                            </div>
-                                            <div class="portlet-body table-both-scroll">
-                                                <table class="table table-striped table-bordered table-hover order-column"
-                                                       id="table-line-managers">
-                                                    <thead>
-                                                    <th>UserID</th>
-                                                    <th>Picture</th>
-                                                    <th>User Name</th>
-                                                    <th>Permission</th>
-                                                    </thead>
-                                                </table>
+															<% line.music.music_genres.forEach(function(el, index) { %>
 
-                                                <div class="col-sm-12">
-                                                    <div class="input-group col-md-10" style="float: left">
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-cogs"></i>
-                                                        </span>
-                                                        <input type="text" id="user_search" placeholder="User name"
-                                                               name="user_search" class="form-control"/>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <button id="add_manager_user" type="button"
-                                                                class="btn btn-icon-only green">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
+															<!--<script>console.log("<%= el %>")</script>-->
 
-                                            </div>
+															<select data-value="<%= el %>" name="genres"
+																	class="form-control">
 
-                                        </div>
-                                        <div class="col-xs-12 offset-top-2">
-                                            <a class="btn red btn-outline btn-lg sbold" data-toggle="modal"
-                                               href="#send_notification"> Send Notification </a>
-                                            <div class="pull-right group-btn">
-                                                <button class="btn yellow btn-outline sbold uppercase" id="delete_line">
-                                                    Delete Line
-                                                </button>
-                                                <button type="submit" class="btn btn-lg green pull-right">
-                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+															</select>
+															<% }); %>
 
-                                <!-- Tab parties -->
-                                <div class="tab-pane" id="parties-container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table id="table-line-parties"
-                                                   class="table table-striped table-bordered table-hover table-checkable order-column">
-                                                <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th class="no-sort">Picture</th>
-                                                    <th>Status</th>
-                                                    <th>User Name</th>
-                                                    <th>Name</th>
-                                                    <th>Facebook</th>
-                                                    <th>Last Activity</th>
-                                                    <th>Bars</th>
-                                                    <th>Events</th>
-                                                    <th>Lines</th>
-                                                </tr>
-                                                </thead>
-                                            </table>
+														</div>
+														<div class="col-md-1">
+															<button type="button" id="add_genres_btn"
+																	class="btn btn-circle btn-icon-only green">
+																<i class="fa fa-plus"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
 
-                                        </div>
-                                    </div>
-                                </div>
+										<div class="col-md-5 border-line block-manager">
 
-                                <!-- Tab followers -->
-                                <div class="tab-pane" id="followers-container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table id="table-line-followers"
-                                                   class="table table-striped table-bordered table-hover table-checkable order-column">
-                                                <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th class="no-sort">Picture</th>
-                                                    <th>Status</th>
-                                                    <th>User Name</th>
-                                                    <th>Name</th>
-                                                    <th>Facebook</th>
-                                                    <th>Last Activity</th>
-                                                    <th>Bars</th>
-                                                    <th>Events</th>
-                                                    <th>Lines</th>
-                                                </tr>
-                                                </thead>
-                                            </table>
+											<div class="portlet-title">
+												<div class="caption font-red">
+													<i class="fa fa-user" aria-hidden="true"></i>
+													<span class="caption-subject bold">Managers</span>
+												</div>
+											</div>
+											<div class="portlet-body table-both-scroll">
+												<table class="table table-striped table-bordered table-hover order-column"
+													   id="table-line-managers">
+													<thead>
+													<th>UserID</th>
+													<th>Picture</th>
+													<th>User Name</th>
+													<th>Permission</th>
+													</thead>
+												</table>
 
-                                        </div>
-                                    </div>
-                                </div>
+												<div class="col-sm-12">
+													<div class="input-group col-md-10" style="float: left">
+														<span class="input-group-addon">
+															<i class="fa fa-cogs"></i>
+														</span>
+														<input type="text" id="user_search" placeholder="User name"
+															   name="user_search" class="form-control"/>
+													</div>
+													<div class="col-md-2">
+														<button id="add_manager_user" type="button"
+																class="btn btn-icon-only green">
+															<i class="fa fa-plus"></i>
+														</button>
+													</div>
+												</div>
 
-                            </div>
+											</div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END CONTENT BODY -->
-        </div>
-        <!-- END CONTENT -->
+										</div>
+										<div class="col-xs-12 offset-top-2">
+											<a class="btn red btn-outline btn-lg sbold" data-toggle="modal"
+											   href="#send_notification"> Send Notification </a>
+											<div class="pull-right group-btn">
+												<button class="btn yellow btn-outline sbold uppercase" id="delete_line">
+													Delete Line
+												</button>
+												<button type="submit" class="btn btn-lg green pull-right">
+													<i class="fa fa-floppy-o" aria-hidden="true"></i>
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
 
-    </div>
-    <!-- END CONTAINER -->
+								<!-- Tab parties -->
+								<div class="tab-pane" id="parties-container">
+									<div class="row">
+										<div class="col-md-12">
+											<table id="table-line-parties"
+												   class="table table-striped table-bordered table-hover table-checkable order-column">
+												<thead>
+												<tr>
+													<th>#</th>
+													<th class="no-sort">Picture</th>
+													<th>Status</th>
+													<th>User Name</th>
+													<th>Name</th>
+													<th>Facebook</th>
+													<th>Last Activity</th>
+													<th>Bars</th>
+													<th>Events</th>
+													<th>Lines</th>
+												</tr>
+												</thead>
+											</table>
+
+										</div>
+									</div>
+								</div>
+
+								<!-- Tab followers -->
+								<div class="tab-pane" id="followers-container">
+									<div class="row">
+										<div class="col-md-12">
+											<table id="table-line-followers"
+												   class="table table-striped table-bordered table-hover table-checkable order-column">
+												<thead>
+												<tr>
+													<th>#</th>
+													<th class="no-sort">Picture</th>
+													<th>Status</th>
+													<th>User Name</th>
+													<th>Name</th>
+													<th>Facebook</th>
+													<th>Last Activity</th>
+													<th>Bars</th>
+													<th>Events</th>
+													<th>Lines</th>
+												</tr>
+												</thead>
+											</table>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END CONTENT BODY -->
+		</div>
+		<!-- END CONTENT -->
+
+	</div>
+	<!-- END CONTAINER -->
 </div>
 
 
 <!-- send_notification modal -->
 <div id="send_notification" class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Send Notification</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <!-- BEGIN FORM-->
-                    <form id="notification_form" action="/notification/add" method="post">
-                        <div class="col-xs-12 form-group form-md-line-input">
-                            <label class="col-md-3 control-label" for="form_control_1">Memo</label>
-                            <div class="col-md-9">
-                                <textarea id="notification_content"
-                                          class="form-control"
-                                          name="notification_content"
-                                          rows="5" rows="3"></textarea>
-                                <div class="form-control-focus"></div>
-                            </div>
-                        </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Send Notification</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<!-- BEGIN FORM-->
+					<form id="notification_form" action="/notification/add" method="post">
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="col-md-3 control-label" for="form_control_1">Memo</label>
+							<div class="col-md-9">
+								<textarea id="notification_content"
+										  class="form-control"
+										  name="notification_content"
+										  rows="5" rows="3"></textarea>
+								<div class="form-control-focus"></div>
+							</div>
+						</div>
 
-                        <div class="col-xs-12 form-group form-md-line-input">
-                            <label class="col-md-3 control-label" for="notification_link">Link
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-9">
-                                <input id="notification_link" type="text"
-                                       class="form-control"
-                                       placeholder="Enter link"
-                                       name="notification_link" required>
-                                <div class="form-control-focus"></div>
-                                <span class="help-block">Link</span>
-                            </div>
-                        </div>
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="col-md-3 control-label" for="notification_link">Link
+								<span class="required">*</span>
+							</label>
+							<div class="col-md-9">
+								<input id="notification_link" type="text"
+									   class="form-control"
+									   placeholder="Enter link"
+									   name="notification_link" required>
+								<div class="form-control-focus"></div>
+								<span class="help-block">Link</span>
+							</div>
+						</div>
 
-                        <div class="col-xs-12 form-group form-md-line-input">
-                            <label class="control-label col-md-3">Send Time</label>
-                            <div class="col-md-9">
-                                <div id="datetime_input" class="input-group date">
-                                    <input name="notification_time" class="form-control" type="text" style="width: 100%"
-                                           data-date-format="yyyy-mm-dd hh:ii">
-                                    <span class="input-group-addon"><i class="fa fa-times"></i></span>
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                </div>
-                            </div>
-                        </div>
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="control-label col-md-3">Send Time</label>
+							<div class="col-md-9">
+								<div id="datetime_input" class="input-group date">
+									<input name="notification_time" class="form-control" type="text" style="width: 100%"
+										   data-date-format="yyyy-mm-dd hh:ii">
+									<span class="input-group-addon"><i class="fa fa-times"></i></span>
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div>
+							</div>
+						</div>
 
-                        <div class="col-xs-12 form-group form-md-line-input">
-                            <label class="control-label col-md-3">Audience<span class="required">*</span></label>
-                            <div class="col-md-9">
-                                <select id="form-line-city-select"
-                                        class="bs-select form-control" data-live-search="true"
-                                        data-size="8"
-                                        name="notification_audience">
-                                    <option>All</option>
-                                    <option>Not All</option>
-                                </select>
-                            </div>
-                        </div>
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="control-label col-md-3">Audience<span class="required">*</span></label>
+							<div class="col-md-9">
+								<select id="form-line-city-select"
+										class="bs-select form-control" data-live-search="true"
+										data-size="8"
+										name="notification_audience">
+									<option>All</option>
+									<option>Not All</option>
+								</select>
+							</div>
+						</div>
 
-                    </form>
-                    <!-- END FORM-->
-                </div>
-            </div>
+					</form>
+					<!-- END FORM-->
+				</div>
+			</div>
 
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
-                <button data-dismiss="modal" id="button_send_notification" form="notification_form" type="button"
-                        class="btn green">Send
-                </button>
-            </div>
-        </div>
-    </div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+				<button data-dismiss="modal" id="button_send_notification" form="notification_form" type="button"
+						class="btn green">Send
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <footer>
-    <% include ../static/footer %>
+	<% include ../static/footer %>
 
-    <script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
-    <script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+	<script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
 
-    <script src="/assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
 
-    <script src="/assets/pages/scripts/ui-extended-modals.min.js" type="text/javascript"></script>
+	<script src="/assets/pages/scripts/ui-extended-modals.min.js" type="text/javascript"></script>
 
-    <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+	<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 
-    <script src="/js/plugins/croppie.js" type="text/javascript"></script>
+	<script src="/js/plugins/croppie.js" type="text/javascript"></script>
 
-    <script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
-
-
-    <script>
-        var line = <%- JSON.stringify(line) %>;
-    </script>
+	<script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
 
 
-    <script src="/js/line.js" type="text/javascript"></script>
-
-    <script src="/js/line/managers.js" type="text/javascript"></script>
-
-    <script src="/js/line/parties.js" type="text/javascript"></script>
-    <script src="/js/line/followers.js" type="text/javascript"></script>
-
-    <script src="/js/line/geocomplete_line.js" type="text/javascript"></script>
-
-    <script defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVlanyJ2xLrNhMZIUhSXTYu1uq31e7Ti4&callback=initMap&libraries=places&language=en">
-    </script>
-
-    <script src="/js/plugins/jquery.geocomplete.js"></script>
-
-    <script src="/assets/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
-
-    <script src="../assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
-
-    <script>
-
-        $('#datetime_input').datetimepicker({
-            format: 'yyyy-mm-dd hh:ii',
-            autoclose: true,
-            useCurrent: false,
-            setDate: Date.now()
-        });
+	<script>
+		var line = <%- JSON.stringify(line) %>;
+	</script>
 
 
-    </script>
+	<script src="/js/line.js" type="text/javascript"></script>
+
+	<script src="/js/line/managers.js" type="text/javascript"></script>
+
+	<script src="/js/line/parties.js" type="text/javascript"></script>
+	<script src="/js/line/followers.js" type="text/javascript"></script>
+
+	<script src="/js/line/geocomplete_line.js" type="text/javascript"></script>
+
+	<script defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVlanyJ2xLrNhMZIUhSXTYu1uq31e7Ti4&callback=initMap&libraries=places&language=en">
+	</script>
+
+	<script src="/js/plugins/jquery.geocomplete.js"></script>
+
+	<script src="/assets/global/plugins/typeahead/handlebars.min.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
+
+	<script src="../assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+
+	<script>
+
+		$('#datetime_input').datetimepicker({
+			format: 'yyyy-mm-dd hh:ii',
+			autoclose: true,
+			useCurrent: false,
+			setDate: Date.now()
+		});
+
+
+	</script>
 </footer>
 
 <% include ../static/menu %>
