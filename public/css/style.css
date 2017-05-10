@@ -842,7 +842,6 @@ body.is-menu-visible #menu .closes {
 }
 
 .tabbable-line > .nav-tabs > li {
-    width: 15%;
     border: 1px solid #e7ecf1;
     border-radius: 4px 4px 0 0;
 }
@@ -896,4 +895,8 @@ body.is-menu-visible #menu .closes {
     position: absolute;
     right: 25px;
     bottom: 25px;
+}
+
+.pac-container {
+    z-index: 100000 !important;
 }

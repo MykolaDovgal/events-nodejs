@@ -54,3 +54,7 @@
 .geo-data {
     display: none;
 }
+
+.line-tab-width > .nav-tabs > li {
+    width: 15%;
+}

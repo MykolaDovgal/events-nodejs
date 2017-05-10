@@ -12,7 +12,8 @@
           id="style_color"/>
     <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
-    <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet"
+          type="text/css"/>
 
     <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
@@ -99,7 +100,8 @@
                             <div class="form-group search-block pull-right">
                                 <div class="input-icon input-circle-left">
                                     <i class="fa fa-search"></i>
-                                    <input id="search-lines" placeholder="Filter lines" name="search" type="text" class="form-control">
+                                    <input id="search-lines" placeholder="Filter lines" name="search" type="text"
+                                           class="form-control">
                                 </div>
 
                             </div>
@@ -183,29 +185,22 @@
 
 
                                 <div class="form-group form-md-line-input">
-                                    <label class="control-label col-md-3">Country
+                                    <label class="control-label col-md-3">Location
                                         <span class="required">*</span>
                                     </label>
                                     <div class="col-md-9">
-                                        <select id="form-line-country-select"
-                                                class="bs-select form-control" data-live-search="true"
-                                                data-size="8"
-                                                name="countrySelect">
+                                        <input required
+                                                type="text" id="geocomplete_line_add" class="form-control"
+                                                placeholder="Search for city, country"/>
 
-                                        </select>
-                                    </div>
-                                </div>
+                                        <div class="geo-data">
+                                            <input id="lat" name="lat" type="text" value=""/>
+                                            <input id="lng" name="lng" type="text" value=""/>
+                                            <input id="locality" name="locality" type="text" value=""/>
+                                            <input id="country" name="country" type="text" value=""/>
+                                            <input id="country_short" name="country_short" type="text" value=""/>
+                                        </div>
 
-                                <div class="form-group form-md-line-input">
-                                    <label class="control-label col-md-3">City
-                                        <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-9">
-                                        <select id="form-line-city-select"
-                                                class="bs-select form-control" data-live-search="true"
-                                                data-size="8"
-                                                name="citySelect">
-                                        </select>
                                     </div>
                                 </div>
 
@@ -234,6 +229,7 @@
                                                                                       class="form-control"
                                                                                       name="englishDescription"
                                                                                       rows="3"
+                                                                                      placeholder="Enter english description "
                                                                                       style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
                                                             <div class="form-control-focus"></div>
                                                         </div>
@@ -246,6 +242,7 @@
                                                                                       class="form-control"
                                                                                       name="originDescription"
                                                                                       rows="3"
+                                                                                      placeholder="Enter original description "
                                                                                       style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
                                                             <div class="form-control-focus"></div>
                                                         </div>
@@ -286,6 +283,13 @@
 
     <script src="/js/plugins/justifiedGallery.js" type="text/javascript"></script>
 
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVlanyJ2xLrNhMZIUhSXTYu1uq31e7Ti4&libraries=places&language=en">
+    </script>
+
+    <script src="/js/plugins/jquery.geocomplete.js"></script>
+
+    <script src="/js/lines/geocomplete_line_add.js" type="text/javascript"></script>
 
 
     <script src="/js/lines.js" type="text/javascript"></script>

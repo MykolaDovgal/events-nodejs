@@ -8,16 +8,25 @@ var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
-router.post('/line/add',urlencodedParser, function (request, response, next) {
+router.post('/line/add', urlencodedParser, function (request, response, next) {
 
 	let body = request.body;
+
+	let address = {
+		city: body.locality,
+		country: body.country,
+		countryCode: body.country_short,
+		latitude: body.lat,
+		longitude: body.lng
+	};
+
+
 	let newLine = Line({
 		line_name_eng: body['lineOriginName'],
 		line_name_ol: body['lineEnglishName'],
-		description_eng:body['englishDescription'],
+		description_eng: body['englishDescription'],
 		description_ol: body['originDescription'],
-		country:body['countrySelect'],
-		city:body['citySelect'],
+		address: address
 
 	});
 
@@ -25,12 +34,13 @@ router.post('/line/add',urlencodedParser, function (request, response, next) {
 		title: 'Line Page',
 		showMenu: true,
 	};
+
 	newLine.save()
-		.then(function(doc){
+		.then(function (doc) {
 			data.line = doc;
 			response.redirect('/line/' + doc.id);
 		})
-		.catch(function (err){
+		.catch(function (err) {
 			console.log(err);
 		});
 
