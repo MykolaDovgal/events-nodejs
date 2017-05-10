@@ -16,7 +16,7 @@ router.get('/line/:id', function (request, response, next) {
 	})
 		.then(function (results) {
 			let line = results.line;
-			if (typeof line.cover_picture !== 'undefined' && line.cover_picture.indexOf('http://') === -1) {
+			if (typeof line.cover_picture !== 'undefined' && line.cover_picture.indexOf('http://') === -1 && line.cover_picture.indexOf('https://') === -1) {
 				if (!fs.existsSync('public' + line.cover_picture)) {
 					line.cover_picture = default_image_line;
 				}
