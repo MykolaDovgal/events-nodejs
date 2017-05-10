@@ -149,7 +149,7 @@ router.post('/lines/:page?', function (req, res, next) {
 	});
 });
 
-// get line managers
+//get line managers
 router.get('/line/managers/:lineid?', function (req, res, next) {
 	var lineid = req.params.lineid;
 
@@ -158,13 +158,14 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 			managers: Line.findOne({id: lineid}).select('managers').lean()
 		}).then(function (results) {
 			var users = [];
-			results.managers.managers.forEach(function (manager) {
-				if (manager.user_id > 0) {
-					users.push(manager.user_id);
-				}
 
-			});
-
+			if( Array.isArray(results.managers.managers)){
+				results.managers.managers.forEach(function (manager) {
+					if (manager.user_id > 0) {
+						users.push(manager.user_id);
+					}
+				});
+			}
 
 			User.find({
 				'id': {$in: users}
@@ -214,6 +215,7 @@ router.get('/users/usersname', function (req, res, next) {
 		});
 });
 
+//return lines where user is manager
 router.get('/user/lines/:id?', function (req, res, next) {
 	Promise.props({
 		lines: Line.find({
@@ -235,8 +237,6 @@ router.get('/user/lines/:id?', function (req, res, next) {
 			let data = {
 				data: lines
 			};
-
-
 			res.json(data);
 		})
 		.catch(function (err) {
@@ -244,6 +244,7 @@ router.get('/user/lines/:id?', function (req, res, next) {
 		});
 });
 
+//add manager to line
 router.post('/line/manager/add', function (req, res, next) {
 	//TODO fix: add only one user
 	let body = req.body;
@@ -257,6 +258,7 @@ router.post('/line/manager/add', function (req, res, next) {
 		});
 });
 
+//delete manager from line
 router.post('/line/manager/delete', function (req, res, next) {
 	Promise.props({
 		line: Line.update({id: req.body.lineId}, {$pull: {managers: {user_id: req.body.userId}}}).execAsync()
