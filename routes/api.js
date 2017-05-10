@@ -139,7 +139,6 @@ router.post('/lines/:page?', function (req, res, next) {
 			}
 		});
 
-		//console.warn(lines);
 		let data = {
 			data: lines
 		};
@@ -247,10 +246,12 @@ router.get('/user/lines/:id?', function (req, res, next) {
 
 //add manager to line
 router.post('/line/manager/add', function (req, res, next) {
+
 	//TODO fix: add only one user
 	let body = req.body;
+
 	Promise.props({
-		line: Line.update({id: body.lineId}, {$push: {"managers": {user_id: body.id}}}).execAsync()
+		line: Line.update({id : body.lineId, "managers.user_id": { $nin: [ body.id ] } }, { $addToSet: {"managers": { user_id: body.id }},  }).execAsync()
 	}).then(function (results) {
 		res.send(200);
 	})

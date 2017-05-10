@@ -284,18 +284,24 @@ $(document).ready(function () {
 
 	$('#delete_line').click(function(event ){
 		event.preventDefault();
-		bootbox.confirm("Are you sure?", function(result) {
-			$.ajax({
-				url: '/line/delete/' + line.id,
-				type: 'POST',
-				data: {},
-				success: function (data) {
-					window.location = '/lines';
-				},
-				error: function (jqXHR, textStatus, err) {
+		bootbox.confirm({
+			size: "small",
+			message: "Are you sure you want to remove this line?",
+			callback: function(result) {
+				if (result) {
+					$.ajax({
+						url: '/line/delete/' + line.id,
+						type: 'POST',
+						data: {},
+						success: function (data) {
+							window.location = '/lines';
+						},
+						error: function (jqXHR, textStatus, err) {
 
+						}
+					});
 				}
-			});
+			}
 		});
 
 		return false;
