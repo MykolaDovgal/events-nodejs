@@ -11,7 +11,7 @@
     src: url(/fonts/Montserrat-Light.otf);
 }
 
-*:not(.fa):not(i) {
+*:not(.fa) {
     font-family: Montserrat-Regular;
 }
 
@@ -783,12 +783,15 @@ body.is-menu-visible #menu .closes {
 
 .croppie-container .file-btn {
     display: block;
-    position: absolute;
-    right: 25px;
-    bottom: 43px;
     z-index: 9999;
     overflow: hidden;
     cursor: pointer;
+    color: white;
+    border-radius: 3px;
+    font-size: 16px;
+    text-decoration: none;
+    text-shadow: none;
+    padding: 0;
 }
 
 .croppie-container .cr-viewport {
@@ -816,6 +819,18 @@ body.is-menu-visible #menu .closes {
 
 .offset-top-2 {
     margin-top: 20px !important;
+}
+
+.offset-top-5 {
+    margin-top: 50px !important;
+}
+
+.offset-bottom-1_5{
+    margin-bottom: 15px !important;
+}
+
+.offset-table-retreat{
+    padding: 30px 15px 15px !important;
 }
 
 .wrapper-location {
@@ -858,7 +873,7 @@ body.is-menu-visible #menu .closes {
 }
 
 .description-general {
-    padding: 0 30px;
+    padding: 0 0 0 30px;
 }
 
 .editable-input textarea, .form-inline .form-group {
@@ -879,7 +894,7 @@ body.is-menu-visible #menu .closes {
 }
 
 .block-manager {
-    height: 500px;
+    height: 503px;
 }
 
 .cover-picture {
@@ -891,12 +906,57 @@ body.is-menu-visible #menu .closes {
     position: relative;
 }
 
-.cover-button {
-    position: absolute;
-    right: 25px;
-    bottom: 25px;
-}
+
 
 .pac-container {
     z-index: 100000 !important;
+}
+
+.input-add{
+    margin: 15px 0;
+}
+
+.input-add>div{
+    float: left !important;
+    padding: 0;
+}
+
+.mt-info .cover-button{
+    background: none;
+    border:1px solid #fff;
+}
+
+.mt-element-overlay .mt-overlay-1 .mt-info .cover-button:hover{
+    background: #fff;
+    color: #666;
+}
+.form-textarea .editable-inline{
+width: 100% !important;
+}
+.form-textarea .editable-input{
+    width: 65% !important;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label{
+    padding: 6px;
+}
+
+.switch-lang{
+    width: auto !important;
+    padding: 0 !important;
+    border:none !important;
+}
+
+.switch-lang:hover{
+    background: none !important;
+}
+
+.vertical-row{
+    display: table;
+    width: 100%;
+}
+.vertical-row>*{
+    display: table-cell;
+    vertical-align: middle;
+    float: none;
 }

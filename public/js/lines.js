@@ -138,28 +138,15 @@ function addNewLines(page, filter) {
 }
 
 function generateLine(line) {
-    let html = `<div class="line-item mt-element-overlay" data-line="` + line.id + `">
-                    
-                            <div class="mt-overlay-1"><img src="` + line.cover_picture + `"/>
-                                <div class="mt-overlay">
-                                	<h2 class="mt-info">` + line.line_name_eng + `</h2><br/>
-                                    <!--ul class="mt-info">
-                                        <li>
-                                            <a class="btn default btn-outline" href="javascript:;">
-                                                <i class="icon-magnifier"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a target="_blank" class="btn default btn-outline" href="` + line.website + `">
-                                                <i class="icon-link"></i>
-                                            </a>
-                                        </li>
-                                    </ul-->
-                                    
-                                </div>
-                            
-                    </div>
-                </div>`;
+    let html = `<div class="mt-element-overlay" data-line="` + line.id + `">
+                                                <div class="mt-overlay-3">
+                                                    <img src="` + line.cover_picture + `"/>
+                                                    <div class="mt-overlay">
+                                                       	<h2>` + line.line_name_eng + `</h2>
+                                                        <a class="mt-info" href="/line/` + line.id + `">Learn More</a>
+                                                    </div>
+                                                </div>
+                                    </div>`;
     return html;
 }
 

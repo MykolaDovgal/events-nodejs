@@ -14,7 +14,6 @@
 
 	<link href="/assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
 	<!-- END THEME LAYOUT STYLES -->
-
 	<link href="/assets/global/plugins/typeahead/typeahead.css" rel="stylesheet" type="text/css"/>
 
 	<link href="/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
@@ -22,7 +21,7 @@
 	<link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
 	<link href="/css/lines.css" rel="stylesheet" type="text/css"/>
-
+	<link href="/assets/global/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -49,15 +48,29 @@
 			<div class="page-content">
 				<div class="row">
 					<div class="col-md-3">
-						<div class="wrapper-line border-line">
-							<img id="cover_picture" class="cover-picture"
-								 src="<%= line.cover_picture ? line.cover_picture : '/images/cover-picture.jpg' %>">
-							<button id="upload_button" class="btn btn-default cover-button">Upload</button>
-							<input id="cover_picture_upload" type="file" accept="image/*"
-								   style="position: absolute;left: -9999px;">
+						<div class="wrapper-line border-line croppie-container mt-element-overlay">
+							<div class="mt-overlay-1">
+								<img id="cover_picture" class="cover-picture"
+									 src="<%= line.cover_picture ? line.cover_picture : '/images/cover-picture.jpg' %>">
+								<div class="mt-overlay">
+									<ul class="mt-info">
+										<li>
+											<a class="btn file-btn">
+												<button id="upload_button" class="btn cover-button">Upload</button>
+												<input id="cover_picture_upload" type="file" accept="image/*">
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+
+
+
+
 						</div>
 						<div class="wrapper-line border-line offset-top-2">
-							<p class="title-block">Map</p>
+							<p class="title-block">Location</p>
 							<div id="map" class="map"></div>
 						</div>
 						<div class=" wrapper-line border-line offset-top-2">
@@ -97,30 +110,28 @@
 									   data-toggle="tab"
 									   aria-expanded="false">Followers</a>
 								</li>
+								<li class="switch-lang pull-right">
+										<input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %>  data-on-color="success" data-on-text="Original" data-off-text="English"  data-off-color="warning"/>
+								</li>
 							</ul>
-							<div class="tab-content">
+							<div class="tab-content offset-table-retreat">
 								<div class="tab-pane active" id="general-container">
 									<form enctype="multipart/form-data" method="post"
 										  id="form_change_line">
 										<div class="col-md-7 form-group form-md-line-input">
 
-											<div class="row">
+											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label">
 													<i class="fa fa-pencil" aria-hidden="true"></i> Title
 												</label>
-												<div class="col-md-9 form-group">
-													<div class="col-md-6">
-														<a id="line_name_eng" data-type="text" data-pk="1"
-														   class="editable editable-click"> <%= line.line_name_eng %> </a>
-													</div>
-													<div class="col-md-6">
-														<a id="line_name_ol" data-type="text" data-pk="1"
-														   class="editable editable-click"> <%= line.line_name_ol %> </a>
-													</div>
+												<div class="col-md-9">
+														<div class="col-xs-12">
+															<a href="javascript:;" id="line_name_eng" data-type="text" data-pk="1"
+																				  class="editable editable-click" style="display: inline-block"> <%= line.line_name_eng %> </a></div>
 												</div>
 											</div>
 
-											<div class="row">
+											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label">
 													<i class="fa fa-pencil" aria-hidden="true"></i> Facebook Page
 												</label>
@@ -133,7 +144,7 @@
 											</div>
 
 
-											<div class="row">
+											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label">
 													<i class="fa fa-pencil" aria-hidden="true"></i> Website
 												</label>
@@ -146,21 +157,21 @@
 												</div>
 											</div>
 
-											<div class="row">
+											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>
 												<div class="col-md-9 md-checkbox-inline">
                                                     <div class="col-xs-12">
-                                                        <input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %> data-on-text="Active" data-off-text="Disabled"/>
+                                                        <input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %>  data-on-color="success" data-on-text="Active" data-off-text="Disabled"  data-off-color="warning"/>
                                                     </div>
 												</div>
 											</div>
 
-											<div class="row">
+											<div class="row vertical-row offset-bottom-1_5">
 
 												<label class="col-md-3 control-label">
 													<i class="fa fa-pencil" aria-hidden="true"></i> Description
 												</label>
-												<div class="col-md-9 description-general form-group">
+												<div class="col-md-9 description-general form-group form-textarea">
 												<pre id="description_eng" data-pk="1" data-type="wysihtml5"
 													 data-original-title="Enter notes" class="editable editable-open"
 													 tabindex="-1">
@@ -202,7 +213,8 @@
 										<div class="col-md-5 border-line block-manager">
 
 											<div class="portlet-title">
-												<div class="caption font-red">
+
+												<div class="title-block caption font-red">
 													<i class="fa fa-user" aria-hidden="true"></i>
 													<span class="caption-subject bold">Managers</span>
 												</div>
@@ -218,17 +230,17 @@
 													</thead>
 												</table>
 
-												<div class="col-sm-12">
-													<div class="input-group col-md-10" style="float: left">
+												<div class="input-add">
+													<div class="input-group col-md-10">
 														<span class="input-group-addon">
-															<i class="fa fa-cogs"></i>
+															<i class="fa fa-search" aria-hidden="true"></i>
 														</span>
 														<input type="text" id="user_search" placeholder="User name"
 															   name="user_search" class="form-control"/>
 													</div>
 													<div class="col-md-2">
 														<button id="add_manager_user" type="button"
-																class="btn btn-icon-only green">
+																class="btn btn-icon-only green pull-right">
 															<i class="fa fa-plus"></i>
 														</button>
 													</div>
@@ -237,14 +249,14 @@
 											</div>
 
 										</div>
-										<div class="col-xs-12 offset-top-2">
-											<a class="btn red btn-outline btn-lg sbold" data-toggle="modal"
+										<div class="col-xs-12 offset-top-5">
+											<a class="btn red btn-outline  sbold" data-toggle="modal"
 											   href="#send_notification"> Send Notification </a>
 											<div class="pull-right group-btn">
 												<button class="btn yellow btn-outline sbold uppercase" id="delete_line">
 													Delete Line
 												</button>
-												<button type="submit" class="btn btn-lg green pull-right">
+												<button type="submit" class="btn  green pull-right">
 													<i class="fa fa-floppy-o" aria-hidden="true"></i>
 												</button>
 											</div>
