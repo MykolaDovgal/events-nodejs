@@ -14,7 +14,8 @@ $(document).ready(function () {
 
 
 	//genres setup
-	$.getJSON('/data/genres.json', function (data,) {
+	$.getJSON('/data/genres.json', function (data) {
+
 		let selectItems = $('select[name="genres"]');
 
 		data.forEach((item, i, arr) => {
