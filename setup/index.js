@@ -22,7 +22,8 @@ const COUNT_OF_USERS = 100;
 const COUNT_OF_LINES = 50;
 const PASSWORD_USER = '12345';
 
-var setup = {
+var setup;
+setup = {
 
 
 	createAdmin: function () {
@@ -109,7 +110,6 @@ var setup = {
 				let first_name = user.firstname;
 				let local_image = './public/uploads/users/' + first_name + '.png';
 				let remote_image = home_url + 'uploads/users/' + first_name + '.png';
-				console.log(remote_image);
 				if (!fs.existsSync(local_image) && first_name) {
 					downloadImage(remote_image, local_image, function () {
 						console.log(local_image);
