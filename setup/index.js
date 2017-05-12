@@ -100,7 +100,7 @@ setup = {
 
 	// download user images
 	updateUserImages: function (cb) {
-		let home_url = config.get('url');
+		let count = 0;
 		Promise.props({
 			users: User.find({})
 		}).then(function (results) {
@@ -109,19 +109,20 @@ setup = {
 			users.forEach(function (user) {
 				let first_name = user.firstname;
 				let local_image = './public/uploads/users/' + first_name + '.png';
-				let remote_image = home_url + 'uploads/users/' + first_name + '.png';
+				let remote_image = faker.internet.avatar();
 				if (!fs.existsSync(local_image) && first_name) {
 					downloadImage(remote_image, local_image, function () {
-						console.log(local_image);
+						//console.log(local_image);
 					});
+					count++;
 				}
-
 
 			});
 
 			if (cb) {
 				cb();
 			}
+			console.warn('Updated ' + count + ' images');
 
 		}).catch(function (err) {
 			console.warn(err);
