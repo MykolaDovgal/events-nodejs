@@ -49,10 +49,12 @@ $(document).ready(function () {
 			cache: false ,
 			transform: function(response) {
 				return $.map(response, function(item) {
+					console.log(item);
 					return {
 						id: item.id,
 						name: item.name,
 						username: item.username,
+						picture: item.picture
 					};
 				});
 			}
@@ -71,7 +73,10 @@ $(document).ready(function () {
 			source: users,
 			templates: {
 				suggestion: function (item) {
-					return '<div>' + item.id + '    <strong>' + item.name + '</strong> -'  + '</div>';
+					return  '<div class="col-md-12">' +
+								'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;" src="' + item.picture + '"/></div>' +
+								'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
+							'</div>';
 				}
 			}
 		}).bind('typeahead:select', (ev, suggestion) => selectedResult = suggestion);

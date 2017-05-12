@@ -230,7 +230,8 @@ router.get('/users/usersname', function (req, res, next) {
 				data.push({
 					id: user.id,
 					username: user.username,
-					name: user.firstname + ' ' + user.lastname
+					name: user.firstname + ' ' + user.lastname,
+					picture: user.profile_picture
 				});
 			});
 			res.json(data);
