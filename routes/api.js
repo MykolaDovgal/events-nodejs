@@ -88,9 +88,19 @@ router.post('/lines/:page?', function (req, res, next) {
 	let limit = config.get('project:lines:limit_on_page') || 9;
 	let search = req.query.search;
 	let active = req.query.active;
+	let addresses = req.query.address;
 	let page = req.params.page || 1;
 
 	delete req.query.search;
+
+	let cities = [];
+
+	if (addresses && addresses.length > 0) {
+		cities = addresses.map((address) => {
+			return JSON.parse(address).city;
+		});
+		console.log(cities);	
+	}
 
 	let filter = [];
 
@@ -104,20 +114,34 @@ router.post('/lines/:page?', function (req, res, next) {
 			id = 0;
 		}
 
-		var filter_search = [{'id': id},
+		var filter_search = [
 			{'line_name_eng': new RegExp(search, "i")},
 			{'line_name_eng': new RegExp(search, "i")},
 			{'description_ol': new RegExp(search, "i")},
 			{'description_eng': new RegExp(search, "i")},
-			{'phone_number': new RegExp(search, "i")}];
+			{'phone_number': new RegExp(search, "i")}
+		];
 
+		if (id > 0) {
+			filter_search.push({'id': id});
+		}
 
-		filter = filter_search;
+		filter.push({ $or: filter_search });
 	}
 
 	if (active !== undefined) {
 		filter.push({'active': active});
 	}
+
+	if (cities.length > 0) {
+		filter.push(
+			{
+				'address.city': {$in: cities}
+			}
+		);
+	}
+
+	console.log(filter);
 
 	if (filter.length === 0) {
 		filter.push({});
@@ -125,7 +149,7 @@ router.post('/lines/:page?', function (req, res, next) {
 
 
 	Promise.props({
-		lines: Line.paginate({$or: filter}, {page: page, limit: limit})
+		lines: Line.paginate({$and: filter}, {page: page, limit: limit})
 	}).then(function (results) {
 
 		let lines = results.lines.docs;
@@ -206,7 +230,8 @@ router.get('/users/usersname', function (req, res, next) {
 				data.push({
 					id: user.id,
 					username: user.username,
-					name: user.firstname + ' ' + user.lastname
+					name: user.firstname + ' ' + user.lastname,
+					picture: user.profile_picture
 				});
 			});
 			res.json(data);

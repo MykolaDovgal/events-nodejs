@@ -12,8 +12,7 @@
           id="style_color"/>
     <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
-    <link href="/assets/global/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet"
-          type="text/css"/>
+    <link rel="stylesheet" href="/css/plugins/bootstrap-multiselect.css" type="text/css"/>
 
     <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
@@ -76,6 +75,22 @@
 
 
                         <div class="pull-right group-input">
+                            <div class="pull-left">
+                               <span class="multiselect-native-select">
+                                   <select
+                                        id="country-city-select"
+                                        class="mt-multiselect btn btn-default mt-noicon" multiple="multiple"
+                                        data-clickable-groups="true" data-collapse-groups="true" data-width="100%">
+                                        <% addresses.forEach((address, countryIndex) => { %>
+                                        <optgroup label="<%= address.country %>" class="group-<%= countryIndex %>">
+                                            <% address.cities.forEach((city, cityIndex) => { %>
+                                            <option value='{ "country": "<%= address.country %>", "city": "<%= city %>"}'><%= city %></option>
+                                            <% }) %>
+                                        </optgroup>
+                                        <% }) %>
+                                    </select>
+                               </span>
+                            </div>
                             <div id="refresh-lines" class="group-icon-text pull-left">
                                 <span class="fa fa-refresh"></span>
                             </div>
@@ -277,7 +292,8 @@
 
     <script src="/js/lines.js" type="text/javascript"></script>
 
-    <script src="/assets/pages/scripts/components-bootstrap-multiselect.min.js" type="text/javascript"></script>
+    <!--<script src="/assets/pages/scripts/components-bootstrap-multiselect.min.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="/js/plugins/bootstrap-multiselect.js"></script>
 </footer>
 
 <% include ../static/menu %>
