@@ -4,6 +4,26 @@ var $gallery = $('#lines-gallery');
 
 $(document).ready(function () {
 
+    $('#country-city-select').multiselect({
+        enableClickableOptGroups: true,
+        onChange: function() {
+            var values = $('#country-city-select').val();
+            var filter = global.filter;
+            console.log(values);
+            if (values) {
+                if (!filter) {
+                    filter = {};
+                }
+                filter['address'] = values;
+
+                global.filter = filter;
+            } else {
+                delete global.filter.address;
+            }
+            buildLines();
+        }
+    });
+
     var form = $('#form_add_user');
 
     buildLines();

@@ -37,3 +37,6 @@ npm-debug.log
 # WebStorm files
 .idea
 
+# VS Code files
+.vscode
+
