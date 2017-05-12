@@ -49,7 +49,6 @@ $(document).ready(function () {
 			cache: false ,
 			transform: function(response) {
 				return $.map(response, function(item) {
-					console.log(item);
 					return {
 						id: item.id,
 						name: item.name,

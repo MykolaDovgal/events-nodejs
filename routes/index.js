@@ -34,6 +34,10 @@ var user_changePicture = require('./user/changePicture');
 let notification_add = require('./notification/add');
 let setup = require('./setup');
 
+let party_index = require('./party/index');
+
+
+
 router.all('*', middleware.all);
 router.all('*', middleware.auth);
 
@@ -51,6 +55,8 @@ router.use(line_delete);
 
 router.use(notification_add);
 router.use(setup);
+
+router.use(party_index);
 
 
 
