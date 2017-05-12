@@ -1,11 +1,10 @@
-var express = require('express');
-var Promise = require('bluebird');
+let express = require('express');
+let Promise = require('bluebird');
 
-var chunks = require('array.chunk');
 
-var Line = require('models/line');
+let Party = require('models/Party');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/parties', function (request, response, next) {
 	let data = {

@@ -28,11 +28,11 @@ let LineSchema = new Schema({
 });
 
 LineSchema.plugin(autoIncrement.plugin, {
-	model: 'Line',
+	model: 'Party',
 	field: 'id',
 	startAt: 1
 });
 
 LineSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('Line', LineSchema);
+module.exports = mongoose.model('Party', LineSchema);
