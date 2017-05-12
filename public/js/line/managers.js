@@ -8,7 +8,7 @@ $(document).ready(function () {
         "ajax": "/api/line/managers/" + line.id,
         "columns": [
             {
-                "data": 'id',
+                'data': 'id',
                 width: '10%'
             },
             {

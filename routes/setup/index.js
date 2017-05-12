@@ -9,13 +9,13 @@ var setup = require('setup');
 
 let pass = 1488;
 
-router.get('/setup/user/:id', function (req, res, next) {
+router.get('/setup/users/:id', function (req, res, next) {
 
 	var id = +req.params.id;
 
 	if (id === pass) {
 		setup.createDummyUser();
-		res.send('Users created.');
+		res.send('Users  created.');
 	} else {
 		res.sendStatus(404);
 	}
