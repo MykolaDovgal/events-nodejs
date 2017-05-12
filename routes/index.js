@@ -32,6 +32,7 @@ var user_delete = require('./user/delete');
 var user_changePicture = require('./user/changePicture');
 
 let notification_add = require('./notification/add');
+let setup = require('./setup');
 
 router.all('*', middleware.all);
 router.all('*', middleware.auth);
@@ -49,6 +50,7 @@ router.use(line_update);
 router.use(line_delete);
 
 router.use(notification_add);
+router.use(setup);
 
 
 

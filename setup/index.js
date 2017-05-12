@@ -4,6 +4,7 @@ var autoIncrement = require('mongoose-auto-increment');
 var faker = require('faker');
 var fs = require('fs');
 var request = require('request');
+var Promise = require('bluebird');
 
 require('rootpath')();
 
@@ -94,6 +95,38 @@ var setup = {
 				}
 			});
 		}
+	},
+
+	// download user images
+	updateUserImages: function (cb) {
+		let home_url = config.get('url');
+		Promise.props({
+			users: User.find({})
+		}).then(function (results) {
+			let users = results.users;
+
+			users.forEach(function (user) {
+				let first_name = user.firstname;
+				let local_image = './public/uploads/users/' + first_name + '.png';
+				let remote_image = home_url + 'uploads/users/' + first_name + '.png';
+				console.log(remote_image);
+				if (!fs.existsSync(local_image) && first_name) {
+					downloadImage(remote_image, local_image, function () {
+						console.log(local_image);
+					});
+				}
+
+
+			});
+
+			if (cb) {
+				cb();
+			}
+
+		}).catch(function (err) {
+			console.warn(err);
+		});
+
 	},
 
 	createLines: function () {
