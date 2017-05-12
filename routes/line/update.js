@@ -54,7 +54,7 @@ router.post('/line/update/:id', upload.any(), function (request, response, next)
         console.log(body);
         console.log(body.name);
         console.log(body['value']);
-        response.send(200);
+        response.status(200).send(body['value']);
     })
         .catch(function (err) {
             next(err);

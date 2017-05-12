@@ -39,13 +39,20 @@
 		<!-- BEGIN CONTENT -->
 		<div class="page-content-wrapper">
 			<div class="wrapper-title">
-				<h1 class="page-title text-center"><%= line.line_name_eng %></h1>
 
-				<h3 id="place_title" class="page-title text-center">in <%= line.address.country + ', ' + line.address.city %></h3>
-
+                <div class="text-center">
+                    <div class="language_switch_container">
+                        <h1 id="english_title" class="page-title"> <%= line.line_name_eng %> </h1>
+                    </div>
+                    <div hidden class="language_switch_container">
+                        <h1 id="ol_title" class="page-title"> <%= line.line_name_ol %> </h1>
+                    </div>
+                    <h4 >#<%= line.id %></h4>
+                    <h4 id="place_title">in <%= line.address.country + ', ' + line.address.city %></h4>
+                </div>
 			</div>
 			<!-- BEGIN CONTENT BODY -->
-			<div class="page-content">
+			<div  class="page-content">
 				<div class="row">
 					<div class="col-md-3">
 						<div class="wrapper-line border-line croppie-container mt-element-overlay">
@@ -111,7 +118,7 @@
 									   aria-expanded="false">Followers</a>
 								</li>
 								<li class="switch-lang pull-right">
-										<input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %>  data-on-color="success" data-on-text="Original" data-off-text="English"  data-off-color="warning"/>
+										<input id="language_switch" type="checkbox" class="make-switch form-control" data-on-color="success" data-on-text="Original" data-off-text="English"  data-off-color="warning"/>
 								</li>
 							</ul>
 							<div class="tab-content offset-table-retreat">
@@ -125,9 +132,14 @@
 													<i class="fa fa-pencil" aria-hidden="true"></i> Title
 												</label>
 												<div class="col-md-9">
-														<div class="col-xs-12">
-															<a href="javascript:;" id="line_name_eng" data-type="text" data-pk="1"
-																				  class="editable editable-click" style="display: inline-block"> <%= line.line_name_eng %> </a></div>
+                                                    <div class="col-xs-12 language_switch_container">
+                                                        <a id="line_name_eng" data-type="text" data-pk="1"
+                                                           class="editable editable-click" style="display: inline-block"> <%= line.line_name_eng %> </a>
+                                                    </div>
+                                                    <div hidden class="col-xs-12 language_switch_container">
+                                                        <a id="line_name_ol" data-type="text" data-pk="1"
+                                                           class="editable editable-click" style="display: inline-block"> <%= line.line_name_ol %> </a>
+                                                    </div>
 												</div>
 											</div>
 
@@ -171,14 +183,18 @@
 												<label class="col-md-3 control-label">
 													<i class="fa fa-pencil" aria-hidden="true"></i> Description
 												</label>
-												<div class="col-md-9 description-general form-group form-textarea">
-												<pre id="description_eng" data-pk="1" data-type="wysihtml5"
-													 data-original-title="Enter notes" class="editable editable-open"
-													 tabindex="-1">
-													<%= line.description_eng %>
-												</pre>
 
+												<div class="col-md-9 description-general form-group form-textarea">
+                                                    <div id="description_eng" data-pk="1" data-type="wysihtml5"
+                                                         data-original-title="Enter notes" class="editable editable-open language_switch_container">
+                                                        <%= line.description_eng %>
+                                                    </div>
+                                                    <div hidden id="description_ol" data-pk="1" data-type="wysihtml5"
+                                                          data-original-title="Enter notes" class="editable editable-open language_switch_container">
+                                                        <%= line.description_ol %>
+                                                    </div>
 												</div>
+
 
 
 											</div>

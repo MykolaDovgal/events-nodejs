@@ -10,7 +10,6 @@ $(document).ready(function () {
 	let id = loc[loc.length-1];
 	let genres = [];
 	let genresCounter = 0;
-	let selectedResult = {};
 
 
 	//genres setup
@@ -21,7 +20,6 @@ $(document).ready(function () {
 		data.forEach((item, i, arr) => {
 			genres.push('<option value="' + item + '">' + item + '</option>');
 		});
-
 
 		//if user select genres previously
 		if (selectItems.length > 0) {
@@ -98,6 +96,7 @@ $(document).ready(function () {
 	$('#upload-profile-pic').on('change', function () {
 		readFile(this);
 	});
+
 	function readFile(input) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
@@ -111,7 +110,6 @@ $(document).ready(function () {
 		}
 	}
 
-
 	//inline edit
 	let FormEditable = function () {
 		let initEditables = function () {
@@ -119,59 +117,66 @@ $(document).ready(function () {
 
 			//global settings
 			$.fn.editable.defaults.inputclass = 'form-control';
-			$.fn.editable.defaults.url = '/line/update';
+			$.fn.editable.defaults.url = '/line/update/' + line.id;
 			$.fn.editable.defaults.mode = 'inline';
 
 			//editables element samples
 
 
 			$('#line_name_eng').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'line_name_eng',
-				title: 'Enter title'
+				title: 'Enter title',
+				success: function(data) {
+					$('#english_title').text(data);
+				}
 			});
 			$('#line_name_ol').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'line_name_ol',
-				title: 'Enter title'
+				title: 'Enter title',
+				success: function(data) {
+					$('#ol_title').text(data);
+				}
 			});
+
 			$('#line_facebook_page').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'facebook_page',
 				title: 'Enter link on facebook page'
 			});
 			$('#line_website').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'website',
 				title: 'Enter link on website'
 			});
 			$('#line_country').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'country',
 				title: 'Enter country'
 			});
 			$('#line_city').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'city',
 				title: 'Enter city'
 			});
+
 			$('#description_eng').editable({
-				url: '/line/update/' + id,
 				type: 'text',
 				pk: 1,
 				name: 'description_eng',
+				title: 'Enter description'
+			});
+			$('#description_ol').editable({
+				type: 'text',
+				pk: 1,
+				name: 'description_ol',
 				title: 'Enter description'
 			});
 
@@ -309,7 +314,9 @@ $(document).ready(function () {
 	});
 
 
-
+	$('#language_switch').on('switchChange.bootstrapSwitch', function(event, state) {
+		$('.language_switch_container').toggle();
+	});
 
 
 
