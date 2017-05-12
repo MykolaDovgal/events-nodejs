@@ -2,12 +2,16 @@ var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
 
 var faker = require('faker');
+var fs = require('fs');
+var request = require('request');
 
-var config = require('../config');
+require('rootpath')();
+
+var config = require('config');
 // mongo connect
 var mongo_uri = config.get('db:connection');
-var User = require('../models/user');
-var Line = require('../models/line');
+var User = require('models/user');
+var Line = require('models/line');
 
 //var UserSchema = require('mongoose').model('Song').schema;
 var UserSchema = User.schema;
@@ -53,6 +57,15 @@ var setup = {
 			// create a new user
 			var first_name = faker.name.firstName();
 			var last_name = faker.name.lastName();
+			var remote_url = faker.image.avatar();
+
+			var local_image = './public/uploads/users/' + first_name + '.png';
+			var local_image_save = '/uploads/users/' + first_name + '.png';
+
+			downloadImage(remote_url, local_image, function () {
+				console.log(local_image_save);
+			});
+
 			var userData = {
 				username: faker.internet.userName(first_name, last_name),
 				password: PASSWORD_USER,
@@ -63,8 +76,8 @@ var setup = {
 				permission_level: faker.random.number(4),
 				about: faker.lorem.sentence(),
 				facebook_profile: faker.internet.url(),
-				profile_picture: faker.image.avatar(),
-				profile_picture_circle: faker.image.avatar(),
+				profile_picture: local_image_save,
+				profile_picture_circle: local_image_save,
 				age: faker.random.number(10, 90),
 				active: faker.random.boolean(),
 				date_of_birth: faker.date.past()
@@ -136,6 +149,15 @@ var setup = {
 		}
 
 	}
+};
+
+var downloadImage = function (uri, filename, callback) {
+	request.head(uri, function (err, res, body) {
+		console.log('content-type:', res.headers['content-type']);
+		console.log('content-length:', res.headers['content-length']);
+
+		request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+	});
 };
 
 module.exports = setup;

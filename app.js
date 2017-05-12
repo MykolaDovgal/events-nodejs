@@ -28,11 +28,11 @@ var User = require('./models/user');
 
 // add admin
 User.count({username: config.get('project:admin:username')}, function (err, count) {
-    if (count === 0) {
-        setup.createAdmin();
-    }
-    //setup.createDummyUser();
-    //setup.createLines();
+	if (count === 0) {
+		setup.createAdmin();
+	}
+	setup.createDummyUser();
+	//setup.createLines();
 });
 
 // routes
@@ -67,49 +67,49 @@ var userModel = User;
 
 
 passport.serializeUser(function (user, done) {
-    //console.log(user);
-    done(null, user);
+	//console.log(user);
+	done(null, user);
 });
 
 passport.deserializeUser(function (user_data, done) {
-    done(null, user_data);
+	done(null, user_data);
 });
 
 
 passport.use(new LocalStrategy(
-    {
-        usernameField: 'username',
-        passwordField: 'password',
-        passReqToCallback: true // with req
-    },
-    function (req, username, password, done) {
-        //console.log('username');
-        //console.log(email);
+	{
+		usernameField: 'username',
+		passwordField: 'password',
+		passReqToCallback: true // with req
+	},
+	function (req, username, password, done) {
+		//console.log('username');
+		//console.log(email);
 
-        process.nextTick(function () {
+		process.nextTick(function () {
 
-            userModel.findOne({username: username}).exec(function (err, user) {
-                if (user) {
+			userModel.findOne({username: username}).exec(function (err, user) {
+				if (user) {
 
-                    console.log(user);
-                    console.log(password);
+					console.log(user);
+					console.log(password);
 
-                    user.comparePassword(password, function (err, isMatch) {
-                        // check if the password was a match
-                        if (isMatch) {
-                            return done(null, user);
-                        } else {
-                            return done(null, false);
-                        }
-                    });
+					user.comparePassword(password, function (err, isMatch) {
+						// check if the password was a match
+						if (isMatch) {
+							return done(null, user);
+						} else {
+							return done(null, false);
+						}
+					});
 
-                } else {
-                    return done(null, false);
-                }
-            });
+				} else {
+					return done(null, false);
+				}
+			});
 
-        });
-    }
+		});
+	}
 ));
 
 app.use(routes);
@@ -118,25 +118,25 @@ app.use('/api', api_routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+	// set locals, only providing error in development
+	res.locals.message = err.message;
+	res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    if (err.status !== 404) {
-        console.warn(err);
-    }
+	if (err.status !== 404) {
+		console.warn(err);
+	}
 
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+	// render the error page
+	res.status(err.status || 500);
+	res.render('error');
 });
 
 console.warn('App Started');
