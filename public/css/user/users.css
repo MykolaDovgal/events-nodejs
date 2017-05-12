@@ -1,0 +1,21 @@
+.mt-element-card.mt-card-round .mt-card-item {
+	padding: 15px;
+	border: none;
+	margin-bottom: 0;
+}
+
+.user-picture .mt-info li {
+	width: 120px;
+}
+
+.user-picture .mt-info li a {
+	width: 100%;
+}
+
+#button-open-crop {
+	margin-bottom: 10px;
+}
+
+.user-picture {
+	max-width: 270px;
+}

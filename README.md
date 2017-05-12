@@ -4,5 +4,6 @@
 
 ## Setup
 
-[**Generate Users**](http://eventsnode.herokuapp.com/setup/users/1488/)<br/>
+[**Generate Users**](http://eventsnode.herokuapp.com/setup/users/1488/)
+
 [**Update Images**](http://eventsnode.herokuapp.com/setup/userImages/1488/)
