@@ -38,20 +38,23 @@
 
 		<!-- BEGIN CONTENT -->
 		<div class="page-content-wrapper">
-			<div class="wrapper-title">
 
-					<div class="text-center">
-						<div class="language_switch_container">
-							<h1 id="english_title" class="page-title"> <%= line.line_name_eng %> </h1>
-						</div>
-						<div hidden class="language_switch_container">
-							<h1 id="ol_title" class="page-title"> <%= line.line_name_ol %> </h1>
-						</div>
-						<h4 >#<%= line.id %></h4>
-						<h4 id="place_title">in <%= line.address.country + ', ' + line.address.city %></h4>
-					</div>
-				</div>
+			<!-- BEGIN CONTENT BODY -->
+			<div  class="page-content">
 				<div class="row">
+                    <div class="wrapper-title">
+
+                        <div class="text-center">
+                            <div class="language_switch_container">
+                                <h1 id="english_title" class="page-title"> <%= line.line_name_eng %> </h1>
+                            </div>
+                            <div hidden class="language_switch_container">
+                                <h1 id="ol_title" class="page-title"> <%= line.line_name_ol %> </h1>
+                            </div>
+                            <h4 >#<%= line.id %></h4>
+                            <h4 id="place_title">in <%= line.address.country + ', ' + line.address.city %></h4>
+                        </div>
+                    </div>
 					<div class="col-md-3">
 						<div class="wrapper-line border-line croppie-container mt-element-overlay">
 							<div class="mt-overlay-1">

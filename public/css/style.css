@@ -963,6 +963,10 @@ body.is-menu-visible #menu .closes {
 	width: 100%;
 }
 
+.vertical-row p{
+    margin: 0;
+}
+
 .vertical-row > * {
 	display: table-cell;
 	vertical-align: middle;
@@ -973,11 +977,9 @@ pre{
 	margin-bottom: 0;
 }
 
-.date-picker{
-	padding: 0 15px !important;
-}
 
 .facebook-icon {
     width: 30px;
     height: 30px;
 }
+
