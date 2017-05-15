@@ -121,12 +121,15 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
+	lock = false;
+
     $('#table-line-managers tbody').on('click', 'td', function (event) {
-		window.location = '/users/' + line_managers_table.row(this).data().id;
+		if (!lock)
+			window.location = '/users/' + line_managers_table.row(this).data().id;
 	});
 
     $('#table-line-managers tbody').on('click', 'td > div.remove-column', function (event) {
-		console.log(event);
+		lock = true;
         let parent = this.parentElement;
         bootbox.confirm({
 	        size: "small",
@@ -150,6 +153,7 @@ $(document).ready(function () {
 			        });
 		        }
 	        }
-        })     
+        })  
+		setTimeout(function() { lock = false }, 150);
     });
 });
