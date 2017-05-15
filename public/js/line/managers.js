@@ -10,7 +10,7 @@ $(document).ready(function () {
 	        {
 		        data: 'delete_button',
 		        render: function (data, type, full, meta) {
-			        return '<div class="text-center"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+			        return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
 		        },
 		        width: '5%'
 	        },
@@ -121,15 +121,19 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-    $('#table-line-managers tbody').on('click', 'tr', function () {
-        let self = this;
+    $('#table-line-managers tbody').on('click', 'td', function (event) {
+		window.location = '/users/' + line_managers_table.row(this).data().id;
+	});
+
+    $('#table-line-managers tbody').on('click', 'td > div.remove-column', function (event) {
+		console.log(event);
+        let parent = this.parentElement;
         bootbox.confirm({
 	        size: "small",
 	        message: "Are you sure you want to remove this user from managers?",
 	        callback: function(result) {
-		        console.log(line);
 		        if (result) {
-			        let data = JSON.stringify({ userId: line_managers_table.row(self).data().id, lineId: line.id });
+			        let data = JSON.stringify({ userId: line_managers_table.row(parent).data().id, lineId: line.id });
 			        $.ajax({
 				        url: '/api/line/manager/delete',
 				        type: 'POST',
