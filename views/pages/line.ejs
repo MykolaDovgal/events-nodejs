@@ -40,19 +40,17 @@
 		<div class="page-content-wrapper">
 			<div class="wrapper-title">
 
-                <div class="text-center">
-                    <div class="language_switch_container">
-                        <h1 id="english_title" class="page-title"> <%= line.line_name_eng %> </h1>
-                    </div>
-                    <div hidden class="language_switch_container">
-                        <h1 id="ol_title" class="page-title"> <%= line.line_name_ol %> </h1>
-                    </div>
-                    <h4 >#<%= line.id %></h4>
-                    <h4 id="place_title">in <%= line.address.city + ', ' + line.address.country %></h4>
-                </div>
-			</div>
-			<!-- BEGIN CONTENT BODY -->
-			<div  class="page-content">
+					<div class="text-center">
+						<div class="language_switch_container">
+							<h1 id="english_title" class="page-title"> <%= line.line_name_eng %> </h1>
+						</div>
+						<div hidden class="language_switch_container">
+							<h1 id="ol_title" class="page-title"> <%= line.line_name_ol %> </h1>
+						</div>
+						<h4 >#<%= line.id %></h4>
+						<h4 id="place_title">in <%= line.address.country + ', ' + line.address.city %></h4>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-3">
 						<div class="wrapper-line border-line croppie-container mt-element-overlay">
@@ -129,7 +127,7 @@
 
 											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label">
-                                                    Title
+													<i class="fa fa-pencil" aria-hidden="true"></i> Title
 												</label>
 												<div class="col-md-9">
                                                     <div class="col-xs-12 language_switch_container">
@@ -145,7 +143,7 @@
 
 											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label">
-													 Facebook Page
+													<i class="fa fa-pencil" aria-hidden="true"></i> Facebook Page
 												</label>
 												<div class="col-md-9">
 													<div class="col-xs-12"><a id="line_facebook_page" data-type="text"
@@ -158,7 +156,7 @@
 
 											<div class="row vertical-row offset-bottom-1_5">
 												<label class="col-md-3 control-label">
-													 Website
+													<i class="fa fa-pencil" aria-hidden="true"></i> Website
 												</label>
 												<div class="col-md-9">
 													<div class="col-xs-12"><a href="<%= line.website %>"
@@ -170,7 +168,7 @@
 											</div>
 
 											<div class="row vertical-row offset-bottom-1_5">
-												<label class="col-md-3 control-label" for="active"> Active</label>
+												<label class="col-md-3 control-label" for="active"><i class="fa fa-pencil" aria-hidden="true"></i> Active</label>
 												<div class="col-md-9 md-checkbox-inline">
                                                     <div class="col-xs-12">
                                                         <input id="active-switch" type="checkbox" class="make-switch form-control" <%= line.active ? 'checked' : '' %>  data-on-color="success" data-on-text="Active" data-off-text="Disabled"  data-off-color="warning"/>
@@ -181,7 +179,7 @@
 											<div class="row vertical-row offset-bottom-1_5">
 
 												<label class="col-md-3 control-label">
-													 Description
+													<i class="fa fa-pencil" aria-hidden="true"></i> Description
 												</label>
 
 												<div class="col-md-9 description-general form-group form-textarea">
@@ -239,7 +237,6 @@
 												<table class="table table-striped table-bordered table-hover order-column"
 													   id="table-line-managers">
 													<thead>
-                                                    <th class="no-sort"></th>
 													<th>UserID</th>
 													<th>Picture</th>
 													<th>User Name</th>

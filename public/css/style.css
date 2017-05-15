@@ -639,13 +639,12 @@ body.is-menu-visible #menu .closes {
 }
 
 .page-title {
-	color: #fff;
+	color: #3d3d3d;
 	font-weight: 300;
 	letter-spacing: -1px;
 	display: block;
 	font-size: 30px;
 	margin: 0;
-	padding: 5px 0;
 }
 
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
@@ -690,6 +689,10 @@ body.is-menu-visible #menu .closes {
 	outline: none;
 }
 
+.form-horizontal .control-label{
+	padding: 0;
+}
+
 .search .fa-search {
 	height: 23px;
 	width: 25px;
@@ -712,7 +715,11 @@ body.is-menu-visible #menu .closes {
 
 .wrapper-title {
 	border-radius: 4px 4px 0 0;
-	padding: 10px 0;
+	margin-bottom: 5px;
+}
+
+.wrapper-title h4{
+	margin: 0;
 }
 
 .content-border-radius {
@@ -812,9 +819,9 @@ body.is-menu-visible #menu .closes {
 	float: left;
 	background: #fff;
 	margin: 0;
-	padding: 5px 10px;
-	margin-top: -30px;
-	margin-left: 18px;
+	padding: 5px 10px !important;
+	margin-top: -30px !important;
+	margin-left: 18px !important;
 }
 
 .offset-top-2 {
@@ -929,7 +936,7 @@ body.is-menu-visible #menu .closes {
 	color: #666;
 }
 
-.form-textarea .editable-inline {
+.form-textarea .editable-inline, .editable-inline{
 	width: 100% !important;
 }
 
@@ -960,4 +967,12 @@ body.is-menu-visible #menu .closes {
 	display: table-cell;
 	vertical-align: middle;
 	float: none;
+}
+
+pre{
+	margin-bottom: 0;
+}
+
+.date-picker{
+	padding: 0 15px !important;
 }

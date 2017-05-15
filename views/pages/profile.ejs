@@ -23,7 +23,7 @@
 
     <link href="/css/user/users.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME LAYOUT STYLES -->
-
+    <link href="/assets/global/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -75,8 +75,8 @@
                     </div>
                     <div class="col-md-10">
                         <div class="portlet light bordered">
-                            <div class="portlet-body">
-                                <ul class="nav nav-pills">
+                            <div class="portlet-body tabbable-line line-tab-width">
+                                <ul class="nav nav-tabs">
                                     <li class="active">
                                         <a href="#tab_general" data-toggle="tab">General</a>
                                     </li>
@@ -90,65 +90,65 @@
                                             <div class="col-md-7">
                                                 <form action="/user/update" method="post" class="form-horizontal"
                                                       enctype="multipart/form-data" id="form_update_user">
-                                                    <div class="col-md-12 form-group form-md-line-input">
-                                                        <div class="row">
+                                                    <div class="col-md-12 form-md-line-input">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 User Name
                                                             </label>
                                                             <div class="col-md-9 form-group">
-                                                                <a id="username" data-type="text" data-pk="1"
-                                                                   class="editable editable-click"> <%= user.username %> </a>
+                                                                <div class="col-xs-12"> <a id="username" data-type="text" data-pk="1"
+                                                                                           class="editable editable-click"> <%= user.username %> </a></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                    <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 First Name
                                                             </label>
                                                             <div class="col-md-9 form-group">
-                                                                <a id="firstname" data-type="text" data-pk="1"
-                                                                   class="editable editable-click"> <%= user.firstname %> </a>
+                                                                <div class="col-xs-12">  <a id="firstname" data-type="text" data-pk="1"
+                                                                   class="editable editable-click"> <%= user.firstname %> </a></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 Last Name
                                                             </label>
                                                             <div class="col-md-9 form-group">
-                                                                <a id="lastname" data-type="text" data-pk="1"
-                                                                   class="editable editable-click"> <%= user.lastname %> </a>
+                                                                <div class="col-xs-12">   <a id="lastname" data-type="text" data-pk="1"
+                                                                   class="editable editable-click"> <%= user.lastname %> </a></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 Facebook Profile
                                                             </label>
                                                             <div class="col-md-9 form-group">
-                                                                <a id="facebook" data-type="text" data-pk="1"
-                                                                   class="editable editable-click"> <%= user.facebook_profile %> </a>
+                                                                <div class="col-xs-12">  <a id="facebook" data-type="text" data-pk="1"
+                                                                   class="editable editable-click"> <%= user.facebook_profile %> </a></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 Email Address
                                                             </label>
                                                             <div class="col-md-9 form-group">
-                                                                <a id="email" data-type="text" data-pk="1"
-                                                                   class="editable editable-click"> <%= user.email %> </a>
+                                                                <div class="col-xs-12"> <a id="email" data-type="text" data-pk="1"
+                                                                                           class="editable editable-click"> <%= user.email %> </a></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 <%= user.date_of_birth ? 'Date of Birth (Age ' + Math.floor((Date.now() - user.date_of_birth) / 1000 / 3600 / 24 / 365) + ')' : 'Please set date of birth' %>
                                                             </label>
 
-                                                            <div class="col-md-9 input-group input-medium date date-picker"
-                                                                 data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
-
+                                                            <div class="col-md-9">
+                                                                <div class="col-xs-12 input-group input-medium date date-picker"
+                                                                     data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
                                                                 <input value="<%= dateOfBirth %>"
                                                                        id="form-date-of-birth"
                                                                        name="dateofbirth" type="text"
@@ -158,34 +158,34 @@
                                                                     <button class="btn default" type="button">
                                                                         <i class="fa fa-calendar"></i>
                                                                     </button>
-                                                                </span>
+                                                                </span></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 About
                                                             </label>
                                                             <div class="col-md-9  form-group">
-                                                                <pre id="about" data-pk="1"
+                                                                <div class="col-xs-12"><pre id="about" data-pk="1"
                                                                      data-original-title="Enter notes"
-                                                                     class="editable editable-open" tabindex="-1">
+                                                                     class="editable editable-open col-xs-12" tabindex="-1">
                                                                     <%= user.about %>
-                                                                </pre>
+                                                                    </pre></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
+                                                        <div class="vertical-row offset-bottom-1_5">
                                                             <label class="col-md-3 control-label" for="active">
                                                                 Active
                                                             </label>
                                                             <div class="col-md-9 md-checkbox-inline">
-                                                                <div class="row">
-                                                                    <input id="active-switch" type="checkbox"
+
+                                                                  <div class="col-xs-12">  <input id="active-switch" type="checkbox"
                                                                            class="make-switch form-control" <%= user.active ? 'checked' : '' %>
                                                                            data-on-text="Active"
                                                                            data-off-text="Disabled"/>
-                                                                </div>
+                                                                  </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -196,7 +196,7 @@
                                                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                                                 <div class="portlet light bordered">
                                                     <div class="portlet-title">
-                                                        <div class="caption font-red">
+                                                        <div class="title-block caption font-red">
                                                             <i class="fa fa-star font-red" aria-hidden="true"></i>
                                                             <span class="caption-subject bold">Activity</span>
                                                         </div>
@@ -222,7 +222,7 @@
                                                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                                                 <div class="portlet light bordered">
                                                     <div class="portlet-title">
-                                                        <div class="caption font-red">
+                                                        <div class="title-block caption font-red">
                                                             <i class="fa fa-star font-red" aria-hidden="true"></i>
                                                             <span class="caption-subject bold">Lines</span>
                                                         </div>
@@ -245,7 +245,7 @@
                                                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                                                 <div class="portlet light bordered">
                                                     <div class="portlet-title">
-                                                        <div class="caption font-red">
+                                                        <div class="title-block caption font-red">
                                                             <i class="fa fa-star font-red" aria-hidden="true"></i>
                                                             <span class="caption-subject bold">Events</span>
                                                         </div>
@@ -270,7 +270,7 @@
                                                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                                                 <div class="portlet light bordered">
                                                     <div class="portlet-title">
-                                                        <div class="caption font-red">
+                                                        <div class="title-block caption font-red">
                                                             <i class="fa fa-star font-red" aria-hidden="true"></i>
                                                             <span class="caption-subject bold">Bars</span>
                                                         </div>
@@ -293,7 +293,7 @@
                                                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                                                 <div class="portlet light bordered">
                                                     <div class="portlet-title">
-                                                        <div class="caption font-red">
+                                                        <div class="title-block caption font-red">
                                                             <i class="fa fa-star font-red" aria-hidden="true"></i>
                                                             <span class="caption-subject bold">Parties</span>
                                                         </div>
