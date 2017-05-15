@@ -123,7 +123,8 @@ $(document).ready(function () {
 
 		var formData = new FormData(this);
 		formData.append('profile-image', $('#form-profile-pic')[0].files[0]);
-
+		$('#image-to-crop').attr('src', $('#upload-demo .cr-image').attr('src'));
+ 
 		$uploadCrop.croppie('result', {
 			type: 'blob',
 			size: 'viewport',

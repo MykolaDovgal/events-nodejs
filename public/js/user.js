@@ -12,51 +12,55 @@ $(document).ready(function () {
 				render: function (data, type, full, meta) {
 					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
 				},
-				width: '8%'
+				width: '50'
 			},
 			{
 				data: 'active',
 				render: function (data, type, full, meta) {
 					var content;
 					if (data) {
-						content = '<span class="badge badge-success">Active</span>'
+						content = '<div class="text-center"><span class="badge badge-success">Active</span></div>'
 					} else {
-						content = '<span class="badge badge-danger">Disabled</span>';
+						content = '<div class="text-center"><span class="badge badge-danger">Disabled</span></div>';
 					}
 					return content;
 				},
-				width: '8%'
+				width: 45
 			},
 			{
 				data: 'username',
-				width: '14%'
 			},
 			{
-				data: "realname",
-				width: '14%'
+				data: "realname",			
 			},
 			{
 				data: 'facebook_profile',
 				render: function (data, type, full, meta) {
 					if (!data) {
-						data = '/';
+						return '<div class="text-center">-</div>';
 					}
-					return '<a href="' + data + '">' + full.realname + '</a>';
+					return '<div class="text-center"><a href="' + data + '"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a></div>';
 				},
-				width: '14%'
+				width: 13
 			},
 			{
 				data: 'lastActivity',
-				width: '14%'
+				render: function (data) {
+					return '<div class="text-center">' + data + '</div>'
+				},
+				width: 125
 			},
 			{
 				data: 'bars',
+				width: 50
 			},
 			{
 				data: 'events',
+				width: 50
 			},
 			{
 				data: 'lines',
+				width: 50
 			},
 		],
 		"columnDefs": [

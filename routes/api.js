@@ -49,7 +49,7 @@ router.get('/users', function (req, res, next) {
 					profile_picture_circle: user.profile_picture_circle,
 					about: user.about,
 					date_of_birth: user.date_of_birth,
-					facebook_progile: user.facebook_progile,
+					facebook_profile: user.facebook_profile,
 					active: user.active,
 					lastActivity: lastActivities[index],
 					//fake data for table

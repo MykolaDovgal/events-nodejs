@@ -323,10 +323,15 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="pull-right">
-                            <button class="btn btn-default" form="form_update_user" type="submit">Save</button>
-                            <button class="btn btn-default btn-danger" onclick="showDeleteConfirmation()">Delete
+                        <div class="pull-right group-btn">
+                            <button class="btn btn-default btn-danger" onclick="showDeleteConfirmation()">
+                                Delete
                             </button>
+                            <a href="/users">
+                                <button type="button" class="btn green pull-right">
+                                    Save & Quit
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>

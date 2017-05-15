@@ -976,3 +976,8 @@ pre{
 .date-picker{
 	padding: 0 15px !important;
 }
+
+.facebook-icon {
+    width: 30px;
+    height: 30px;
+}
