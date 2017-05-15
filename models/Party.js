@@ -6,7 +6,7 @@ let mongoosePaginate = require('mongoose-paginate');
 
 autoIncrement.initialize(mongoose.connection);
 
-let LineSchema = new Schema({
+let PartySchema = new Schema({
 	id: {type: Number, required: true, index: {unique: true}},
 	lineId: {type: Number},
 	title_ol: {type: String, trim: true},
@@ -15,24 +15,35 @@ let LineSchema = new Schema({
 	description_eng: {type: String, trim: true},
 	description_ol: {type: String, trim: true},
 	cover_picture: {type: String, trim: true},
-	date: {type: Date },
-	open_time: {type: Date },
+	date: {type: Date, default: Date.now },
+	open_time: {type: Date, default: Date.now},
 	location: {
 		club_name: {type: String, trim: true},
 		country: {type: String, trim: true},
 		city: {type: String, trim: true},
-		address: {type: Number},
-		longitude: {type: Number}
+		address: {type: String},
+		longitude: {
+			lat: { type: Number},
+			lng: { type: Number}
+		}
+	},
+	tkts_avbl_here: {type: Boolean},
+	tkt_price: {
+		price_id: {type: Number},
+		start_date: {type: Date, default: Date.now},
+		end_date: {type: Date, default: Date.now},
+		price: {type: Number},
+		currency: {type: String}
 	}
 
 });
 
-LineSchema.plugin(autoIncrement.plugin, {
+PartySchema.plugin(autoIncrement.plugin, {
 	model: 'Party',
 	field: 'id',
 	startAt: 1
 });
 
-LineSchema.plugin(mongoosePaginate);
+PartySchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model('Party', LineSchema);
+module.exports = mongoose.model('Party', PartySchema);

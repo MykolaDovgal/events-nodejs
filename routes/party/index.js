@@ -8,9 +8,6 @@ router.use(parties);
 
 
 
-
-
-
 module.exports = router;
 
 

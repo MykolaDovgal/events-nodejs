@@ -33,6 +33,9 @@ User.count({username: config.get('project:admin:username')}, function (err, coun
 	}
 });
 
+//setup.createParty();
+
+
 // routes
 var routes = require('./routes');
 var api_routes = require('./routes/api');

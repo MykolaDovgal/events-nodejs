@@ -19,6 +19,11 @@ var Promise = require('bluebird');
 Promise.promisifyAll(mongoose);
 
 
+let get_parties = require('./party/api/getParties');
+
+router.use(get_parties);
+
+
 router.get('/users', function (req, res, next) {
 	Promise.props({
 		users: User.find({}).execAsync()

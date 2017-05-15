@@ -13,19 +13,21 @@ var config = require('config');
 var mongo_uri = config.get('db:connection');
 var User = require('models/user');
 var Line = require('models/line');
+let Party = require('models/Party');
 
 //var UserSchema = require('mongoose').model('Song').schema;
 var UserSchema = User.schema;
 var LineSchema = Line.schema;
+let PartyScema = Party.schema;
 
 const COUNT_OF_USERS = 100;
 const COUNT_OF_LINES = 50;
+const COUNT_OF_PARTY = 50;
 const PASSWORD_USER = '12345';
 
 var setup;
+
 setup = {
-
-
 	createAdmin: function () {
 		// create a new user
 		var newUser = User({
@@ -182,6 +184,58 @@ setup = {
 			});
 		}
 
+	},
+
+	createParty: function () {
+
+		for (let i = 0; i < COUNT_OF_PARTY; i += 1) {
+
+			PartyScema.plugin(autoIncrement.plugin, {
+				model: 'Line',
+				field: 'id',
+				startAt: 1
+			});
+
+			let party_name = faker.name.title();
+			let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
+
+			let partyData = {
+				lineId: undefined,
+				title_eng: party_name + ' (eng)',
+				title_ol: faker.name.title() + ' (ol)',
+				mom_eventId: undefined,
+				description_eng: faker.lorem.lines() + '(eng)',
+				description_ol: faker.lorem.lines() + '(ol)',
+				cover_picture: cover_picture,
+				location: {
+					club_name: faker.company.companyName(),
+					country: faker.address.country(),
+					city: faker.address.city(),
+					address: faker.address.streetName(),
+					longitude: {
+						lat: faker.address.latitude(),
+						lng: faker.address.longitude()
+					}
+				},
+				tkts_avbl_here: faker.random.boolean(),
+				tkt_price: {
+					price_id: undefined,
+					price: faker.finance.amount(),
+					currency: faker.finance.currencyName()
+				}
+
+
+			};
+
+			let party = new Party(partyData);
+
+			party.save(function (err) {
+				if (err) {
+					console.log(err);
+					throw err;
+				}
+			});
+		}
 	}
 };
 
