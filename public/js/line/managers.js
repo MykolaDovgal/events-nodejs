@@ -7,6 +7,13 @@ $(document).ready(function () {
     var line_managers_table = $('#table-line-managers').DataTable({
         "ajax": "/api/line/managers/" + line.id,
         "columns": [
+	        {
+		        data: 'delete_button',
+		        render: function (data, type, full, meta) {
+			        return '<div class="text-center"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+		        },
+		        width: '5%'
+	        },
             {
                 'data': 'id',
                 width: '10%'
@@ -20,13 +27,19 @@ $(document).ready(function () {
             },
             {
                 "data": 'username',
-                width: '50%'
+                width: '45%'
             },
             {
                 "data": 'permission_level',
                 width: '20%'
             }
         ],
+	    "columnDefs": [
+		    {
+			    "targets": 'no-sort',
+			    "orderable": false
+		    }
+	    ],
         scrollY: 200,
         scroller: true,
         responsive: false,
