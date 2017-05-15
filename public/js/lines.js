@@ -81,6 +81,11 @@ $(document).ready(function () {
         }, delay));
     });
 
+	$('div.pull-left > div.pull-left > a').click(function () {
+		$('div.pull-left > div.pull-left > a').removeClass('btn-warning');
+		$(this).addClass('btn-warning');
+	});
+
 
 });
 
