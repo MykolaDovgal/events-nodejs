@@ -29,19 +29,19 @@
                     <div class="col-md-12">
                         <div class="pull-left group-btn">
                             <div class="pull-left">
-                                <a data-status="false" class="filter-status btn btn-circle btn-success"> All</a>
+                                <a id="all_parties_filter" data-status="false" class="filter-status btn btn-circle btn-success"> All</a>
                                 <span>999</span>
                             </div>
                             <div class="pull-left">
-                                <a data-status="true" class="filter-status btn btn-circle btn-success"> Past</a>
+                                <a id="past_parties_filter" data-status="true" class="filter-status btn btn-circle btn-success"> Past</a>
                                 <span>999</span>
                             </div>
                             <div class="pull-left">
-                                <a data-status="false" class="filter-status btn btn-circle btn-success"> Today</a>
+                                <a id="today_parties_filter" data-status="false" class="filter-status btn btn-circle btn-success"> Today</a>
                                 <span>999</span>
                             </div>
                             <div class="pull-left">
-                                <a data-status="false" class="filter-status btn btn-circle btn-success"> Future</a>
+                                <a id="future_parties_filter" data-status="false" class="filter-status btn btn-circle btn-success"> Future</a>
                                 <span>999</span>
                             </div>
                             <a class="btn btn-circle btn-info" data-target="#modal-add-line" data-toggle="modal">Add Party
@@ -86,6 +86,7 @@
     <% include ../../static/footer %>
 
     <script src="/js/party/parties.js"></script>
+
     <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 </footer>
