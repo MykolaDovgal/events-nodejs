@@ -163,12 +163,13 @@ function addNewLines(page, filter) {
 }
 
 function generateLine(line) {
+    let address = line.address ? '<br>' + line.address.city + ', ' + line.address.country : '';
     let html = `<div class="mt-element-overlay" data-line="` + line.id + `">
                                                 <div class="mt-overlay-3">
                                                     <img src="` + line.cover_picture + `"/>
                                                     <div class="mt-overlay">
                                                        	<h2>` + line.line_name_eng + `</h2>
-                                                        <a class="mt-info" href="/line/` + line.id + `">Learn More</a>
+                                                        <a class="mt-info" style="top:-35px;" href="/line/` + line.id + `">#` + line.id + address + `<br>Next Party: ` + new Date(Date.now()).toLocaleDateString()  + `</a>
                                                     </div>
                                                 </div>
                                     </div>`;
