@@ -26,9 +26,9 @@ function initMap() {
 			data: data,
 			success: function (req) {
 				if (req.status) {
-					$('#place_title').text('in ' + data['country'] + ', ' + data['locality']);
+					$('#place_title').text('in ' + data['locality'] + ', ' + data['country']);
 					toastr.success(req.msg);
-					var text_val = data['country'] + ', ' + data['locality'];
+					var text_val = data['locality'] + ', ' + data['country'];
 					$('#geocomplete_line').val(text_val);
 				} else {
 					toastr.error(req.msg);

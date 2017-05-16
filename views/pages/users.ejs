@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <% include ../static/head %>
-
+    <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet"
+          type="text/css"/>
+    <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet"
+          type="text/css"/>
     <!-- BEGIN THEME LAYOUT STYLES
    <link href="/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>-->
     <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
@@ -53,7 +58,6 @@
                                     <th>Status</th>
                                     <th>User Name</th>
                                     <th>Name</th>
-                                    <th></th>
                                     <th>Last Activity</th>
                                     <th>Bars</th>
                                     <th>Events</th>
@@ -118,9 +122,9 @@
                                                 </label>
                                                 <div class="col-md-9">
                                                     <input id="form-username" type="text" class="form-control"
-                                                           placeholder="Enter username" value="newUser" name="username">
+                                                           placeholder="Enter username" name="username">
                                                     <div class="form-control-focus"></div>
-                                                    <span class="help-block">enter username</span>
+                                                    <span class="help-block">Enter username</span>
                                                 </div>
                                             </div>
 
@@ -129,11 +133,11 @@
                                                     <span class="required">*</span>
                                                 </label>
                                                 <div class="col-md-9">
-                                                    <input id="form-firstname" value="User" type="text"
+                                                    <input id="form-firstname" type="text"
                                                            class="form-control"
                                                            placeholder="Enter firstname" name="firstname">
                                                     <div class="form-control-focus"></div>
-                                                    <span class="help-block">enter firstname</span>
+                                                    <span class="help-block">Enter firstname</span>
                                                 </div>
                                             </div>
 
@@ -143,9 +147,9 @@
                                                 </label>
                                                 <div class="col-md-9">
                                                     <input id="form-lastname" type="text" class="form-control"
-                                                           placeholder="Enter lastname" value="New" name="lastname">
+                                                           placeholder="Enter lastname" name="lastname">
                                                     <div class="form-control-focus"></div>
-                                                    <span class="help-block">enter lastname</span>
+                                                    <span class="help-block">Enter lastname</span>
                                                 </div>
                                             </div>
 
@@ -156,7 +160,7 @@
                                                     <span class="input-group-addon">
                                                                 <i class="fa fa-envelope"></i>
                                                             </span>
-                                                        <input value="new@user.add" id="form-email" type="email"
+                                                        <input id="form-email" type="email"
                                                                class="form-control"
                                                                placeholder="Enter email"
                                                                name="email">
@@ -171,7 +175,7 @@
                                                 <div class="col-md-9">
                                                     <div class="input-group input-medium date date-picker"
                                                          data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
-                                                        <input value="21.02.1990" id="form-date-of-birth"
+                                                        <input id="form-date-of-birth"
                                                                name="dateofbirth" type="text"
                                                                class="form-control"
                                                                readonly/>
@@ -194,7 +198,7 @@
                                                 </label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <input required value="12345" id="form-password" type="text"
+                                                        <input required id="form-password" type="password"
                                                                class="form-control"
                                                                name="password"
                                                                placeholder="Enter password">
@@ -213,8 +217,8 @@
                                                 </label>
                                                 <div class="col-md-9">
                                                     <div class="input-group">
-                                                        <input required value="12345" id="form-password-repeat"
-                                                               type="text"
+                                                        <input required id="form-password-repeat"
+                                                               type="password"
                                                                class="form-control"
                                                                name="repeat-password"
                                                                placeholder="Enter repeat password">

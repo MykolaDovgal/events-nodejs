@@ -77,12 +77,20 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
     });
 };
 
-UserSchema.methods.getActivity = function () {
+UserSchema.methods.getActivity = function (format = true) {
     return this.activity.map(function (activity) {
-        return {
-            login_time: moment(activity.login_time).format('DD/MM/YYYY HH:mm:ss'),
-            logout_time: activity.logout_time ? moment(activity.logout_time).format('DD/MM/YYYY HH:mm:ss') : '-'
-        }
+        let result;
+        if (format)
+            result = {        
+                login_time: moment(activity.login_time).format('<p>DD/MM/YYYY</p> <i>HH:mm:ss</i>'),
+                logout_time: activity.logout_time ? moment(activity.logout_time).format('<p>DD/MM/YYYY</p> <i>HH:mm:ss</i>') : '-'
+            }
+        else
+            result = {        
+                login_time: moment(activity.login_time).format('DD/MM/YYYY HH:mm:ss'),
+                logout_time: activity.logout_time ? moment(activity.logout_time).format('DD/MM/YYYY HH:mm:ss') : '-'
+            }
+        return result;
     });
 };
 

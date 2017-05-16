@@ -981,8 +981,8 @@ pre{
 }
 
 .facebook-icon {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
 }
 
 .vertical-top label{
@@ -1004,4 +1004,25 @@ pre{
 .form-textarea.description-general .editable {
 	height: 147px;
 	overflow: auto;
+}
+
+.activity-date {
+	height: 30px;
+}
+
+.activity-date p {
+	position: relative;
+	top: 3px;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+.activity-date i {
+	position: relative;
+	top: -4px;
+	margin: 0;
+	padding: 0;
+	font-style: none;
+	font-size: 10px;
 }

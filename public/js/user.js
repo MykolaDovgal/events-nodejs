@@ -5,14 +5,14 @@ $(document).ready(function () {
 		"columns": [
 			{
 				data: 'id',
-				width: '5%'
+				width: 65
 			},
 			{
 				data: 'profile_picture_circle',
 				render: function (data, type, full, meta) {
 					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
 				},
-				width: '50'
+				width: 50
 			},
 			{
 				data: 'active',
@@ -31,24 +31,18 @@ $(document).ready(function () {
 				data: 'username',
 			},
 			{
-				data: "realname",			
-			},
-			{
-				data: 'facebook_profile',
+				data: "realname",
 				render: function (data, type, full, meta) {
-					if (!data) {
-						return '<div class="text-center">-</div>';
-					}
-					return '<div class="text-center"><a href="' + data + '"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a></div>';
-				},
-				width: 13
+					facebook = full.facebook_profile ? ' <a href="' + full.facebook_profile +'"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a>' : ''
+					return full.firstname + ' ' + full.lastname + facebook;
+				}			
 			},
 			{
 				data: 'lastActivity',
 				render: function (data) {
-					return '<div class="text-center">' + data + '</div>'
+					return '<div class="text-center activity-date" title="' + $(data).text() + '">' + data + '</div>'
 				},
-				width: 125
+				width: 65
 			},
 			{
 				data: 'bars',
