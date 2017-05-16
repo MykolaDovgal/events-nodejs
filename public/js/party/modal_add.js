@@ -4,10 +4,18 @@
 
 $(document).ready(function () {
 
+	$('#party_datetime_input').datetimepicker({
+		format: 'yyyy-mm-dd hh:ii',
+		autoclose: true,
+		useCurrent: false,
+		setDate: Date.now()
+	});
 
 	$('#modal_add_party').on('shown.bs.modal', function () {
 		initGeoAddParty();
-	})
+	});
+
+
 
 });
 

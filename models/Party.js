@@ -15,8 +15,8 @@ let PartySchema = new Schema({
 	description_eng: {type: String, trim: true},
 	description_ol: {type: String, trim: true},
 	cover_picture: {type: String, trim: true},
-	date: {type: Date, default: Date.now },
-	open_time: {type: Date, default: Date.now},
+	date: {type: String },
+	open_time: {type: String },
 	location: {
 		club_name: {type: String, trim: true},
 		country: {type: String, trim: true},
