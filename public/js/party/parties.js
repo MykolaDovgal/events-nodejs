@@ -86,8 +86,6 @@ $(document).ready(function () {
 		toggleColor.call(this,allFilters);
 		dateSort(1);
 	});
-
-
 });
 
 

@@ -44,7 +44,7 @@
                                 <a id="future_parties_filter" data-status="false" class="filter-status btn btn-circle btn-success"> Future</a>
                                 <span>999</span>
                             </div>
-                            <a class="btn btn-circle btn-info" data-target="#modal-add-line" data-toggle="modal">Add Party
+                            <a class="btn btn-circle btn-info" data-target="#modal_add_party" data-toggle="modal">Add Party
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -79,6 +79,77 @@
     </div>
 
 
+</div>
+
+
+
+<div id="modal_add_party" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Create Party</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- BEGIN FORM-->
+                    <form action="/party/add" method="post" class="form-horizontal"
+                          id="form_add_line">
+                        <div class="form-body">
+                            <div class="container col-md-12">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    Your form validation is successful!
+                                </div>
+
+
+
+
+
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="control-label col-md-3">Location
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input required
+                                               type="text" id="geocomplete_line_add" class="form-control"
+                                               placeholder="Search for city, country"/>
+
+                                        <div class="geo-data">
+                                            <input id="lat" name="lat" type="text" value=""/>
+                                            <input id="lng" name="lng" type="text" value=""/>
+                                            <input id="locality" name="locality" type="text" value=""/>
+                                            <input id="country" name="country" type="text" value=""/>
+                                            <input id="country_short" name="country_short" type="text" value=""/>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+                <button id="button_send_notification" form="form_add_line" type="submit"
+                        class="btn green">Create
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
