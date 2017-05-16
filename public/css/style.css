@@ -992,3 +992,11 @@ pre{
 .multiselect-item b{
 	color: #3d3d3d;
 }
+
+.multiselect-container>li:not(.multiselect-item) a{
+    padding-left: 15px !important;
+}
+
+.multiselect-container.dropdown-menu{
+    padding: 10px 0;
+}
