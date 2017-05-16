@@ -1000,3 +1000,8 @@ pre{
 .multiselect-container.dropdown-menu{
     padding: 10px 0;
 }
+
+.form-textarea.description-general .editable {
+	height: 147px;
+	overflow: auto;
+}

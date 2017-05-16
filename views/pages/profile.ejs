@@ -91,7 +91,7 @@
                                                 <form action="/user/update" method="post"
                                                       enctype="multipart/form-data" id="form_update_user">
                                                     <div class="col-md-12 form-md-line-input">
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 User Name
                                                             </label>
@@ -101,7 +101,7 @@
                                                             </div>
                                                         </div>
 
-                                                    <div class="vertical-row offset-bottom-1_5">
+                                                    <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 First Name
                                                             </label>
@@ -111,7 +111,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 Last Name
                                                             </label>
@@ -121,7 +121,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 Facebook Profile
                                                             </label>
@@ -131,7 +131,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 Email Address
                                                             </label>
@@ -141,7 +141,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 <%= user.date_of_birth ? 'Date of Birth (Age ' + Math.floor((Date.now() - user.date_of_birth) / 1000 / 3600 / 24 / 365) + ')' : 'Please set date of birth' %>
                                                             </label>
@@ -162,20 +162,18 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-top offset-bottom-1_5">
                                                             <label class="col-md-3 control-label">
                                                                 About
                                                             </label>
-                                                            <div class="col-md-9">
-                                                               <p id="about" data-pk="1"
+                                                            <div class="col-md-9 description-general form-group form-textarea">
+                                                               <div id="about" data-pk="1" data-type="wysihtml5"
                                                                      data-original-title="Enter notes"
-                                                                     class="editable editable-open" tabindex="-1">
-                                                                    <%= user.about %>
-                                                                    </p>
+                                                                     class="editable editable-open language_switch_container" tabindex="-1"><%= user.about %></div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="vertical-row offset-bottom-1_5">
+                                                        <div class="vertical-row vertical-center offset-bottom-1_5">
                                                             <label class="col-md-3 control-label" for="active">
                                                                 Active
                                                             </label>
