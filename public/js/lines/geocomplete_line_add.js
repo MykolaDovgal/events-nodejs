@@ -29,11 +29,7 @@ window.initGeoAddLine = function () {
 			country_short: $('#country_short').val(),
 		};
 
-		console.log(data);
+		//console.log(data);
 
 	});
-
-	console.log('909');
-
-
 };
