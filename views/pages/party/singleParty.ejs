@@ -110,9 +110,9 @@
 													  data-toggle="tab"
 													  aria-expanded="true">General</a>
 								</li>
-								<li><a href="#parties-container"
+								<li><a href="#pricing_container"
 									   data-toggle="tab"
-									   aria-expanded="false">Parties</a>
+									   aria-expanded="false">Pricing</a>
 								</li>
 								<li><a href="#followers-container"
 									   data-toggle="tab"
@@ -155,7 +155,7 @@
 													</div>
 												</div>
 											</div>
-												
+
 
 
 											<div class="row vertical-row vertical-center offset-bottom-1_5">
@@ -183,7 +183,7 @@
 											</div>
 										</div>
 
-										
+
 										<div class="col-xs-12 offset-top-5">
 											<a class="btn red btn-outline  sbold" data-toggle="modal"
 											   href="#send_notification"> Send Notification </a>
@@ -202,29 +202,8 @@
 								</div>
 
 								<!-- Tab parties -->
-								<div class="tab-pane" id="parties-container">
-									<div class="row">
-										<div class="col-md-12">
-											<table id="table-line-parties"
-												   class="table table-striped table-bordered table-hover table-checkable order-column">
-												<thead>
-												<tr>
-													<th>#</th>
-													<th class="no-sort">Picture</th>
-													<th>Status</th>
-													<th>User Name</th>
-													<th>Name</th>
-													<th>Facebook</th>
-													<th>Last Activity</th>
-													<th>Bars</th>
-													<th>Events</th>
-													<th>Lines</th>
-												</tr>
-												</thead>
-											</table>
-
-										</div>
-									</div>
+								<div class="tab-pane" id="pricing_container">
+                                    <% include ../party/tabs/pricing.ejs %>
 								</div>
 
 								<!-- Tab followers -->
