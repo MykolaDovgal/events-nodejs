@@ -19,9 +19,11 @@ var Promise = require('bluebird');
 Promise.promisifyAll(mongoose);
 
 
-let get_parties = require('./party/api/getParties');
+let get_parties = require('./party/api/parties');
+let get_prices = require('./party/api/prices');
 
 router.use(get_parties);
+router.use(get_prices);
 
 
 router.get('/users', function (req, res, next) {

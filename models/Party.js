@@ -28,13 +28,13 @@ let PartySchema = new Schema({
 		}
 	},
 	tkts_avbl_here: {type: Boolean},
-	tkt_price: {
-		price_id: {type: Number},
+	tkt_price: [{
+		price_id: {$inc: {type: Number, index: {unique: true}}},
 		start_date: {type: Date, default: Date.now},
 		end_date: {type: Date, default: Date.now},
 		price: {type: Number},
 		currency: {type: String}
-	}
+	}]
 
 });
 
@@ -43,6 +43,7 @@ PartySchema.plugin(autoIncrement.plugin, {
 	field: 'id',
 	startAt: 1
 });
+
 
 PartySchema.plugin(mongoosePaginate);
 
