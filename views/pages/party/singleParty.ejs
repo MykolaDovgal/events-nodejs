@@ -72,10 +72,11 @@
 							<p class="title-block">Location</p>
 							<div id="map" class="map"></div>
 						</div>
+
 						<div class=" wrapper-line border-line offset-top-2">
 							<div class="input-group">
 								<input value="<%= party.location.country %> <%= party.location.country ? ', ' : '' %> <%= party.location.city %>"
-									   type="text" id="geocomplete_line" class="form-control"
+									   type="text" id="geocomplete_party" class="form-control"
 									   placeholder="Search for city, country">
 								<span class="input-group-btn">
 								<button id="find_geocomplete" class="btn green"
@@ -104,10 +105,6 @@
 								<li><a href="#pricing_container"
 									   data-toggle="tab"
 									   aria-expanded="false">Pricing</a>
-								</li>
-								<li><a href="#followers-container"
-									   data-toggle="tab"
-									   aria-expanded="false">Followers</a>
 								</li>
 								<li class="switch-lang pull-right">
 										<input id="language_switch" type="checkbox" class="make-switch form-control" data-on-color="success" data-on-text="Original" data-off-text="English"  data-off-color="warning"/>
