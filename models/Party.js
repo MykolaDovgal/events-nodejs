@@ -12,9 +12,11 @@ let PartySchema = new Schema({
 	title_ol: {type: String, trim: true},
 	title_eng: {type: String, trim: true},
 	mom_eventId: {type: Number},
+	only_for_mom_event_att: {type: Boolean},
 	description_eng: {type: String, trim: true},
 	description_ol: {type: String, trim: true},
 	cover_picture: {type: String, trim: true},
+	facebook_page: {type: String, trim: true},
 	date: {type: String },
 	open_time: {type: String },
 	location: {
@@ -34,8 +36,8 @@ let PartySchema = new Schema({
 		end_date: {type: Date, default: Date.now},
 		price: {type: Number},
 		currency: {type: String}
-	}]
-
+	}],
+	active: {type: Boolean}
 });
 
 PartySchema.plugin(autoIncrement.plugin, {
