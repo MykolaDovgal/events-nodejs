@@ -1,0 +1,75 @@
+<form enctype="multipart/form-data" method="post"
+										  id="form_change_line">
+	<div class="col-md-7 form-md-line-input">
+
+		<div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label">
+				Title
+			</label>
+			<div class="col-md-9">
+				<div class="col-xs-12 language_switch_container">
+					<a id="party_title_eng" data-type="text" data-pk="1"
+						class="editable editable-click" style="display: inline-block"> <%= party.title_eng %> </a>
+				</div>
+				<div hidden class="col-xs-12 language_switch_container">
+					<a id="party_title_ol" data-type="text" data-pk="1"
+						class="editable editable-click" style="display: inline-block"> <%= party.title_ol %> </a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label">
+				Line
+			</label>
+			<div class="col-md-9">
+				<div class="col-xs-12 language_switch_container">
+					<a id="line_name_eng" data-type="text" data-pk="1"
+						class="editable editable-click" style="display: inline-block"> <%= line_name_eng %> </a>
+				</div>
+			</div>
+		</div>
+			
+
+
+		<div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label" for="active">Active</label>
+			<div class="col-md-9 md-checkbox-inline">
+				<div class="col-xs-12">
+					<input id="active-switch" type="checkbox" class="make-switch form-control" <%= party.active ? 'checked' : '' %>  data-on-color="success" data-on-text="Active" data-off-text="Disabled"  data-off-color="warning"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="row vertical-row vertical-top offset-bottom-1_5">
+
+			<label class="col-md-3 control-label">
+				Description
+			</label>
+
+			<div class="col-md-9 description-general form-group form-textarea">
+				<div id="description_eng" data-pk="1" data-type="wysihtml5"
+						data-original-title="Enter notes" class="editable editable-open language_switch_container"><%= party.description_eng %></div>
+
+				<div hidden id="description_ol" data-pk="1" data-type="wysihtml5"
+						data-original-title="Enter notes" class="editable editable-open language_switch_container"><%= party.description_ol %></div>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="col-xs-12 offset-top-5">
+		<a class="btn red btn-outline  sbold" data-toggle="modal"
+			href="#send_notification"> Send Notification </a>
+		<div class="pull-right group-btn">
+			<button class="btn yellow btn-outline sbold uppercase" id="delete_line">
+				Delete Line
+			</button>
+			<a href="/lines">
+				<button type="button" class="btn green pull-right">
+					Save & Quit
+				</button>
+			</a>
+		</div>
+	</div>
+</form>
