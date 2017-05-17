@@ -15,6 +15,13 @@ $(document).ready(function () {
 				width: 50
 			},
 			{
+				data: 'facebook_profile',
+				render: function (data) {
+					return data ? '<div class="text-center"><a href="' + data +'"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a></div>' : '<div class="text-center">-</div>'
+				},
+				width: 15
+			},
+			{
 				data: 'active',
 				render: function (data, type, full, meta) {
 					var content;
@@ -33,8 +40,7 @@ $(document).ready(function () {
 			{
 				data: "realname",
 				render: function (data, type, full, meta) {
-					facebook = full.facebook_profile ? ' <a href="' + full.facebook_profile +'"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a>' : ''
-					return full.firstname + ' ' + full.lastname + facebook;
+					return full.firstname + ' ' + full.lastname;
 				}			
 			},
 			{

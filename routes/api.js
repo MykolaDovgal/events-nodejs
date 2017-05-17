@@ -124,7 +124,12 @@ router.post('/lines/:page?', function (req, res, next) {
 			{'line_name_eng': new RegExp(search, "i")},
 			{'description_ol': new RegExp(search, "i")},
 			{'description_eng': new RegExp(search, "i")},
-			{'phone_number': new RegExp(search, "i")}
+			{'website': new RegExp(search, "i")},
+			{'facebook_page': new RegExp(search, "i")},
+			{'phone_number': new RegExp(search, "i")},
+			{'address.city': new RegExp(search, "i")},
+			{'address.country': new RegExp(search, "i")},
+			{'music.music_genres': new RegExp(search, "i")}
 		];
 
 		if (id > 0) {
