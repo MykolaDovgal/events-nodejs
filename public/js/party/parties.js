@@ -60,6 +60,12 @@ $(document).ready(function () {
 		"dom": "<'row' <'col-md-12'> ><'search pull-right'<'fa fa-search'> f > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
 		});
 
+
+	$('#parties_datatable tbody').on('click', 'tr', function () {
+		let partyRow = parties_tables.row( this ).data();
+		window.location = '/party/' + partyRow.party_id;
+	} );
+
 	let allFilters = $('div.pull-left > div.pull-left > a');
 
 
