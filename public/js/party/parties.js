@@ -53,7 +53,7 @@ $(document).ready(function () {
 				"orderable": false
 			}
 		],
-		scrollY: 200,
+		scrollY: 500,
 		scroller: true,
 		responsive: false,
 

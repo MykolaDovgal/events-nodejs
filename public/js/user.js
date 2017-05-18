@@ -223,7 +223,9 @@ $(document).ready(function () {
 			size: 'viewport',
 			circle: true
 		}).then(function (resp) {
-			formData.append('userpic', resp, 'userpic.png');
+			var input = $('#form-profile-pic');
+			if (input[0].files && input[0].files[0])
+				formData.append('userpic', resp, 'userpic.png');
 
 			if (form.valid()) {
 

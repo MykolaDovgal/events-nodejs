@@ -36,7 +36,7 @@ router.get('/users', function (req, res, next) {
 			results.users.map(function (user) {
 				var lastActivity = user.getActivity()[user.getActivity().length - 1] ? user.getActivity()[user.getActivity().length - 1].login_time : '-';
 				lastActivities.push(lastActivity);
-				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture.includes('http'))
+				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
 					user.profile_picture_circle = default_image_user;
 				return user;
 			});
