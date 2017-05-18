@@ -60,4 +60,44 @@ router.post('/party/update/:id', upload.any(), function (request, response, next
         });
 });
 
+// save address
+router.post('/party/update/address/:id', function (request, response, next) {
+
+    let body = request.body;
+    let result = {status: true};
+
+    let location = {
+		club_name: '',
+		country: body.country,
+		city: body.locality,
+		address: '',
+		longitude: {
+			lat: body.lat,
+			lng: body.lng
+		}
+	};
+
+    if (!location.city || !location.country) {
+        result.status = false;
+        result.msg = 'Please, select correct city or country.';
+    }
+
+    if (result.status) {
+
+        Promise.props({
+            party: Party.update({id: request.params.id}, {location: location}).execAsync()
+        }).then(function () {
+
+            result.status = true;
+            result.msg = 'Address saved.';
+            response.json(result);
+        })
+            .catch(function (err) {
+                next(err);
+            });
+    } else {
+        response.json(result);
+    }
+});
+
 module.exports = router;

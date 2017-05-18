@@ -28,7 +28,7 @@ let PartySchema = new Schema({
 			lat: { type: Number},
 			lng: { type: Number}
 		}
-	},
+	}, 
 	tkts_avbl_here: {type: Boolean},
 	tkt_price: [{
 		price_id: {$inc: {type: Number, index: {unique: true}}},

@@ -48,7 +48,7 @@
 								<h1 id="ol_title" class="page-title"> <%= party.title_ol %> </h1>
 							</div>
 							<h4 >#<%= party.id %></h4>
-							<h4 id="place_title">in <%= party.location.city + ', ' + party.location.country %></h4>
+							<h4 id="place_title">in <%= party.location ? party.location.city + ', ' + party.location.country : '' %></h4>
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -75,7 +75,11 @@
 
 						<div class=" wrapper-line border-line offset-top-2">
 							<div class="input-group">
-								<input value="<%= party.location.country %> <%= party.location.country ? ', ' : '' %> <%= party.location.city %>"
+								<% if (party.location) {%>
+								<input value="<%= party.location.city %><%= party.location.country ? ', ' + party.location.country : '' %>"
+								<% } else { %>
+								<input
+								<% } %>
 									   type="text" id="geocomplete_party" class="form-control"
 									   placeholder="Search for city, country">
 								<span class="input-group-btn">
@@ -156,6 +160,8 @@
 	</script>
 
 	<script src="/js/plugins/jquery.geocomplete.js"></script>
+
+	<script src="/js/party/geocomplete_party.js" type="text/javascript"></script>	
 
 	<script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
 
