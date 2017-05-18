@@ -3,11 +3,19 @@
  */
 $(document).ready(function () {
 
-	$('#datetime_input').datetimepicker({
-		format: 'yyyy-mm-dd hh:ii',
+	let datetime = $('#datetime_div').datetimepicker({
+		format: 'dd/mm/yyyy hh:ii',
 		autoclose: true,
 		useCurrent: false,
-		setDate: Date.now()
+	}).on('changeDate', function(ev) {
+		var date = { name: 'date', value: ev.date, pk: 1 };
+		$.ajax({
+			url: '/party/update/' + party.id,
+			type: 'POST',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(date)  
+		});
 	});
 
 	jQuery(document).ready(function () {
@@ -130,6 +138,4 @@ $(document).ready(function () {
 	$('#language_switch').on('switchChange.bootstrapSwitch', function(event, state) {
 		$('.language_switch_container').toggle();
 	});
-
-
 });

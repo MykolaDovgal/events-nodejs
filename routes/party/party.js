@@ -3,6 +3,7 @@ var Promise = require('bluebird');
 var fs = require('fs');
 var config = require('config');
 var default_image_line = config.get('images:default_image_line');
+var moment = require('moment');
 
 var Party = require('models/Party');
 var Line = require('models/line');
@@ -24,14 +25,16 @@ router.get('/party/:id', function (request, response, next) {
 				if (!fs.existsSync('public' + party.cover_picture)) {
 					party.cover_picture = default_image_line;
 				}
-			}		
+			}
 
 			let data = {
 				title: results.party.title_eng,
 				showMenu: true,
 				party: party,
+				party_date: party.date ? moment(party.date).format('DD/MM/YYYY HH:mm') : '',
 				line_name_eng: line.line_name_eng
 			};
+
 			response.render('pages/party/singleParty', data);
 		})
 		.catch(function (err) {
