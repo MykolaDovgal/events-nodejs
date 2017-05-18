@@ -5,7 +5,7 @@ let moment = require('moment');
 
 let Party = require('models/Party');
 
-router.get('/party/prices/:id', function (req, res, next) {
+router.get('/party/:id/prices', function (req, res, next) {
 
 	Promise.props({
 		parties: Party.findOne({id: req.params.id}).select('tkt_price').execAsync()
@@ -18,6 +18,7 @@ router.get('/party/prices/:id', function (req, res, next) {
 			results.parties.tkt_price.forEach( (tkts) => {
 				data.push({
 					delete_button: null,
+					id: tkts._id,
 					start_date: moment(tkts.start_date).format('DD/MM/YYYY HH:mm'),
 					end_date:  moment(tkts.end_date).format('DD/MM/YYYY HH:mm'),
 					price: tkts.price,
@@ -30,6 +31,18 @@ router.get('/party/prices/:id', function (req, res, next) {
 		})
 		.catch(function (err) {
 			next(err)
+		});
+});
+
+router.post('/party/prices/update',function (req, res, next) {
+
+	Promise.props({
+		party: Party.update({ 'tkt_price':{$elemMatch: {_id: body.priceId}} }, {'$set': {['tkt_price.$.' + body.name]: body['value'],}}).execAsync()
+	}).then(function (results) {
+		res.status(200).send(body['value']);
+	})
+		.catch(function (err) {
+			next(err);
 		});
 });
 
