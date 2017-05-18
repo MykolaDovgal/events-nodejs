@@ -68,7 +68,6 @@ $(document).ready(function () {
 				},
 				width: '25%'
 			}
-
 		],
 		"columnDefs": [
 			{

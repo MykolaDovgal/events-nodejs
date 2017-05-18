@@ -238,14 +238,21 @@ router.get('/users/usersname', function (req, res, next) {
 		.then(function (results) {
 			let data = [];
 
+
+
 			results.users.forEach(function (user, index) {
+
+				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http'))
+					user.profile_picture_circle = default_image_user;
+
 				data.push({
 					id: user.id,
 					username: user.username,
 					name: user.firstname + ' ' + user.lastname,
-					picture: user.profile_picture
+					picture: user.profile_picture_circle
 				});
 			});
+
 			res.json(data);
 		})
 		.catch(function (err) {

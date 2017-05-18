@@ -86,7 +86,7 @@ $(document).ready(function () {
 			templates: {
 				suggestion: function (item) {
 					return  '<div class="col-md-12">' +
-								'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;" src="' + item.picture + '"/></div>' +
+								'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
 								'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
 							'</div>';
 				}
