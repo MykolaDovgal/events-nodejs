@@ -19,8 +19,8 @@ router.get('/party/:id/prices', function (req, res, next) {
 				data.push({
 					delete_button: null,
 					id: tkts._id,
-					start_date: moment(tkts.start_date).format('DD/MM/YYYY HH:mm'),
-					end_date:  moment(tkts.end_date).format('DD/MM/YYYY HH:mm'),
+					start_date: tkts.start_date ? moment(tkts.start_date).format('DD/MM/YYYY HH:mm') : '',
+					end_date: tkts.end_date ? moment(tkts.end_date).format('DD/MM/YYYY HH:mm') : '',
 					price: tkts.price,
 					currency: tkts.currency
 				});
@@ -64,6 +64,23 @@ router.post('/party/prices/add',function (req, res, next) {
 			.catch(function (err){
 				next(err);
 			});
+	})
+		.catch(function (err) {
+			next(err);
+		});
+
+
+
+});
+
+router.post('/party/prices/delete',function (req, res, next) {
+
+	let body = req.body;
+
+	Promise.props({
+		party: Party.update( {'tkt_price':{$elemMatch: {_id: body.priceId}} }, {$pull : { tkt_price : {_id : body.priceId}  } } ).execAsync()
+	}).then(function (results) {
+		res.status(200);
 	})
 		.catch(function (err) {
 			next(err);

@@ -31,8 +31,8 @@ let PartySchema = new Schema({
 	}, 
 	tkts_avbl_here: {type: Boolean},
 	tkt_price: [{
-		start_date: {type: Date, default: Date.now},
-		end_date: {type: Date, default: Date.now},
+		start_date: {type: Date},
+		end_date: {type: Date},
 		price: {type: Number},
 		currency: {type: String}
 	}],

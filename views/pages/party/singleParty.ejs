@@ -76,7 +76,7 @@
 						<div class=" wrapper-line border-line offset-top-2">
 							<div class="input-group">
 								<% if (party.location) {%>
-								<input value="<%= party.location.city %><%= party.location.country ? ', ' + party.location.country : '' %>"
+								<input value="<%= party.location.city %><%= party.location.country ? ', ' + party.location.country : '' %>">
 								<% } else { %>
 								<input
 								<% } %>
@@ -106,7 +106,7 @@
 													  data-toggle="tab"
 													  aria-expanded="true">General</a>
 								</li>
-								<li><a href="#pricing_container"
+								<li><a id="pricing_tab_btn" href="#pricing_container"
 									   data-toggle="tab"
 									   aria-expanded="false">Pricing</a>
 								</li>
