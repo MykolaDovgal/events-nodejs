@@ -8,6 +8,9 @@
     .tiles{
         width: 80%;
     }
+    .offset-top-md-2 {
+        margin-top: 20px !important;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991px){
@@ -43,6 +46,9 @@
     .search > div > label{
         text-indent: -51px;
     }
+    .user-picture{
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 768px) {
@@ -61,6 +67,18 @@
     }
 }
 
+@media (max-width: 600px) {
+    .form-md-line-input{
+        padding: 0;
+    }
+    .portlet.light{
+        padding: 12px 15px 15px;
+    }
+    .page-content-wrapper{
+        width: 95% !important;
+    }
+}
+
 @media (max-width: 500px) {
     .group-btn{
         text-align: center;
@@ -75,6 +93,13 @@
         float: none !important;
         display: table;
         margin: 0 auto 10px;
+    }
+    .form-md-line-input .vertical-row>*{
+        width: 100%;
+        display: block;
+    }
+    .input-medium{
+        width: auto !important;
     }
 }
 
