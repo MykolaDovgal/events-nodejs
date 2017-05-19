@@ -33,6 +33,7 @@ var UserSchema = new Schema({
     date_of_birth: {type: Date},
     date_of_birth_visible: {type: Boolean},
     age: {type: Number},
+    phone: {type: String},
     activity: [{
         login_time: {type: Date, default: Date.now},
         logout_time: {type: Date}

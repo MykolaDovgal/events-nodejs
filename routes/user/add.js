@@ -41,7 +41,9 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         'username',
         'password', 'repeat-password',
         'firstname',
-        'lastname', 'email',
+        'lastname',
+        'phone',
+        'email',
         'dateofbirth'
     ];
 
@@ -82,6 +84,7 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         lastname: body['lastname'],
         realname: body['firstname'] + ' ' + body['lastname'],
         email: body['email'],
+        phone: body['phone'],
         permission_level: 1,
         profile_picture: imageOriginalProfile,
         profile_picture_circle: imageCircleProfile,

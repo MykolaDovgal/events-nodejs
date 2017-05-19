@@ -268,6 +268,12 @@ let FormEditable = function() {
 			name: 'email',
 			title: 'Enter Email'
 		});
+		$('#phone').editable({              
+			type: 'text',
+			pk: 1,
+			name: 'phone',
+			title: 'Enter Phone Number'
+		});
 		$('#about').editable({
 			type: 'text',
 			pk: 1,

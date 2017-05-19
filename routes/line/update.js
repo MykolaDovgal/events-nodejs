@@ -51,9 +51,6 @@ router.post('/line/update/:id', upload.any(), function (request, response, next)
     Promise.props({
         line: Line.update({id: request.params.id}, {[body.name]: val,}).execAsync()
     }).then(function (results) {
-        console.log(body);
-        console.log(body.name);
-        console.log(body['value']);
         response.status(200).send(body['value']);
     })
         .catch(function (err) {
