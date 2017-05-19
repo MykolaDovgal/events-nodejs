@@ -16,13 +16,14 @@ router.get('/party/:id/prices', function (req, res, next) {
 			//console.warn(results.parties.tkt_price[0].start_date);
 
 			results.parties.tkt_price.forEach( (tkts) => {
+				console.warn(tkts.currency);
 				data.push({
 					delete_button: null,
 					id: tkts._id,
 					start_date: tkts.start_date ? moment(tkts.start_date).format('DD/MM/YYYY HH:mm') : '',
 					end_date: tkts.end_date ? moment(tkts.end_date).format('DD/MM/YYYY HH:mm') : '',
 					price: tkts.price,
-					currency: tkts.currency
+					currency: tkts.currency ? tkts.currency : ''
 				});
 			});
 

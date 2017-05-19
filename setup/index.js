@@ -219,8 +219,7 @@ setup = {
 				},
 				tkts_avbl_here: faker.random.boolean(),
 				tkt_price: {
-					price: faker.finance.amount(),
-					currency: faker.finance.currencyName()
+
 				}
 
 
