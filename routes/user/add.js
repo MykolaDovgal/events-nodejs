@@ -73,8 +73,10 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         }
     });
 
-    var dateofbirthObject = util.stringToDate(body['dateofbirth'], 'dd.mm.yyyy', '.');
+    var dateofbirthObject = '';
 
+    if (body['dateofbirth'])
+        dateofbirthObject = util.stringToDate(body['dateofbirth'], 'dd.mm.yyyy', '.');
 
     var userData = {
         username: body['username'],
