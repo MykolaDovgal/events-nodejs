@@ -1,0 +1,103 @@
+@media (min-width: 1200px) and (max-width: 1400px){
+    .tiles{
+        width: 70%;
+    }
+}
+
+@media (min-width: 991px) and (max-width: 1200px){
+    .tiles{
+        width: 80%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    .tiles article{
+        width: calc(50% - 2.5em);
+    }
+}
+
+@media (max-width:1200px) {
+    .tiles{
+        width: 90%;
+    }
+}
+
+@media (max-width: 991px) {
+    .tiles{
+        width: 100%;
+    }
+    .time span{
+        font-size: 50px;
+    }
+    .time .second{
+        font-size: 25px;
+    }
+    .data{
+        font-size: 18px;
+    }
+    .group-btn, .group-input{
+        display: table;
+        margin: 0 auto 15px;
+        float: none !important;
+    }
+    .search > div > label{
+        text-indent: -51px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tiles article{
+        width: calc(100% - 2.5em);
+    }
+    .data-time{
+        display: none;
+    }
+    #header nav{
+        top: 3em;
+    }
+    #header .logo{
+        float: left;
+        margin-left: 15px !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .group-btn{
+        text-align: center;
+    }
+    .group-btn>*{
+        float: none !important;
+        text-align: center;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    .multiselect-native-select{
+        float: none !important;
+        display: table;
+        margin: 0 auto 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 375px) {
+    #header .logo .symbol{
+        float: left;
+        margin: 0;
+    }
+    #header .logo img{
+        max-width: 150px;
+    }
+    #header nav {
+        top: 1.8em;
+    }
+}

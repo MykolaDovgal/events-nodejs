@@ -288,6 +288,8 @@ body.is-touch .tiles article .content {
 }
 
 #header {
+	display: inline-block;
+	width: 100%;
 	padding: 20px 0;
 }
 
@@ -403,15 +405,6 @@ body.is-touch .tiles article .content {
 }
 
 @media screen and (max-width: 736px) {
-
-	#header {
-		padding: 4em 0 0.1em 0;
-	}
-
-	#header nav {
-		right: 0.5em;
-		top: 0.5em;
-	}
 
 	#header nav ul li a[href="#menu"]:before, #header nav ul li a[href="#menu"]:after {
 		background-size: 1.5em 1.5em;
@@ -667,6 +660,15 @@ body.is-menu-visible #menu .closes {
 
 .dataTables_scroll {
 	margin-top: 20px;
+}
+
+.search{
+	display: table;
+}
+
+.search>*{
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .search > div > label {
