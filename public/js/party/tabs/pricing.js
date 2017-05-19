@@ -55,15 +55,16 @@ $(document).ready(function () {
 				data: 'currency',
 				render: function (data, type, full, meta) {
 					return `
-						<span class="multiselect-native-select">
-                             <select data-id="${full.id != undefined ? full.id : ''}" class="mt-multiselect btn btn-default mt-noicon" data-width="100%">
-                                  		 <option value="USD">USD</option>      
+							<div class="form-group">
+                                    <select data-id="${full.id != undefined ? full.id : ''}" name="currency" class="bs-select form-control">
+                                        <option value="USD">USD</option>      
                                          <option value="EUR">EUR</option>     
                                          <option value="UAH">UAH</option>     
                                          <option value="PLN">PLN</option>     
                                          <option value="PLN">PLN</option>   
-                             </select>
-                        </span>
+                                    </select>
+                            </div>
+					
 				`;
 				},
 				width: '25%'
@@ -83,30 +84,46 @@ $(document).ready(function () {
 		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
 	});
 
-	$('body').on('mousedown',".row_datetime", function(){
+
+
+	$('body').on('mousedown mouseup',".row_datetime", function(){
 		$(this).datetimepicker({
 			format: 'mm/dd/yyyy hh:ii',
 			autoclose: true,
 			useCurrent: false,
 			setDate: Date.now(),
 
-		}).on({
-			mouseup: () => $(this).removeClass('row_datetime'),
-			change: () => sendAJAX.call(this),
-			blur: () => sendAJAX.call(this)
+		});
+		$(this).removeClass('row_datetime');
+	}).on('change','.date,select', function() { sendUpdateAJAX.call(this) })
+		.on('blur','.identity_flag',function() { sendUpdateAJAX.call(this) });
+
+
+	$('#party_add_price').click( () => {
+
+		$.ajax({
+			url: '/api//party/prices/add',
+			type: 'POST',
+			data: {partyId: party.id},
+			success: function (data) {
+				console.log(data);
+
+				parties_tables.row.add({
+					id: data
+				}).draw();
+			},
+			error: function (jqXHR, textStatus, err) {
+			}
+		}).then(function () {
 		});
 	});
 
-	$('#party_add_price').click( () => {
-		parties_tables.row.add([
-		'','',''
-		]).draw();
-	});
+
 });
 
-let sendAJAX = function(element) {
+let sendUpdateAJAX = function() {
 
-	let myInput = $(this).children('input');
+	let myInput = $(this).prop("tagName") =='SELECT' ? $(this) : $(this).children('input');
 	let priceId = myInput.data('id');
 	let name = myInput.attr('name');
 	let value = myInput.val();
