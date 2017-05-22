@@ -23,23 +23,44 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 
+router.post('/line/update/:id', upload.any(), function (req, res, next) {
+	let body = {};
+    let files = req.files;
 
-router.post('/line/update/:id', upload.any(), function (request, response, next) {
-	let body;
+    console.log(files);
 
+    let imageOriginal = '';
+    let image = '';
 
-    if (request.files) {
-        var file = request.files[0];
-        var coverPicture = file.path + '';
-        coverPicture = coverPicture.replace(/\//g, '/');
-        coverPicture = coverPicture.replace('public', '');
-        body = {
-            name: 'cover_picture',
-            value: coverPicture
-        };
+    let picture = {};
+
+    if (files) {
+        files.forEach(function (file) {
+            if (file.fieldname === 'cover-image') {
+                imageOriginal = file.path + '';
+                imageOriginal = imageOriginal.replace(/\//g, '/');
+                imageOriginal = imageOriginal.replace('public', '');
+                picture.original = imageOriginal;
+            }
+            if (file.fieldname === 'cover_picture') {
+                image = file.path + '';
+                image = image.replace(/\//g, '/');
+                image = image.replace('public', '');
+                picture.circle = image;
+            }
+        });
+        Promise.props({
+            line: Line.findOne({ id: req.params.id }).execAsync()
+        }).then(function (results) {
+            if (picture.original)
+                results.line.cover_picture_original = picture.original;
+            if (picture.circle)
+                results.line.cover_picture = picture.circle;
+            results.line.save();
+        });
     }
     else {
-        body = request.body;
+        body = req.body;
     }
 
     let val;
@@ -49,9 +70,9 @@ router.post('/line/update/:id', upload.any(), function (request, response, next)
         val = body['value[]'];
 
     Promise.props({
-        line: Line.update({id: request.params.id}, {[body.name]: val,}).execAsync()
+        line: Line.update({id: req.params.id}, {[body.name]: val,}).execAsync()
     }).then(function (results) {
-        response.status(200).send(body['value']);
+        res.status(200).send(body['value']);
     })
         .catch(function (err) {
             next(err);
@@ -59,9 +80,9 @@ router.post('/line/update/:id', upload.any(), function (request, response, next)
 });
 
 // save address
-router.post('/line/update/address/:id', function (request, response, next) {
+router.post('/line/update/address/:id', function (req, res, next) {
 
-    let body = request.body;
+    let body = req.body;
     let result = {status: true};
 
     let address = {
@@ -80,18 +101,18 @@ router.post('/line/update/address/:id', function (request, response, next) {
     if (result.status) {
 
         Promise.props({
-            line: Line.update({id: request.params.id}, {address: address}).execAsync()
+            line: Line.update({id: req.params.id}, {address: address}).execAsync()
         }).then(function () {
 
             result.status = true;
             result.msg = 'Address saved.';
-            response.json(result);
+            res.json(result);
         })
             .catch(function (err) {
                 next(err);
             });
     } else {
-        response.json(result);
+        res.json(result);
     }
 });
 

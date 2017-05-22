@@ -75,7 +75,7 @@ $(document).ready(function () {
 	$('#button-change-picture').on('click', function () {
 		$uploadCrop.croppie('result', 'base64').then(function(base64) {
 			$("#userpic").attr("src", base64);
-			$('#form_update_user').submit();
+			//$('#form_update_user').submit();
 		});
 	});
 

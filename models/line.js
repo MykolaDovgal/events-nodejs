@@ -16,6 +16,7 @@ var LineSchema = new Schema({
     facebook_page: {type: String, trim: true},
     website: {type: String, trim: true},
     phone_number: {type: String, trim: true},
+    cover_picture_original: {type: String, trim: true},
     cover_picture: {type: String, trim: true},
     managers: [{
         user_id: {type: Number}

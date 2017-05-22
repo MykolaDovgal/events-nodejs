@@ -45,31 +45,29 @@
                 <div class="row">
                     <div class="col-md-2 ">
                         <div class="row">
-                                <div class="user-picture mt-element-card mt-card-round mt-element-overlay">
-                                    <div class="mt-card-item">
-                                        <div class="mt-card-avatar mt-overlay-1">
-                                            <img id="userpic" src="<%= user.profile_picture_circle %>"/>
-                                            <div class="mt-overlay">
-                                                <ul class="mt-info">
-                                                    <li>
-                                                        <a id="button-open-crop" class="btn default btn-outline">
-                                                            <i class="fa fa-crop" aria-hidden="true"></i></i>Fit & Crop
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="btn default btn-outline"
-                                                           href="javascript:$('#change-picture-modal').modal().show();">
-                                                            <i class="fa fa-pencil" aria-hidden="true"></i></i>Change
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                            <div class="user-picture mt-element-card mt-card-round mt-element-overlay">
+                                <div class="mt-card-item">
+                                    <div class="mt-card-avatar mt-overlay-1">
+                                        <img id="userpic" src="<%= user.profile_picture_circle %>"/>
+                                        <div class="mt-overlay">
+                                            <ul class="mt-info">
+                                                <li>
+                                                    <a id="button-open-crop" class="btn default btn-outline">
+                                                        <i class="fa fa-crop" aria-hidden="true"></i></i>Fit & Crop
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="btn default btn-outline"
+                                                        href="javascript:$('#change-picture-modal').modal().show();">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i></i>Change
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
+                        </div>
                     </div>
                     <div class="col-md-10">
                         <div class="portlet light bordered">
@@ -369,14 +367,17 @@
                                     <form method="post"
                                           enctype="multipart/form-data" id="form_change_picture">
                                         <div class="form-body">
-                                            <div class="form-group form-md-line-input">
+                                            <div class="form-group form-md-line-input row">
 
                                                 <div class="upload-demo-wrap">
                                                     <div id="upload-profile-pic"></div>
                                                 </div>
 
-                                                <label class="col-md-3 control-label" for="form-profile-pic">Profile
-                                                    Pic</label>
+                                                <div class="col-md-3">
+													<label class="control-label" for="form-profile-pic">
+														Profile Picture
+													</label>
+												</div>
                                                 <div class="col-md-9">
                                                     <input type="file" id="form-profile-pic" name="profile-image"
                                                            class="form-control"
@@ -387,7 +388,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group form-md-line-input">
+                                            <div class="form-group form-md-line-input row">
                                                 <div class="col-md-12">
                                                     <div id="upload-demo"></div>
                                                     <input type="hidden" id="imagebase64" name="imagebase64">

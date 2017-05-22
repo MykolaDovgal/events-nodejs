@@ -34,8 +34,6 @@ router.post('/user/update/:id?', upload.any(), function (req, res, next) {
     let imageOriginalProfile = '';
     let imageCircleProfile = '';
 
-    
-
     let picture = {};
 
     if (files) {

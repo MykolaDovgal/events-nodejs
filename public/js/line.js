@@ -81,19 +81,23 @@ $(document).ready(function () {
 		});
 	}
 
+	$('#button-open-upload').click(function() {
+		$('#upload-picture-modal').modal('show');
+	});
 
 	var $uploadCrop;
-	$uploadCrop = $('#change-demo').croppie({
+	$uploadCrop = $('#upload-cover-picture').croppie({
 		viewport: {
 			width: 368,
 			height: 200,
 		},
 		boundary: {
-			width: 368,
-			height: 200
+			width: 552,
+			height: 300
 		}
 	});
-	$('#upload-profile-pic').on('change', function () {
+
+	$('#form-line-pic').on('change', function () {
 		readFile(this);
 	});
 
@@ -110,6 +114,39 @@ $(document).ready(function () {
 		}
 	}
 
+	$('#button-upload-picture').on('click', function () {
+		$uploadCrop.croppie('result', 'base64').then(function(base64) {
+			$('#coverpic').attr("src", base64);		
+			setCoverPicture();
+		});
+	});
+
+	function setCoverPicture() {
+		var formData = new FormData($('#form_change_picture')[0]);
+
+		$uploadCrop.croppie('result', {
+			type: 'blob',			
+			size: 'viewport'
+		}).then(function(blob) {
+			formData.append('cover_picture', blob, 'coverpic.png');
+				$.ajax({
+						url: '/line/update/' + line.id,
+						type: 'POST',
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: formData,
+						success: function (data) {
+							$('#upload-picture-modal').modal('hide');
+							toastr.success('Saved!');
+						},
+						error: function (jqXHR, textStatus, err) {
+							toastr.error('Server error!');
+						}
+					});
+		});
+	};
+
 	//inline edit
 	let FormEditable = function () {
 		let initEditables = function () {
@@ -121,8 +158,6 @@ $(document).ready(function () {
 			$.fn.editable.defaults.mode = 'inline';
 
 			//editables element samples
-
-
 			$('#line_name_eng').editable({
 				type: 'text',
 				pk: 1,
@@ -141,7 +176,6 @@ $(document).ready(function () {
 					$('#ol_title').text(data);
 				}
 			});
-
 			$('#line_facebook_page').editable({
 				type: 'text',
 				pk: 1,
@@ -179,8 +213,6 @@ $(document).ready(function () {
 				name: 'description_ol',
 				title: 'Enter description'
 			});
-
-
 		};
 		return {
 			//main function to initiate the module
@@ -208,10 +240,7 @@ $(document).ready(function () {
 						}
 					}
 				});
-
-
 			}
-
 		};
 	}();
 
@@ -239,9 +268,9 @@ $(document).ready(function () {
 
 	});
 
-	$('#upload_button').click(function () {
-		$('#cover_picture_upload').focus().trigger('click');
-	});
+	// $('#upload_button').click(function () {
+	// 	$('#cover_picture_upload').focus().trigger('click');
+	// });
 
 	$('#cover_picture_upload').change(function () {
 		if (this.files && this.files[0]) {
