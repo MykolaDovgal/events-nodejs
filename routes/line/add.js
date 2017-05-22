@@ -22,12 +22,11 @@ router.post('/line/add', urlencodedParser, function (request, response, next) {
 
 
 	let newLine = Line({
-		line_name_eng: body['lineOriginName'],
-		line_name_ol: body['lineEnglishName'],
+		line_name_eng: body['lineEnglishName'],
+		line_name_ol: body['lineOriginName'],
 		description_eng: body['englishDescription'],
 		description_ol: body['originDescription'],
 		address: address
-
 	});
 
 	let data = {
