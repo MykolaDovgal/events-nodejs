@@ -950,14 +950,9 @@ body.is-menu-visible #menu .closes {
 }
 
 .switch-lang {
-	width: auto !important;
-	padding: 0 !important;
-	border: none !important;
+	z-index: 9999;
 }
 
-.switch-lang:hover {
-	background: none !important;
-}
 
 .vertical-row {
 	display: table;
@@ -1023,5 +1018,9 @@ pre{
 	display: block;
 	font-size: 10px;
 	margin: 0;
-	padding: 0;	
+	padding: 0;
+}
+
+.bootstrap-switch-handle-off{
+	min-width: 80px;
 }

@@ -105,6 +105,8 @@ $('#lines-gallery').on('click', '.line-item', function () {
 function initGallery() {
     $gallery.justifiedGallery({
         rowHeight: 300,
+        maxRowHeight:300,
+        refreshTime:250,
         margins: 5
     });
 }

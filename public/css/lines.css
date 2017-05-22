@@ -59,4 +59,13 @@
     width: 15%;
 }
 
+.btn-manager_user{
+    padding: 0;
+    border: none;
+}
+
+.btn-manager_user>.btn{
+    border-radius: 0 4px 4px 0;
+}
+
 

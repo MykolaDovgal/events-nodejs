@@ -88,7 +88,7 @@ $(document).ready(function () {
 		responsive: false,
 
 
-		"dom": "<'row content-header' <'col-md-12' <'pull-left group-btn' B > <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
+		"dom": "<'row content-header' <'col-md-12' <'pull-left group-btn user-btn-group' B > <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
 	});
 
 	$('.update-table-users').click(function () {
