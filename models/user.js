@@ -83,8 +83,17 @@ UserSchema.methods.getActivity = function (format = true) {
         let result;
         if (format)
             result = {        
-                login_time: moment(activity.login_time).format('<p>DD/MM/YYYY</p> <i>HH:mm:ss</i>'),
-                logout_time: activity.logout_time ? moment(activity.logout_time).format('<p>DD/MM/YYYY</p> <i>HH:mm:ss</i>') : '-'
+                login_time: '<div class="activity-date">' + 
+                moment(activity.login_time).format('DD/MM/YYYY') + 
+                '</div><div class="activity-time">' + 
+                moment(activity.login_time).format('HH:mm:ss') +
+                '</div>',
+                logout_time: activity.logout_time ? 
+                '<div class="activity-date">' + 
+                moment(activity.login_time).format('DD/MM/YYYY') + 
+                '</div><div class="activity-time">' + 
+                moment(activity.login_time).format('HH:mm:ss') +
+                '</div>' : '-'
             }
         else
             result = {        

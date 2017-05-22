@@ -197,7 +197,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 			var users = [];
 
 			if( Array.isArray(results.managers.managers)){
-				results.managers.managers.forEach(function (manager) {
+				results.managers.managers.forEach(function (manager) {				
 					if (manager.user_id > 0) {
 						users.push(manager.user_id);
 					}
@@ -212,6 +212,11 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 					if (users === undefined) {
 						users = [];
 					}
+
+					users.forEach(function(user) {
+						if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
+							user.profile_picture_circle = default_image_user;					
+					});
 
 					var data = {
 						data: users
@@ -242,7 +247,7 @@ router.get('/users/usersname', function (req, res, next) {
 
 			results.users.forEach(function (user, index) {
 
-				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http'))
+				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
 					user.profile_picture_circle = default_image_user;
 
 				data.push({
