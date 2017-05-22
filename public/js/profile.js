@@ -53,8 +53,6 @@ $(document).ready(function () {
 		}
 	});
 
-	
-
 	$uploadCrop = $('#upload-demo').croppie({
 		viewport: {
 			width: 200,
@@ -75,15 +73,19 @@ $(document).ready(function () {
 	$('#button-change-picture').on('click', function () {
 		$uploadCrop.croppie('result', 'base64').then(function(base64) {
 			$("#userpic").attr("src", base64);
-			//$('#form_update_user').submit();
+			$('#form_update_user').submit();
 		});
 	});
 
 	$('#button-open-crop').on('click', function() {
-		$('#crop-picture-modal').modal().show();
+		$('#crop-picture-modal').modal('show');
 		$toCrop.croppie('bind', {
 			url: $('#image-to-crop').attr('src')
 		});
+	});
+
+	$('#button-open-change').on('click', function() {
+		$('#change-picture-modal').modal('show');
 	});
 
 	$('#button-crop-picture').on('click', function() {
