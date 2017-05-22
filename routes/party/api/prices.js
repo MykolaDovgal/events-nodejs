@@ -13,7 +13,6 @@ router.get('/party/:id/prices', function (req, res, next) {
 		.then(function (results) {
 			let data = [];
 
-			//console.warn(results.parties.tkt_price[0].start_date);
 
 			results.parties.tkt_price.forEach( (tkts) => {
 				console.warn(tkts.currency);
@@ -38,7 +37,6 @@ router.get('/party/:id/prices', function (req, res, next) {
 router.post('/party/prices/update',function (req, res, next) {
 
 	let body = req.body;
-	console.warn(body);
 
 	Promise.props({
 		party: Party.update({ 'tkt_price':{$elemMatch: {_id: body.priceId}} }, {'$set': {['tkt_price.$.' + body.name]: body['value'],}}).execAsync()

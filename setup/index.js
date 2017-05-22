@@ -190,11 +190,20 @@ setup = {
 
 		for (let i = 0; i < COUNT_OF_PARTY; i += 1) {
 
-			PartyScema.plugin(autoIncrement.plugin, {
-				model: 'Line',
-				field: 'id',
-				startAt: 1
-			});
+			let attendees = [];
+
+			for(let j = 0; j < 50;j+=1){
+				attendees.push({
+					userId: faker.random.number(1700,3000),
+					ticket_purchase: faker.random.boolean(),
+					ticket_checkin: faker.random.boolean(),
+					checkin_time: faker.date.past(10),
+					attend_mark_time: faker.date.past(10),
+					here_mark_time: faker.date.past(1),
+					location_ver: faker.random.boolean(),
+					location_ver_time: faker.date.past(5)
+				});
+			}
 
 			let party_name = faker.name.title();
 			let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
@@ -219,10 +228,8 @@ setup = {
 				},
 				tkts_avbl_here: faker.random.boolean(),
 				tkt_price: {
-
-				}
-
-
+				},
+				attendees: attendees
 			};
 
 			let party = new Party(partyData);
@@ -234,7 +241,10 @@ setup = {
 				}
 			});
 		}
-	}
+	},
+
+
+
 };
 
 var downloadImage = function (uri, filename, callback) {

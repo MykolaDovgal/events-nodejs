@@ -28,7 +28,7 @@ let PartySchema = new Schema({
 			lat: { type: Number},
 			lng: { type: Number}
 		}
-	}, 
+	},
 	tkts_avbl_here: {type: Boolean},
 	tkt_price: [{
 		start_date: {type: Date},
@@ -36,7 +36,18 @@ let PartySchema = new Schema({
 		price: {type: Number},
 		currency: {type: String}
 	}],
-	active: {type: Boolean}
+	active: {type: Boolean},
+	attendees: [{
+		userId: {type: Number},
+		ticket_purchase: {type: Boolean},
+		purchase_priceId: {type: String},
+		ticket_checkin: {type: Boolean},
+		checkin_time: {type: Date},
+		attend_mark_time: {type: Date},
+		here_mark_time: {type: Date},
+		location_ver: {type: Boolean},
+		location_ver_time: {type: Date}
+	}]
 });
 
 PartySchema.plugin(autoIncrement.plugin, {

@@ -1,4 +1,4 @@
-let parties_tables;
+let pricing_table;
 let isPricingInit = false;
 
 $(document).ready(function () {
@@ -23,7 +23,7 @@ $(document).ready(function () {
 		.on('blur','.identity_flag',function() { sendUpdateAJAX.call(this) })
 		.on('click','.flag_delete_btn',function () {
 			sendDeleteAjax.call(this);
-			parties_tables.ajax.reload();
+			pricing_table.ajax.reload();
 		});
 
 
@@ -34,9 +34,7 @@ $(document).ready(function () {
 			type: 'POST',
 			data: {partyId: party.id},
 			success: function (data) {
-				console.log(data);
-
-				parties_tables.row.add({
+				pricing_table.row.add({
 					id: data
 				}).draw();
 			},
@@ -76,7 +74,7 @@ let sendDeleteAjax = function () {
 		type: 'POST',
 		data: {priceId: priceId},
 		success: function (data) {
-			parties_tables.ajax.reload();
+			pricing_table.ajax.reload();
 
 		},
 		error: function (jqXHR, textStatus, err) {
@@ -87,7 +85,7 @@ let sendDeleteAjax = function () {
 };
 
 let initPricingTable = function () {
-	parties_tables = $('#party_pricing').DataTable({
+	pricing_table = $('#party_pricing').DataTable({
 
 		"ajax": '/api/party/'+ party.id +'/prices',
 		"columns": [
@@ -141,16 +139,24 @@ let initPricingTable = function () {
 			{
 				data: 'currency',
 				render: function (data, type, full, meta) {
-					let currencyArray = ['<option value="USD">USD</option>','<option value="EUR">EUR</option>','<option value="UAH">UAH</option>','<option value="RUB">RUB</option>','<option value="ILS">ILS</option>']
-					currencyArray.map((item) => {
-						if($(item).val() == data){
-							$(item).attr("selected", "selected")
+					let currencyArray = ['USD','EUR','UAH','RUB','ILS'];
+					let tmpCurrencyArray = [];
+
+					currencyArray.forEach((currency) => {
+						let tmpCurrency;
+						if(data == currency){
+							tmpCurrency = '<option selected value="' + currency + '">' + currency + '</option>';
 						}
+						else {
+							tmpCurrency = '<option value="' + currency + '">' + currency + '</option>';
+						}
+						tmpCurrencyArray.push(tmpCurrency);
+
 					});
 					return `
 							<div class="form-group">
                                     <select data-id="${full.id != undefined ? full.id : ''}" name="currency" class="bs-select form-control">
-                                           ${currencyArray.join("")}                             
+                                           ${tmpCurrencyArray.join("")}                             
                                     </select>
                             </div>			
 				`;
@@ -171,4 +177,4 @@ let initPricingTable = function () {
 
 		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
 	});
-}
+};
