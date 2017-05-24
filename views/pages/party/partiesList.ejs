@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<% include ../../static/head %>
+	<link rel="stylesheet" href="/css/plugins/bootstrap-multiselect.css" type="text/css"/>
 	<link href="/css/parties.css" rel="stylesheet" type="text/css"/>
 </head>
 
@@ -31,7 +32,7 @@
 							<div class="pull-left">
 								<a id="all_parties_filter" data-status="false"
 								   class="filter-status btn btn-circle btn-success"> All</a>
-								<span>999</span>
+								<span><%= partyTotalCount %></span>
 							</div>
 							<div class="pull-left">
 								<a id="past_parties_filter" data-status="true"
@@ -53,6 +54,24 @@
 								<i class="fa fa-plus-circle" aria-hidden="true"></i>
 							</a>
 						</div>
+
+						<div class="pull-right group-input">
+							<span class="pull-left multiselect-native-select">
+								<select
+									id="country-city-select"
+									class="mt-multiselect btn btn-default mt-noicon" multiple="multiple"
+									data-clickable-groups="true" data-collapse-groups="true" data-width="100%">
+									<% addresses.forEach((address, countryIndex) => { %>
+									<optgroup label="<%= address.country %>" class="group-<%= countryIndex %>">
+										<% address.cities.forEach((city, cityIndex) => { %>
+										<option value='{ "country": "<%= address.country %>", "city": "<%= city %>"}'><%= city %></option>
+										<% }) %>
+									</optgroup>
+									<% }) %>
+								</select>
+							</span>
+						</div>
+
 
 
 						<table id="parties_datatable"
@@ -272,6 +291,7 @@
 
 	<script src="/js/party/parties.js"></script>
 	<script src="/js/party/modal_add.js"></script>
+    <script type="text/javascript" src="/js/plugins/bootstrap-multiselect.js"></script>
 
 </footer>
 

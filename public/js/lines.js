@@ -1,5 +1,4 @@
 var global = {};
-
 var $gallery = $('#lines-gallery');
 
 $(document).ready(function () {
@@ -52,7 +51,6 @@ $(document).ready(function () {
         buildLines(filter);
     });
 
-    //$('#search-lines');
     $('#search-lines').bind('input keyup', function () {
         var $this = $(this);
         var delay = 700;

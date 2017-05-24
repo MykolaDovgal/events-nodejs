@@ -107,8 +107,7 @@ router.post('/lines/:page?', function (req, res, next) {
 	if (addresses && addresses.length > 0) {
 		cities = addresses.map((address) => {
 			return JSON.parse(address).city;
-		});
-		console.log(cities);	
+		});	
 	}
 
 	let filter = [];
@@ -231,7 +230,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 
 		}).catch(function (err) {
 			next(err);
-		});
+		});``
 	} else {
 		next();
 	}

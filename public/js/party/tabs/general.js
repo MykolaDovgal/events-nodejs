@@ -2,7 +2,6 @@
  * Created by Nazarii Beseniuk on 5/17/2017.
  */
 $(document).ready(function () {
-
 	let datetime = $('#datetime_div').datetimepicker({
 		format: 'dd/mm/yyyy hh:ii',
 		autoclose: true,

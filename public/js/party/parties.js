@@ -1,10 +1,36 @@
 let parties_tables;
+let global = {};
 
 $(document).ready(function () {
 
+	$('#country-city-select').multiselect({
+        enableClickableOptGroups: true,
+        onChange: function() {
+            var values = $('#country-city-select').val();
+            var filter = global.filter;
+            console.log(values);
+            if (values) {
+                if (!filter) {
+                    filter = {};
+                }
+                filter['address'] = values;
+
+                global.filter = filter;
+            } else {
+                delete global.filter.address;
+            }
+            updatePartyTable();
+        }
+    });
+
 	parties_tables = $('#parties_datatable').DataTable({
 
-		"ajax": "/api/parties",
+		"ajax": {
+			"url": "/api/parties",
+			"data": function () {
+				return global.filter
+			},
+		},
 		"columns": [
 			{
 				data: 'party_id',
@@ -58,8 +84,15 @@ $(document).ready(function () {
 		responsive: false,
 
 		"dom": "<'row' <'col-md-12'> ><'search pull-right'<'fa fa-search'> f > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
-		});
+	});
 
+	function updatePartyTable() {
+		parties_tables.clear().draw();
+		setTimeout(function () {
+			parties_tables.ajax.reload();
+			parties_tables.columns.adjust().draw();
+		}, 1000);
+	}
 
 	$('#parties_datatable tbody').on('click', 'tr', function () {
 		let partyRow = parties_tables.row( this ).data();
