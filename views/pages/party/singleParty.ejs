@@ -150,6 +150,69 @@
 	<!-- END CONTAINER -->
 </div>
 
+<div id="upload-picture-modal" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Upload Line Cover Picture</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN VALIDATION STATES-->
+                            <div class="portlet light portlet-fit portlet-form bordered">
+                                <div class="portlet-body">
+                                    <!-- BEGIN FORM-->
+                                    <form method="post"
+                                          enctype="multipart/form-data" id="form_change_picture">
+                                        <div class="form-body">
+                                            <div class="form-group form-md-line-input row">
+
+                                                <div class="upload-cover-picture-wrap">
+                                                    <div id="upload-line-pic"></div>
+                                                </div>
+
+												<div class="col-md-3">
+													<label class="control-label" for="form-profile-pic">
+														Line Cover Picture
+													</label>
+												</div>
+                                                
+                                                <div class="col-md-9">
+                                                    <input type="file" id="form-line-pic" name="cover-image"
+                                                           class="form-control"
+                                                           value="Choose a file"
+                                                           accept="image/*"/>
+
+                                                    <div class="form-control-focus"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-md-line-input row">
+                                                <div class="col-md-12">
+                                                    <div id="upload-cover-picture"></div>
+                                                    <input type="hidden" id="imagebase64" name="imagebase64">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                            <!-- END VALIDATION STATES-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
+                <button id="button-upload-picture" class="btn green">Upload Picture</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer>
 	<% include ../../static/footer %>
