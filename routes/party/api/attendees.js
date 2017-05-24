@@ -26,14 +26,14 @@ router.get('/party/:id/attendees', function (req, res, next) {
 				let user_name = 'test user';
 				let user_pic = '';
 
-				User.findOne({ id: fakeUsersId.pop() }).select('username')
-					.then(function(res){
-						user_name = res.username;
-						user_pic = res.profile_picture_circle;
-					})
-					.catch(function (err){
-						next(err);
-					});
+				// User.findOne({ id: fakeUsersId.pop() }).select('username')
+				// 	.then(function(res){
+				// 		user_name = res.username;
+				// 		user_pic = res.profile_picture_circle;
+				// 	})
+				// 	.catch(function (err){
+				// 		next(err);
+				// 	});
 
 
 				data.push({

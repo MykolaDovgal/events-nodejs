@@ -26,6 +26,7 @@ $(document).ready(function () {
 
 	//inline edit
 	let FormEditable = function () {
+
 		let initEditables = function () {
 
 			//global settings

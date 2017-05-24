@@ -47,7 +47,19 @@ let PartySchema = new Schema({
 		here_mark_time: {type: Date},
 		location_ver: {type: Boolean},
 		location_ver_time: {type: Date}
+	}],
+	stage:[{
+		stage_name:{type: String},
+		music_genres:[{type: String}],
+		music_sample: {type: String},
+		djs:[{
+			name: {type: String},
+			userId: {type: Number},
+			soundcloud:{type: String}
+		}]
+
 	}]
+
 });
 
 PartySchema.plugin(autoIncrement.plugin, {

@@ -22,10 +22,12 @@ Promise.promisifyAll(mongoose);
 let parties = require('./party/api/parties');
 let prices = require('./party/api/prices');
 let attendees = require('./party/api/attendees');
+let music = require('./party/api/music');
 
 router.use(parties);
 router.use(prices);
 router.use(attendees);
+router.use(music);
 
 
 router.get('/users', function (req, res, next) {
