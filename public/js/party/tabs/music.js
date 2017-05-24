@@ -2,7 +2,6 @@ let stageCount = 0;
 
 $(document).ready(function () {
 
-	FormEditable.init();
 
 	$('#party_add_stage').on('click',() => {
 		generateStageTab();
@@ -38,8 +37,8 @@ let generateStageTab = function () {
 let setEditable = function (counter) {
 
 	$('#party_stage_' + counter+ '_name').editable({
+		url: '/api/party/music/stage/update',
 		type: 'text',
-		name: 'stageTab',
 		title: 'Enter title',
 	});
 };
@@ -49,7 +48,7 @@ let getTabTemplate = function (counter,_id) {
 	return $(`
 					<div class="panel panel-default">			
 			            <div class="panel-heading">
-			                <a id="party_stage_${counter}_name" class="editable editable-click editable-disabled" href="#stage_${counter}_body"
+			                <a id="party_stage_${counter}_name" class="editable editable-click editable-disabled" data-name="stage" href="#stage_${counter}_body"
 			                   style="margin:10px;display: inline-block" data-type="text" data-pk="${_id}"
 			                   data-parent="#music_accordion_container">LOOOOOOOOOOOOOOOOOOOOOL</a>
 			                <button id="enable_stage_${counter}_edit" class="edit_btn_flag" type="button">
@@ -69,13 +68,3 @@ let getTabTemplate = function (counter,_id) {
 			`);
 };
 
-let FormEditable = function () {
-
-	return {
-		init: function () {
-			$.fn.editable.defaults.inputclass = 'form-control';
-			$.fn.editable.defaults.url = '/api/party/music/update';
-			$.fn.editable.defaults.mode = 'inline';
-		}
-	};
-}();

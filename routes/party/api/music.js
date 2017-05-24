@@ -37,7 +37,7 @@ router.get('/party/:id/music/stages', function (req, res, next) {
 
 router.post('/party/music/stage/update',function (req, res, next) {
 
-
+	console.warn(req.body);
 	res.send(200);
 	// let body = req.body;
 	//
