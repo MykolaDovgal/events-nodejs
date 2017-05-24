@@ -86,7 +86,7 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         lastname: body['lastname'],
         realname: body['firstname'] + ' ' + body['lastname'],
         email: body['email'],
-        phone: body['phone'],
+        phone: body['phone'] ? body['phone'] : null,
         permission_level: 1,
         profile_picture: imageOriginalProfile,
         profile_picture_circle: imageCircleProfile,
