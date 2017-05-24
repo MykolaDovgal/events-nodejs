@@ -216,7 +216,7 @@ $(document).ready(function () {
 		}).then(function(blob) {
 			formData.append('cover_picture', blob, 'coverpic.png');
 				$.ajax({
-						url: '/line/update/' + line.id,
+						url: '/party/update/' + party.id,
 						type: 'POST',
 						cache: false,
 						contentType: false,

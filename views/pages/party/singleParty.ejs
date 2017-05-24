@@ -54,14 +54,13 @@
 					<div class="col-md-3">
 						<div class="wrapper-line border-line croppie-container mt-element-overlay">
 							<div class="mt-overlay-1">
-								<img id="cover_picture" class="cover-picture"
-									 src="<%= party.cover_picture ? party.cover_picture : '/images/cover-picture.jpg' %>">
+								<img id="coverpic" class="cover-picture"
+								     src="<%= party.cover_picture ? party.cover_picture : '/images/cover-picture.jpg' %>">
 								<div class="mt-overlay">
 									<ul class="mt-info">
 										<li>
-											<a class="btn file-btn">
-												<button id="upload_button" class="btn cover-button">Upload</button>
-												<input id="cover_picture_upload" type="file" accept="image/*">
+											<a id="button-open-upload" class="btn default btn-outline">
+												<i class="fa fa-pencil" aria-hidden="true"></i></i>Upload
 											</a>
 										</li>
 									</ul>
@@ -122,7 +121,7 @@
 							</ul>
 							<div class="tab-content offset-table-retreat">
 								<div class="tab-pane active" id="general-container">
-									<% include tabs/general%>
+									<% include tabs/general %>
 								</div>
 
 								<div class="tab-pane" id="pricing_container">
@@ -223,6 +222,9 @@
 	<script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
 	<script>
 		var party = <%- JSON.stringify(party) %>;
+	</script>
+	<script>
+		var currentLanguage = 'English';
 	</script>
 	<script defer
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVlanyJ2xLrNhMZIUhSXTYu1uq31e7Ti4&callback=initMap&libraries=places&language=en">

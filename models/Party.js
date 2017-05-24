@@ -15,6 +15,7 @@ let PartySchema = new Schema({
 	only_for_mom_event_att: {type: Boolean},
 	description_eng: {type: String, trim: true},
 	description_ol: {type: String, trim: true},
+	cover_picture_original: {type: String, trim: true},
 	cover_picture: {type: String, trim: true},
 	facebook_page: {type: String, trim: true},
 	date: {type: Date },
