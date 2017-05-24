@@ -157,3 +157,4 @@ let dateSort = function (x) {
 	parties_tables.draw();
 	$.fn.dataTable.ext.search = [];
 };
+

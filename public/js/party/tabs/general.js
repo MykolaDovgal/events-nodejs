@@ -6,14 +6,14 @@ $(document).ready(function () {
 		format: 'dd/mm/yyyy hh:ii',
 		autoclose: true,
 		useCurrent: false,
-	}).on('changeDate', function(ev) {
-		var date = { name: 'date', value: ev.date, pk: 1 };
+	}).on('changeDate', function (ev) {
+		var date = {name: 'date', value: ev.date, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(date)  
+			data: JSON.stringify(date)
 		});
 	});
 
@@ -39,25 +39,79 @@ $(document).ready(function () {
 				pk: 1,
 				name: 'title_eng',
 				title: 'Enter title',
-				success: function(data) {
+				success: function (data) {
 					$('#english_title').text(data);
 				}
-			});	
+			});
 			$('#title_ol').editable({
 				type: 'text',
 				pk: 1,
 				name: 'title_ol',
 				title: 'Enter title',
-				success: function(data) {
+				success: function (data) {
 					$('#ol_title').text(data);
 				}
 			});
-			$('#line_name_eng').editable({
+			$('#line_i9d').editable({
 				type: 'text',
-				pk: 1,
 				name: 'line_name_eng',
 				title: 'Line name'
 			});
+
+			$('#lineId').editable({
+				pk: 1,
+				placeholder: 'Select line',
+				url: '/party/update/line/' + party.id,
+				name: 'lineId',
+				select2: {
+					ajax: {
+						url: '/api/getAllLines',
+						dataType: 'json',
+						delay: 250,
+						processResults: function (data, params) {
+							return {
+								results: data
+							};
+						},
+						cache: true
+					},
+					escapeMarkup: function (markup) {
+						return markup;
+					},
+				},
+				tpl: '<select style="width:200px;">',
+				type: 'select2',
+				success: function success(response, newValue) {
+					// console.log(newValue);
+					//$('#lineTitle').text(title);
+				},
+				display: function (value, sourceData) {
+					console.log(sourceData);
+
+					let line;
+					let title;
+					if (sourceData) {
+						line = sourceData.line || 0;
+						title = (currentLanguage == 'English') ? line.line_name_eng : line.line_name_ol;
+
+
+					} else {
+						title = '';
+					}
+
+					if (title.length > 0) {
+						$(this).text(line.id);
+
+						$('#line_title_english').text(line.line_name_eng);
+						$('#line_title_original').text(line.line_name_ol);
+					}
+
+				}
+			})
+				.click(function (e) {
+					if (e) e.preventDefault();
+				});
+
 			$('#mom_eventId').editable({
 				type: 'text',
 				pk: 1,
@@ -112,29 +166,38 @@ $(document).ready(function () {
 		};
 	}();
 
-	$('#active-switch').on('switchChange.bootstrapSwitch', function(event, state) {
-		var active = { name: 'active', value: state, pk: 1 };
+	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
+		var active = {name: 'active', value: state, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(active)  
+			data: JSON.stringify(active)
 		});
 	});
 
-	$('#visible-switch').on('switchChange.bootstrapSwitch', function(event, state) {
-		var active = { name: 'only_for_mom_event_att', value: state, pk: 1 };
+	$('#visible-switch').on('switchChange.bootstrapSwitch', function (event, state) {
+		var active = {name: 'only_for_mom_event_att', value: state, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(active)  
+			data: JSON.stringify(active)
 		});
 	});
 
-	$('#language_switch').on('switchChange.bootstrapSwitch', function(event, state) {
+	$('#language_switch').on('switchChange.bootstrapSwitch', function (event, state) {
+		if (state) {
+			currentLanguage = 'Original';
+		} else {
+			currentLanguage = 'English';
+		}
 		$('.language_switch_container').toggle();
+		console.log(currentLanguage);
 	});
+
+
+	console.log(party);
 });

@@ -19,7 +19,7 @@ $(document).ready(function () {
 
 		});
 		$(this).removeClass('row_datetime');
-	}).on('change','.date,select', function() { sendUpdateAJAX.call(this) })
+	}).on('change','.date,select.price_currency', function() { sendUpdateAJAX.call(this) })
 		.on('blur','.identity_flag',function() { sendUpdateAJAX.call(this) })
 		.on('click','.flag_delete_btn',function () {
 			sendDeleteAjax.call(this);
@@ -155,7 +155,7 @@ let initPricingTable = function () {
 					});
 					return `
 							<div class="form-group">
-                                    <select data-id="${full.id != undefined ? full.id : ''}" name="currency" class="bs-select form-control">
+                                    <select data-id="${full.id != undefined ? full.id : ''}" name="currency" class="bs-select form-control price_currency">
                                            ${tmpCurrencyArray.join("")}                             
                                     </select>
                             </div>			
