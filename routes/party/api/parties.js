@@ -37,35 +37,35 @@ router.all('/parties', function (req, res, next) {
 
 
 	Promise.props({
-		parties: Party.find({$and: filter}).execAsync()
+		parties: Party.find({$and: filter}).execAsync(),
+		lines: Line.find().select('id line_name_eng').execAsync()
 	})
 		.then(function (results) {
 			let data = [];
+			let lines = results.lines;
+			let lines_data = {0: ''};
 
-			console.log(results);
+			lines.forEach(function (line_item, index) {
+				lines_data[line_item.id] = line_item.line_name_eng;
+			});
 
-			results.parties.forEach(function (party, index) {
-				let line_name_eng;
-
-				Line.findOne({
-					'id': party.lineId
-				}).select('line_name_eng')
-					.exec(function (err,res) {
-						line_name_eng = res;
-					});
+			results.parties.forEach(function (party) {
+				let lineId = party.lineId || 0;
+				let line_name_eng = lines_data[lineId];
 
 				data.push({
 					party_id: party.id,
-					line_name_eng: "test data",
+					line_name_eng: line_name_eng,
 					country_name_eng: party.location.country,
 					city_name_eng: party.location.city,
-					event_name_eng: "test data",
+					event_name_eng: "test par event",
 					date: moment(party.date).format('DD/MM/YYYY'),
 					open_time: moment(party.open_time).format('HH:mm'),
 					attendees_count: 0,
 					video_stream_avb: false,
 					tkts_avbl_here: false
 				});
+
 			});
 			let temp = {data: data};
 			res.json(temp);

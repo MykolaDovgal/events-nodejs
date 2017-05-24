@@ -9,6 +9,7 @@ autoIncrement.initialize(mongoose.connection);
 let PartySchema = new Schema({
 	id: {type: Number, required: true, index: {unique: true}},
 	lineId: {type: Number},
+	line: {type: Schema.Types.ObjectId, ref: 'Line'},
 	title_ol: {type: String, trim: true},
 	title_eng: {type: String, trim: true},
 	mom_eventId: {type: Number},
@@ -18,16 +19,16 @@ let PartySchema = new Schema({
 	cover_picture_original: {type: String, trim: true},
 	cover_picture: {type: String, trim: true},
 	facebook_page: {type: String, trim: true},
-	date: {type: Date },
-	open_time: {type: String },
+	date: {type: Date},
+	open_time: {type: String},
 	location: {
 		club_name: {type: String, trim: true},
 		country: {type: String, trim: true},
 		city: {type: String, trim: true},
 		address: {type: String},
 		longitude: {
-			lat: { type: Number},
-			lng: { type: Number}
+			lat: {type: Number},
+			lng: {type: Number}
 		}
 	},
 	tkts_avbl_here: {type: Boolean},
