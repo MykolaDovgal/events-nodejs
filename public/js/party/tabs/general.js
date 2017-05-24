@@ -166,6 +166,72 @@ $(document).ready(function () {
 		};
 	}();
 
+	$('#button-open-upload').click(function() {
+		$('#upload-picture-modal').modal('show');
+	});
+
+	var $uploadCrop;
+	$uploadCrop = $('#upload-cover-picture').croppie({
+		viewport: {
+			width: 368,
+			height: 200,
+		},
+		boundary: {
+			width: 552,
+			height: 300
+		}
+	});
+
+	$('#form-line-pic').on('change', function () {
+		readFile(this);
+	});
+
+	function readFile(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$uploadCrop.croppie('bind', {
+					url: e.target.result
+				});
+				$('.upload-demo').addClass('ready');
+			};
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	$('#button-upload-picture').on('click', function () {
+		$uploadCrop.croppie('result', 'base64').then(function(base64) {
+			$('#coverpic').attr("src", base64);
+			setCoverPicture();
+		});
+	});
+
+	function setCoverPicture() {
+		var formData = new FormData($('#form_change_picture')[0]);
+
+		$uploadCrop.croppie('result', {
+			type: 'blob',
+			size: 'viewport'
+		}).then(function(blob) {
+			formData.append('cover_picture', blob, 'coverpic.png');
+				$.ajax({
+						url: '/line/update/' + line.id,
+						type: 'POST',
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: formData,
+						success: function (data) {
+							$('#upload-picture-modal').modal('hide');
+							toastr.success('Saved!');
+						},
+						error: function (jqXHR, textStatus, err) {
+							toastr.error('Server error!');
+						}
+					});
+		});
+	};
+
 	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
 		var active = {name: 'active', value: state, pk: 1};
 		$.ajax({
@@ -195,9 +261,5 @@ $(document).ready(function () {
 			currentLanguage = 'English';
 		}
 		$('.language_switch_container').toggle();
-		console.log(currentLanguage);
 	});
-
-
-	console.log(party);
 });
