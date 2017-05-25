@@ -21,7 +21,7 @@ $(document).ready(function () {
 		let isCollapse = stageName.attr('data-toggle') == 'collapse' ? '' : 'collapse';
 		stageName.attr('data-toggle', isCollapse);
 	}).on('click','.delete_stage_btn_flag',function () {
-		//$('#' + $(this).data('id')).remove();
+		console.log(this);
 		deleteStage.apply(this);
 	});
 
