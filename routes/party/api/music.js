@@ -28,8 +28,6 @@ router.get('/party/:id/music/stages', function (req, res, next) {
 
 router.post('/party/music/stage/update',function (req, res, next) {
 
-	console.warn(req.body);
-
 	let body = req.body;
 
 	Promise.props({

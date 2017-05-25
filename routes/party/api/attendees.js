@@ -18,9 +18,6 @@ router.get('/party/:id/attendees', function (req, res, next) {
 			let data = [];
 			let fakeUsersId = [];
 
-			// console.warn(results.party.attendees);
-
-
 
 			results.party.attendees.forEach(function (attendee, index) {
 				let user_name = 'test user';

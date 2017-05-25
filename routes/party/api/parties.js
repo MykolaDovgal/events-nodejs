@@ -33,9 +33,6 @@ router.all('/parties', function (req, res, next) {
 		filter.push({});
 	}
 
-	console.log(filter);
-
-
 	Promise.props({
 		parties: Party.find({$and: filter}).execAsync(),
 		lines: Line.find().select('id line_name_eng').execAsync()

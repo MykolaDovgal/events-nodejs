@@ -29,8 +29,6 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 	let body = {};
     let files = req.files;
 
-    console.log(files);
-
     let imageOriginal = '';
     let image = '';
 
@@ -126,14 +124,11 @@ router.post('/party/update/line/:id', function (req, res, next) {
 
 	let body = req.body;
 
-	console.warn(body);
 	let result = {};
 
 	let lineId = body.value || 0;
 
 	if (lineId > 0) {
-
-		console.warn(lineId);
 
 		Promise.props({
 			party: Party.update({id: req.params.id}, {lineId: lineId}).execAsync(),

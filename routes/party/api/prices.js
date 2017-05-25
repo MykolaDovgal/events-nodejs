@@ -15,7 +15,6 @@ router.get('/party/:id/prices', function (req, res, next) {
 
 
 			results.parties.tkt_price.forEach( (tkts) => {
-				console.warn(tkts.currency);
 				data.push({
 					delete_button: null,
 					id: tkts._id,
