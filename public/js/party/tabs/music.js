@@ -1,6 +1,14 @@
 let stageCount = 0;
+let isMusicInit = false;
 
 $(document).ready(function () {
+
+	$('#music_tab_btn').on('click',function () {
+		if(!isMusicInit){
+			initStages();
+			isMusicInit = true;
+		}
+	});
 
 
 	$('#party_add_stage').on('click',() => {
@@ -43,14 +51,14 @@ let setEditable = function (counter) {
 	});
 };
 
-let getTabTemplate = function (counter,_id) {
+let getTabTemplate = function (counter,tabItem) {
 
 	return $(`
 					<div class="panel panel-default">			
 			            <div class="panel-heading">
-			                <a id="party_stage_${counter}_name" class="editable editable-click editable-disabled" data-name="stage" href="#stage_${counter}_body"
-			                   style="margin:10px;display: inline-block" data-type="text" data-pk="${_id}"
-			                   data-parent="#music_accordion_container">LOOOOOOOOOOOOOOOOOOOOOL</a>
+			                <a id="party_stage_${counter}_name" class="editable editable-click editable-disabled" data-name="stage_name" href="#stage_${counter}_body"
+			                   style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}"
+			                   data-parent="#music_accordion_container">${tabItem.stage_name}</a>
 			                <button id="enable_stage_${counter}_edit" class="edit_btn_flag" type="button">
 			                    <i class="fa fa-pencil"></i>
 			                </button>
@@ -66,5 +74,24 @@ let getTabTemplate = function (counter,_id) {
 			            </div>			
 			        </div>
 			`);
+};
+
+let initStages = function () {
+
+	$.ajax({
+		url: '/api/party/'+ party.id + '/music/stages',
+		type: 'GET',
+		success: function (data) {
+			data.forEach((item) => {
+
+				let stageTemplate = getTabTemplate(stageCount,item);
+				$('#music_accordion_container').append(stageTemplate);
+				setEditable(stageCount);
+				stageCount+=1;
+
+			});
+		}
+	});
+
 };
 

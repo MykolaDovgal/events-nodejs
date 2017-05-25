@@ -7,48 +7,39 @@ let Party = require('models/Party');
 
 router.get('/party/:id/music/stages', function (req, res, next) {
 
-	res.send(200);
-	// Promise.props({
-	// 	parties: Party.findOne({id: req.params.id}).select('tkt_price').execAsync()
-	// })
-	// 	.then(function (results) {
-	// 		let data = [];
-	//
-	//
-	// 		results.parties.tkt_price.forEach( (tkts) => {
-	// 			console.warn(tkts.currency);
-	// 			data.push({
-	// 				delete_button: null,
-	// 				id: tkts._id,
-	// 				start_date: tkts.start_date ? moment(tkts.start_date).format('DD/MM/YYYY HH:mm') : '',
-	// 				end_date: tkts.end_date ? moment(tkts.end_date).format('DD/MM/YYYY HH:mm') : '',
-	// 				price: tkts.price,
-	// 				currency: tkts.currency ? tkts.currency : ''
-	// 			});
-	// 		});
-	//
-	// 		let temp = {data: data};
-	// 		res.json(temp);
-	// 	})
-	// 	.catch(function (err) {
-	// 		next(err)
-	// 	});
+	Promise.props({
+		parties: Party.findOne({id: req.params.id}).select('stage').execAsync()
+	})
+		.then(function (results) {
+			let data = [];
+			results.parties.stage.forEach((stage) => {
+				data.push({
+					_id: stage._id,
+					stage_name: stage.stage_name ? stage.stage_name : ''
+				});
+			});
+
+			res.json(data);
+		})
+		.catch(function (err) {
+			next(err)
+		});
 });
 
 router.post('/party/music/stage/update',function (req, res, next) {
 
 	console.warn(req.body);
-	res.send(200);
-	// let body = req.body;
-	//
-	// Promise.props({
-	// 	party: Party.update({ 'tkt_price':{$elemMatch: {_id: body.priceId}} }, {'$set': {['tkt_price.$.' + body.name]: body['value'],}}).execAsync()
-	// }).then(function (results) {
-	// 	res.status(200).send(body['value']);
-	// })
-	// 	.catch(function (err) {
-	// 		next(err);
-	// 	});
+
+	let body = req.body;
+
+	Promise.props({
+		party: Party.update({ 'stage': {$elemMatch: {_id: body.pk}} }, { '$set': {['stage.$.' + body.name]: body['value'],}}).execAsync()
+	}).then(function (results) {
+		res.status(200).send(body['value']);
+	})
+		.catch(function (err) {
+			next(err);
+		});
 });
 
 router.post('/party/music/stage/add',function (req, res, next) {

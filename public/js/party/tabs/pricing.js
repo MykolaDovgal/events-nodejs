@@ -30,7 +30,7 @@ $(document).ready(function () {
 	$('#party_add_price').click( () => {
 
 		$.ajax({
-			url: '/api//party/prices/add',
+			url: '/api/party/prices/add',
 			type: 'POST',
 			data: {partyId: party.id},
 			success: function (data) {
