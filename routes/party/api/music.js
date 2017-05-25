@@ -68,23 +68,21 @@ router.post('/party/music/stage/add',function (req, res, next) {
 });
 
 router.post('/party/music/stage/delete',function (req, res, next) {
-
-	res.send(200);
-
-	// let body = req.body;
-	//
-	// Promise.props({
-	// 	party: Party.update( {'tkt_price':{$elemMatch: {_id: body.priceId}} }, {$pull : { tkt_price : {_id : body.priceId}  } } ).execAsync()
-	// }).then(function (results) {
-	// 	res.status(200);
-	// })
-	// 	.catch(function (err) {
-	// 		next(err);
-	// 	});
-
-
+	let body = req.body;
+	console.warn(body);
+	Promise.props({
+		party: Party.update( {'stage':{$elemMatch: {_id: body._id}} }, {$pull : { stage : {_id : body._id}  } } ).execAsync()
+	}).then(function (results) {
+		console.warn('asdasdasdasdas');
+		res.status(200).send('OK');
+	})
+		.catch(function (err) {
+			next(err);
+		});
 
 });
+
+
 
 
 

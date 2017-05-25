@@ -15,12 +15,17 @@ $(document).ready(function () {
 		generateStageTab();
 	});
 
-	$('body').on('click','.edit_btn_flag',function () {
+	$('body').on('click','.edit_stage_btn_flag',function () {
 		let stageName = $(this).parent('.panel-heading').find('a.editable');
 		stageName.editable('toggleDisabled');
 		let isCollapse = stageName.attr('data-toggle') == 'collapse' ? '' : 'collapse';
 		stageName.attr('data-toggle', isCollapse);
+	}).on('click','.delete_stage_btn_flag',function () {
+		//$('#' + $(this).data('id')).remove();
+		deleteStage.apply(this);
 	});
+
+
 });
 
 let generateStageTab = function () {
@@ -31,7 +36,7 @@ let generateStageTab = function () {
 		data: {partyId: party.id},
 		success: function (_id) {
 
-			let stageTemplate = getTabTemplate(stageCount,_id);
+			let stageTemplate = getStageTabTemplate(stageCount,_id);
 			$('#music_accordion_container').append(stageTemplate);
 			setEditable(stageCount);
 			stageCount+=1;
@@ -51,28 +56,89 @@ let setEditable = function (counter) {
 	});
 };
 
-let getTabTemplate = function (counter,tabItem) {
+let getStageTabTemplate = function (counter,tabItem) {
 
 	return $(`
-					<div class="panel panel-default">			
-			            <div class="panel-heading">
-			                <a id="party_stage_${counter}_name" class="editable editable-click editable-disabled" data-name="stage_name" href="#stage_${counter}_body"
-			                   style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}"
-			                   data-parent="#music_accordion_container">${tabItem.stage_name}</a>
-			                <button id="enable_stage_${counter}_edit" class="edit_btn_flag" type="button">
-			                    <i class="fa fa-pencil"></i>
-			                </button>
-			            </div>
-			            <div id="stage_${counter}_body" class="panel-collapse in">
-			                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias, harum impedit obcaecati perspiciatis quas quisquam voluptatum! Alias, aliquid asperiores commodi delectus, in ipsum, magnam molestiae nesciunt praesentium ullam ut?
-			                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias, harum impedit obcaecati perspiciatis quas quisquam voluptatum! Alias, aliquid asperiores commodi delectus, in ipsum, magnam molestiae nesciunt praesentium ullam ut?
-			                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias, harum impedit obcaecati perspiciatis quas quisquam voluptatum! Alias, aliquid asperiores commodi delectus, in ipsum, magnam molestiae nesciunt praesentium ullam ut?
-			                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias, harum impedit obcaecati perspiciatis quas quisquam voluptatum! Alias, aliquid asperiores commodi delectus, in ipsum, magnam molestiae nesciunt praesentium ullam ut?
-			                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias, harum impedit obcaecati perspiciatis quas quisquam voluptatum! Alias, aliquid asperiores commodi delectus, in ipsum, magnam molestiae nesciunt praesentium ullam ut?
-			                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias, harum impedit obcaecati perspiciatis quas quisquam voluptatum! Alias, aliquid asperiores commodi delectus, in ipsum, magnam molestiae nesciunt praesentium ullam ut?
-			
-			            </div>			
-			        </div>
+					<div id="${tabItem._id}" class="panel panel-default">
+
+					    <div class="panel-heading">
+					        <a id="party_stage_${counter}_name" class="editable editable-click " data-name="stage_name"
+					           href="#stage_${counter}_body" 
+					           style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}"
+					           data-parent="#music_accordion_container">${tabItem.stage_name}</a>
+					           
+					        <button id="enable_stage_${counter}_edit" class="edit_stage_btn_flag" type="button">
+					            <i class="fa fa-pencil"></i>
+					        </button>
+					        
+					        <button id="enable_stage_${counter}_delete" data-id="${tabItem._id}" class="delete_stage_btn_flag" type="button">
+					            <i class="fa fa-trash-o"></i>
+					        </button>
+					        
+					    </div>
+					
+					    <div id="stage_${counter}_body" class="panel-collapse collapse">
+					
+					        <div class="accordion-content">
+					
+					            <div class="row">
+					
+					                <div class="col-md-6">
+					
+					                    <div class="border-line block-manager">
+					                        <div class="portlet-title">
+					                            <div class="title-block caption font-red">
+					                                <i class="fa fa-user" aria-hidden="true"></i>
+					                                <span class="caption-subject bold">DJs</span>
+					                            </div>
+					                        </div>
+					
+					                        <div class="portlet-body table-both-scroll">
+					                            <table class="table table-striped table-bordered table-hover order-column"
+					                                   id="party_stage_${counter}_djs">
+					                                <thead>
+					                                <th class="no-sort"></th>
+					                                <th>Pic</th>
+					                                <th>User ID</th>
+					                                <th>User Name</th>
+					                                <th>Name</th>
+					                                <th>Soundcloud</th>
+					                                </thead>
+					                            </table>
+					
+					                            <div class="input-add">
+					                                <div class="input-group">
+														<span class="input-group-addon">
+															<i class="fa fa-search" aria-hidden="true"></i>
+														</span>
+							                                    <input type="text" id="party_stage_${counter}_djs_search" placeholder="DJs name"
+							                                           name="djs_search" class="form-control"/>
+							                                           
+							                            <span class="input-group-addon btn-manager_user">
+															<button id="party_stage_${counter}_djs_add"
+                                                                    type="button"
+                                                                    class="btn btn-icon-only green pull-right">
+																<i class="fa fa-plus"></i>
+															</button>
+														</span>
+					                                </div>
+					                                <div class="col-md-2">
+					
+					                                </div>
+					                            </div>
+					
+					                        </div>
+					                    </div>
+					
+					                </div>
+					
+					            </div>
+					
+					        </div>
+					
+					    </div>
+
+					</div>
 			`);
 };
 
@@ -84,13 +150,26 @@ let initStages = function () {
 		success: function (data) {
 			data.forEach((item) => {
 
-				let stageTemplate = getTabTemplate(stageCount,item);
+				let stageTemplate = getStageTabTemplate(stageCount,item);
 				$('#music_accordion_container').append(stageTemplate);
 				setEditable(stageCount);
 				stageCount+=1;
 
 			});
 		}
+	});
+
+};
+
+let deleteStage = function () {
+	let stageItemId = $(this).data('id');
+	$.ajax({
+		url: '/api/party/music/stage/delete',
+		type: 'POST',
+		data: {_id: stageItemId},
+		success: function (data) {
+			$('#' + stageItemId).remove();
+		},
 	});
 
 };
