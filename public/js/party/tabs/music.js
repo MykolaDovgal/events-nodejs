@@ -34,11 +34,14 @@ let generateStageTab = function () {
 		url: '/api//party/music/stage/add',
 		type: 'POST',
 		data: {partyId: party.id},
-		success: function (_id) {
+		success: function (item) {
 
-			let stageTemplate = getStageTabTemplate(stageCount,_id);
+			console.log(item._id);
+
+			let stageTemplate = getStageTabTemplate(stageCount,item);
 			$('#music_accordion_container').append(stageTemplate);
-			setEditable(stageCount);
+			setStageNameEditable(stageCount);
+			setStageTable('party_stage_'+ stageCount +'_djs',item._id);
 			stageCount+=1;
 
 		}
@@ -47,13 +50,66 @@ let generateStageTab = function () {
 
 };
 
-let setEditable = function (counter) {
+let setStageNameEditable = function (counter) {
 
 	$('#party_stage_' + counter+ '_name').editable({
 		url: '/api/party/music/stage/update',
 		type: 'text',
 		title: 'Enter title',
 	});
+};
+
+let setStageTable = function (stage_table_id,_id) {
+
+	$('#' + stage_table_id).DataTable({
+
+		"ajax": "/api/party/music/stage/"+ _id +"/djs",
+
+		"columns": [
+			{
+				data: 'delete_button',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+				},
+				width: '5%'
+			},
+			{
+				data: 'profile_picture_circle',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+				},
+				width: '20%'
+			},
+			{
+				"data": 'userId',
+				width: '20%'
+			},
+			{
+				"data": 'username',
+				width: '20%'
+			},
+			{
+				"data": 'name',
+				width: '20%'
+			},
+
+			{
+				"data": 'soundcloud',
+				width: '15%'
+			}
+		],
+		"columnDefs": [
+			{
+				"targets": 'no-sort',
+				"orderable": false
+			}
+		],
+		scrollY: 200,
+		scroller: true,
+		responsive: false,
+		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+	});
+
 };
 
 let getStageTabTemplate = function (counter,tabItem) {
@@ -152,7 +208,8 @@ let initStages = function () {
 
 				let stageTemplate = getStageTabTemplate(stageCount,item);
 				$('#music_accordion_container').append(stageTemplate);
-				setEditable(stageCount);
+				setStageNameEditable(stageCount);
+				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
 				stageCount+=1;
 
 			});

@@ -1,6 +1,4 @@
-/**
- * Created by tegos on 08.05.2017.
- */
+let selectedResult;
 
 $(document).ready(function () {
 
