@@ -9,10 +9,7 @@ var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 router.post('/party/add', urlencodedParser, function (request, response, next) {
-
 	let body = request.body;
-
-	console.warn(body);
 
 	let location  = {
 		club_name: body['clubName'],

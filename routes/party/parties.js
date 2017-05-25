@@ -21,8 +21,6 @@ router.get('/parties', function (request, response, next) {
                 addresses.push({country: party.location.country, city: party.location.city });
         });
 
-        console.log('ADDRESSES\n', addresses);
-
         let map = [];
         let uniqueCountry = new Set(addresses.map(address => address.country));
 

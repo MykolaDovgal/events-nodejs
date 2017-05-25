@@ -40,7 +40,6 @@ router.get('/party/:id', function (request, response, next) {
 					line: line
 				};
 
-				console.warn(data);
 				response.render('pages/party/singleParty', data);
 			});
 

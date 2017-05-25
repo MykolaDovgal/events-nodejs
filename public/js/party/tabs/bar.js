@@ -2,7 +2,7 @@ let barCount = 0;
 isBarInit = false
 
 $(document).ready(() => {
-    $('#bar_tab_btn').on('click',function () {
+    $('#bar_tab_btn').on('click', () => {
 		if(!isBarInit){
 			initBars();
 			isBarInit = true;
@@ -35,11 +35,11 @@ $(document).ready(() => {
         });
     };
 
-    let initBars = function () {
+    let initBars = () => {
         $.ajax({
             url: '/api/party/'+ party.id + '/bars',
             type: 'GET',
-            success: function (data) {
+            success: (data) => {
                 data.forEach((item) => {
                     let barTemplate = getBarTabTemplate(barCount,item);
                     $('#bar_accordion_container').append(barTemplate);
@@ -50,15 +50,31 @@ $(document).ready(() => {
         });
     };
 
+    $('body').on('click', '.delete-button', (event) => {
+        let barId = $(event.target).attr('bar-id');
+        $.ajax({
+            url: '/api/party/bar/delete',
+            type: 'POST',
+            data: {partyId: party.id, barId: barId},
+            success: (_id) => {
+                alert('200');
+                barCount-=1;
+            }
+        });
+    });
+
     let getBarTabTemplate = (counter, bar = {bar_name_eng: 'Bar ' + barCount}) => {
         return $(`
-            <div class="panel panel-default">	
+            <div bar-id="${bar._id}" class="panel panel-default">	
                 <div class="panel-heading">
                     <a id="bar_${counter}_name" class="editable editable-click editable-disabled" data-name="bar_name_eng" href="#bar_${counter}_body"
                         style="margin:10px;display: inline-block" data-type="text" data-pk="${bar._id}"
                         data-parent="#bar_accordion_container">${bar.bar_name_eng}</a>
                     <button id="enable_bar_${counter}_edit" class="edit_btn_flag" type="button">
                         <i class="fa fa-pencil"></i>
+                    </button>
+                    <button id="delete_bar_${counter}" bar-id="${bar._id}" class="delete-button" type="button">
+                        <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
                 </div>
                 <div id="bar_${counter}_body" class="panel-collapse in container" style="margin-top: 40px">
