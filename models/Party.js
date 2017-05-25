@@ -59,9 +59,24 @@ let PartySchema = new Schema({
 			userId: {type: Number},
 			soundcloud:{type: String}
 		}]
-
+	}],
+	bar:[{
+		barId: {type: Number},
+		bar_tend: {type: Number},
+		bar_name_ol: {type: String, trim: true},
+		bar_name_eng: {type: String, trim: true},
+		drinks: [
+			{
+				uniqueId: {type: Number},
+				drinkname_ol: {type: String},
+				drinkname_eng: {type: String},
+				serve_method: {type: String},
+				volume: {type: String},
+				price: {type: Number},
+				in_stock: {type: Boolean}
+			}
+		]
 	}]
-
 });
 
 PartySchema.plugin(autoIncrement.plugin, {

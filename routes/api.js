@@ -23,11 +23,13 @@ let parties = require('./party/api/parties');
 let prices = require('./party/api/prices');
 let attendees = require('./party/api/attendees');
 let music = require('./party/api/music');
+let bar = require('./party/api/bar');
 
 router.use(parties);
 router.use(prices);
 router.use(attendees);
 router.use(music);
+router.use(bar);
 
 
 router.get('/users', function (req, res, next) {
