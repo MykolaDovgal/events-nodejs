@@ -28,6 +28,23 @@ body {
 	color: black !important;
 }
 
+.party-item.switch-lang {
+	position: absolute;
+	right: 15px;
+	top: -75px;
+}
+
+.disabled {
+	z-index: 1000;
+	background-color: lightgrey;
+	opacity: 0.8;
+	pointer-events: none;
+}
+
+.video-item.switch_video_available {
+	z-index: 2000;
+}
+
 #users-list-datatable {
 	table-layout: fixed;
 	word-wrap: break-word;
@@ -660,11 +677,11 @@ body.is-menu-visible #menu .closes {
 	margin-top: 20px;
 }
 
-.search{
+.search {
 	display: table;
 }
 
-.search>*{
+.search > * {
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -689,7 +706,7 @@ body.is-menu-visible #menu .closes {
 	outline: none;
 }
 
-.form-horizontal .control-label{
+.form-horizontal .control-label {
 	padding: 0;
 }
 
@@ -718,7 +735,7 @@ body.is-menu-visible #menu .closes {
 	margin-bottom: 5px;
 }
 
-.wrapper-title h4{
+.wrapper-title h4 {
 	margin: 0;
 }
 
@@ -937,7 +954,7 @@ body.is-menu-visible #menu .closes {
 	color: #666;
 }
 
-.form-textarea .editable-inline, .editable-inline{
+.form-textarea .editable-inline, .editable-inline {
 	width: 100% !important;
 }
 
@@ -953,14 +970,13 @@ body.is-menu-visible #menu .closes {
 	z-index: 9999;
 }
 
-
 .vertical-row {
 	display: table;
 	width: 100%;
 }
 
-.vertical-row p{
-    margin: 0;
+.vertical-row p {
+	margin: 0;
 }
 
 .vertical-row > * {
@@ -968,33 +984,33 @@ body.is-menu-visible #menu .closes {
 	float: none;
 }
 
-.vertical-center>*{
+.vertical-center > * {
 	vertical-align: middle;
 }
 
-pre{
+pre {
 	margin-bottom: 0;
 }
 
 .facebook-icon {
-    width: 30px;
-    height: 30px;
+	width: 30px;
+	height: 30px;
 }
 
-.vertical-top label{
+.vertical-top label {
 	vertical-align: top;
 }
 
-.multiselect-item b{
+.multiselect-item b {
 	color: #3d3d3d;
 }
 
-.multiselect-container>li:not(.multiselect-item) a{
-    padding-left: 15px !important;
+.multiselect-container > li:not(.multiselect-item) a {
+	padding-left: 15px !important;
 }
 
-.multiselect-container.dropdown-menu{
-    padding: 10px 0;
+.multiselect-container.dropdown-menu {
+	padding: 10px 0;
 }
 
 .form-textarea.description-general .editable {
@@ -1021,6 +1037,6 @@ pre{
 	padding: 0;
 }
 
-.bootstrap-switch-handle-off{
+.bootstrap-switch-handle-off {
 	min-width: 80px;
 }

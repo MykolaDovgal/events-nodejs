@@ -21,6 +21,9 @@ let PartySchema = new Schema({
 	facebook_page: {type: String, trim: true},
 	date: {type: Date},
 	open_time: {type: String},
+	video_stream_avbl: {type: Boolean, default: true},
+	video_stream_on: {type: Boolean, default: false},
+	video_stream:  {type: String, trim: true},
 	location: {
 		club_name: {type: String, trim: true},
 		country: {type: String, trim: true},
