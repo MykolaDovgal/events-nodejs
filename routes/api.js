@@ -313,6 +313,7 @@ router.post('/line/manager/add', function (req, res, next) {
 		.catch(function (err) {
 			next(err);
 		});
+
 });
 
 //delete manager from line

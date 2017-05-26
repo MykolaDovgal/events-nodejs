@@ -1,7 +1,10 @@
 let stageCount = 0;
+let usersSet;
 let isMusicInit = false;
 
 $(document).ready(function () {
+
+	usersSet = initUsersDataSet();
 
 	$('#music_tab_btn').on('click',function () {
 		if(!isMusicInit){
@@ -42,6 +45,7 @@ let generateStageTab = function () {
 			$('#music_accordion_container').append(stageTemplate);
 			setStageNameEditable(stageCount);
 			setStageTable('party_stage_'+ stageCount +'_djs',item._id);
+			setTypeahead('party_stage_'+ stageCount +'_djs_search');
 			stageCount+=1;
 
 		}
@@ -210,6 +214,7 @@ let initStages = function () {
 				$('#music_accordion_container').append(stageTemplate);
 				setStageNameEditable(stageCount);
 				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
+				setTypeahead('party_stage_'+ stageCount +'_djs_search');
 				stageCount+=1;
 
 			});
@@ -229,5 +234,54 @@ let deleteStage = function () {
 		},
 	});
 
+};
+
+let initUsersDataSet = function () {
+
+	//user dataset for search
+	return new Bloodhound({
+		datumTokenizer : function(datum) {
+			let idTokens = Bloodhound.tokenizers.whitespace(datum.id);
+			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
+			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
+
+			return idTokens.concat(lastNameTokens).concat(firstNameTokens);
+		},
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		prefetch: {
+			url: '/api/users/usersname',
+			cache: false ,
+			transform: function(response) {
+				return $.map(response, function(item) {
+					return {
+						id: item.id,
+						name: item.name,
+						username: item.username,
+						picture: item.picture
+					};
+				});
+			}
+		}
+	});
+};
+
+let setTypeahead = function (inputId) {
+	$('#' + inputId).typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1
+		},
+		{
+			display: 'name',
+			source: usersSet,
+			templates: {
+				suggestion: function (item) {
+					return  '<div class="col-md-12">' +
+						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
+						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
+						'</div>';
+				}
+			}
+		}).bind('typeahead:select', (ev, suggestion) => selectedResult = suggestion);
 };
 

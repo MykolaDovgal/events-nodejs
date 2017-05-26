@@ -115,5 +115,21 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 		});
 });
 
+router.post('/party/music/stage/djs/add', function (req, res, next) {
+
+	//TODO fix: add only one user
+	let body = req.body;
+
+	Promise.props({
+		line: Party.update({_id : body.stageId, "stage.djs.userId": { $nin: [ body.userId ] } }, { $addToSet: {"stage.djs": { userId: body.userId }},  }).execAsync()
+	}).then(function (results) {
+		res.send(200);
+	})
+		.catch(function (err) {
+			next(err);
+		});
+
+});
+
 
 module.exports = router;
