@@ -27,10 +27,13 @@ $(document).ready(function () {
 		let isCollapse = stageName.attr('data-toggle') == 'collapse' ? '' : 'collapse';
 		stageName.attr('data-toggle', isCollapse);
 	}).on('click','.delete_stage_btn_flag',function () {
-		console.log(this);
 		deleteStage.apply(this);
 	}).on('click','.add_dj_btn_flag',function () {
 		addDjs.apply(this);
+	}).on('click','.init_table_flag',function () {
+		// window.setTimeout(function () {
+		// 	setStageTable($(this).attr('id'),$(this).data('pk'))
+		// },3000)
 	});
 
 
@@ -45,9 +48,6 @@ let generateStageTab = function () {
 		type: 'POST',
 		data: {partyId: party.id},
 		success: function (item) {
-
-			console.log(item._id);
-
 			let stageTemplate = getStageTabTemplate(stageCount,item);
 			$('#music_accordion_container').append(stageTemplate);
 			setStageNameEditable(stageCount);
@@ -80,6 +80,7 @@ let setStageTable = function (stage_table_id,_id) {
 			{
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
+					console.log(full);
 					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
 				},
 				width: '5%'
@@ -92,7 +93,7 @@ let setStageTable = function (stage_table_id,_id) {
 				width: '20%'
 			},
 			{
-				"data": 'userId',
+				"data": 'id',
 				width: '20%'
 			},
 			{
@@ -106,6 +107,9 @@ let setStageTable = function (stage_table_id,_id) {
 
 			{
 				"data": 'soundcloud',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center"><a href="#">${data}</a></div>';
+				},
 				width: '15%'
 			}
 		],
@@ -129,9 +133,9 @@ let getStageTabTemplate = function (counter,tabItem) {
 					<div id="${tabItem._id}" class="panel panel-default tab_flag">
 
 					    <div class="panel-heading">
-					        <a id="party_stage_${counter}_name" class="editable editable-click " data-name="stage_name"
+					        <a id="party_stage_${counter}_name" class="editable editable-click init_table_flag" data-name="stage_name"
 					           href="#stage_${counter}_body" 
-					           style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}"
+					           style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}" data-counter="${counter}"
 					           data-parent="#music_accordion_container">${tabItem.stage_name}</a>
 					           
 					        <button id="enable_stage_${counter}_edit" class="edit_stage_btn_flag" type="button">
@@ -220,8 +224,8 @@ let initStages = function () {
 				let stageTemplate = getStageTabTemplate(stageCount,item);
 				$('#music_accordion_container').append(stageTemplate);
 				setStageNameEditable(stageCount);
-				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
 				setTypeahead('party_stage_'+ stageCount +'_djs_search');
+				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
 				stageCount+=1;
 
 			});
@@ -295,15 +299,16 @@ let setTypeahead = function (inputId) {
 
 let addDjs = function () {
 
-	selectedResults.stageId = $(this).closest('.tab_flag').attr('id');
-	console.log(selectedResults);
-	//let data = JSON.stringify(selectedResults);
+	let parent = $(this).parents('.tab_flag');
+	selectedResults.stageId = parent.attr('id');
+	let table = parent.find('table')[1];
+
 	$.ajax({
 		url: '/api/party/music/stage/djs/add',
 		type: 'POST',
 		data: selectedResults ,
 		success: function (data) {
-
+			updateTable($(table).attr('id'));
 		},
 		error: function (jqXHR, textStatus, err) {
 		}
@@ -311,5 +316,14 @@ let addDjs = function () {
 	});
 	selectedResults = {};
 
+};
+
+let updateTable = function(tableId) {
+	let table = $('#'+ tableId).DataTable();
+	table.clear().draw();
+	setTimeout(function () {
+		table.ajax.reload();
+		table.columns.adjust().draw();
+	}, 1000);
 };
 

@@ -151,7 +151,7 @@ $(document).ready(function () {
 					});
 				}
 			}
-		})
+		});
 		setTimeout(function () { lock = false }, 150);
 	});
 });

@@ -50,6 +50,7 @@ router.post('/party/music/stage/add', function (req, res, next) {
 
 		Party.findOne({id: body.partyId}).select('stage')
 			.then(function (doc) {
+				doc.stage[doc.stage.length - 1].djs = [];
 				res.status(200).send({
 					stage_name: '',
 					_id: doc.stage[doc.stage.length - 1]._id
@@ -86,27 +87,38 @@ router.post('/party/music/stage/delete', function (req, res, next) {
 router.get('/party/music/stage/:id/djs', function (req, res, next) {
 
 	Promise.props({
-		stage: Party.find({'stage': {$elemMatch: {_id: req.params.id}}}).select('stage').execAsync()
-	}).then(function (results) {
+		stages: Party.findOne({'stage': {$elemMatch: {_id: req.params.id}}}).select('stage').execAsync()
+	}).then(function (stageResults) {
 
 		let array = [];
 
-		if (Array.isArray(results.stage.djs)) {
-			results.stage.djs.forEach((dj) => {
-				array.push(dj.userId);
-			});
-		}
+		let stageItem = stageResults.stages.stage.find(stage => {
+			return stage._id == req.params.id;
+		});
+
+		stageItem.djs.forEach((dj) => array.push(dj.userId));
 
 		User.find({
-			id: {$in: array}
-		})
-			.select(['id', 'username', 'profile_picture_circle', 'realname', 'username'])
-			.exec(function (err, users) {
+			id : {$in: array }
+		}).exec().then((results) => {
+			let users = [];
 
-				console.warn(users);
-
-				res.json({data: users});
+			results.forEach((user) => {
+				let soundcloud = stageItem.djs.find((dj)=> {
+					if( dj.userId == user.id)
+						return dj.soundcloud;
+				});
+				users.push({
+					profile_picture_circle: user.profile_picture_circle,
+					id: user.id,
+					username: user.username,
+					name: user.realname,
+					soundcloud: soundcloud || 'link'
+				})
 			});
+			console.warn(users);
+			res.status(200).send({data: users});
+		});
 
 
 	})
@@ -119,14 +131,18 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 
 	//TODO fix: add only one user
 	let body = req.body;
-
 	console.warn(body);
-
 	Promise.props({
-		line: Party.findOneAndUpdate( {'stage._id' : body.stageId, "stage.djs.userId": { $nin: [ body.id ] } }, { $push : { "stage.0.djs" : { userId: body.id} },  }).execAsync()
+		party : Party.findOne(   {'stage._id' : body.stageId}, 'stage').execAsync()
 	}).then(function (results) {
-		console.warn(results);
-		res.send(200);
+		console.log(results);
+		console.log(results.party.stage);
+		results.party.stage.find((stage) => {
+			return stage._id == body.stageId;
+		}).djs.push({ userId: body.id });
+		console.warn({ userId: body.id });
+		results.party.save();
+		res.status(200).send();
 	})
 		.catch(function (err) {
 			next(err);
