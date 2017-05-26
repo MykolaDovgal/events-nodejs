@@ -1,10 +1,13 @@
 let stageCount = 0;
 let usersSet;
 let isMusicInit = false;
+let selectedResults;
 
 $(document).ready(function () {
 
 	usersSet = initUsersDataSet();
+
+
 
 	$('#music_tab_btn').on('click',function () {
 		if(!isMusicInit){
@@ -26,7 +29,11 @@ $(document).ready(function () {
 	}).on('click','.delete_stage_btn_flag',function () {
 		console.log(this);
 		deleteStage.apply(this);
+	}).on('click','.add_dj_btn_flag',function () {
+		addDjs.apply(this);
 	});
+
+
 
 
 });
@@ -119,7 +126,7 @@ let setStageTable = function (stage_table_id,_id) {
 let getStageTabTemplate = function (counter,tabItem) {
 
 	return $(`
-					<div id="${tabItem._id}" class="panel panel-default">
+					<div id="${tabItem._id}" class="panel panel-default tab_flag">
 
 					    <div class="panel-heading">
 					        <a id="party_stage_${counter}_name" class="editable editable-click " data-name="stage_name"
@@ -177,7 +184,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 							                            <span class="input-group-addon btn-manager_user">
 															<button id="party_stage_${counter}_djs_add"
                                                                     type="button"
-                                                                    class="btn btn-icon-only green pull-right">
+                                                                    class="btn btn-icon-only green pull-right add_dj_btn_flag">
 																<i class="fa fa-plus"></i>
 															</button>
 														</span>
@@ -266,6 +273,7 @@ let initUsersDataSet = function () {
 };
 
 let setTypeahead = function (inputId) {
+
 	$('#' + inputId).typeahead({
 			hint: true,
 			highlight: true,
@@ -282,6 +290,26 @@ let setTypeahead = function (inputId) {
 						'</div>';
 				}
 			}
-		}).bind('typeahead:select', (ev, suggestion) => selectedResult = suggestion);
+		}).bind('typeahead:select', (ev, suggestion) => selectedResults = suggestion);
+};
+
+let addDjs = function () {
+
+	selectedResults.stageId = $(this).closest('.tab_flag').attr('id');
+	console.log(selectedResults);
+	//let data = JSON.stringify(selectedResults);
+	$.ajax({
+		url: '/api/party/music/stage/djs/add',
+		type: 'POST',
+		data: selectedResults ,
+		success: function (data) {
+
+		},
+		error: function (jqXHR, textStatus, err) {
+		}
+	}).then(function () {
+	});
+	selectedResults = {};
+
 };
 

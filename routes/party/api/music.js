@@ -120,9 +120,12 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 	//TODO fix: add only one user
 	let body = req.body;
 
+	console.warn(body);
+
 	Promise.props({
-		line: Party.update({_id : body.stageId, "stage.djs.userId": { $nin: [ body.userId ] } }, { $addToSet: {"stage.djs": { userId: body.userId }},  }).execAsync()
+		line: Party.findOneAndUpdate( {'stage._id' : body.stageId, "stage.djs.userId": { $nin: [ body.id ] } }, { $push : { "stage.0.djs" : { userId: body.id} },  }).execAsync()
 	}).then(function (results) {
+		console.warn(results);
 		res.send(200);
 	})
 		.catch(function (err) {
