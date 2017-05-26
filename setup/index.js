@@ -18,7 +18,7 @@ let Party = require('models/Party');
 //var UserSchema = require('mongoose').model('Song').schema;
 var UserSchema = User.schema;
 var LineSchema = Line.schema;
-let PartyScema = Party.schema;
+let PartySchema = Party.schema;
 
 const COUNT_OF_USERS = 100;
 const COUNT_OF_LINES = 50;
@@ -188,61 +188,85 @@ setup = {
 
 	createParty: function () {
 
-		for (let i = 0; i < COUNT_OF_PARTY; i += 1) {
+		Promise.props({
+			users: User.find().lean().distinct('id'),
+			lines: Line.find().lean().distinct('id')
+		}).then(function (results) {
+			let users = results.users;
+			let lines = results.lines;
+			let random_users = setup.getRandomElements(users, 20);
 
-			let attendees = [];
+			console.log(random_users);
 
-			for(let j = 0; j < 50;j+=1){
-				attendees.push({
-					userId: faker.random.number(1700,3000),
-					ticket_purchase: faker.random.boolean(),
-					ticket_checkin: faker.random.boolean(),
-					checkin_time: faker.date.past(10),
-					attend_mark_time: faker.date.past(10),
-					here_mark_time: faker.date.past(1),
-					location_ver: faker.random.boolean(),
-					location_ver_time: faker.date.past(5)
+
+			for (let i = 0; i < COUNT_OF_PARTY; i += 1) {
+
+				let attendees = [];
+
+				for (let j = 0; j < 20; j += 1) {
+					attendees.push({
+						userId: faker.random.arrayElement(users),
+						ticket_purchase: faker.random.boolean(),
+						ticket_checkin: faker.random.boolean(),
+						checkin_time: faker.date.past(10),
+						attend_mark_time: faker.date.past(10),
+						here_mark_time: faker.date.past(1),
+						location_ver: faker.random.boolean(),
+						location_ver_time: faker.date.past(5)
+					});
+				}
+
+				let party_name = faker.name.title();
+				let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
+
+				let partyData = {
+					lineId: faker.random.arrayElement(lines),
+					title_eng: party_name + ' (eng)',
+					title_ol: faker.name.title() + ' (ol)',
+					mom_eventId: undefined,
+					description_eng: faker.lorem.lines() + '(eng)',
+					description_ol: faker.lorem.lines() + '(ol)',
+					cover_picture: cover_picture,
+					date: faker.date.between('2016-01-01', '2017-12-31'),
+					location: {
+						club_name: faker.company.companyName(),
+						country: faker.address.country(),
+						city: faker.address.city(),
+						address: faker.address.streetName(),
+						longitude: {
+							lat: faker.address.latitude(),
+							lng: faker.address.longitude()
+						}
+					},
+					tkts_avbl_here: faker.random.boolean(),
+					tkt_price: [],
+					attendees: attendees
+				};
+
+				let party = new Party(partyData);
+
+				party.save(function (err) {
+					if (err) {
+						console.log(err);
+						throw err;
+					}
 				});
 			}
+			return true;
+		});
 
-			let party_name = faker.name.title();
-			let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
-
-			let partyData = {
-				lineId: undefined,
-				title_eng: party_name + ' (eng)',
-				title_ol: faker.name.title() + ' (ol)',
-				mom_eventId: undefined,
-				description_eng: faker.lorem.lines() + '(eng)',
-				description_ol: faker.lorem.lines() + '(ol)',
-				cover_picture: cover_picture,
-				location: {
-					club_name: faker.company.companyName(),
-					country: faker.address.country(),
-					city: faker.address.city(),
-					address: faker.address.streetName(),
-					longitude: {
-						lat: faker.address.latitude(),
-						lng: faker.address.longitude()
-					}
-				},
-				tkts_avbl_here: faker.random.boolean(),
-				tkt_price: {
-				},
-				attendees: attendees
-			};
-
-			let party = new Party(partyData);
-
-			party.save(function (err) {
-				if (err) {
-					console.log(err);
-					throw err;
-				}
-			});
-		}
 	},
 
+	getRandomElements: function (array, count = 1) {
+		let result = array;
+		if (count < array.length) {
+			array.sort(function () {
+				return 0.5 - Math.random()
+			});
+			result = array.slice(0, count);
+		}
+		return result;
+	}
 
 
 };

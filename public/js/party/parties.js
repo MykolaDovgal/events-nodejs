@@ -127,8 +127,6 @@ $(document).ready(function () {
 	});
 
 
-
-
 });
 
 
@@ -143,10 +141,6 @@ let dateEquals = function (date) {
 
 	let firstDateTS = new Date(firstDateArray[2], firstDateArray[1], firstDateArray[0]).getTime();
 	let secondDateTS = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, dateNow.getDate()).getTime();
-
-	// console.log(`${firstDateArray[2]} and ${firstDateArray[1]} and ${firstDateArray[0]}`);
-	// console.log(`${dateNow.getFullYear()} and ${dateNow.getMonth()+1} and ${dateNow.getDate()}`);
-	// console.log(`${firstDateTS} and ${secondDateTS}`);
 
 	if (firstDateTS > secondDateTS)
 		return 1;

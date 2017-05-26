@@ -35,5 +35,19 @@ router.get('/setup/userImages/:id', function (req, res, next) {
 	}
 });
 
+router.get('/setup/parties/:id', function (req, res) {
+
+	var id = +req.params.id;
+
+	if (id === pass) {
+		setup.createParty(function () {
+			res.send('Parties created.');
+		});
+
+	} else {
+		res.sendStatus(404);
+	}
+});
+
 
 module.exports = router;
