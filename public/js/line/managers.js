@@ -2,52 +2,52 @@ let selectedResult;
 
 $(document).ready(function () {
 
-    var line_managers_table = $('#table-line-managers').DataTable({
-        "ajax": "/api/line/managers/" + line.id,
-        "columns": [
-	        {
-		        data: 'delete_button',
-		        render: function (data, type, full, meta) {
-			        return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
-		        },
-		        width: '5%'
-	        },
-            {
-                'data': 'id',
-                width: '10%'
-            },
-            {
-                data: 'profile_picture_circle',
-                render: function (data, type, full, meta) {
-                    return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
-                },
-                width: '20%'
-            },
-            {
-                "data": 'username',
-                width: '45%'
-            },
-            {
-                "data": 'permission_level',
-                width: '20%'
-            }
-        ],
-	    "columnDefs": [
-		    {
-			    "targets": 'no-sort',
-			    "orderable": false
-		    }
-	    ],
-        scrollY: 200,
-        scroller: true,
-        responsive: false,
-        "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
-    });
+	var line_managers_table = $('#table-line-managers').DataTable({
+		"ajax": "/api/line/managers/" + line.id,
+		"columns": [
+			{
+				data: 'delete_button',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+				},
+				width: '5%'
+			},
+			{
+				'data': 'id',
+				width: '10%'
+			},
+			{
+				data: 'profile_picture_circle',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+				},
+				width: '20%'
+			},
+			{
+				"data": 'username',
+				width: '45%'
+			},
+			{
+				"data": 'permission_level',
+				width: '20%'
+			}
+		],
+		"columnDefs": [
+			{
+				"targets": 'no-sort',
+				"orderable": false
+			}
+		],
+		scrollY: 200,
+		scroller: true,
+		responsive: false,
+		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+	});
 
 
 	//user dataset for search
 	let users = new Bloodhound({
-		datumTokenizer : function(datum) {
+		datumTokenizer: function (datum) {
 			let emailTokens = Bloodhound.tokenizers.whitespace(datum.id);
 			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
 			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
@@ -57,9 +57,9 @@ $(document).ready(function () {
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
 		prefetch: {
 			url: '/api/users/usersname',
-			cache: false ,
-			transform: function(response) {
-				return $.map(response, function(item) {
+			cache: false,
+			transform: function (response) {
+				return $.map(response, function (item) {
 					return {
 						id: item.id,
 						name: item.name,
@@ -73,20 +73,20 @@ $(document).ready(function () {
 
 	//display searched result
 	$('#user_search').typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-		},
+		hint: true,
+		highlight: true,
+		minLength: 1
+	},
 		{
 			name: 'users_dataset',
 			display: 'name',
 			source: users,
 			templates: {
 				suggestion: function (item) {
-					return  '<div class="col-md-12">' +
-								'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
-								'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
-							'</div>';
+					return '<div class="col-md-12">' +
+						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
+						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>' + '</div>' +
+						'</div>';
 				}
 			}
 		}).bind('typeahead:select', (ev, suggestion) => selectedResult = suggestion);
@@ -98,7 +98,7 @@ $(document).ready(function () {
 		$.ajax({
 			url: '/api/line/manager/add',
 			type: 'POST',
-			data: selectedResult ,
+			data: selectedResult,
 			success: function (data) {
 				updateManagersTable();
 			},
@@ -121,37 +121,37 @@ $(document).ready(function () {
 
 	lock = false;
 
-    $('#table-line-managers tbody').on('click', 'td', function (event) {
+	$('#table-line-managers tbody').on('click', 'td', function (event) {
 		if (!lock)
 			window.location = '/users/' + line_managers_table.row(this).data().id;
 	});
 
-    $('#table-line-managers tbody').on('click', 'td > div.remove-column', function (event) {
+	$('#table-line-managers tbody').on('click', 'td > div.remove-column', function (event) {
 		lock = true;
-        let parent = this.parentElement;
-        bootbox.confirm({
-	        size: "small",
-	        message: "Are you sure you want to remove this user from managers?",
-	        callback: function(result) {
-		        if (result) {
-			        let data = JSON.stringify({ userId: line_managers_table.row(parent).data().id, lineId: line.id });
-			        $.ajax({
-				        url: '/api/line/manager/delete',
-				        type: 'POST',
-				        dataType: 'json',
-				        contentType: "application/json; charset=utf-8",
-				        data: data,
-				        //TODO fix this KOSTYL
-				        success: function() {
-					        updateManagersTable();
-				        },
-				        error: function() {
-					        updateManagersTable();
-				        }
-			        });
-		        }
-	        }
-        })  
-		setTimeout(function() { lock = false }, 150);
-    });
+		let parent = this.parentElement;
+		bootbox.confirm({
+			size: "small",
+			message: "Are you sure you want to remove this user from managers?",
+			callback: function (result) {
+				if (result) {
+					let data = JSON.stringify({ userId: line_managers_table.row(parent).data().id, lineId: line.id });
+					$.ajax({
+						url: '/api/line/manager/delete',
+						type: 'POST',
+						dataType: 'json',
+						contentType: "application/json; charset=utf-8",
+						data: data,
+						//TODO fix this KOSTYL
+						success: function () {
+							updateManagersTable();
+						},
+						error: function () {
+							updateManagersTable();
+						}
+					});
+				}
+			}
+		})
+		setTimeout(function () { lock = false }, 150);
+	});
 });

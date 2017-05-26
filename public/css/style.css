@@ -1044,3 +1044,8 @@ pre {
 .bootstrap-switch-handle-off {
 	min-width: 80px;
 }
+
+.horizontal-tab {
+	padding: 15px;
+    margin-top: 10px;
+}

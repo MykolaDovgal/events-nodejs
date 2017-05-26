@@ -7,76 +7,79 @@ let mongoosePaginate = require('mongoose-paginate');
 autoIncrement.initialize(mongoose.connection);
 
 let PartySchema = new Schema({
-	id: {type: Number, required: true, index: {unique: true}},
-	lineId: {type: Number},
-	line: {type: Schema.Types.ObjectId, ref: 'Line'},
-	title_ol: {type: String, trim: true},
-	title_eng: {type: String, trim: true},
-	mom_eventId: {type: Number},
-	only_for_mom_event_att: {type: Boolean},
-	description_eng: {type: String, trim: true},
-	description_ol: {type: String, trim: true},
-	cover_picture_original: {type: String, trim: true},
-	cover_picture: {type: String, trim: true},
-	facebook_page: {type: String, trim: true},
-	date: {type: Date},
-	open_time: {type: String},
-	video_stream_avbl: {type: Boolean, default: true},
-	video_stream_on: {type: Boolean, default: false},
-	video_stream:  {type: String, trim: true},
+	id: { type: Number, required: true, index: { unique: true } },
+	lineId: { type: Number },
+	line: { type: Schema.Types.ObjectId, ref: 'Line' },
+	title_ol: { type: String, trim: true },
+	title_eng: { type: String, trim: true },
+	mom_eventId: { type: Number },
+	only_for_mom_event_att: { type: Boolean },
+	description_eng: { type: String, trim: true },
+	description_ol: { type: String, trim: true },
+	cover_picture_original: { type: String, trim: true },
+	cover_picture: { type: String, trim: true },
+	facebook_page: { type: String, trim: true },
+	date: { type: Date },
+	open_time: { type: String },
+	video_stream_avbl: { type: Boolean, default: true },
+	video_stream_on: { type: Boolean, default: false },
+	video_stream: { type: String, trim: true },
 	location: {
-		club_name: {type: String, trim: true},
-		country: {type: String, trim: true},
-		city: {type: String, trim: true},
-		address: {type: String},
+		club_name: { type: String, trim: true },
+		country: { type: String, trim: true },
+		city: { type: String, trim: true },
+		address: { type: String },
 		longitude: {
-			lat: {type: Number},
-			lng: {type: Number}
+			lat: { type: Number },
+			lng: { type: Number }
 		}
 	},
-	tkts_avbl_here: {type: Boolean},
+	tkts_avbl_here: { type: Boolean },
 	tkt_price: [{
-		start_date: {type: Date},
-		end_date: {type: Date},
-		price: {type: Number},
-		currency: {type: String}
+		start_date: { type: Date },
+		end_date: { type: Date },
+		price: { type: Number },
+		currency: { type: String }
 	}],
-	active: {type: Boolean},
+	active: { type: Boolean },
 	attendees: [{
-		userId: {type: Number},
-		ticket_purchase: {type: Boolean},
-		purchase_priceId: {type: String},
-		ticket_checkin: {type: Boolean},
-		checkin_time: {type: Date},
-		attend_mark_time: {type: Date},
-		here_mark_time: {type: Date},
-		location_ver: {type: Boolean},
-		location_ver_time: {type: Date}
+		userId: { type: Number },
+		ticket_purchase: { type: Boolean },
+		purchase_priceId: { type: String },
+		ticket_checkin: { type: Boolean },
+		checkin_time: { type: Date },
+		attend_mark_time: { type: Date },
+		here_mark_time: { type: Date },
+		location_ver: { type: Boolean },
+		location_ver_time: { type: Date }
 	}],
-	stage:[{
-		stage_name:{type: String},
-		music_genres:[{type: String}],
-		music_sample: {type: String},
-		djs:[{
-			name: {type: String},
-			userId: {type: Number},
-			soundcloud:{type: String}
+	stage: [{
+		stage_name: { type: String },
+		music_genres: [{ type: String }],
+		music_sample: { type: String },
+		djs: [{
+			name: { type: String },
+			userId: { type: Number },
+			soundcloud: { type: String }
 		}]
 	}],
-	bar:[{
-		barId: {type: Number},
-		bar_tend: {type: Number},
-		bar_name_ol: {type: String, trim: true},
-		bar_name_eng: {type: String, trim: true},
+	bar: [{
+		barId: { type: Number },
+		bar_tend: { type: Number },
+		bar_name_ol: { type: String, trim: true },
+		bar_name_eng: { type: String, trim: true },
+		party_managers: [
+			{ userId: { type: Number } }
+		],
 		drinks: [
 			{
-				uniqueId: {type: Number},
-				drinkname_ol: {type: String},
-				drinkname_eng: {type: String},
-				serve_method: {type: String},
-				volume: {type: String},
-				price: {type: Number},
-				in_stock: {type: Boolean}
+				uniqueId: { type: Number },
+				drinkname_ol: { type: String },
+				drinkname_eng: { type: String },
+				serve_method: { type: String },
+				volume: { type: String },
+				price: { type: Number },
+				in_stock: { type: Boolean }
 			}
 		]
 	}]
