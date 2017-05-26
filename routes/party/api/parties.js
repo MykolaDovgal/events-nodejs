@@ -34,7 +34,7 @@ router.all('/parties', function (req, res, next) {
 	}
 
 	Promise.props({
-		parties: Party.find({$and: filter}).execAsync(),
+		parties: Party.find({$and: filter}, null, {sort: {date: -1}}).execAsync(),
 		lines: Line.find().select('id line_name_eng').execAsync()
 	})
 		.then(function (results) {

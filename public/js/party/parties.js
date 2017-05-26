@@ -25,7 +25,7 @@ $(document).ready(function () {
 	});
 
 	parties_tables = $('#parties_datatable').DataTable({
-
+		"order": [[2, "asc"]],
 		"ajax": {
 			"url": "/api/parties",
 			"data": function () {
@@ -45,13 +45,25 @@ $(document).ready(function () {
 				},
 				//width: '15%'
 			},
+
 			{
-				'data': 'line_name_eng',
+				"data": 'date',
+				//width: '4%'
+			},
+
+			{
+				"data": 'open_time',
+				"className": "text-center"
+				//width: '200px'
+			},
+
+
+			{
+				"data": 'city_name_eng',
 				render: function (data, type, full, meta) {
-					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+					let text = data.length > 10 ? data.substr(0, 10) + '...' : data;
 					return '<span title="' + data + '">' + text + '</span>'
 				},
-				//width: '15%'
 			},
 			{
 				data: 'country_name_eng',
@@ -61,26 +73,22 @@ $(document).ready(function () {
 				},
 				//width: '15%'
 			},
+
 			{
-				"data": 'city_name_eng',
+				'data': 'line_name_eng',
 				render: function (data, type, full, meta) {
-					let text = data.length > 10 ? data.substr(0, 10) + '...' : data;
+					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
 					return '<span title="' + data + '">' + text + '</span>'
 				},
+				//width: '15%'
 			},
+
 			{
 				"data": 'event_name_eng',
 				//width: '15%'
 			},
-			{
-				"data": 'date',
-				//width: '4%'
-			},
-			{
-				"data": 'open_time',
-				"className": "text-center"
-				//width: '200px'
-			},
+
+
 			{
 				"data": 'attendees_count',
 				"className": "text-center"
@@ -100,6 +108,7 @@ $(document).ready(function () {
 				"targets": 'no_sort',
 				"orderable": false
 			},
+			{type: 'date-uk', targets: 2}
 		],
 		scrollY: 500,
 		scrollX: true,
@@ -180,4 +189,22 @@ let dateSort = function (x) {
 	parties_tables.draw();
 	$.fn.dataTable.ext.search = [];
 };
+
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+	"date-uk-pre": function (a) {
+		if (a == null || a == "") {
+			return 0;
+		}
+		var ukDatea = a.split('/');
+		return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+	},
+
+	"date-uk-asc": function (a, b) {
+		return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+	},
+
+	"date-uk-desc": function (a, b) {
+		return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+	}
+});
 
