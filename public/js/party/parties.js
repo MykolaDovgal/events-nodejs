@@ -1,13 +1,14 @@
 let parties_tables;
 let global = {};
+const title_length = 20;
 
 $(document).ready(function () {
 
 	$('#country-city-select').multiselect({
 		enableClickableOptGroups: true,
 		onChange: function () {
-			var values = $('#country-city-select').val();
-			var filter = global.filter;
+			let values = $('#country-city-select').val();
+			let filter = global.filter;
 			console.log(values);
 			if (values) {
 				if (!filter) {
@@ -38,19 +39,34 @@ $(document).ready(function () {
 			},
 			{
 				data: 'title_eng',
+				render: function (data, type, full, meta) {
+					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
+				},
 				//width: '15%'
 			},
 			{
 				'data': 'line_name_eng',
+				render: function (data, type, full, meta) {
+					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
+				},
 				//width: '15%'
 			},
 			{
 				data: 'country_name_eng',
+				render: function (data, type, full, meta) {
+					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
+				},
 				//width: '15%'
 			},
 			{
 				"data": 'city_name_eng',
-				//width: '15%'
+				render: function (data, type, full, meta) {
+					let text = data.length > 10 ? data.substr(0, 10) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
+				},
 			},
 			{
 				"data": 'event_name_eng',
@@ -62,10 +78,12 @@ $(document).ready(function () {
 			},
 			{
 				"data": 'open_time',
+				"className": "text-center"
 				//width: '200px'
 			},
 			{
 				"data": 'attendees_count',
+				"className": "text-center"
 				//width: '5%'
 			},
 			{
@@ -79,11 +97,9 @@ $(document).ready(function () {
 		],
 		"columnDefs": [
 			{
-				"targets": 'no-sort',
+				"targets": 'no_sort',
 				"orderable": false
 			},
-			{"width": "40%", "targets": 0},
-			{"width": "60%", "targets": 1}
 		],
 		scrollY: 500,
 		scrollX: true,
