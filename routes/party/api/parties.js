@@ -56,10 +56,10 @@ router.all('/parties', function (req, res, next) {
 					title_eng: party.title_eng,
 					country_name_eng: party.location.country,
 					city_name_eng: party.location.city,
-					event_name_eng: "test par event",
+					event_name_eng: "test prnt event",
 					date: moment(party.date).format('DD/MM/YYYY'),
-					open_time: moment(party.open_time).format('HH:mm'),
-					attendees_count: 0,
+					open_time: moment(party.date).format('HH:mm'),
+					attendees_count: party.attendees.length,
 					video_stream_avb: false,
 					tkts_avbl_here: false
 				});

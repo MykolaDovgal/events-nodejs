@@ -186,7 +186,7 @@ setup = {
 
 	},
 
-	createParty: function () {
+	createParty: function (cb) {
 
 		Promise.props({
 			users: User.find().lean().distinct('id'),
@@ -203,7 +203,7 @@ setup = {
 
 				let attendees = [];
 
-				for (let j = 0; j < 20; j += 1) {
+				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
 					attendees.push({
 						userId: faker.random.arrayElement(users),
 						ticket_purchase: faker.random.boolean(),
@@ -252,7 +252,9 @@ setup = {
 					}
 				});
 			}
-			return true;
+			if (cb) {
+				cb();
+			}
 		});
 
 	},
