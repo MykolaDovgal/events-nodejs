@@ -4,24 +4,24 @@ let global = {};
 $(document).ready(function () {
 
 	$('#country-city-select').multiselect({
-        enableClickableOptGroups: true,
-        onChange: function() {
-            var values = $('#country-city-select').val();
-            var filter = global.filter;
-            console.log(values);
-            if (values) {
-                if (!filter) {
-                    filter = {};
-                }
-                filter['address'] = values;
+		enableClickableOptGroups: true,
+		onChange: function () {
+			var values = $('#country-city-select').val();
+			var filter = global.filter;
+			console.log(values);
+			if (values) {
+				if (!filter) {
+					filter = {};
+				}
+				filter['address'] = values;
 
-                global.filter = filter;
-            } else {
-                delete global.filter.address;
-            }
-            updatePartyTable();
-        }
-    });
+				global.filter = filter;
+			} else {
+				delete global.filter.address;
+			}
+			updatePartyTable();
+		}
+	});
 
 	parties_tables = $('#parties_datatable').DataTable({
 
@@ -95,36 +95,40 @@ $(document).ready(function () {
 	}
 
 	$('#parties_datatable tbody').on('click', 'tr', function () {
-		let partyRow = parties_tables.row( this ).data();
+		let partyRow = parties_tables.row(this).data();
 		window.location = '/party/' + partyRow.party_id;
-	} );
+	});
 
 	let allFilters = $('div.pull-left > div.pull-left > a');
 
 
 	$('#all_parties_filter').click(function () {
-		toggleColor.call(this,allFilters);
-		$.fn.dataTable.ext.search.push( (oSettings, aData, iDataIndex) => true);
+		toggleColor.call(this, allFilters);
+		$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => true);
 		parties_tables.draw();
 		$.fn.dataTable.ext.search = [];
 	});
 
 	$('#past_parties_filter').click(function () {
-		toggleColor.call(this,allFilters);
+		toggleColor.call(this, allFilters);
 		dateSort(-1);
 
 
 	});
 
 	$('#today_parties_filter').click(function () {
-		toggleColor.call(this,allFilters);
+		toggleColor.call(this, allFilters);
 		dateSort(0);
 	});
 
 	$('#future_parties_filter').click(function () {
-		toggleColor.call(this,allFilters);
+		toggleColor.call(this, allFilters);
 		dateSort(1);
 	});
+
+
+
+
 });
 
 
@@ -137,23 +141,23 @@ let dateEquals = function (date) {
 	let firstDateArray = date.split('/');
 	let dateNow = new Date(Date.now());
 
-	let firstDateTS = new Date(firstDateArray[2],firstDateArray[1],firstDateArray[0]).getTime();
-	let secondDateTS = new Date(dateNow.getFullYear(),dateNow.getMonth()+1,dateNow.getDate()).getTime();
+	let firstDateTS = new Date(firstDateArray[2], firstDateArray[1], firstDateArray[0]).getTime();
+	let secondDateTS = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, dateNow.getDate()).getTime();
 
 	// console.log(`${firstDateArray[2]} and ${firstDateArray[1]} and ${firstDateArray[0]}`);
 	// console.log(`${dateNow.getFullYear()} and ${dateNow.getMonth()+1} and ${dateNow.getDate()}`);
 	// console.log(`${firstDateTS} and ${secondDateTS}`);
 
-	if(firstDateTS > secondDateTS)
+	if (firstDateTS > secondDateTS)
 		return 1;
-	if(firstDateTS < secondDateTS)
+	if (firstDateTS < secondDateTS)
 		return -1;
 	else
 		return 0;
 };
 
 let dateSort = function (x) {
-	$.fn.dataTable.ext.search.push( (oSettings, aData, iDataIndex) => dateEquals(aData[5]) == x);
+	$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => dateEquals(aData[5]) == x);
 	parties_tables.draw();
 	$.fn.dataTable.ext.search = [];
 };

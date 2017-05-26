@@ -262,4 +262,29 @@ $(document).ready(function () {
 		}
 		$('.language_switch_container').toggle();
 	});
+
+	$('#delete_party').click(function (event) {
+		event.preventDefault();
+		console.log(party);
+		bootbox.confirm({
+			size: "small",
+			message: "Are you sure you want to remove this party?",
+			callback: function (result) {
+				if (result) {
+					$.ajax({
+						url: '/party/delete/' + party.id,
+						type: 'POST',
+						success: function () {
+							window.location = '/parties';
+						},
+						error: function (jqXHR, textStatus, err) {
+
+						}
+					});
+				}
+			}
+		});
+
+		return false;
+	});
 });
