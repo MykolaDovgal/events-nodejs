@@ -87,7 +87,6 @@ $(document).ready(function () {
 					//$('#lineTitle').text(title);
 				},
 				display: function (value, sourceData) {
-					console.log(sourceData);
 
 					let line;
 					let title;
@@ -167,7 +166,7 @@ $(document).ready(function () {
 		};
 	}();
 
-	$('#button-open-upload').click(function() {
+	$('#button-open-upload').click(function () {
 		$('#upload-picture-modal').modal('show');
 	});
 
@@ -201,7 +200,7 @@ $(document).ready(function () {
 	}
 
 	$('#button-upload-picture').on('click', function () {
-		$uploadCrop.croppie('result', 'base64').then(function(base64) {
+		$uploadCrop.croppie('result', 'base64').then(function (base64) {
 			$('#coverpic').attr("src", base64);
 			setCoverPicture();
 		});
@@ -213,23 +212,23 @@ $(document).ready(function () {
 		$uploadCrop.croppie('result', {
 			type: 'blob',
 			size: 'viewport'
-		}).then(function(blob) {
+		}).then(function (blob) {
 			formData.append('cover_picture', blob, 'coverpic.png');
-				$.ajax({
-						url: '/party/update/' + party.id,
-						type: 'POST',
-						cache: false,
-						contentType: false,
-						processData: false,
-						data: formData,
-						success: function (data) {
-							$('#upload-picture-modal').modal('hide');
-							toastr.success('Saved!');
-						},
-						error: function (jqXHR, textStatus, err) {
-							toastr.error('Server error!');
-						}
-					});
+			$.ajax({
+				url: '/party/update/' + party.id,
+				type: 'POST',
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: formData,
+				success: function (data) {
+					$('#upload-picture-modal').modal('hide');
+					toastr.success('Saved!');
+				},
+				error: function (jqXHR, textStatus, err) {
+					toastr.error('Server error!');
+				}
+			});
 		});
 	};
 

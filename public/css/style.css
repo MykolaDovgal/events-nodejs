@@ -34,6 +34,10 @@ body {
 	top: -75px;
 }
 
+.tab-smart-video-wrap .content-block  {
+	float: none;
+}
+
 .disabled {
 	z-index: 1000;
 	background-color: lightgrey;

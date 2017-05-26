@@ -46,8 +46,6 @@ function initMap() {
 	$("#find_geocomplete").click(function () {
 		$("#geocomplete_party").trigger("geocode");
 	});
-    
-    console.log(party);
 
 	let center = {lat: 0, lng: 0};
 	try {

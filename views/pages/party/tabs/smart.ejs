@@ -1,49 +1,22 @@
-<div class="portlet-body tab-smart-video-wrap">
+<div class="tab-smart-video-wrap">
+	<div class="row">
+		<div class="col-md-8 center-block content-block">
+			<div class="portlet light bordered">
 
-	<div class="col-md-8">
-		<div class="portlet light bordered">
-
-			<div class="title-block caption">
-				<i class="fa fa-video-camera" aria-hidden="true"></i>
-				<span class="caption-subject bold">Video</span>
-			</div>
+				<div class="title-block caption">
+					<i class="fa fa-video-camera" aria-hidden="true"></i>
+					<span class="caption-subject bold">Video</span>
+				</div>
 
 
-			<div class="portlet-body">
-				<div id="smart_video_block">
-					<div class="video-item switch_video_available row vertical-row vertical-center">
-						<label for="video_available" class="col-md-5 control-label">Video Stream Available</label>
-						<div class="col-md-7 md-checkbox-inline">
-							<div class="col-xs-12">
-								<input checked id="video_available" type="checkbox"
-								       class="make-switch form-control"
-								       data-on-color="success" data-on-text="On"
-								       data-off-text="Off"
-								       data-off-color="warning"/>
-							</div>
-						</div>
-					</div>
-					<br/>
-
-					<div class="for_disabled">
-						<div class="row vertical-row vertical-center">
-							<label class="col-md-5 control-label">
-								Video
-							</label>
-							<div class="col-md-7">
-								<div class="col-xs-12">
-									<a id="video_stream" data-type="text"
-									   class="editable editable-click"> <%= party.video_stream %> </a>
-								</div>
-							</div>
-						</div>
-						<br/>
-
+				<div class="portlet-body center-block">
+					<div id="smart_video_block">
 						<div class="video-item switch_video_available row vertical-row vertical-center">
-							<label for="video_broadcast" class="col-md-5 control-label">Broadcast</label>
+							<label for="video_available" class="col-md-5 control-label">Video Stream
+								Available</label>
 							<div class="col-md-7 md-checkbox-inline">
 								<div class="col-xs-12">
-									<input id="video_broadcast" type="checkbox"
+									<input <%= party.video_stream_avbl ? 'checked' : '' %> id="video_available" type="checkbox"
 									       class="make-switch form-control"
 									       data-on-color="success" data-on-text="On"
 									       data-off-text="Off"
@@ -53,18 +26,51 @@
 						</div>
 						<br/>
 
-						<div class="row vertical-row vertical-center">
-							<div class="col-md-12">
-								<div class="col-xs-12">
-									<div class="embed-responsive embed-responsive-16by9">
-										<video class="vide" poster="/images/posters/video_poster.png"></video>
+						<div class=" row">
+							<div class="col-md-12 for_disabled">
+								<div class="row vertical-row vertical-center">
+									<label class="col-md-5 control-label">
+										Video
+									</label>
+									<div class="col-md-7">
+										<div class="col-xs-12">
+											<a id="video_stream" data-type="text"
+											   class="editable editable-click"> <%= party.video_stream %> </a>
+										</div>
 									</div>
 								</div>
+								<br/>
+
+								<div class="video-item switch_video_available row vertical-row vertical-center">
+									<label for="video_broadcast" class="col-md-5 control-label">Broadcast</label>
+									<div class="col-md-7 md-checkbox-inline">
+										<div class="col-xs-12">
+											<input id="video_broadcast" type="checkbox"
+													<%= party.video_stream_on ? 'checked' : '' %>
+											       class="make-switch form-control"
+											       data-on-color="success" data-on-text="On"
+											       data-off-text="Off"
+											       data-off-color="warning"/>
+										</div>
+									</div>
+								</div>
+								<br/>
+
+
+
+									<div class="col-xs-12">
+										<div class="embed-responsive embed-responsive-16by9">
+											<video class="video"
+											       poster="/images/posters/video_poster.png"></video>
+										</div>
+									</div>
+
+
 							</div>
 						</div>
-						<br/>
-					</div>
 
+
+					</div>
 
 				</div>
 
