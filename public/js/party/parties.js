@@ -34,54 +34,63 @@ $(document).ready(function () {
 		"columns": [
 			{
 				data: 'party_id',
-				width: '5%'
+				//width: '2%'
+			},
+			{
+				data: 'title_eng',
+				//width: '15%'
 			},
 			{
 				'data': 'line_name_eng',
-				width: '15%'
+				//width: '15%'
 			},
 			{
 				data: 'country_name_eng',
-				width: '15%'
+				//width: '15%'
 			},
 			{
 				"data": 'city_name_eng',
-				width: '15%'
+				//width: '15%'
 			},
 			{
 				"data": 'event_name_eng',
-				width: '15%'
+				//width: '15%'
 			},
 			{
 				"data": 'date',
-				width: '10%'
+				//width: '4%'
 			},
 			{
 				"data": 'open_time',
-				width: '10%'
+				//width: '200px'
 			},
 			{
 				"data": 'attendees_count',
-				width: '5%'
+				//width: '5%'
 			},
 			{
 				"data": 'video_stream_avb',
-				width: '5%'
+				//width: '5%'
 			},
 			{
 				"data": 'tkts_avbl_here',
-				width: '5%'
+				//width: '5%'
 			}
 		],
 		"columnDefs": [
 			{
 				"targets": 'no-sort',
 				"orderable": false
-			}
+			},
+			{"width": "40%", "targets": 0},
+			{"width": "60%", "targets": 1}
 		],
 		scrollY: 500,
+		scrollX: true,
 		scroller: true,
 		responsive: false,
+		autoWidth: false,
+		sScrollX: "100%",
 
 		"dom": "<'row' <'col-md-12'> ><'search pull-right'<'fa fa-search'> f > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
 	});

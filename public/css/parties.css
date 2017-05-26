@@ -1,9 +1,17 @@
 .geo-data {
-    display: none;
+	display: none;
 }
 
-.accordion-content{
-    width: 100%;
-    display: inline-block;
-    padding: 20px;
+.accordion-content {
+	width: 100%;
+	display: inline-block;
+	padding: 20px;
+}
+
+#parties_datatable {
+
+}
+
+#parties_datatable td {
+	word-wrap: break-word;
 }

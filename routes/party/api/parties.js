@@ -53,6 +53,7 @@ router.all('/parties', function (req, res, next) {
 				data.push({
 					party_id: party.id,
 					line_name_eng: line_name_eng,
+					title_eng: party.title_eng,
 					country_name_eng: party.location.country,
 					city_name_eng: party.location.city,
 					event_name_eng: "test par event",
