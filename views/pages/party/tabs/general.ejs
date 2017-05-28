@@ -25,12 +25,15 @@
 			<div class="col-md-9">
 				<div class="col-xs-12">
 
-					#<a href="#" id="lineId"><%= party.lineId %></a>
 					<div class="language_switch_container">
-						<span id="line_title_english"> <%= line.line_name_eng %> </span>
+						<a class="lineId">
+							<span id="line_title_english"><%= line.line_name_eng %></span>
+						</a>
 					</div>
 					<div hidden class="language_switch_container">
-						<span id="line_title_original"> <%= line.line_name_ol %> </span>
+						<a class="lineId">
+							<span id="line_title_original"><%= line.line_name_ol %></span>
+						</a>
 					</div>
 				</div>
 			</div>

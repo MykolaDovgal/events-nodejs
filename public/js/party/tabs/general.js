@@ -53,13 +53,9 @@ $(document).ready(function () {
 					$('#ol_title').text(data);
 				}
 			});
-			$('#line_i9d').editable({
-				type: 'text',
-				name: 'line_name_eng',
-				title: 'Line name'
-			});
 
-			$('#lineId').editable({
+
+			$('.lineId').editable({
 				pk: 1,
 				placeholder: 'Select line',
 				url: '/party/update/line/' + party.id,
@@ -94,13 +90,12 @@ $(document).ready(function () {
 						line = sourceData.line || 0;
 						title = (currentLanguage == 'English') ? line.line_name_eng : line.line_name_ol;
 
-
 					} else {
 						title = '';
 					}
 
 					if (title.length > 0) {
-						$(this).text(line.id);
+						//$(this).text(line.id);
 
 						$('#line_title_english').text(line.line_name_eng);
 						$('#line_title_original').text(line.line_name_ol);
