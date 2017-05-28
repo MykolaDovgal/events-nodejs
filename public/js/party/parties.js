@@ -9,7 +9,7 @@ $(document).ready(function () {
 		onChange: function () {
 			let values = $('#country-city-select').val();
 			let filter = global.filter;
-			console.log(values);
+			//console.log(values);
 			if (values) {
 				if (!filter) {
 					filter = {};
@@ -21,104 +21,111 @@ $(document).ready(function () {
 				delete global.filter.address;
 			}
 			updatePartyTable();
-		}
-	});
-
-	parties_tables = $('#parties_datatable').DataTable({
-		"order": [[2, "asc"]],
-		"ajax": {
-			"url": "/api/parties",
-			"data": function () {
-				return global.filter
-			},
 		},
-		"columns": [
-			{
-				data: 'party_id',
-				//width: '2%'
-			},
-			{
-				data: 'title_eng',
-				render: function (data, type, full, meta) {
-					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
-					return '<span title="' + data + '">' + text + '</span>'
-				},
-				//width: '15%'
-			},
-
-			{
-				"data": 'date',
-				//width: '4%'
-			},
-
-			{
-				"data": 'open_time',
-				"className": "text-center"
-				//width: '200px'
-			},
-
-
-			{
-				"data": 'city_name_eng',
-				render: function (data, type, full, meta) {
-					let text = data.length > 10 ? data.substr(0, 10) + '...' : data;
-					return '<span title="' + data + '">' + text + '</span>'
-				},
-			},
-			{
-				data: 'country_name_eng',
-				render: function (data, type, full, meta) {
-					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
-					return '<span title="' + data + '">' + text + '</span>'
-				},
-				//width: '15%'
-			},
-
-			{
-				'data': 'line_name_eng',
-				render: function (data, type, full, meta) {
-					let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
-					return '<span title="' + data + '">' + text + '</span>'
-				},
-				//width: '15%'
-			},
-
-			{
-				"data": 'event_name_eng',
-				//width: '15%'
-			},
-
-
-			{
-				"data": 'attendees_count',
-				"className": "text-center"
-				//width: '5%'
-			},
-			{
-				"data": 'video_stream_avb',
-				//width: '5%'
-			},
-			{
-				"data": 'tkts_avbl_here',
-				//width: '5%'
-			}
-		],
-		"columnDefs": [
-			{
-				"targets": 'no_sort',
-				"orderable": false
-			},
-			{type: 'date-uk', targets: 2}
-		],
-		scrollY: 500,
-		scrollX: true,
-		scroller: true,
-		responsive: false,
-		autoWidth: false,
-		sScrollX: "100%",
-
-		"dom": "<'row' <'col-md-12'> ><'search pull-right'<'fa fa-search'> f > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+		maxHeight: +($(window).height() / 2.5),
+		nonSelectedText: 'City filter',
+		buttonWidth: '150px'
 	});
+
+	parties_tables = $('#parties_datatable')
+		.on('init.dt', function () {
+			onTableInit();
+		})
+		.DataTable({
+			"order": [[2, "asc"]],
+			"ajax": {
+				"url": "/api/parties",
+				"data": function () {
+					return global.filter
+				},
+			},
+			"columns": [
+				{
+					data: 'party_id',
+					//width: '2%'
+				},
+				{
+					data: 'title_eng',
+					render: function (data, type, full, meta) {
+						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+						return '<span title="' + data + '">' + text + '</span>'
+					},
+					//width: '15%'
+				},
+
+				{
+					"data": 'date',
+					//width: '4%'
+				},
+
+				{
+					"data": 'open_time',
+					"className": "text-center"
+					//width: '200px'
+				},
+
+
+				{
+					"data": 'city_name_eng',
+					render: function (data, type, full, meta) {
+						let text = data.length > 10 ? data.substr(0, 10) + '...' : data;
+						return '<span title="' + data + '">' + text + '</span>'
+					},
+				},
+				{
+					data: 'country_name_eng',
+					render: function (data, type, full, meta) {
+						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+						return '<span title="' + data + '">' + text + '</span>'
+					},
+					//width: '15%'
+				},
+
+				{
+					'data': 'line_name_eng',
+					render: function (data, type, full, meta) {
+						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+						return '<span title="' + data + '">' + text + '</span>'
+					},
+					//width: '15%'
+				},
+
+				{
+					"data": 'event_name_eng',
+					//width: '15%'
+				},
+
+
+				{
+					"data": 'attendees_count',
+					"className": "text-center"
+					//width: '5%'
+				},
+				{
+					"data": 'video_stream_avb',
+					//width: '5%'
+				},
+				{
+					"data": 'tkts_avbl_here',
+					//width: '5%'
+				}
+			],
+			"columnDefs": [
+				{
+					"targets": 'no_sort',
+					"orderable": false
+				},
+				{type: 'date-uk', targets: 2}
+			],
+			scrollY: 500,
+			scrollX: true,
+			scroller: true,
+			responsive: false,
+			autoWidth: false,
+			sScrollX: "100%",
+
+			"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+		});
 
 	function updatePartyTable() {
 		parties_tables.clear().draw();
@@ -160,6 +167,11 @@ $(document).ready(function () {
 		dateSort(1);
 	});
 
+	// datatables search filter
+	$('.party-search-filter .search').keyup(function () {
+		parties_tables.search($(this).val()).draw();
+	});
+
 
 });
 
@@ -188,6 +200,11 @@ let dateSort = function (x) {
 	$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => dateEquals(aData[5]) == x);
 	parties_tables.draw();
 	$.fn.dataTable.ext.search = [];
+};
+
+let onTableInit = function () {
+	let dest = $('.colunm-top-party .right-part');
+	//$('.search-party-filter').appendTo(dest);
 };
 
 jQuery.extend(jQuery.fn.dataTableExt.oSort, {

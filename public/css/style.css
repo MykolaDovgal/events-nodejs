@@ -34,8 +34,34 @@ body {
 	top: -75px;
 }
 
-.tab-smart-video-wrap .content-block  {
+.tab-smart-video-wrap .content-block {
 	float: none;
+}
+
+.party-search-filter {
+	width: 200px;
+}
+
+.party-search-filter input {
+	border: solid 1px black !important;
+	border-left: none !important;
+}
+
+.party-search-filter span.input-group-addon {
+	border: solid 1px black;
+	border-right: none;
+}
+
+.party-search-filter .input-group span i {
+	color: black;
+}
+
+.party-search-filter .input-group .input-group-addon {
+	background-color: transparent;
+}
+
+.city-filter-party {
+	margin-right: 10px;
 }
 
 .disabled {
@@ -1047,5 +1073,5 @@ pre {
 
 .horizontal-tab {
 	padding: 15px;
-    margin-top: 10px;
+	margin-top: 10px;
 }
