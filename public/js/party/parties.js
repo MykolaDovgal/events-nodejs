@@ -100,14 +100,6 @@ $(document).ready(function () {
 					"data": 'attendees_count',
 					"className": "text-center"
 					//width: '5%'
-				},
-				{
-					"data": 'video_stream_avb',
-					//width: '5%'
-				},
-				{
-					"data": 'tkts_avbl_here',
-					//width: '5%'
 				}
 			],
 			"columnDefs": [
