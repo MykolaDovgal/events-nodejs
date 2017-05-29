@@ -106,7 +106,7 @@ let setStageTable = function (stage_table_id,_id) {
 			{
 				"data": 'soundcloud',
 				render: function (data, type, full, meta) {
-					return '<div class="text-center"><a href="#">${data}</a></div>';
+					return `<div class="text-center"><a href="#">${data}</a></div>`;
 				},
 				width: '15%'
 			}
@@ -126,6 +126,49 @@ let setStageTable = function (stage_table_id,_id) {
 };
 
 let getStageTabTemplate = function (counter,tabItem) {
+
+	let musicTemplate = `
+									<div class="col-md-6">
+					                
+					                	 <div class="border-line block-manager">
+					                        <div class="portlet-title">
+					                            <div class="title-block caption font-red">
+					                                <i class="fa fa-user" aria-hidden="true"></i>
+					                                <span class="caption-subject bold">Music</span>
+					                            </div>
+					                        </div>
+					
+					                        <div class="portlet-body table-both-scroll">
+												<div class="row offset-top-xs-2">
+												<div class="col-xs-12">
+													<div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
+														<div class="col-md-5">
+													
+															<% tabItem.music_genres.forEach(function(el, index) { %>
+
+															<select data-value="<%= el %>" name="genres"
+																	class="form-control">
+
+															</select>
+															
+															<% }); %>
+
+														</div>
+														<div class="col-md-1">
+															<button type="button" id="add_genres_btn"
+																	class="btn btn-circle btn-icon-only green">
+																<i class="fa fa-plus"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+					                        </div>
+					                    </div>
+					                
+									</div>
+	
+	`;
 
 	return $(`
 					<div id="${tabItem._id}" class="panel panel-default tab_flag">
@@ -200,8 +243,11 @@ let getStageTabTemplate = function (counter,tabItem) {
 					
 					                        </div>
 					                    </div>
+					                    				                 			                    
 					
 					                </div>
+					                
+					                ${musicTemplate}
 					
 					            </div>
 					

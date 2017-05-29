@@ -189,7 +189,7 @@ let dateEquals = function (date) {
 };
 
 let dateSort = function (x) {
-	$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => dateEquals(aData[5]) == x);
+	$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => dateEquals(aData[2]) == x);
 	parties_tables.draw();
 	$.fn.dataTable.ext.search = [];
 };
