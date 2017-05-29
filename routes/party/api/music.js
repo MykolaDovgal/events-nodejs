@@ -6,6 +6,10 @@ let moment = require('moment');
 let Party = require('models/Party');
 let User = require('models/user');
 
+let fs = require('fs');
+let config = require('config');
+let default_image_user = config.get('images:default_image_user');
+
 router.get('/party/:id/music/stages', function (req, res, next) {
 
 	Promise.props({
@@ -16,7 +20,8 @@ router.get('/party/:id/music/stages', function (req, res, next) {
 			results.parties.stage.forEach((stage) => {
 				data.push({
 					_id: stage._id,
-					stage_name: stage.stage_name ? stage.stage_name : ''
+					stage_name: stage.stage_name ? stage.stage_name : '',
+					music_genres: stage.music_genres
 				});
 			});
 
@@ -29,9 +34,17 @@ router.get('/party/:id/music/stages', function (req, res, next) {
 
 router.post('/party/music/stage/update', function (req, res, next) {
 
+
 	let body = req.body;
+
+	let val;
+	if (body['value'])
+		val = body['value'];
+	else
+		val = body['value[]'];
+
 	Promise.props({
-		party: Party.update({'stage': {$elemMatch: {_id: body.pk}}}, {'$set': {['stage.$.' + body.name]: body['value'],}}).execAsync()
+		party: Party.update({'stage': {$elemMatch: {_id: body.pk}}}, {'$set': {['stage.$.' + body.name]: val,}}).execAsync()
 	}).then(function (results) {
 		res.status(200).send(body['value']);
 	})
@@ -108,6 +121,10 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 					if( dj.userId == user.id)
 						return dj.soundcloud;
 				});
+
+				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
+					user.profile_picture_circle = default_image_user;
+
 				users.push({
 					profile_picture_circle: user.profile_picture_circle,
 					id: user.id,

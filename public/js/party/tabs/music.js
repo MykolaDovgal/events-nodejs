@@ -2,12 +2,11 @@ let stageCount = 0;
 let usersSet;
 let isMusicInit = false;
 let selectedResults;
+let partyGenres = ["Rock", "Pop", "Hip-Hop", "Rap", "Jazz", "Metal"];
 
 $(document).ready(function () {
 
 	usersSet = initUsersDataSet();
-
-
 
 	$('#music_tab_btn').on('click',function () {
 		if(!isMusicInit){
@@ -32,12 +31,78 @@ $(document).ready(function () {
 		// window.setTimeout(function () {
 		// 	setStageTable($(this).attr('id'),$(this).data('pk'))
 		// },3000)
+	}).on('change', 'select[name="genres"]', function () {
+		updateStageGenres.apply(this);
+	}).on('click','.add_genres_btn_flag',function () {
+		let stage = $(this).closest('.tab_flag');
+		let x = generateDefaultSelect(stage.attr('id'));
+		console.log(x);
+		stage.find('.select_container').append(x);
 	});
 
 
 
 
+
+
+
 });
+
+
+let updateStageGenres = function () {
+
+	let genresArray = [];
+	let selectedItems = $(this).closest('.block-music').find('select[name="genres"]');
+	let stageId = $(this).parents('.tab_flag').attr('id');
+
+	selectedItems.each(function () {
+		genresArray.push($(this).val());
+	});
+
+	$.ajax({
+		url: '/api/party/music/stage/update',
+		type: 'POST',
+		data: {pk: stageId, name: 'music_genres', value: genresArray},
+		success: function (data) {
+		},
+		error: function (jqXHR, textStatus, err) {
+		}
+	});
+};
+
+let generateSelectTemplate = function (genresArray) {
+	let selectTemplate = $('<div></div>');
+
+	if(genresArray.music_genres && genresArray.music_genres.length > 0){
+		genresArray.music_genres.forEach((selectedGenre) => {
+			let select = $('<select name="genres" value="' + selectedGenre +'" class="form-control"></select>');
+			partyGenres.forEach( (genre) => {
+				let optionGenre = $('<option value="' + genre + '">' + genre + '</option>');
+				if(genre == selectedGenre)
+					optionGenre.attr('selected', true);
+				select.append(optionGenre);
+			});
+			selectTemplate.append(select);
+		});
+	}
+	else {
+		selectTemplate.append(generateDefaultSelect());
+	}
+	return selectTemplate.html();
+
+};
+
+let generateDefaultSelect = function(stageId) {
+	if(stageId &&  $("#" + stageId).find('select').length > 4)
+		return null;
+
+	let tmpGenres = [];
+	let selectItem = $('<select></select>').addClass('form-control').attr('name', 'genres');
+	partyGenres.forEach((item) => tmpGenres.push('<option value="' + item + '">' + item + '</option>'));
+	return selectItem.html(tmpGenres.join(""));
+
+
+};
 
 let generateStageTab = function () {
 
@@ -125,6 +190,119 @@ let setStageTable = function (stage_table_id,_id) {
 
 };
 
+let initStages = function () {
+
+	$.ajax({
+		url: '/api/party/'+ party.id + '/music/stages',
+		type: 'GET',
+		success: function (data) {
+			data.forEach((item) => {
+				let stageTemplate = getStageTabTemplate(stageCount,item);
+				$('#music_accordion_container').append(stageTemplate);
+				setStageNameEditable(stageCount);
+				setTypeahead('party_stage_'+ stageCount +'_djs_search');
+				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
+				stageCount+=1;
+
+			});
+		}
+	});
+
+};
+
+let deleteStage = function () {
+	let stageItemId = $(this).data('id');
+	$.ajax({
+		url: '/api/party/music/stage/delete',
+		type: 'POST',
+		data: {_id: stageItemId},
+		success: function (data) {
+			$('#' + stageItemId).remove();
+		},
+	});
+
+};
+
+let initUsersDataSet = function () {
+
+	//user dataset for search
+	return new Bloodhound({
+		datumTokenizer : function(datum) {
+			let idTokens = Bloodhound.tokenizers.whitespace(datum.id);
+			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
+			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
+
+			return idTokens.concat(lastNameTokens).concat(firstNameTokens);
+		},
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		prefetch: {
+			url: '/api/users/usersname',
+			cache: false ,
+			transform: function(response) {
+				return $.map(response, function(item) {
+					return {
+						id: item.id,
+						name: item.name,
+						username: item.username,
+						picture: item.picture
+					};
+				});
+			}
+		}
+	});
+};
+
+let setTypeahead = function (inputId) {
+
+	$('#' + inputId).typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1
+		},
+		{
+			display: 'name',
+			source: usersSet,
+			templates: {
+				suggestion: function (item) {
+					return  '<div class="col-md-12">' +
+						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
+						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
+						'</div>';
+				}
+			}
+		}).bind('typeahead:select', (ev, suggestion) => selectedResults = suggestion);
+};
+
+let addDjs = function () {
+
+	let parent = $(this).closest('.tab_flag');
+	selectedResults.stageId = parent.attr('id');
+	let table = parent.find('table')[1];
+
+	$.ajax({
+		url: '/api/party/music/stage/djs/add',
+		type: 'POST',
+		data: selectedResults ,
+		success: function (data) {
+			updateTable($(table).attr('id'));
+		},
+		error: function (jqXHR, textStatus, err) {
+		}
+	}).then(function () {
+	});
+	selectedResults = {};
+
+};
+
+let updateTable = function(tableId) {
+	let table = $('#'+ tableId).DataTable();
+	table.clear().draw();
+	setTimeout(function () {
+		table.ajax.reload();
+		table.columns.adjust().draw();
+	}, 1000);
+};
+
 let getStageTabTemplate = function (counter,tabItem) {
 
 	let musicTemplate = `
@@ -142,21 +320,14 @@ let getStageTabTemplate = function (counter,tabItem) {
 												<div class="row offset-top-xs-2">
 												<div class="col-xs-12">
 													<div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
-														<div class="col-md-5">
 													
-															<% tabItem.music_genres.forEach(function(el, index) { %>
-
-															<select data-value="<%= el %>" name="genres"
-																	class="form-control">
-
-															</select>
-															
-															<% }); %>
-
+														<div class="col-md-5 select_container">
+															${generateSelectTemplate(tabItem)}
 														</div>
+														
 														<div class="col-md-1">
-															<button type="button" id="add_genres_btn"
-																	class="btn btn-circle btn-icon-only green">
+															<button type="button"
+																	class="btn btn-circle btn-icon-only green add_genres_btn_flag">
 																<i class="fa fa-plus"></i>
 															</button>
 														</div>
@@ -257,118 +428,5 @@ let getStageTabTemplate = function (counter,tabItem) {
 
 					</div>
 			`);
-};
-
-let initStages = function () {
-
-	$.ajax({
-		url: '/api/party/'+ party.id + '/music/stages',
-		type: 'GET',
-		success: function (data) {
-			data.forEach((item) => {
-				let stageTemplate = getStageTabTemplate(stageCount,item);
-				$('#music_accordion_container').append(stageTemplate);
-				setStageNameEditable(stageCount);
-				setTypeahead('party_stage_'+ stageCount +'_djs_search');
-				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
-				stageCount+=1;
-
-			});
-		}
-	});
-
-};
-
-let deleteStage = function () {
-	let stageItemId = $(this).data('id');
-	$.ajax({
-		url: '/api/party/music/stage/delete',
-		type: 'POST',
-		data: {_id: stageItemId},
-		success: function (data) {
-			$('#' + stageItemId).remove();
-		},
-	});
-
-};
-
-let initUsersDataSet = function () {
-
-	//user dataset for search
-	return new Bloodhound({
-		datumTokenizer : function(datum) {
-			let idTokens = Bloodhound.tokenizers.whitespace(datum.id);
-			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
-			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
-
-			return idTokens.concat(lastNameTokens).concat(firstNameTokens);
-		},
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		prefetch: {
-			url: '/api/users/usersname',
-			cache: false ,
-			transform: function(response) {
-				return $.map(response, function(item) {
-					return {
-						id: item.id,
-						name: item.name,
-						username: item.username,
-						picture: item.picture
-					};
-				});
-			}
-		}
-	});
-};
-
-let setTypeahead = function (inputId) {
-
-	$('#' + inputId).typeahead({
-			hint: true,
-			highlight: true,
-			minLength: 1
-		},
-		{
-			display: 'name',
-			source: usersSet,
-			templates: {
-				suggestion: function (item) {
-					return  '<div class="col-md-12">' +
-						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
-						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
-						'</div>';
-				}
-			}
-		}).bind('typeahead:select', (ev, suggestion) => selectedResults = suggestion);
-};
-
-let addDjs = function () {
-
-	let parent = $(this).parents('.tab_flag');
-	selectedResults.stageId = parent.attr('id');
-	let table = parent.find('table')[1];
-
-	$.ajax({
-		url: '/api/party/music/stage/djs/add',
-		type: 'POST',
-		data: selectedResults ,
-		success: function (data) {
-			updateTable($(table).attr('id'));
-		},
-		error: function (jqXHR, textStatus, err) {
-		}
-	}).then(function () {
-	});
-	selectedResults = {};
-
-};
-
-let updateTable = function(tableId) {
-	let table = $('#'+ tableId).DataTable();
-	table.clear().draw();
-	setTimeout(function () {
-		table.ajax.reload();
-		table.columns.adjust().draw();
-	}, 1000);
 };
 
