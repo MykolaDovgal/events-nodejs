@@ -28,27 +28,33 @@
 				<div class="row">
 
 					<div class="col-md-12 column-top-party">
-						<div class="pull-left group-btn">
-							<div class="pull-left">
-								<a id="all_parties_filter" data-status="false"
-								   class="filter-status btn btn-circle btn-success"> All</a>
-								<span><%= partyTotalCount %></span>
-							</div>
-							<div class="pull-left">
-								<a id="past_parties_filter" data-status="true"
-								   class="filter-status btn btn-circle btn-success"> Past</a>
+
+						<div class="btn-group pull-left" id="button-filters" data-toggle="buttons">
+
+							<label class="btn btn-circle btn-success">
+								<input value="past" type="checkbox" autocomplete="off">Past
+							</label>
+							<label class="btn">
 								<span><%= partyCountPast %></span>
-							</div>
-							<div class="pull-left">
-								<a id="today_parties_filter" data-status="false"
-								   class="filter-status btn btn-circle btn-success"> Today</a>
+							</label>
+
+							<label class="btn btn-circle btn-success">
+								<input value="today" type="checkbox" autocomplete="off">Today
+							</label>
+							<label class="btn">
 								<span><%= partyCountToday %></span>
-							</div>
-							<div class="pull-left">
-								<a id="future_parties_filter" data-status="false"
-								   class="filter-status btn btn-circle btn-success"> Future</a>
+							</label>
+
+							<label class="btn btn-circle btn-success">
+								<input value="future" type="checkbox" autocomplete="off">Future
+							</label>
+							<label class="btn">
 								<span><%= partyCountFuture %></span>
-							</div>
+							</label>
+
+						</div>
+
+						<div class="pull-left group-btn">
 							<a class="btn btn-circle btn-info" data-target="#modal_add_party" data-toggle="modal">Add
 								Party
 								<i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -155,7 +161,7 @@
 									<div class="col-md-9">
 										<input id="form_party_origin_name" type="text"
 										       class="form-control"
-										       placeholder="Enter Origin Name" value=""
+										       placeholder="Origin Name" value=""
 										       name="lineOriginName" required maxlength="40">
 										<div class="form-control-focus"></div>
 										<span class="help-block">Name In Origin Language</span>
@@ -215,10 +221,11 @@
 								</div>
 
 								<div class="col-xs-12 form-group form-md-line-input">
-									<label class="control-label col-md-3">Send Time</label>
+									<label class="control-label col-md-3">Date & Time</label>
 									<div class="col-md-9">
 										<div id="party_datetime_input" class="input-group date">
-											<input name="party_start_time" class="form-control" type="text"
+											<input title="Date & Time" name="party_start_time" class="form-control"
+											       type="text" placeholder="Date & Time"
 											       style="width: 100%"
 											       data-date-format="yyyy/mm/dd hh:ii">
 											<span class="input-group-addon"><i class="fa fa-times"></i></span>
@@ -254,7 +261,7 @@
 																					class="form-control"
 																					name="englishDescription"
 																					rows="3"
-																					placeholder="Enter english description "
+																					placeholder="English description "
 																					style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
 															<div class="form-control-focus"></div>
 														</div>
@@ -268,7 +275,7 @@
 																					class="form-control"
 																					name="originDescription"
 																					rows="3"
-																					placeholder="Enter original description "
+																					placeholder="Original description "
 																					style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
 															<div class="form-control-focus"></div>
 														</div>

@@ -2,13 +2,19 @@ let express = require('express');
 let router = express.Router();
 let Promise = require('bluebird');
 let moment = require('moment');
+let console = require('better-console');
 
 let Party = require('models/Party');
 let Line = require('models/line');
 
 router.all('/parties', function (req, res, next) {
+	let date = Date.now();
+	let string_from = moment(date).format('YYYY-MM-DD');
 
-	let search = req.query.search ? req.query.search : {};
+	let from = new Date(string_from); // today
+	let to = moment(from).add(1, 'd').toDate(); // tomorrow
+
+	let date_filter = req.query.date ? req.query.date : [];
 	let addresses = req.query.address;
 
 	let cities = [];
@@ -19,7 +25,33 @@ router.all('/parties', function (req, res, next) {
 		});
 	}
 
+
 	let filter = [];
+
+	let condition_date_filter = [];
+	if (date_filter.length > 0) {
+		date_filter.forEach(function (d_filter) {
+			let cond;
+			switch (d_filter) {
+				case 'today':
+					cond = {$gt: from, $lt: to};
+					break;
+				case 'future':
+					cond = {$gt: to};
+					break;
+				case 'past':
+					cond = {$lt: from};
+			}
+			if (cond) {
+				condition_date_filter.push(
+					{
+						'date': cond
+					}
+				);
+			}
+		});
+	}
+
 
 	if (cities.length > 0) {
 		filter.push(
@@ -29,9 +61,20 @@ router.all('/parties', function (req, res, next) {
 		);
 	}
 
+	if (condition_date_filter.length > 0) {
+		filter.push({
+			$or: condition_date_filter
+		});
+	}
+
 	if (filter.length === 0) {
 		filter.push({});
 	}
+
+	// console.warn('filter');
+	// console.dir(filter);
+	// console.warn('condition_date_filter', condition_date_filter);
+
 
 	Promise.props({
 		parties: Party.find({$and: filter}, null, {sort: {date: -1}}).execAsync(),

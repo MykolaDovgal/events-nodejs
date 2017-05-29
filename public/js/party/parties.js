@@ -142,6 +142,7 @@ $(document).ready(function () {
 		$.fn.dataTable.ext.search = [];
 	});
 
+
 	$('#past_parties_filter').click(function () {
 		toggleColor.call(this, allFilters);
 		dateSort(-1);
@@ -162,6 +163,16 @@ $(document).ready(function () {
 	// datatables search filter
 	$('.party-search-filter .search').keyup(function () {
 		parties_tables.search($(this).val()).draw();
+	});
+
+	// button filters
+	$('#button-filters input').change(function () {
+		var date = $('#button-filters input:checkbox:checked').map(function () {
+			return $(this).val();
+		}).get();
+		addFilterParam('date', date);
+
+		updatePartyTable();
 	});
 
 
@@ -197,6 +208,19 @@ let dateSort = function (x) {
 let onTableInit = function () {
 	let dest = $('.colunm-top-party .right-part');
 	//$('.search-party-filter').appendTo(dest);
+	//console.log(global.filter);
+};
+
+var addFilterParam = function (filter_item, filter_value) {
+	let filter = global.filter;
+
+	if (!filter) {
+		filter = {};
+	}
+	filter[filter_item] = filter_value;
+
+	global.filter = filter;
+
 };
 
 jQuery.extend(jQuery.fn.dataTableExt.oSort, {

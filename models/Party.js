@@ -100,7 +100,7 @@ PartySchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
 			condition = {$gt: from, $lt: to};
 			break;
 		case 'gt':
-			condition = {$gt: from};
+			condition = {$gt: to};
 			break;
 		case 'lt':
 			condition = {$lt: from};

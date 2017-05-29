@@ -15,3 +15,9 @@
 #parties_datatable td {
 	word-wrap: break-word;
 }
+
+#button-filters .btn.active {
+	color: #fff;
+	background-color: #207780;
+	border-color: #123339;
+}
