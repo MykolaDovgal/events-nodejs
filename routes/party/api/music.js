@@ -6,6 +6,10 @@ let moment = require('moment');
 let Party = require('models/Party');
 let User = require('models/user');
 
+let fs = require('fs');
+let config = require('config');
+let default_image_user = config.get('images:default_image_user');
+
 router.get('/party/:id/music/stages', function (req, res, next) {
 
 	Promise.props({
@@ -117,6 +121,10 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 					if( dj.userId == user.id)
 						return dj.soundcloud;
 				});
+
+				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
+					user.profile_picture_circle = default_image_user;
+
 				users.push({
 					profile_picture_circle: user.profile_picture_circle,
 					id: user.id,
