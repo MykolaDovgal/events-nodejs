@@ -1,22 +1,22 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+let express = require('express');
+let path = require('path');
+let favicon = require('serve-favicon');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
 
-var mongoose = require('mongoose');
-var Promise = require('bluebird');
+let mongoose = require('mongoose');
+let Promise = require('bluebird');
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
 
-var config = require('./config');
+let config = require('./config');
 
-var setup = require('./setup');
+let setup = require('./setup');
 
 // mongo connect
-var mongo_uri = config.get('db:connection');
+let mongo_uri = config.get('db:connection');
 //console.log(mongo_uri);
 mongoose.Promise = Promise;
 mongoose.connect(mongo_uri);
@@ -24,7 +24,7 @@ mongoose.connect(mongo_uri);
 Promise.promisifyAll(mongoose);
 
 
-var User = require('./models/user');
+let User = require('./models/user');
 
 // add admin
 User.count({username: config.get('project:admin:username')}, function (err, count) {
@@ -35,10 +35,10 @@ User.count({username: config.get('project:admin:username')}, function (err, coun
 
 
 // routes
-var routes = require('./routes');
-var api_routes = require('./routes/api');
+let routes = require('./routes');
+let api_routes = require('./routes/api');
 
-var app = express();
+let app = express();
 
 // Passport:
 
@@ -63,7 +63,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //setup.createParty();
 
 // auth
-var userModel = User;
+let userModel = User;
 
 
 passport.serializeUser(function (user, done) {
@@ -118,7 +118,7 @@ app.use('/api', api_routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-	var err = new Error('Not Found');
+	let err = new Error('Not Found');
 	err.status = 404;
 	next(err);
 });
@@ -140,5 +140,8 @@ app.use(function (err, req, res, next) {
 });
 
 console.warn('App Started');
+
+app.set('absolute_view', __dirname + '/views');
+console.warn(__dirname);
 
 module.exports = app;

@@ -17,7 +17,9 @@ $(document).ready(function () {
 			{
 				data: 'facebook_profile',
 				render: function (data) {
-					return data ? '<div class="text-center"><a href="' + data + '"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a></div>' : '<div class="text-center">-</div>'
+					return data ? '<div class="text-center">' +
+						'<a target="_blank" href="' + data + '"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a>' +
+						'</div>' : '<div class="text-center">-</div>'
 				},
 				width: 15
 			},
@@ -48,7 +50,7 @@ $(document).ready(function () {
 				render: function (data) {
 					return '<div class="text-center activity-date" title="' + $(data).text() + '">' + data + '</div>'
 				},
-				width: 65
+				width: 80
 			},
 			{
 				data: 'bars',
@@ -69,7 +71,6 @@ $(document).ready(function () {
 				"orderable": false
 			}
 		],
-		autoWidth: false,
 
 		buttons: [
 			{extend: 'print', className: 'buttons_print btn dark btn-outline'},
@@ -79,6 +80,9 @@ $(document).ready(function () {
 		scrollY: 500,
 		scroller: true,
 		responsive: false,
+		scrollX: true,
+		autoWidth: false,
+		sScrollX: "100%",
 
 
 		//"dom": "<'row content-header' <'col-md-12' <'pull-left group-btn user-btn-group' B > <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
