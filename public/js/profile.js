@@ -123,9 +123,10 @@ $(document).ready(function () {
 	$('#form_update_user').submit(function (e) {
 		e.preventDefault();
 
-		var formData = new FormData(this);
+		let formData = new FormData(this);
 		formData.append('profile-image', $('#form-profile-pic')[0].files[0]);
 		$('#image-to-crop').attr('src', $('#upload-demo .cr-image').attr('src'));
+		let progress_bar_j = $('.progress-user-picture .progress-bar');
 
 		$uploadCrop.croppie('result', {
 			type: 'blob',
@@ -134,6 +135,37 @@ $(document).ready(function () {
 		}).then(function (blob) {
 			formData.append('userpic', blob, 'userpic.png');
 			$.ajax({
+				xhr: function () {
+					let xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							let percentComplete = evt.loaded / evt.total;
+							console.log(percentComplete);
+							progress_bar_j.css({
+								width: percentComplete * 100 + '%'
+							});
+							if (percentComplete === 1) {
+								progress_bar_j.parent('.progress').addClass('hide');
+							}
+						}
+					}, false);
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							let percentComplete = evt.loaded / evt.total;
+							console.log(percentComplete);
+							progress_bar_j.css({
+								width: percentComplete * 100 + '%'
+							});
+						}
+					}, false);
+					return xhr;
+				},
+				beforeSend: function () {
+					progress_bar_j.parent('.progress').removeClass('hide');
+					progress_bar_j.css({
+						width: 0 + '%'
+					});
+				},
 				url: '/user/update/' + user.id,
 				type: 'POST',
 				cache: false,
@@ -141,8 +173,11 @@ $(document).ready(function () {
 				processData: false,
 				data: formData,
 				success: function (data) {
-					$('#change-picture-modal').modal('hide');
+
 					toastr.success('Saved!');
+					setTimeout(function () {
+						$('#change-picture-modal').modal('hide');
+					}, 700);
 				},
 				error: function (jqXHR, textStatus, err) {
 					toastr.error('Server error!');
@@ -152,7 +187,7 @@ $(document).ready(function () {
 	});
 
 	$('#form-date-of-birth').change(function () {
-		var date_of_birth = { name: 'date_of_birth', value: $(this).val(), pk: 1 };
+		var date_of_birth = {name: 'date_of_birth', value: $(this).val(), pk: 1};
 		console.log(date_of_birth);
 		$.ajax({
 			url: '/user/update/' + user.id,
@@ -164,7 +199,7 @@ $(document).ready(function () {
 	});
 
 	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		var active = { name: 'active', value: state, pk: 1 };
+		var active = {name: 'active', value: state, pk: 1};
 		$.ajax({
 			url: '/user/update/' + user.id,
 			type: 'POST',
@@ -214,7 +249,7 @@ function showDeleteConfirmation() {
 				$.ajax({
 					url: '/user/delete/',
 					type: 'POST',
-					data: { userId: user.id },
+					data: {userId: user.id},
 					success: function (data) {
 						window.location.replace('/users');
 					},

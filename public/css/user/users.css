@@ -19,3 +19,7 @@
 .user-picture {
 	max-width: 270px;
 }
+
+.progress-user-picture {
+	/*display: none;*/
+}
