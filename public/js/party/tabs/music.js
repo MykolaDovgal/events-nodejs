@@ -22,32 +22,54 @@ $(document).ready(function () {
 
 	$('body').on('click','.collapse_accordion',function (e) {
 		if($(e.target).prop("tagName") =='DIV')
-			$(this).siblings('.collapse').fadeToggle( 200 );
+			$(this).siblings('.panel-collapse').fadeToggle( 200 );
 	}).on('click','.delete_stage_btn_flag',function () {
 		deleteStage.apply(this);
 	}).on('click','.add_dj_btn_flag',function () {
 		addDjs.apply(this);
 	}).on('click','.init_table_flag',function () {
-		// window.setTimeout(function () {
-		// 	setStageTable($(this).attr('id'),$(this).data('pk'))
-		// },3000)
+
 	}).on('change', 'select[name="genres"]', function () {
 		updateStageGenres.apply(this);
 	}).on('click','.add_genres_btn_flag',function () {
 		let stage = $(this).closest('.tab_flag');
-		let x = generateDefaultSelect(stage.attr('id'));
-		console.log(x);
-		stage.find('.select_container').append(x);
+		stage.find('.select_container').append(generateDefaultSelect(stage.attr('id')));
+	}).on('click', 'td > div.remove-column', function (event) {
+		deleteDjs.apply(this);
 	});
-
-
-
-
-
-
 
 });
 
+let deleteDjs = function () {
+
+	let stage = $(this).closest('.tab_flag');
+	let parent = this.parentElement;
+	let table = $(stage.find('table')[1]);
+	console.log(table);
+	let tableInstance = $('#' + table.attr('id')).DataTable();
+
+	bootbox.confirm({
+		size: "small",
+		message: "Are you sure you want to remove this user from djs?",
+		callback: function (result) {
+			if (result) {
+				let data = { userId: tableInstance.row(parent).data().id, stage: stage.attr('id') };
+				$.ajax({
+					url: '/api/party/music/stage/djs/delete',
+					type: 'POST',
+					data: data,
+					//TODO fix this KOSTYL
+					success: function () {
+						updateTable(table.attr('id'));
+					},
+					error: function () {
+						updateTable(table.attr('id'));
+					}
+				});
+			}
+		}
+	});
+};
 
 let updateStageGenres = function () {
 
@@ -68,28 +90,6 @@ let updateStageGenres = function () {
 		error: function (jqXHR, textStatus, err) {
 		}
 	});
-};
-
-let generateSelectTemplate = function (genresArray) {
-	let selectTemplate = $('<div></div>');
-
-	if(genresArray.music_genres && genresArray.music_genres.length > 0){
-		genresArray.music_genres.forEach((selectedGenre) => {
-			let select = $('<select name="genres" value="' + selectedGenre +'" class="form-control"></select>');
-			partyGenres.forEach( (genre) => {
-				let optionGenre = $('<option value="' + genre + '">' + genre + '</option>');
-				if(genre == selectedGenre)
-					optionGenre.attr('selected', true);
-				select.append(optionGenre);
-			});
-			selectTemplate.append(select);
-		});
-	}
-	else {
-		selectTemplate.append(generateDefaultSelect());
-	}
-	return selectTemplate.html();
-
 };
 
 let generateDefaultSelect = function(stageId) {
@@ -144,7 +144,7 @@ let setStageTable = function (stage_table_id,_id) {
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
 					console.log(full);
-					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					return `<div data-id="${full.id}" class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
 				},
 				width: '5%'
 			},
@@ -303,6 +303,28 @@ let updateTable = function(tableId) {
 	}, 1000);
 };
 
+let generateSelectTemplate = function (genresArray) {
+	let selectTemplate = $('<div></div>');
+
+	if(genresArray.music_genres && genresArray.music_genres.length > 0){
+		genresArray.music_genres.forEach((selectedGenre) => {
+			let select = $('<select name="genres" value="' + selectedGenre +'" class="form-control"></select>');
+			partyGenres.forEach( (genre) => {
+				let optionGenre = $('<option value="' + genre + '">' + genre + '</option>');
+				if(genre == selectedGenre)
+					optionGenre.attr('selected', true);
+				select.append(optionGenre);
+			});
+			selectTemplate.append(select);
+		});
+	}
+	else {
+		selectTemplate.append(generateDefaultSelect());
+	}
+	return selectTemplate.html();
+
+};
+
 let getStageTabTemplate = function (counter,tabItem) {
 
 	let musicTemplate = `
@@ -361,7 +383,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 					    	
 						</div>
 					
-					    <div id="stage_${counter}_body" class="panel-collapse collapse">
+					    <div id="stage_${counter}_body" class="panel-collapse">
 					
 					        <div class="accordion-content">
 					

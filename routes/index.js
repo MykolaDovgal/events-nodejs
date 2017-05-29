@@ -25,7 +25,7 @@ var line_add = require('./line/add');
 var line_update = require('./line/update');
 var line_delete = require('./line/delete');
 
-var events = require('./event/events');
+var events = require('./event/index');
 
 var user_add = require('./user/add');
 var user_update = require('./user/update');

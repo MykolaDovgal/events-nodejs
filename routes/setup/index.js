@@ -49,5 +49,19 @@ router.get('/setup/parties/:id', function (req, res) {
 	}
 });
 
+router.get('/setup/events/:id', function (req, res) {
+
+	var id = +req.params.id;
+
+	if (id === pass) {
+		setup.createEvent(function () {
+			res.send('Events created.');
+		});
+
+	} else {
+		res.sendStatus(404);
+	}
+});
+
 
 module.exports = router;

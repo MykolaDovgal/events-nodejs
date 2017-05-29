@@ -24,13 +24,14 @@ let prices = require('./party/api/prices');
 let attendees = require('./party/api/attendees');
 let music = require('./party/api/music');
 let bar = require('./party/api/bar');
+let events = require('./event/api/events');
 
 router.use(parties);
 router.use(prices);
 router.use(attendees);
 router.use(music);
 router.use(bar);
-
+router.use(events);
 
 router.get('/users', function (req, res, next) {
 	Promise.props({
@@ -85,7 +86,7 @@ router.get('/users', function (req, res, next) {
 
 router.get('/activity/:id?', function (req, res, next) {
 	Promise.props({
-		user: User.findOne({id: req.params.id})
+		user: User.findOne({ id: req.params.id })
 	}).then(function (results) {
 		var data = {
 			data: results.user.getActivity()
@@ -111,7 +112,7 @@ router.post('/lines/:page?', function (req, res, next) {
 	if (addresses && addresses.length > 0) {
 		cities = addresses.map((address) => {
 			return JSON.parse(address).city;
-		});	
+		});
 	}
 
 	let filter = [];
@@ -127,33 +128,33 @@ router.post('/lines/:page?', function (req, res, next) {
 		}
 
 		var filter_search = [
-			{'line_name_eng': new RegExp(search, "i")},
-			{'line_name_eng': new RegExp(search, "i")},
-			{'description_ol': new RegExp(search, "i")},
-			{'description_eng': new RegExp(search, "i")},
-			{'website': new RegExp(search, "i")},
-			{'facebook_page': new RegExp(search, "i")},
-			{'phone_number': new RegExp(search, "i")},
-			{'address.city': new RegExp(search, "i")},
-			{'address.country': new RegExp(search, "i")},
-			{'music.music_genres': new RegExp(search, "i")}
+			{ 'line_name_eng': new RegExp(search, "i") },
+			{ 'line_name_eng': new RegExp(search, "i") },
+			{ 'description_ol': new RegExp(search, "i") },
+			{ 'description_eng': new RegExp(search, "i") },
+			{ 'website': new RegExp(search, "i") },
+			{ 'facebook_page': new RegExp(search, "i") },
+			{ 'phone_number': new RegExp(search, "i") },
+			{ 'address.city': new RegExp(search, "i") },
+			{ 'address.country': new RegExp(search, "i") },
+			{ 'music.music_genres': new RegExp(search, "i") }
 		];
 
 		if (id > 0) {
-			filter_search.push({'id': id});
+			filter_search.push({ 'id': id });
 		}
 
 		filter.push({ $or: filter_search });
 	}
 
 	if (active !== undefined) {
-		filter.push({'active': active});
+		filter.push({ 'active': active });
 	}
 
 	if (cities.length > 0) {
 		filter.push(
 			{
-				'address.city': {$in: cities}
+				'address.city': { $in: cities }
 			}
 		);
 	}
@@ -166,7 +167,7 @@ router.post('/lines/:page?', function (req, res, next) {
 
 
 	Promise.props({
-		lines: Line.paginate({$and: filter}, {page: page, limit: limit})
+		lines: Line.paginate({ $and: filter }, { page: page, limit: limit })
 	}).then(function (results) {
 
 		let lines = results.lines.docs;
@@ -197,12 +198,12 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 
 	if (lineid > 0) {
 		Promise.props({
-			managers: Line.findOne({id: lineid}).select('managers').lean()
+			managers: Line.findOne({ id: lineid }).select('managers').lean()
 		}).then(function (results) {
 			var users = [];
 
-			if( Array.isArray(results.managers.managers)){
-				results.managers.managers.forEach(function (manager) {				
+			if (Array.isArray(results.managers.managers)) {
+				results.managers.managers.forEach(function (manager) {
 					if (manager.user_id > 0) {
 						users.push(manager.user_id);
 					}
@@ -210,7 +211,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 			}
 
 			User.find({
-				'id': {$in: users}
+				'id': { $in: users }
 			})
 				.select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
 				.exec(function (err, users) {
@@ -218,9 +219,9 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 						users = [];
 					}
 
-					users.forEach(function(user) {
+					users.forEach(function (user) {
 						if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
-							user.profile_picture_circle = default_image_user;					
+							user.profile_picture_circle = default_image_user;
 					});
 
 					var data = {
@@ -234,7 +235,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 
 		}).catch(function (err) {
 			next(err);
-		});``
+		}); ``
 	} else {
 		next();
 	}
@@ -274,7 +275,7 @@ router.get('/users/usersname', function (req, res, next) {
 router.get('/user/lines/:id?', function (req, res, next) {
 	Promise.props({
 		lines: Line.find({
-			'managers': {$elemMatch: {user_id: {$in: [req.params.id]}}}
+			'managers': { $elemMatch: { user_id: { $in: [req.params.id] } } }
 		}).execAsync()
 	})
 		.then(function (results) {
@@ -306,7 +307,7 @@ router.post('/line/manager/add', function (req, res, next) {
 	let body = req.body;
 
 	Promise.props({
-		line: Line.update({id : body.lineId, "managers.user_id": { $nin: [ body.id ] } }, { $addToSet: {"managers": { user_id: body.id }},  }).execAsync()
+		line: Line.update({ id: body.lineId, "managers.user_id": { $nin: [body.id] } }, { $addToSet: { "managers": { user_id: body.id } }, }).execAsync()
 	}).then(function (results) {
 		res.send(200);
 	})
@@ -319,7 +320,7 @@ router.post('/line/manager/add', function (req, res, next) {
 //delete manager from line
 router.post('/line/manager/delete', function (req, res, next) {
 	Promise.props({
-		line: Line.update({id: req.body.lineId}, {$pull: {managers: {user_id: req.body.userId}}}).execAsync()
+		line: Line.update({ id: req.body.lineId }, { $pull: { managers: { user_id: req.body.userId } } }).execAsync()
 	}).then(function (results) {
 		res.send(200);
 	})

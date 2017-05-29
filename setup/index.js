@@ -14,15 +14,18 @@ var mongo_uri = config.get('db:connection');
 var User = require('models/user');
 var Line = require('models/line');
 let Party = require('models/Party');
+let Event = require('models/Event');
 
 //var UserSchema = require('mongoose').model('Song').schema;
 var UserSchema = User.schema;
 var LineSchema = Line.schema;
 let PartySchema = Party.schema;
+let EventSchema = Event.schema;
 
 const COUNT_OF_USERS = 100;
 const COUNT_OF_LINES = 50;
 const COUNT_OF_PARTY = 50;
+const COUNT_OF_EVENTS = 50;
 const PASSWORD_USER = '12345';
 
 var setup;
@@ -145,7 +148,7 @@ setup = {
 			var mus = [];
 			var count = faker.random.number(2, 10);
 			for (var j = 0; j < count; j += 1) {
-				manag.push({userid: j});
+				manag.push({ userid: j });
 				mus.push(faker.lorem.word());
 			}
 
@@ -203,7 +206,7 @@ setup = {
 
 				let attendees = [];
 
-				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
+				for (let j = 0; j < faker.random.number({ min: 0, max: 30 }); j += 1) {
 					attendees.push({
 						userId: faker.random.arrayElement(users),
 						ticket_purchase: faker.random.boolean(),
@@ -246,6 +249,73 @@ setup = {
 				let party = new Party(partyData);
 
 				party.save(function (err) {
+					if (err) {
+						console.log(err);
+						throw err;
+					}
+				});
+			}
+			if (cb) {
+				cb();
+			}
+		});
+
+	},
+
+	createEvent: function (cb) {
+
+		Promise.props({
+			users: User.find().lean().distinct('id')
+		}).then(function (results) {
+			let users = results.users;
+			let random_users = setup.getRandomElements(users, 20);
+
+			for (let i = 0; i < COUNT_OF_EVENTS; i += 1) {
+
+				let attendees = [];
+
+				for (let j = 0; j < faker.random.number({ min: 0, max: 30 }); j += 1) {
+					attendees.push({
+						userId: faker.random.arrayElement(users),
+						ticket_purchase: faker.random.boolean(),
+						ticket_checkin: faker.random.boolean(),
+						checkin_time: faker.date.past(10),
+						attend_mark_time: faker.date.past(10),
+						here_mark_time: faker.date.past(1),
+						location_ver: faker.random.boolean(),
+						location_ver_time: faker.date.past(5)
+					});
+				}
+
+				let event_name = faker.name.title();
+				let cover_picture = 'https://placeimg.com/450/240/arch?' + event_name;
+
+				let eventData = {
+					title_eng: event_name + ' (eng)',
+					title_ol: faker.name.title() + ' (ol)',
+					mom_eventId: undefined,
+					description_eng: faker.lorem.lines() + '(eng)',
+					description_ol: faker.lorem.lines() + '(ol)',
+					cover_picture: cover_picture,
+					start_date: faker.date.between('2016-01-01', '2017-12-31'),
+					end_date: faker.date.between('2016-01-01', '2017-12-31'),
+					location: {
+						country: faker.address.country(),
+						city: faker.address.city(),
+						address: faker.address.streetName(),
+						longitude: {
+							lat: faker.address.latitude(),
+							lng: faker.address.longitude()
+						}
+					},
+					tkts_avbl_here: faker.random.boolean(),
+					tkt_price: [],
+					attendees: attendees
+				};
+
+				let event = new Event(eventData);
+
+				event.save(function (err) {
 					if (err) {
 						console.log(err);
 						throw err;
