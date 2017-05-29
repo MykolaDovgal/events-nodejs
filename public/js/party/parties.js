@@ -32,7 +32,10 @@ $(document).ready(function () {
 			onTableInit();
 		})
 		.DataTable({
-			"order": [[2, "asc"]],
+			"order": [
+				[2, "asc"],
+				[3, "asc"]
+			],
 			"ajax": {
 				"url": "/api/parties",
 				"data": function () {
@@ -132,33 +135,6 @@ $(document).ready(function () {
 		window.location = '/party/' + partyRow.party_id;
 	});
 
-	let allFilters = $('div.pull-left > div.pull-left > a');
-
-
-	$('#all_parties_filter').click(function () {
-		toggleColor.call(this, allFilters);
-		$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => true);
-		parties_tables.draw();
-		$.fn.dataTable.ext.search = [];
-	});
-
-
-	$('#past_parties_filter').click(function () {
-		toggleColor.call(this, allFilters);
-		dateSort(-1);
-
-
-	});
-
-	$('#today_parties_filter').click(function () {
-		toggleColor.call(this, allFilters);
-		dateSort(0);
-	});
-
-	$('#future_parties_filter').click(function () {
-		toggleColor.call(this, allFilters);
-		dateSort(1);
-	});
 
 	// datatables search filter
 	$('.party-search-filter .search').keyup(function () {
@@ -167,43 +143,21 @@ $(document).ready(function () {
 
 	// button filters
 	$('#button-filters input').change(function () {
-		var date = $('#button-filters input:checkbox:checked').map(function () {
+		eventForButtonTimeFilter();
+	});
+
+	let eventForButtonTimeFilter = function () {
+		let date = $('#button-filters input:checkbox:checked').map(function () {
 			return $(this).val();
 		}).get();
 		addFilterParam('date', date);
 
 		updatePartyTable();
-	});
-
+	};
+	eventForButtonTimeFilter();
 
 });
 
-
-let toggleColor = function (allFilters) {
-	allFilters.removeClass('btn-warning');
-	$(this).addClass('btn-warning');
-};
-
-let dateEquals = function (date) {
-	let firstDateArray = date.split('/');
-	let dateNow = new Date(Date.now());
-
-	let firstDateTS = new Date(firstDateArray[2], firstDateArray[1], firstDateArray[0]).getTime();
-	let secondDateTS = new Date(dateNow.getFullYear(), dateNow.getMonth() + 1, dateNow.getDate()).getTime();
-
-	if (firstDateTS > secondDateTS)
-		return 1;
-	if (firstDateTS < secondDateTS)
-		return -1;
-	else
-		return 0;
-};
-
-let dateSort = function (x) {
-	$.fn.dataTable.ext.search.push((oSettings, aData, iDataIndex) => dateEquals(aData[2]) == x);
-	parties_tables.draw();
-	$.fn.dataTable.ext.search = [];
-};
 
 let onTableInit = function () {
 	let dest = $('.colunm-top-party .right-part');
@@ -211,7 +165,7 @@ let onTableInit = function () {
 	//console.log(global.filter);
 };
 
-var addFilterParam = function (filter_item, filter_value) {
+let addFilterParam = function (filter_item, filter_value) {
 	let filter = global.filter;
 
 	if (!filter) {
