@@ -88,7 +88,6 @@ router.post('/party/music/stage/delete', function (req, res, next) {
 	Promise.props({
 		party: Party.update({'stage': {$elemMatch: {_id: body._id}}}, {$pull: {stage: {_id: body._id}}}).execAsync()
 	}).then(function (results) {
-		console.warn('asdasdasdasdas');
 		res.status(200).send('OK');
 	})
 		.catch(function (err) {
@@ -133,7 +132,6 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 					soundcloud: soundcloud || 'link'
 				})
 			});
-			console.warn(users);
 			res.status(200).send({data: users});
 		});
 
@@ -148,22 +146,45 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 
 	//TODO fix: add only one user
 	let body = req.body;
-	console.warn(body);
 	Promise.props({
 		party : Party.findOne(   {'stage._id' : body.stageId}, 'stage').execAsync()
 	}).then(function (results) {
-		console.log(results);
-		console.log(results.party.stage);
 		results.party.stage.find((stage) => {
 			return stage._id == body.stageId;
 		}).djs.push({ userId: body.id });
-		console.warn({ userId: body.id });
 		results.party.save();
 		res.status(200).send();
 	})
 		.catch(function (err) {
 			next(err);
 		});
+
+});
+
+router.post('/party/music/stage/djs/delete', function (req, res, next) {
+
+	console.warn(req.body);
+
+	res.send(200);
+
+	// //TODO fix: add only one user
+	// let body = req.body;
+	// console.warn(body);
+	// Promise.props({
+	// 	party : Party.findOne(   {'stage._id' : body.stageId}, 'stage').execAsync()
+	// }).then(function (results) {
+	// 	console.log(results);
+	// 	console.log(results.party.stage);
+	// 	results.party.stage.find((stage) => {
+	// 		return stage._id == body.stageId;
+	// 	}).djs.push({ userId: body.id });
+	// 	console.warn({ userId: body.id });
+	// 	results.party.save();
+	// 	res.status(200).send();
+	// })
+	// 	.catch(function (err) {
+	// 		next(err);
+	// 	});
 
 });
 
