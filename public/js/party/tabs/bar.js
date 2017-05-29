@@ -10,22 +10,24 @@ $(document).ready(() => {
     });
 
     $('#party_add_bar').on('click', () => {
-        generateBarTab();
+        addBarTab();
     });
 
     $('body').on('click', '.add-tender-button', function () {
-        let barId = $(this).parents('.bar-tab').attr('id');
-        let data = { partyId: party.id, barId: barId, userId: selectedResults.id };
-        console.log(data);
-        if (selectedResults.username)
+        if (selectedResults && selectedResults.username) {
+            let barId = $(this).parents('.bar-tab').attr('id');
+            let data = { partyId: party.id, barId: barId, userId: selectedResults.id };
             $.ajax({
                 url: '/api/party/bar/tenders/add',
                 type: 'POST',
                 data: data,
                 success: () => {
-
+                    let parent = $(this).parents('.table-tenders');
+                    let table = parent.find('table')[1];
+                    updateTable($(table).attr('id'));
                 }
             });
+        }
     });
 
     $('body').on('click', '.edit_bar_btn_flag', function () {
@@ -37,17 +39,22 @@ $(document).ready(() => {
         deleteBar.apply(this);
     });
 
-    let generateBarTab = () => {
+    let createBarTab = bar => {
+        let barTemplate = getBarTabTemplate(barCount, bar);
+        $('#bar_accordion_container').append(barTemplate);
+        setBarEditable(barCount);
+        setTypeahead('bar_' + barCount + '_tenders_input');
+        initTable('bar_' + barCount + '_tenders_table', bar._id);
+        barCount += 1;
+    }
+
+    let addBarTab = () => {
         $.ajax({
             url: '/api/party/bar/add',
             type: 'POST',
-            data: { partyId: party.id },
+            data: { partyId: party.id, name: 'Bar ' + barCount },
             success: (_id) => {
-                let barTemplate = getBarTabTemplate(barCount, { bar_name_eng: 'Bar ' + barCount, _id: _id });
-                $('#bar_accordion_container').append(barTemplate);
-                setBarEditable(barCount);
-                setTypeahead('bar_' + barCount + '_tenders_input');
-                barCount += 1;
+                createBarTab({ bar_name_eng: 'Bar ' + barCount, _id: _id });
             }
         });
     };
@@ -68,12 +75,8 @@ $(document).ready(() => {
                 let accordion = $('#bar_accordion_container');
                 accordion.empty();
                 barCount = 0;
-                data.forEach((item) => {
-                    let barTemplate = getBarTabTemplate(barCount, item);
-                    accordion.append(barTemplate);
-                    setBarEditable(barCount);
-                    setTypeahead('bar_' + barCount + '_tenders_input');
-                    barCount += 1;
+                data.forEach((bar) => {
+                    createBarTab(bar);
                 });
             }
         });
@@ -103,7 +106,7 @@ $(document).ready(() => {
 
     let getBarTabTemplate = (counter, bar) => {
         return $(`
-            <div id="${bar._id}" class="panel panel-default bar-tab">	
+            <div id="${bar._id}" class="panel panel-default bar-tab">
                 <div class="panel-heading">
                     <a id="bar_${counter}_name" class="editable editable-click editable-disabled" data-name="bar_name_eng" href="#bar_${counter}_body"
                         style="margin:10px;display: inline-block" data-type="text" data-pk="${bar._id}"
@@ -117,15 +120,14 @@ $(document).ready(() => {
                 </div>
                 <div id="bar_${counter}_body" class="panel-collapse in container horizontal-tab">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-5 table-tenders">
                             <div class="portlet light bordered">
                                 <div class="title-block caption font-red">
                                     <i class="fa fa-star font-red" aria-hidden="true"></i>
                                     <span class="caption-subject bold">Bar Tenders</span>
                                 </div>
                                 <div class="portlet-body table-both-scroll">
-                                    <table class="table table-striped table-bordered table-hover order-column"
-                                            id="table-events">
+                                    <table id="bar_${counter}_tenders_table" class="table table-striped table-bordered table-hover order-column">
                                         <thead>
                                         <th>#</th>
                                         <th>Pic</th>
@@ -160,8 +162,7 @@ $(document).ready(() => {
                                         <span class="caption-subject bold">Drinks</span>
                                     </div>
                                     <div class="portlet-body table-both-scroll">
-                                        <table class="table table-striped table-bordered table-hover order-column"
-                                                id="table-events">
+                                        <table id="" class="table table-striped table-bordered table-hover order-column">
                                             <thead>
                                             <th>#</th>
                                             <th>Drink</th>
@@ -182,4 +183,43 @@ $(document).ready(() => {
             </div>
         `);
     };
+
+    function initTable(tableId, barId) {
+        $('#' + tableId)
+            .DataTable({
+                "ajax": {
+                    "url": "/api/party/" + party.id + "/bar/" + barId + "/tenders",
+                },
+                "columns": [
+                    {
+                        data: 'id',
+                    },
+                    {
+                        data: 'profile_picture_circle',
+                        render: function (data) {
+                            return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+                        },
+                        width: 50
+                    },
+                    {
+                        data: 'username',
+                    },
+
+                    {
+                        data: "realname",
+                        render: function (data, type, full, meta) {
+                            return full.firstname + ' ' + full.lastname;
+                        }
+                    }
+                ],
+                scrollY: 300,
+                scrollX: true,
+                scroller: true,
+                responsive: false,
+                autoWidth: false,
+                sScrollX: "100%",
+                "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+            });
+    }
+
 });

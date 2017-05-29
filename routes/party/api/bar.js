@@ -2,7 +2,9 @@ let express = require('express');
 let router = express.Router();
 let Promise = require('bluebird');
 let moment = require('moment');
-
+let fs = require('fs');
+let config = require('config');
+let default_image_user = config.get('images:default_image_user');
 let Party = require('models/Party');
 let User = require('models/user');
 
@@ -41,7 +43,7 @@ router.post('/party/bar/add', (req, res, next) => {
 	let body = req.body;
 
 	Promise.props({
-		party: Party.findOneAndUpdate({ id: body.partyId }, { $push: { 'bar': {} } }).execAsync()
+		party: Party.findOneAndUpdate({ id: body.partyId }, { $push: { bar: { bar_name_eng: body.name } } }).execAsync()
 	}).then((results) => {
 		Party.findOne({ id: body.partyId }).select('bar').then((doc) => {
 			res.status(200).send(doc.bar[doc.bar.length - 1]._id);
@@ -70,10 +72,8 @@ router.get('/party/:partyId/bar/:barId/tenders', (req, res, next) => {
 		party: Party.findOne({ id: req.params.partyId }, 'bar')
 	}).then((results) => {
 		let bar = results.party.bar.find(bar => {
-			return bar._id == req.params.barId; //TODO use barId instead _id
+			return bar._id == req.params.barId; // barId, not the _id
 		});
-
-		let users = [];
 
 		User.find({
 			id:
@@ -83,8 +83,12 @@ router.get('/party/:partyId/bar/:barId/tenders', (req, res, next) => {
 				})
 			}
 		}).exec().then((results) => {
-			users = results;
-			res.status(200).send(JSON.stringify(users));
+			results.forEach(function (user) {
+				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
+					user.profile_picture_circle = default_image_user;
+			});
+			let data = { data: results };
+			res.status(200).send(JSON.stringify(data));
 		});
 	}).catch((err) => {
 		next(err);
@@ -107,7 +111,7 @@ router.post('/party/bar/tenders/add', (req, res, next) => {
 	});
 });
 
-router.post('/party/bar/tenders/delete', (req, res, next) => { // Haven't test this yet
+router.post('/party/bar/tenders/delete', (req, res, next) => { // Haven't tested this yet
 	let body = req.body;
 
 	Promise.props({
