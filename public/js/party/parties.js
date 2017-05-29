@@ -88,7 +88,17 @@ $(document).ready(function () {
 					'data': 'line_name_eng',
 					render: function (data, type, full, meta) {
 						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
-						return '<span title="' + data + '">' + text + '</span>'
+						let open_line = '';
+
+						let line_id = full.line_id || 0;
+						if (line_id > 0) {
+							open_line = '<a target="_blank" title="Open line - ' + data + '" class="party-open-line pull-right" href="/line/' + line_id + '">' +
+								'<i class="fa fa-external-link" aria-hidden="true"></i>' +
+								'</a> ';
+						}
+
+						return '<span title="' + data + '">' + text + '</span>' + open_line;
+
 					},
 					//width: '15%'
 				},
@@ -130,7 +140,7 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	$('#parties_datatable tbody').on('click', 'tr', function () {
+	$('#parties_datatable tbody').on('click', "tr :not('a')", function () {
 		let partyRow = parties_tables.row(this).data();
 		window.location = '/party/' + partyRow.party_id;
 	});

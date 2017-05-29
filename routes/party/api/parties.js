@@ -71,11 +71,6 @@ router.all('/parties', function (req, res, next) {
 		filter.push({});
 	}
 
-	// console.warn('filter');
-	// console.dir(filter);
-	// console.warn('condition_date_filter', condition_date_filter);
-
-
 	Promise.props({
 		parties: Party.find({$and: filter}, null, {sort: {date: -1}}).execAsync(),
 		lines: Line.find().select('id line_name_eng').execAsync()
@@ -95,6 +90,7 @@ router.all('/parties', function (req, res, next) {
 
 				data.push({
 					party_id: party.id,
+					line_id: lineId,
 					line_name_eng: line_name_eng,
 					title_eng: party.title_eng,
 					country_name_eng: party.location.country,
