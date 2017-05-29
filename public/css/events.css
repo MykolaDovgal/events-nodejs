@@ -1,0 +1,74 @@
+.empty-message {
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.portfolio-content.portfolio-3 .cbp-caption-zoom .cbp-caption-activeWrap, .portfolio-content.portfolio-4 .cbp-caption-zoom .cbp-caption-activeWrap {
+	background-color: rgba(0, 0, 0, .3);
+}
+
+.cbp-caption-zoom .cbp-caption-activeWrap {
+	opacity: 0.9;
+}
+
+.cbp-caption-zoom .cbp-caption-activeWrap:hover {
+	background-color: rgba(0, 0, 0, .8) !important;
+}
+
+.cbp-caption-zoom .cbp-caption:hover .cbp-caption-defaultWrap {
+	transform: scale(2.5) !important;
+}
+
+#events-gallery .mt-element-overlay img {
+
+	height: 300px;
+
+}
+
+#events-gallery .mt-element-overlay {
+	max-height: 300px;
+	width: 33%;
+}
+
+#events-gallery {
+	/*width: 85vw;*/
+}
+
+.page-events-list {
+	overflow-y: scroll;
+}
+
+.mt-element-overlay .mt-overlay-5 .mt-overlay {
+	background-color: rgba(0, 0, 0, 0.55);
+}
+
+#events-gallery .event-item .mt-overlay {
+	cursor: pointer;
+}
+
+#table-event-managers .profile-picture {
+	width: 15px;
+	height: 15px;
+}
+
+.geo-data {
+	display: none;
+}
+
+.event-tab-width > .nav-tabs > li {
+	width: 15%;
+}
+
+.btn-manager_user {
+	padding: 0;
+	border: none;
+}
+
+.btn-manager_user > .btn {
+	border-radius: 0 4px 4px 0;
+}
+
+#refresh-events i {
+	margin-right: 0;
+}
+

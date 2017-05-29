@@ -2,6 +2,7 @@ let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 let autoIncrement = require('mongoose-auto-increment');
+let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
 
 autoIncrement.initialize(mongoose.connection);
@@ -61,7 +62,7 @@ EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
 
     let from = new Date(string_from); // today
     let to = moment(from).add(1, 'd').toDate(); // tomorrow
-    let evenModel = this.model('Event');
+    let eventModel = this.model('Event');
 
     let condition;
     switch (type) {
@@ -75,7 +76,7 @@ EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
             condition = { $lt: from };
     }
 
-    return evenModel.count({ date: condition });
+    return eventModel.count({ start_date: condition });
 
 };
 
@@ -84,5 +85,7 @@ EventSchema.plugin(autoIncrement.plugin, {
     field: 'id',
     startAt: 1
 });
+
+EventSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Event', EventSchema);
