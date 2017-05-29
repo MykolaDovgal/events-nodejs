@@ -21,11 +21,9 @@ $(document).ready(function () {
 		generateStageTab();
 	});
 
-	$('body').on('click','.edit_stage_btn_flag',function () {
-		let stageName = $(this).parent('.panel-heading').find('a.editable');
-		stageName.editable('toggleDisabled');
-		let isCollapse = stageName.attr('data-toggle') == 'collapse' ? '' : 'collapse';
-		stageName.attr('data-toggle', isCollapse);
+	$('body').on('click','.collapse_accordion',function (e) {
+		if($(e.target).prop("tagName") =='DIV')
+			$(this).siblings('.collapse').fadeToggle( 200 );
 	}).on('click','.delete_stage_btn_flag',function () {
 		deleteStage.apply(this);
 	}).on('click','.add_dj_btn_flag',function () {
@@ -132,21 +130,22 @@ let getStageTabTemplate = function (counter,tabItem) {
 	return $(`
 					<div id="${tabItem._id}" class="panel panel-default tab_flag">
 
-					    <div class="panel-heading">
+					    <div class="panel-heading collapse_accordion">
+					    
 					        <a id="party_stage_${counter}_name" class="editable editable-click init_table_flag" data-name="stage_name"
-					           href="#stage_${counter}_body" 
+					           href="#" 
 					           style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}" data-counter="${counter}"
 					           data-parent="#music_accordion_container">${tabItem.stage_name}</a>
-					           
-					        <button id="enable_stage_${counter}_edit" class="edit_stage_btn_flag" type="button">
-					            <i class="fa fa-pencil"></i>
-					        </button>
-					        
+					       
 					        <button id="enable_stage_${counter}_delete" data-id="${tabItem._id}" class="delete_stage_btn_flag" type="button">
 					            <i class="fa fa-trash-o"></i>
 					        </button>
 					        
 					    </div>
+					    
+					    <div style="float:left;display: block">
+					    	
+						</div>
 					
 					    <div id="stage_${counter}_body" class="panel-collapse collapse">
 					
@@ -192,6 +191,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 																<i class="fa fa-plus"></i>
 															</button>
 														</span>
+														
 					                                </div>
 					                                <div class="col-md-2">
 					
@@ -220,7 +220,6 @@ let initStages = function () {
 		type: 'GET',
 		success: function (data) {
 			data.forEach((item) => {
-
 				let stageTemplate = getStageTabTemplate(stageCount,item);
 				$('#music_accordion_container').append(stageTemplate);
 				setStageNameEditable(stageCount);
