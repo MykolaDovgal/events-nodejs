@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	var user_tables = $('#users-list-datatable').DataTable({
+	let user_tables = $('#users-list-datatable').DataTable({
 
 		"ajax": "/api/users/",
 		"columns": [
@@ -17,7 +17,7 @@ $(document).ready(function () {
 			{
 				data: 'facebook_profile',
 				render: function (data) {
-					return data ? '<div class="text-center"><a href="' + data +'"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a></div>' : '<div class="text-center">-</div>'
+					return data ? '<div class="text-center"><a href="' + data + '"><img class="facebook-icon" src="/images/icons/facebook-icon.png"></a></div>' : '<div class="text-center">-</div>'
 				},
 				width: 15
 			},
@@ -41,7 +41,7 @@ $(document).ready(function () {
 				data: "realname",
 				render: function (data, type, full, meta) {
 					return full.firstname + ' ' + full.lastname;
-				}			
+				}
 			},
 			{
 				data: 'lastActivity',
@@ -72,14 +72,7 @@ $(document).ready(function () {
 		autoWidth: false,
 
 		buttons: [
-			{
-				text: 'Add new user',
-				action: function (e, dt, node, config) {
-					$('#add-new-user-modal').modal('show');
-				},
-				className: 'btn sbold green'
-			},
-			{extend: 'print', className: 'btn dark btn-outline'},
+			{extend: 'print', className: 'buttons_print btn dark btn-outline'},
 			{extend: 'pdf', className: 'btn green btn-outline'},
 			{extend: 'csv', className: 'btn purple btn-outline '}
 		],
@@ -88,7 +81,8 @@ $(document).ready(function () {
 		responsive: false,
 
 
-		"dom": "<'row content-header' <'col-md-12' <'pull-left group-btn user-btn-group' B > <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
+		//"dom": "<'row content-header' <'col-md-12' <'pull-left group-btn user-btn-group' B > <'pull-right group-input' <'search pull-right'<'fa fa-search'> f > <'fa fa-refresh update-table-users'> > > > t <'row'<'col-md-12'i>>",
+		"dom": "<'row content-header' <'col-md-12'   > > t <'row'<'col-md-12'i>>",
 	});
 
 	$('.update-table-users').click(function () {
@@ -96,7 +90,7 @@ $(document).ready(function () {
 	});
 
 	// -- CROPPIE --
-	var $uploadCrop;
+	let $uploadCrop;
 
 	function readFile(input) {
 		if (input.files && input.files[0]) {
@@ -265,5 +259,22 @@ $(document).ready(function () {
 	$('#users-list-datatable tbody').on('click', 'tr', function () {
 		window.location.href = "/users/" + user_tables.row(this).data().id;
 	});
+
+	// datatables search filter
+	$('#filter-users-table').keyup(function () {
+		user_tables.search($(this).val()).draw();
+	});
+
+	$('#btn-add-new-user').click(function () {
+		$('#add-new-user-modal').modal('show');
+	});
+
+	$('#user-button .export_table_button').click(function () {
+		let _export = $(this).data('export');
+
+		user_tables.buttons('.buttons-' + _export).trigger();
+	});
+
+
 });
 

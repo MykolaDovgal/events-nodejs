@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <% include ../static/head %>
-    <link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet"
-          type="text/css"/>
-    <link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet"
-          type="text/css"/>
-    <link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet"
-          type="text/css"/>
-    <!-- BEGIN THEME LAYOUT STYLES
+	<% include ../static/head %>
+	<link href="/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet"
+	      type="text/css"/>
+	<link href="/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet"
+	      type="text/css"/>
+	<link href="/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet"
+	      type="text/css"/>
+	<!-- BEGIN THEME LAYOUT STYLES
    <link href="/assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css"/>-->
-    <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
-    <link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
 
-    <!-- END THEME LAYOUT STYLES -->
+	<link href="/css/user/users.css" rel="stylesheet" type="text/css"/>
 
-    <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
+	<!-- END THEME LAYOUT STYLES -->
+
+	<link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
 
 </head>
 
@@ -24,299 +26,344 @@
 
 <div class="page-wrapper">
 
-    <header id="header" valign="botoom">
-        <% include ../static/header %>
-    </header>
+	<header id="header" valign="botoom">
+		<% include ../static/header %>
+	</header>
 
-    <!-- BEGIN CONTAINER -->
-    <div class="page-container">
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
 
-        <!-- BEGIN CONTENT -->
-        <div class="page-content-wrapper">
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
 
-            <!-- BEGIN CONTENT BODY -->
-            <div class="page-content content-border-radius">
+			<!-- BEGIN CONTENT BODY -->
+			<div class="page-content content-border-radius">
 
-                <!-- BEGIN PAGE TITLE-->
+				<!-- BEGIN PAGE TITLE-->
 
-                <!-- END PAGE TITLE-->
-                <div class="wrapper-title">
-                    <h1 class="page-title text-center"> Users</h1>
-                </div>
-                <!-- END PAGE HEADER-->
-                <div class="row">
-                    <div class="col-md-12">
+				<!-- END PAGE TITLE-->
+				<div class="wrapper-title">
+					<h1 class="page-title text-center"> Users</h1>
+				</div>
+				<!-- END PAGE HEADER-->
 
-                        <div class="portlet-body">
+				<div class="row">
 
-                            <table id="users-list-datatable"  class="table table-striped table-bordered table-hover table-checkable order-column">
-                                <thead>
-                                <tr>
-                                    <th class="hidden-xs">#</th>
-                                    <th class="no-sort">Picture</th>
-                                    <th class="hidden-xs"></th>
-                                    <th>Status</th>
-                                    <th>User Name</th>
-                                    <th class="hidden-xs">Name</th>
-                                    <th class="hidden-xs">Last Activity</th>
-                                    <th class="hidden-xs">Bars</th>
-                                    <th class="hidden-xs">Events</th>
-                                    <th class="hidden-xs">Lines</th>
-                                </tr>
-                                </thead>
+					<div class="col-md-12 column-top-party">
 
-                            </table>
+						<div class="btn-group pull-left" id="user-button" data-toggle="buttons">
 
-                        </div>
-                        <!-- END EXAMPLE TABLE PORTLET-->
-                    </div>
-                </div>
+							<button id="btn-add-new-user" class="btn btn-circle btn-info">Add new user</button>
+
+							<button data-export="print" class="export_table_button btn btn-circle btn-success">Print
+							</button>
+							<button data-export="pdf" class="export_table_button btn btn-circle btn-success">PDF
+							</button>
+							<button data-export="csv" class="export_table_button btn btn-circle btn-success">CSV
+							</button>
 
 
-            </div>
-            <!-- END CONTENT BODY -->
-        </div>
-        <!-- END CONTENT -->
+						</div>
 
-    </div>
-    <!-- END CONTAINER -->
+
+						<div class="pull-right group-btn">
+							<div class="form-group party-search-filter">
+								<div class="input-group">
+                                                        <span class="input-group-addon input-circle-left">
+                                                            <i class="fa fa-search"></i>
+                                                        </span>
+									<input id="filter-users-table" type="search"
+									       class="search form-control input-circle-right"
+									       placeholder="Filter users"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="pull-right group-input">
+							<div class="btn btn-circle update-table-users">
+								<i class="fa fa-refresh"
+								   aria-hidden="true"></i>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+
+						<div class="portlet-body">
+
+							<table id="users-list-datatable"
+							       class="table table-striped table-bordered table-hover table-checkable order-column">
+								<thead>
+								<tr>
+									<th class="hidden-xs">#</th>
+									<th class="no-sort">Picture</th>
+									<th class="hidden-xs"></th>
+									<th>Status</th>
+									<th>User Name</th>
+									<th class="hidden-xs">Name</th>
+									<th class="hidden-xs">Last Activity</th>
+									<th class="hidden-xs">Bars</th>
+									<th class="hidden-xs">Events</th>
+									<th class="hidden-xs">Lines</th>
+								</tr>
+								</thead>
+
+							</table>
+
+						</div>
+						<!-- END EXAMPLE TABLE PORTLET-->
+					</div>
+				</div>
+
+
+			</div>
+			<!-- END CONTENT BODY -->
+		</div>
+		<!-- END CONTENT -->
+
+	</div>
+	<!-- END CONTAINER -->
 
 </div>
 
 
 <div id="add-new-user-modal" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Create user</h4>
-            </div>
-            <div class="modal-body">
-                <div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <!-- BEGIN VALIDATION STATES-->
-                            <div class="portlet light portlet-fit portlet-form bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class=" icon-layers font-green"></i>
-                                        <span class="caption-subject font-green sbold uppercase">User Information</span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <!-- BEGIN FORM-->
-                                    <form action="/user/add" method="post" class="form-horizontal"
-                                          enctype="multipart/form-data" id="form_add_user">
-                                        <div class="form-body">
-                                            <div class="alert alert-danger display-hide">
-                                                <button class="close" data-close="alert"></button>
-                                                You have some form errors. Please check below.
-                                            </div>
-                                            <div class="alert alert-success display-hide">
-                                                <button class="close" data-close="alert"></button>
-                                                Your form validation is successful!
-                                            </div>
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label" for="form-username">Username
-                                                    <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <input id="form-username" type="text" class="form-control"
-                                                           placeholder="Enter username" name="username">
-                                                    <div class="form-control-focus"></div>
-                                                    <span class="help-block">Enter username</span>
-                                                </div>
-                                            </div>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Create user</h4>
+			</div>
+			<div class="modal-body">
+				<div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- BEGIN VALIDATION STATES-->
+							<div class="portlet light portlet-fit portlet-form bordered">
+								<div class="portlet-title">
+									<div class="caption">
+										<i class=" icon-layers font-green"></i>
+										<span class="caption-subject font-green sbold uppercase">User Information</span>
+									</div>
+								</div>
+								<div class="portlet-body">
+									<!-- BEGIN FORM-->
+									<form action="/user/add" method="post" class="form-horizontal"
+									      enctype="multipart/form-data" id="form_add_user">
+										<div class="form-body">
+											<div class="alert alert-danger display-hide">
+												<button class="close" data-close="alert"></button>
+												You have some form errors. Please check below.
+											</div>
+											<div class="alert alert-success display-hide">
+												<button class="close" data-close="alert"></button>
+												Your form validation is successful!
+											</div>
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form-username">Username
+													<span class="required">*</span>
+												</label>
+												<div class="col-md-9">
+													<input id="form-username" type="text" class="form-control"
+													       placeholder="Enter username" name="username">
+													<div class="form-control-focus"></div>
+													<span class="help-block">Enter username</span>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label" for="form-firstname">First Name
-                                                    <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <input id="form-firstname" type="text"
-                                                           class="form-control"
-                                                           placeholder="Enter firstname" name="firstname">
-                                                    <div class="form-control-focus"></div>
-                                                    <span class="help-block">Enter firstname</span>
-                                                </div>
-                                            </div>
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form-firstname">First Name
+													<span class="required">*</span>
+												</label>
+												<div class="col-md-9">
+													<input id="form-firstname" type="text"
+													       class="form-control"
+													       placeholder="Enter firstname" name="firstname">
+													<div class="form-control-focus"></div>
+													<span class="help-block">Enter firstname</span>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label" for="form-lastname">Last Name
-                                                    <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <input id="form-lastname" type="text" class="form-control"
-                                                           placeholder="Enter lastname" name="lastname">
-                                                    <div class="form-control-focus"></div>
-                                                    <span class="help-block">Enter lastname</span>
-                                                </div>
-                                            </div>
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form-lastname">Last Name
+													<span class="required">*</span>
+												</label>
+												<div class="col-md-9">
+													<input id="form-lastname" type="text" class="form-control"
+													       placeholder="Enter lastname" name="lastname">
+													<div class="form-control-focus"></div>
+													<span class="help-block">Enter lastname</span>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label" for="form-email">Email
-                                                    <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form-email">Email
+													<span class="required">*</span>
+												</label>
+												<div class="col-md-9">
+													<div class="input-group">
                                                     <span class="input-group-addon">
                                                                 <i class="fa fa-envelope"></i>
                                                             </span>
-                                                        <input id="form-email" type="email"
-                                                               class="form-control"
-                                                               placeholder="Enter email"
-                                                               name="email">
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+														<input id="form-email" type="email"
+														       class="form-control"
+														       placeholder="Enter email"
+														       name="email">
+														<div class="form-control-focus"></div>
+													</div>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label" for="form-email">Phone
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form-email">Phone
+												</label>
+												<div class="col-md-9">
+													<div class="input-group">
 														<span class="input-group-addon">
 															<i class="fa fa-phone"></i>
 														</span>
-                                                        <input id="form-phone" type="text"
-                                                               class="form-control"
-                                                               placeholder="Enter phone"
-                                                               name="phone">
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+														<input id="form-phone" type="text"
+														       class="form-control"
+														       placeholder="Enter phone"
+														       name="phone">
+														<div class="form-control-focus"></div>
+													</div>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label" for="form-date-of-birth">Date Of
-                                                    Birth </label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group input-medium date date-picker"
-                                                         data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
-                                                        <input id="form-date-of-birth"
-                                                               name="dateofbirth" type="text"
-                                                               class="form-control"
-                                                               readonly/>
-                                                        <span class="input-group-btn">
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label" for="form-date-of-birth">Date Of
+													Birth </label>
+												<div class="col-md-9">
+													<div class="input-group input-medium date date-picker"
+													     data-date-format="dd.mm.yyyy" data-date-end-date="+0d">
+														<input id="form-date-of-birth"
+														       name="dateofbirth" type="text"
+														       class="form-control"
+														       readonly/>
+														<span class="input-group-btn">
                                                                 <button class="btn default" type="button">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </button>
                                                             </span>
-                                                    </div>
-                                                    <!-- /input-group -->
-                                                    <span class="help-block"> Select date </span>
-                                                </div>
-                                            </div>
+													</div>
+													<!-- /input-group -->
+													<span class="help-block"> Select date </span>
+												</div>
+											</div>
 
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label"
-                                                       for="form-password">Password
-                                                    <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <input required id="form-password" type="password"
-                                                               class="form-control"
-                                                               name="password"
-                                                               placeholder="Enter password">
-                                                        <span class="input-group-addon">
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label"
+												       for="form-password">Password
+													<span class="required">*</span>
+												</label>
+												<div class="col-md-9">
+													<div class="input-group">
+														<input required id="form-password" type="password"
+														       class="form-control"
+														       name="password"
+														       placeholder="Enter password">
+														<span class="input-group-addon">
                                                                 <i class="fa fa-unlock-alt"></i>
                                                             </span>
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+														<div class="form-control-focus"></div>
+													</div>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <label class="col-md-3 control-label"
-                                                       for="form-password">Repeat Password
-                                                    <span class="required">*</span>
-                                                </label>
-                                                <div class="col-md-9">
-                                                    <div class="input-group">
-                                                        <input required id="form-password-repeat"
-                                                               type="password"
-                                                               class="form-control"
-                                                               name="repeat-password"
-                                                               placeholder="Enter repeat password">
-                                                        <span class="input-group-addon">
+											<div class="form-group form-md-line-input">
+												<label class="col-md-3 control-label"
+												       for="form-password">Repeat Password
+													<span class="required">*</span>
+												</label>
+												<div class="col-md-9">
+													<div class="input-group">
+														<input required id="form-password-repeat"
+														       type="password"
+														       class="form-control"
+														       name="repeat-password"
+														       placeholder="Enter repeat password">
+														<span class="input-group-addon">
                                                                 <i class="fa fa-unlock-alt"></i>
                                                             </span>
-                                                        <div class="form-control-focus"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+														<div class="form-control-focus"></div>
+													</div>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
+											<div class="form-group form-md-line-input">
 
-                                                <div class="upload-demo-wrap">
-                                                    <div id="upload-profile-pic"></div>
-                                                </div>
+												<div class="upload-demo-wrap">
+													<div id="upload-profile-pic"></div>
+												</div>
 
 
-                                                <label class="col-md-3 control-label" for="form-profile-pic">Profile
-                                                    Pic</label>
-                                                <div class="col-md-9">
-                                                    <input type="file" id="form-profile-pic" name="profile-image"
-                                                           class="form-control"
-                                                           value="Choose a file"
-                                                           accept="image/*"/>
+												<label class="col-md-3 control-label" for="form-profile-pic">Profile
+													Pic</label>
+												<div class="col-md-9">
+													<input type="file" id="form-profile-pic" name="profile-image"
+													       class="form-control"
+													       value="Choose a file"
+													       accept="image/*"/>
 
-                                                    <div class="form-control-focus"></div>
-                                                </div>
-                                            </div>
+													<div class="form-control-focus"></div>
+												</div>
+											</div>
 
-                                            <div class="form-group form-md-line-input">
-                                                <div class="col-md-12">
-                                                    <div id="upload-demo"></div>
-                                                    <input type="hidden" id="imagebase64" name="imagebase64">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!-- END FORM-->
-                                </div>
-                            </div>
-                            <!-- END VALIDATION STATES-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
-                <button type="reset" form="form_add_user" class="btn default">Reset</button>
-                <button id="button-create-user" form="form_add_user" type="submit" class="btn green">Create user
-                </button>
-            </div>
-        </div>
-    </div>
+											<div class="form-group form-md-line-input">
+												<div class="col-md-12">
+													<div id="upload-demo"></div>
+													<input type="hidden" id="imagebase64" name="imagebase64">
+												</div>
+											</div>
+										</div>
+									</form>
+									<!-- END FORM-->
+								</div>
+							</div>
+							<!-- END VALIDATION STATES-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+				<button type="reset" form="form_add_user" class="btn default">Reset</button>
+				<button id="button-create-user" form="form_add_user" type="submit" class="btn green">Create user
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 <footer>
-    <% include ../static/footer %>
+	<% include ../static/footer %>
 
-    <script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
 
-    <script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
-    <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
-    <!--script src="/assets/pages/scripts/table-datatables-scroller.min.js" type="text/javascript"></script-->
-    <!--script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
-            type="text/javascript"></script-->
-    <!-- END PAGE LEVEL PLUGINS -->
+	<script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+	<!--script src="/assets/pages/scripts/table-datatables-scroller.min.js" type="text/javascript"></script-->
+	<!--script src="/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
+			type="text/javascript"></script-->
+	<!-- END PAGE LEVEL PLUGINS -->
 
-    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
 
-    <!-- END PAGE LEVEL SCRIPTS -->
+	<!-- END PAGE LEVEL SCRIPTS -->
 
 
-    <script src="/js/plugins/croppie.js" type="text/javascript"></script>
+	<script src="/js/plugins/croppie.js" type="text/javascript"></script>
 
-    <script src="/js/user.js" type="text/javascript"></script>
+	<script src="/js/user.js" type="text/javascript"></script>
 
 
 </footer>

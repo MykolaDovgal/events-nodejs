@@ -23,3 +23,7 @@
 .progress-user-picture {
 	/*display: none;*/
 }
+
+#user-button .btn {
+	margin-right: 5px;
+}
