@@ -1,13 +1,14 @@
-var global = {};
-var $gallery = $('#lines-gallery');
+let global = {};
+let $gallery = $('#lines-gallery');
+let height = 0;
 
 $(document).ready(function () {
 
 	$('#country-city-select').multiselect({
 		enableClickableOptGroups: true,
 		onChange: function () {
-			var values = $('#country-city-select').val();
-			var filter = global.filter;
+			let values = $('#country-city-select').val();
+			let filter = global.filter;
 			console.log(values);
 			if (values) {
 				if (!filter) {
@@ -26,12 +27,12 @@ $(document).ready(function () {
 		buttonWidth: '150px'
 	});
 
-	var form = $('#form_add_user');
+	let form = $('#form_add_user');
 
 	buildLines();
 
 	$(window).scroll(function () {
-		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+		if ($(window).scrollTop() + $(window).height() === $(document).height()) {
 			addNewLines(2);
 		}
 	});
@@ -44,9 +45,9 @@ $(document).ready(function () {
 
 	// filter by status
 	$('.filter-status').click(function () {
-		var t = $(this);
-		var status = t.data('status');
-		var filter = {
+		let t = $(this);
+		let status = t.data('status');
+		let filter = {
 			active: status
 		};
 		global.filter = filter;
@@ -55,17 +56,17 @@ $(document).ready(function () {
 	});
 
 	$('#search-lines').bind('input keyup', function () {
-		var $this = $(this);
-		var delay = 700;
+		let $this = $(this);
+		let delay = 700;
 
 		clearTimeout($this.data('timer'));
 		$this.data('timer', setTimeout(function () {
 			$this.removeData('timer');
 
-			var search = $this.val();
+			let search = $this.val();
 
 			if (search.length > 1) {
-				var filter = global.filter;
+				let filter = global.filter;
 				if (!filter) {
 					filter = {};
 				}
@@ -87,16 +88,31 @@ $(document).ready(function () {
 		$(this).addClass('btn-warning');
 	});
 
+	// $gallery.justifiedGallery().on('jg.complete', function (e) {
+	// 	$('html, body').scrollTop(height);
+	// });
+
 
 });
+
+// let onResize = function onResize() {
+// 	buildLines();
+// };
+//
+//
+// let doit;
+// window.onresize = function () {
+// 	clearTimeout(doit);
+// 	doit = setTimeout(onResize, 250);
+// };
 
 
 // go to the line item
 $('#lines-gallery').on('click', '.line-item', function () {
-	var t = $(this);
+	let t = $(this);
 
-	var line_url = '/line/';
-	var line_id = +t.data('line');
+	let line_url = '/line/';
+	let line_id = +t.data('line');
 	if (line_id > -1) {
 		line_url += line_id;
 		window.location = line_url;
@@ -104,12 +120,15 @@ $('#lines-gallery').on('click', '.line-item', function () {
 });
 
 function initGallery() {
-	$gallery.justifiedGallery({
-		rowHeight: 300,
-		maxRowHeight: 300,
-		refreshTime: 250,
-		margins: 5
-	});
+	$gallery = $('#lines-gallery');
+	// $gallery.justifiedGallery({
+	// 	rowHeight: 300,
+	// 	maxRowHeight: 300,
+	// 	margins: 5,
+	// 	lastRow: 'justify',
+	// 	cssAnimation: false,
+	// 	imagesAnimationDuration: 0
+	// });
 }
 
 
@@ -127,7 +146,7 @@ function addNewLines(page, filter) {
 	if (filter === undefined) {
 		filter = global.filter;
 	}
-	var query = serialize(filter);
+	let query = serialize(filter);
 	console.log(query);
 
 	if (page === undefined || page < 1) {
@@ -142,7 +161,7 @@ function addNewLines(page, filter) {
 		type: 'POST',
 		data: {},
 		success: function (data) {
-			var lines = data.data;
+			let lines = data.data;
 
 			if ($.isArray(lines) && lines.length) {
 				lines.forEach(function (line) {
@@ -151,7 +170,11 @@ function addNewLines(page, filter) {
 					);
 				});
 
-				$gallery.justifiedGallery('norewind');
+				// $gallery.justifiedGallery('norewind');
+				// $gallery.justifiedGallery('destroy');
+				// console.log($gallery.height());
+				// height = $gallery.height();
+				//initGallery();
 				global.page++;
 			}
 
@@ -183,11 +206,11 @@ function generateLine(line) {
 	return html;
 }
 
-var serialize = function (obj, prefix) {
-	var str = [], p;
+let serialize = function (obj, prefix) {
+	let str = [], p;
 	for (p in obj) {
 		if (obj.hasOwnProperty(p)) {
-			var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+			let k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
 			str.push((v !== null && typeof v === "object") ?
 				serialize(v, k) :
 				encodeURIComponent(k) + "=" + encodeURIComponent(v));
@@ -195,3 +218,5 @@ var serialize = function (obj, prefix) {
 	}
 	return str.join("&");
 };
+
+
