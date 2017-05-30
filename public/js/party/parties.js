@@ -154,7 +154,7 @@ $(document).ready(function () {
 	}
 
 	$('#parties_datatable tbody').on('click', "tr :not(a)", function (e) {
-		e.preventDefault();
+		//e.preventDefault();
 		let tag = e.target.nodeName;
 		let _t = this;
 		if (tag !== 'TD') {
@@ -162,7 +162,7 @@ $(document).ready(function () {
 		}
 		let partyRow = parties_tables.row(_t).data();
 		window.location = '/party/' + partyRow.party_id;
-		return false;
+		//return false;
 	});
 
 
