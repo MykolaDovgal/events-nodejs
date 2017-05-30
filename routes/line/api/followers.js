@@ -40,7 +40,7 @@ router.get('/line/followers', function (req, res, next) {
 			}
 
 
-			res.json({data: users});
+			res.json({data: users, total_number: randomNumber});
 		})
 		.catch(function (err) {
 			next(err)

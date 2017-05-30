@@ -18,63 +18,46 @@ $(document).ready(function () {
 
             line_parties_table = $('#table-line-parties').DataTable({
 
-                "ajax": "/api/users/",
+                "ajax": "/api/line/"+ line.id +"/parties",
                 "columns": [
-                    {
-                        data: 'id',
-                        width: '5%'
-                    },
-                    {
-                        data: 'profile_picture_circle',
-                        render: function (data, type, full, meta) {
-                            return '<div class="text-center"><img width="20" class="profile-picture" src="' + data + '"/></div>';
-                        },
-                        width: '8%'
-                    },
-                    {
-                        data: 'active',
-                        render: function (data, type, full, meta) {
-                            var content;
-                            if (data) {
-                                content = '<span class="badge badge-success">Active</span>'
-                            } else {
-                                content = '<span class="badge badge-danger">Disabled</span>';
-                            }
-                            return content;
-                        },
-                        width: '8%'
-                    },
-                    {
-                        data: 'username',
-                        width: '14%'
-                    },
-                    {
-                        data: "realname",
-                        width: '14%'
-                    },
-                    {
-                        data: 'facebook_profile',
-                        render: function (data, type, full, meta) {
-                            if (!data) {
-                                data = '/';
-                            }
-                            return '<a href="' + data + '">' + full.realname + '</a>';
-                        },
-                        width: '14%'
-                    },
-                    {
-                        data: 'lastActivity',
-                        width: '14%'
-                    },
-                    {
-                        data: 'bars',
-                    },
-                    {
-                        data: 'events',
-                    },
-                    {
-                        data: 'lines',
-                    },
+	                {
+		                data: 'id',
+		                width: '10%'
+	                },
+	                {
+		                data: 'lineId',
+		                width: '10%'
+	                },
+	                {
+		                data: 'club',
+		                width: '20%'
+	                },
+	                {
+		                data: 'date',
+		                width: '10%'
+	                },
+	                {
+		                data: 'open_time',
+		                width: '15%'
+	                },
+	                {
+		                data: 'attendees_count',
+		                width: '15%'
+	                },
+	                {
+		                data: 'video_stream_avbl',
+		                render: function (data, type, full, meta) {
+			                return `<div class="text-center"><input disabled type="checkbox" ${data == true ? 'checked' : ''} ></div>`;
+		                },
+		                width: '10%'
+	                },
+	                {
+		                data: 'tkts_avbl_here',
+		                render: function (data, type, full, meta) {
+			                return `<div class="text-center"><input disabled type="checkbox" ${data == true ? 'checked' : ''} ></div>`;
+		                },
+		                width: '10%'
+	                },
                 ],
                 "columnDefs": [
                     {

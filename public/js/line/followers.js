@@ -18,18 +18,30 @@ $(document).ready(function () {
 
             line_followers_table = $('#table-line-followers').DataTable({
 
-                "ajax": "/api/line/followers",
+	            'ajax': {
+		            type: 'GET',
+		            'url': "/api/line/followers",
+		            'data': function (d) {
+			            console.log(d);
+			            return d ;
+		            },
+		            "dataSrc": function (json) {
+			            $('#total_number').text(json.total_number);
+			            console.log(json.total_number);
+			            return json.data;
+		            }
+	            },
                 "columns": [
                     {
                         data: 'profile_picture_circle',
 	                    render: function (data, type, full, meta) {
 		                    return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
 	                    },
-                        width: '15%'
+                        width: '10%'
                     },
 	                {
 		                data: 'id',
-		                width: '5%'
+		                width: '10%'
 	                },
 	                {
 		                data: 'username',

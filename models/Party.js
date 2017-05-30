@@ -19,7 +19,7 @@ let PartySchema = new Schema({
 	cover_picture_original: {type: String, trim: true},
 	cover_picture: {type: String, trim: true},
 	facebook_page: {type: String, trim: true},
-	date: {type: Date, default: Date.now()},
+	date: {type: Date},
 	video_stream_avbl: {type: Boolean, default: true},
 	video_stream_on: {type: Boolean, default: false},
 	video_stream: {type: String, trim: true},

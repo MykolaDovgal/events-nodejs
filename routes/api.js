@@ -27,8 +27,10 @@ let bar = require('./party/api/bar');
 let events = require('./event/api/events');
 
 let followers = require('./line/api/followers');
+let line_parties = require('./line/api/parties');
 
 router.use(followers);
+router.use(line_parties);
 
 router.use(parties);
 router.use(prices);
