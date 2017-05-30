@@ -10,6 +10,8 @@ let fs = require('fs');
 let config = require('config');
 let default_image_user = config.get('images:default_image_user');
 
+
+
 router.get('/party/:id/music/stages', function (req, res, next) {
 
 	Promise.props({
@@ -162,29 +164,22 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 });
 
 router.post('/party/music/stage/djs/delete', function (req, res, next) {
+	let body = req.body;
+	console.warn(body);
 
-	console.warn(req.body);
+	Promise.props({
+		party: Party.findOne( {'stage': {$elemMatch: {_id: body.stageId}} }, 'stage.djs').execAsync()
+	}).then(function (results) {
 
-	res.send(200);
+		let ind = results.party.stage[0].djs.findIndex(x => x.userId == body.userId);
+		results.party.stage[0].djs.splice(ind,1);
+		results.party.save();
 
-	// //TODO fix: add only one user
-	// let body = req.body;
-	// console.warn(body);
-	// Promise.props({
-	// 	party : Party.findOne(   {'stage._id' : body.stageId}, 'stage').execAsync()
-	// }).then(function (results) {
-	// 	console.log(results);
-	// 	console.log(results.party.stage);
-	// 	results.party.stage.find((stage) => {
-	// 		return stage._id == body.stageId;
-	// 	}).djs.push({ userId: body.id });
-	// 	console.warn({ userId: body.id });
-	// 	results.party.save();
-	// 	res.status(200).send();
-	// })
-	// 	.catch(function (err) {
-	// 		next(err);
-	// 	});
+		res.sendStatus(200);
+	})
+		.catch(function (err) {
+			next(err);
+		});
 
 });
 

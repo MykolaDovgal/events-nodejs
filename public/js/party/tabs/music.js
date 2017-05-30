@@ -53,7 +53,7 @@ let deleteDjs = function () {
 		message: "Are you sure you want to remove this user from djs?",
 		callback: function (result) {
 			if (result) {
-				let data = { userId: tableInstance.row(parent).data().id, stage: stage.attr('id') };
+				let data = { userId: tableInstance.row(parent).data().id, stageId: stage.attr('id') };
 				$.ajax({
 					url: '/api/party/music/stage/djs/delete',
 					type: 'POST',
