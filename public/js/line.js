@@ -41,7 +41,6 @@ $(document).ready(function () {
 		}
 	});
 
-
 	$(document).on('change', 'select[name="genres"]', function () {
 		updateGenres();
 	});
@@ -53,6 +52,11 @@ $(document).ready(function () {
 			}
 		}
 	});
+	$('#delete_genres_btn').click(() => {
+		if (genresCounter > 1) {
+			deleteGenreSelect();
+		}
+	});
 
 	function generateDefaultSelect() {
 		let selectItem = $('<select></select>').addClass('form-control').attr('name', 'genres');
@@ -60,6 +64,13 @@ $(document).ready(function () {
 		$('#select_container').append(selectItem);
 		genresCounter += 1;
 	}
+
+	function deleteGenreSelect() {
+		$('select[name="genres"]').last().remove();
+		updateGenres();
+		genresCounter -= 1;
+	}
+
 
 	function updateGenres() {
 		let genresArray = [];
