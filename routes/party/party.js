@@ -1,15 +1,20 @@
-var express = require('express');
-var Promise = require('bluebird');
-var fs = require('fs');
-var config = require('config');
-var default_image_line = config.get('images:default_image_line');
-var moment = require('moment');
+let express = require('express');
+let Promise = require('bluebird');
+let fs = require('fs');
+let config = require('config');
+let default_image_line = config.get('images:default_image_line');
+let moment = require('moment');
 
-var Party = require('models/Party');
-var Line = require('models/line');
+let Party = require('models/Party');
+let Line = require('models/line');
+let Event = require('models/Event');
+
+let text = {
+	'not_selected': config.get('text:not_selected')
+};
 
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/party/:id', function (request, response, next) {
 
@@ -26,22 +31,38 @@ router.get('/party/:id', function (request, response, next) {
 				}
 			}
 
-			line = Line.findOne({id: party.lineId}).exec(function (err, line) {
+			Promise.props({
+				line: Line.findOne({id: party.lineId}).execAsync(),
+				event: Event.findOne({id: party.eventId}).execAsync(),
+			})
+				.then(function (results_le) {
+					if (results_le.line === null) {
+						results_le.line = {
+							line_name_eng: text.not_selected,
+							line_name_ol: text.not_selected
+						};
+					}
+					if (results_le.event === null) {
+						results_le.event = {
+							title_ol: text.not_selected,
+							title_eng: text.not_selected,
+						};
+					}
 
-				if (line === null) {
-					line = {};
-				}
+					let data = {
+						title: results.party.title_eng,
+						showMenu: true,
+						party: party,
+						party_date: party.date ? moment(party.date).format('DD/MM/YYYY HH:mm') : '',
+						line: results_le.line,
+						event: results_le.event
+					};
 
-				let data = {
-					title: results.party.title_eng,
-					showMenu: true,
-					party: party,
-					party_date: party.date ? moment(party.date).format('DD/MM/YYYY HH:mm') : '',
-					line: line
-				};
+					console.warn(data);
 
-				response.render('pages/party/singleParty', data);
-			});
+
+					response.render('pages/party/singleParty', data);
+				});
 
 
 		})

@@ -1,14 +1,15 @@
-var express = require('express');
-var Promise = require('bluebird');
-var path = require('path');
-var crypto = require('crypto');
-var Party = require('models/Party');
-var Line = require('models/line');
+let express = require('express');
+let Promise = require('bluebird');
+let path = require('path');
+let crypto = require('crypto');
+let Party = require('models/Party');
+let Line = require('models/line');
+let Event = require('models/Event');
 
-var router = express.Router();
-var multer = require('multer');
+let router = express.Router();
+let multer = require('multer');
 
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './public/uploads/parties/')
 	},
@@ -22,46 +23,46 @@ var storage = multer.diskStorage({
 	}
 });
 
-var upload = multer({storage: storage});
+let upload = multer({storage: storage});
 
 
 router.post('/party/update/:id', upload.any(), function (req, res, next) {
 	let body = {};
-    let files = req.files;
+	let files = req.files;
 
-    let imageOriginal = '';
-    let image = '';
+	let imageOriginal = '';
+	let image = '';
 
-    let picture = {};
+	let picture = {};
 
 	if (files) {
-        files.forEach(function (file) {
-            if (file.fieldname === 'cover-image') {
-                imageOriginal = file.path + '';
-                imageOriginal = imageOriginal.replace(/\//g, '/');
-                imageOriginal = imageOriginal.replace('public', '');
-                picture.original = imageOriginal;
-            }
-            if (file.fieldname === 'cover_picture') {
-                image = file.path + '';
-                image = image.replace(/\//g, '/');
-                image = image.replace('public', '');
-                picture.circle = image;
-            }
-        });
-        Promise.props({
-            party: Party.findOne({ id: req.params.id }).execAsync()
-        }).then(function (results) {
-            if (picture.original)
-                results.party.cover_picture_original = picture.original;
-            if (picture.circle)
-                results.party.cover_picture = picture.circle;
-            results.party.save();
-        });
-    }
-    else {
-        body = req.body;
-    }
+		files.forEach(function (file) {
+			if (file.fieldname === 'cover-image') {
+				imageOriginal = file.path + '';
+				imageOriginal = imageOriginal.replace(/\//g, '/');
+				imageOriginal = imageOriginal.replace('public', '');
+				picture.original = imageOriginal;
+			}
+			if (file.fieldname === 'cover_picture') {
+				image = file.path + '';
+				image = image.replace(/\//g, '/');
+				image = image.replace('public', '');
+				picture.circle = image;
+			}
+		});
+		Promise.props({
+			party: Party.findOne({id: req.params.id}).execAsync()
+		}).then(function (results) {
+			if (picture.original)
+				results.party.cover_picture_original = picture.original;
+			if (picture.circle)
+				results.party.cover_picture = picture.circle;
+			results.party.save();
+		});
+	}
+	else {
+		body = req.body;
+	}
 
 	let val;
 	if (body['value'])
@@ -147,5 +148,35 @@ router.post('/party/update/line/:id', function (req, res, next) {
 		res.json(result);
 	}
 });
+
+// save event id
+router.post('/party/update/event/:id', function (req, res, next) {
+
+	let body = req.body;
+
+	let result = {};
+
+	let eventId = body.value || 0;
+
+	if (eventId > 0) {
+
+		Promise.props({
+			party: Party.update({id: req.params.id}, {eventId: eventId}).execAsync(),
+			event: Event.findOne({id: eventId}).execAsync()
+		}).then(function (result_p) {
+
+			result.msg = 'Event saved.';
+			result.event = result_p.event;
+
+			res.json(result);
+		})
+			.catch(function (err) {
+				next(err);
+			});
+	} else {
+		res.json(result);
+	}
+});
+
 
 module.exports = router;

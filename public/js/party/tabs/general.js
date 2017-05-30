@@ -107,12 +107,67 @@ $(document).ready(function () {
 					if (e) e.preventDefault();
 				});
 
-			$('#mom_eventId').editable({
-				type: 'text',
+			$('.eventId').editable({
 				pk: 1,
-				name: 'mom_eventId',
-				title: 'Enter name of mom event'
-			});
+				placeholder: 'Select event',
+				url: '/party/update/event/' + party.id,
+				name: 'eventId',
+				select2: {
+					ajax: {
+						url: '/api/events/getAll',
+						dataType: 'json',
+						delay: 250,
+						processResults: function (data, params) {
+							return {
+								results: data
+							};
+						},
+						cache: true
+					},
+					escapeMarkup: function (markup) {
+						return markup;
+					},
+				},
+				tpl: '<select style="width:200px;">',
+				type: 'select2',
+				success: function success(response, newValue) {
+					// console.log(newValue);
+					$('#event_title_english').text('09');
+					$('#event_title_original').text('099');
+				},
+				display: function (value, sourceData) {
+
+					let event;
+					let title;
+					if (sourceData) {
+						event = sourceData.event || 0;
+						title = (currentLanguage == 'English') ? event.title_eng : event.title_ol;
+
+					} else {
+						title = '';
+					}
+
+					//if (title.length > 0) {
+					//$(this).text(line.id);
+
+					if (event) {
+						$('#event_title_english').text(event.title_eng);
+						$('#event_title_original').text(event.title_ol);
+						console.log(event.title_eng, event.title_ol);
+						console.log(value, sourceData);
+					}
+					//}
+
+
+					//console.log(value, sourceData);
+
+				}
+			})
+				.click(function (e) {
+					if (e) e.preventDefault();
+				});
+
+
 			$('#facebook_page').editable({
 				type: 'text',
 				pk: 1,

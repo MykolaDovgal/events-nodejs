@@ -1,36 +1,36 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
+let express = require('express');
+let router = express.Router();
+let passport = require('passport');
 
 require('rootpath')();
 
-var util = require('util');
-var Promise = require('bluebird');
+let util = require('util');
+//let Promise = require('bluebird');
 
-var User = require('models/user');
-
-
-var middleware = require('middlewares');
+let User = require('models/user');
 
 
-var home = require('./home');
-var users = require('./users');
+let middleware = require('middlewares');
 
-var profile = require('./user/profile');
-var logout = require('./logout');
 
-var lines = require('./line/lines');
-var line = require('./line/line');
-var line_add = require('./line/add');
-var line_update = require('./line/update');
-var line_delete = require('./line/delete');
+let home = require('./home');
+let users = require('./users');
 
-var events = require('./event/index');
+let profile = require('./user/profile');
+let logout = require('./logout');
 
-var user_add = require('./user/add');
-var user_update = require('./user/update');
-var user_delete = require('./user/delete');
-var user_changePicture = require('./user/changePicture');
+let lines = require('./line/lines');
+let line = require('./line/line');
+let line_add = require('./line/add');
+let line_update = require('./line/update');
+let line_delete = require('./line/delete');
+
+let events = require('./event');
+
+let user_add = require('./user/add');
+let user_update = require('./user/update');
+let user_delete = require('./user/delete');
+let user_changePicture = require('./user/changePicture');
 
 let notification_add = require('./notification/add');
 let setup = require('./setup');
@@ -76,7 +76,7 @@ router.all('/users/:id?', profile);
 
 // login
 router.get('/login', function (req, res, next) {
-    var data = {
+    let data = {
         title: 'Login',
         showMenu: false
     };
@@ -85,11 +85,6 @@ router.get('/login', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
     console.warn('trying to login');
-
-    // passport.authenticate('local', {
-    //     successRedirect: '/',
-    //     failureRedirect: '/login'
-    // })(req, res, next);
 
     passport.authenticate('local', function (err, user, info) {
         if (err) {
