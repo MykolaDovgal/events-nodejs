@@ -7,7 +7,7 @@ $(document).ready(function () {
 		autoclose: true,
 		useCurrent: false,
 	}).on('changeDate', function (ev) {
-		var date = {name: 'date', value: ev.date, pk: 1};
+		let date = {name: 'date', value: ev.date, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',
@@ -202,7 +202,7 @@ $(document).ready(function () {
 				// handle editable elements on hidden event fired
 				$('#user .editable').on('hidden', function (e, reason) {
 					if (reason === 'save' || reason === 'nochange') {
-						var $next = $(this).closest('tr').next().find('.editable');
+						let $next = $(this).closest('tr').next().find('.editable');
 						if ($('#autoopen').is(':checked')) {
 							setTimeout(function () {
 								$next.editable('show');
@@ -220,7 +220,7 @@ $(document).ready(function () {
 		$('#upload-picture-modal').modal('show');
 	});
 
-	var $uploadCrop;
+	let $uploadCrop;
 	$uploadCrop = $('#upload-cover-picture').croppie({
 		viewport: {
 			width: 368,
@@ -238,7 +238,7 @@ $(document).ready(function () {
 
 	function readFile(input) {
 		if (input.files && input.files[0]) {
-			var reader = new FileReader();
+			let reader = new FileReader();
 			reader.onload = function (e) {
 				$uploadCrop.croppie('bind', {
 					url: e.target.result
@@ -257,7 +257,8 @@ $(document).ready(function () {
 	});
 
 	function setCoverPicture() {
-		var formData = new FormData($('#form_change_picture')[0]);
+		let formData = new FormData($('#form_change_picture')[0]);
+		let progress_bar_j = $('#upload-picture-modal').find('.progress-bar');
 
 		$uploadCrop.croppie('result', {
 			type: 'blob',
@@ -265,14 +266,46 @@ $(document).ready(function () {
 		}).then(function (blob) {
 			formData.append('cover_picture', blob, 'coverpic.png');
 			$.ajax({
+				xhr: function () {
+					let xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							let percentComplete = evt.loaded / evt.total;
+							progress_bar_j.css({
+								width: percentComplete * 100 + '%'
+							});
+							if (percentComplete === 1) {
+								progress_bar_j.parent('.progress').addClass('hide');
+							}
+						}
+					}, false);
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							let percentComplete = evt.loaded / evt.total;
+							console.log(percentComplete);
+							progress_bar_j.css({
+								width: percentComplete * 100 + '%'
+							});
+						}
+					}, false);
+					return xhr;
+				},
+				beforeSend: function () {
+					progress_bar_j.parent('.progress').removeClass('hide');
+					progress_bar_j.css({
+						width: 0 + '%'
+					});
+				},
 				url: '/party/update/' + party.id,
 				type: 'POST',
 				cache: false,
 				contentType: false,
 				processData: false,
 				data: formData,
-				success: function (data) {
-					$('#upload-picture-modal').modal('hide');
+				success: function () {
+					setTimeout(function () {
+						$('#upload-picture-modal').modal('hide');
+					}, 300);
 					toastr.success('Saved!');
 				},
 				error: function (jqXHR, textStatus, err) {
@@ -280,10 +313,10 @@ $(document).ready(function () {
 				}
 			});
 		});
-	};
+	}
 
 	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		var active = {name: 'active', value: state, pk: 1};
+		let active = {name: 'active', value: state, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',
@@ -294,7 +327,7 @@ $(document).ready(function () {
 	});
 
 	$('#visible-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		var active = {name: 'only_for_mom_event_att', value: state, pk: 1};
+		let active = {name: 'only_for_mom_event_att', value: state, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',

@@ -7,7 +7,7 @@ $(document).ready(function () {
 
 
 	let loc = window.location.pathname.split('/');
-	let id = loc[loc.length-1];
+	let id = loc[loc.length - 1];
 	let genres = [];
 	let genresCounter = 0;
 
@@ -92,7 +92,7 @@ $(document).ready(function () {
 		});
 	}
 
-	$('#button-open-upload').click(function() {
+	$('#button-open-upload').click(function () {
 		$('#upload-picture-modal').modal('show');
 	});
 
@@ -126,37 +126,70 @@ $(document).ready(function () {
 	}
 
 	$('#button-upload-picture').on('click', function () {
-		$uploadCrop.croppie('result', 'base64').then(function(base64) {
-			$('#coverpic').attr("src", base64);		
+		$uploadCrop.croppie('result', 'base64').then(function (base64) {
+			$('#coverpic').attr("src", base64);
 			setCoverPicture();
 		});
 	});
 
 	function setCoverPicture() {
-		var formData = new FormData($('#form_change_picture')[0]);
+		let formData = new FormData($('#form_change_picture')[0]);
+		let progress_bar_j = $('#upload-picture-modal').find('.progress-bar');
 
 		$uploadCrop.croppie('result', {
-			type: 'blob',			
+			type: 'blob',
 			size: 'viewport'
-		}).then(function(blob) {
+		}).then(function (blob) {
 			formData.append('cover_picture', blob, 'coverpic.png');
-				$.ajax({
-						url: '/line/update/' + line.id,
-						type: 'POST',
-						cache: false,
-						contentType: false,
-						processData: false,
-						data: formData,
-						success: function (data) {
-							$('#upload-picture-modal').modal('hide');
-							toastr.success('Saved!');
-						},
-						error: function (jqXHR, textStatus, err) {
-							toastr.error('Server error!');
+			$.ajax({
+				xhr: function () {
+					let xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							let percentComplete = evt.loaded / evt.total;
+							progress_bar_j.css({
+								width: percentComplete * 100 + '%'
+							});
+							if (percentComplete === 1) {
+								progress_bar_j.parent('.progress').addClass('hide');
+							}
 						}
+					}, false);
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							let percentComplete = evt.loaded / evt.total;
+							console.log(percentComplete);
+							progress_bar_j.css({
+								width: percentComplete * 100 + '%'
+							});
+						}
+					}, false);
+					return xhr;
+				},
+				beforeSend: function () {
+					progress_bar_j.parent('.progress').removeClass('hide');
+					progress_bar_j.css({
+						width: 0 + '%'
 					});
+				},
+				url: '/line/update/' + line.id,
+				type: 'POST',
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: formData,
+				success: function (data) {
+					setTimeout(function () {
+						$('#upload-picture-modal').modal('hide');
+					}, 700);
+					toastr.success('Saved!');
+				},
+				error: function (jqXHR, textStatus, err) {
+					toastr.error('Server error!');
+				}
+			});
 		});
-	};
+	}
 
 	//inline edit
 	let FormEditable = function () {
@@ -174,7 +207,7 @@ $(document).ready(function () {
 				pk: 1,
 				name: 'line_name_eng',
 				title: 'Enter title',
-				success: function(data) {
+				success: function (data) {
 					$('#english_title').text(data);
 				}
 			});
@@ -183,7 +216,7 @@ $(document).ready(function () {
 				pk: 1,
 				name: 'line_name_ol',
 				title: 'Enter title',
-				success: function(data) {
+				success: function (data) {
 					$('#ol_title').text(data);
 				}
 			});
@@ -316,24 +349,24 @@ $(document).ready(function () {
 	});
 
 
-	$('#active-switch').on('switchChange.bootstrapSwitch', function(event, state) {
-		var active = { name: 'active', value: state, pk: 1 };
+	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
+		var active = {name: 'active', value: state, pk: 1};
 		$.ajax({
 			url: '/line/update/' + line.id,
 			type: 'POST',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(active)  
+			data: JSON.stringify(active)
 		});
 	});
 
 
-	$('#delete_line').click(function(event ){
+	$('#delete_line').click(function (event) {
 		event.preventDefault();
 		bootbox.confirm({
 			size: "small",
 			message: "Are you sure you want to remove this line?",
-			callback: function(result) {
+			callback: function (result) {
 				if (result) {
 					$.ajax({
 						url: '/line/delete/' + line.id,
@@ -354,11 +387,9 @@ $(document).ready(function () {
 	});
 
 
-	$('#language_switch').on('switchChange.bootstrapSwitch', function(event, state) {
+	$('#language_switch').on('switchChange.bootstrapSwitch', function (event, state) {
 		$('.language_switch_container').toggle();
 	});
-
-
 
 
 });
