@@ -20,14 +20,14 @@
 }
 
 #lines-gallery .mt-element-overlay img {
-
 	height: 300px;
-
 }
 
 #lines-gallery .mt-element-overlay {
 	max-height: 300px;
-	width: 33%;
+	padding: 0 3px;
+	margin: 3px 0;
+	/*width: 33%;*/
 }
 
 #lines-gallery {

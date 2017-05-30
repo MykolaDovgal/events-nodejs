@@ -191,7 +191,7 @@ function addNewLines(page, filter) {
 
 function generateLine(line) {
 	let address = line.address ? '<br>' + line.address.city + ', ' + line.address.country : '';
-	let html = `<div class="mt-element-overlay" data-line="` + line.id + `">
+	let html = `<div class="mt-element-overlay col-xs-12 col-sm-6 col-lg-4" data-line="` + line.id + `">
                     <div class="mt-overlay-3">
                         <img src="` + line.cover_picture + `"/>
                         <div class="mt-overlay">
