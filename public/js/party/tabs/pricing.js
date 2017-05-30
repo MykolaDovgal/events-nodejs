@@ -3,15 +3,15 @@ let isPricingInit = false;
 
 $(document).ready(function () {
 
-	$('#pricing_tab_btn').on('click',function () {
-		if(!isPricingInit){
+	$('#pricing_tab_btn').on('click', function () {
+		if (!isPricingInit) {
 			initPricingTable();
 			isPricingInit = true;
 		}
 	});
 
 
-	$('body').on('mousedown mouseup',".row_datetime", function(){
+	$('body').on('mousedown mouseup', ".row_datetime", function () {
 		$(this).datetimepicker({
 			format: 'mm/dd/yyyy hh:ii',
 			autoclose: true,
@@ -19,20 +19,20 @@ $(document).ready(function () {
 
 		});
 		$(this).removeClass('row_datetime');
-	}).on('change','.date,select.price_currency', function() { sendUpdateAJAX.call(this) })
-		.on('blur','.identity_flag',function() { sendUpdateAJAX.call(this) })
-		.on('click','.flag_delete_btn',function () {
+	}).on('change', '.date,select.price_currency', function () { sendUpdateAJAX.call(this) })
+		.on('blur', '.identity_flag', function () { sendUpdateAJAX.call(this) })
+		.on('click', '.flag_delete_btn', function () {
 			sendDeleteAjax.call(this);
 			pricing_table.ajax.reload();
 		});
 
 
-	$('#party_add_price').click( () => {
+	$('#party_add_price').click(() => {
 
 		$.ajax({
 			url: '/api/party/prices/add',
 			type: 'POST',
-			data: {partyId: party.id},
+			data: { partyId: party.id },
 			success: function (data) {
 				pricing_table.row.add({
 					id: data
@@ -47,16 +47,16 @@ $(document).ready(function () {
 
 });
 
-let sendUpdateAJAX = function() {
+let sendUpdateAJAX = function () {
 
-	let myInput = $(this).prop("tagName") =='SELECT' ? $(this) : $(this).children('input');
+	let myInput = $(this).prop("tagName") == 'SELECT' ? $(this) : $(this).children('input');
 	let priceId = myInput.data('id');
 	let name = myInput.attr('name');
 	let value = myInput.val();
 	$.ajax({
 		url: '/api/party/prices/update',
 		type: 'POST',
-		data: {priceId: priceId, name: name, value: value},
+		data: { priceId: priceId, name: name, value: value },
 		success: function (data) {
 		},
 		error: function (jqXHR, textStatus, err) {
@@ -72,7 +72,7 @@ let sendDeleteAjax = function () {
 	$.ajax({
 		url: '/api/party/prices/delete',
 		type: 'POST',
-		data: {priceId: priceId},
+		data: { priceId: priceId },
 		success: function (data) {
 			pricing_table.ajax.reload();
 
@@ -87,7 +87,7 @@ let sendDeleteAjax = function () {
 let initPricingTable = function () {
 	pricing_table = $('#party_pricing').DataTable({
 
-		"ajax": '/api/party/'+ party.id +'/prices',
+		"ajax": '/api/party/' + party.id + '/prices',
 		"columns": [
 
 			{
@@ -139,12 +139,12 @@ let initPricingTable = function () {
 			{
 				data: 'currency',
 				render: function (data, type, full, meta) {
-					let currencyArray = ['USD','EUR','UAH','RUB','ILS'];
+					let currencyArray = ['USD', 'EUR', 'UAH', 'RUB', 'ILS'];
 					let tmpCurrencyArray = [];
 
 					currencyArray.forEach((currency) => {
 						let tmpCurrency;
-						if(data == currency){
+						if (data == currency) {
 							tmpCurrency = '<option selected value="' + currency + '">' + currency + '</option>';
 						}
 						else {
@@ -154,12 +154,10 @@ let initPricingTable = function () {
 
 					});
 					return `
-							<div class="form-group">
-                                    <select data-id="${full.id != undefined ? full.id : ''}" name="currency" class="bs-select form-control price_currency">
-                                           ${tmpCurrencyArray.join("")}                             
-                                    </select>
-                            </div>			
-				`;
+						<select data-id="${full.id != undefined ? full.id : ''}" name="currency" class="bs-select form-control price_currency">
+								${tmpCurrencyArray.join("")}                             
+						</select>
+					`;
 				},
 				width: '25%'
 			}

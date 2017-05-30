@@ -112,7 +112,7 @@ router.post('/party/bar/tenders/add', (req, res, next) => {
 	});
 });
 
-router.post('/party/bar/tenders/delete', (req, res, next) => { // Haven't tested this yet
+router.post('/party/bar/tenders/delete', (req, res, next) => {
 	let body = req.body;
 
 	Promise.props({
@@ -138,6 +138,25 @@ router.get('/party/:partyId/bar/:barId/drinks', (req, res, next) => {
 		let data = { data: drinks };
 		res.status(200).send(JSON.stringify(data));
 	}).catch((err) => {
+		next(err);
+	});
+});
+
+router.post('/party/bar/drinks/update', function (req, res, next) {
+	let body = req.body;
+
+	let val;
+	if (body['value'])
+		val = body['value'];
+	else
+		val = body['value[]'];
+
+	Promise.props({
+		party: Party.findOne({ 'bar': { $elemMatch: { _id: body.pk } } }).execAsync()
+	}).then(function (results) {
+		console.log(results.party);
+		res.status(200).send();
+	}).catch(function (err) {
 		next(err);
 	});
 });

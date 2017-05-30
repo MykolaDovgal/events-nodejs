@@ -260,37 +260,60 @@ $(document).ready(() => {
                         data: 'uniqueId',
                         render: function (data) {
                             return data || `<div class="text-center">-</div>`
-                        }
+                        },
+                        width: 30
                     },
                     {
                         data: 'drinkname_eng',
                         render: function (data) {
-                            return data || `<div class="text-center">-</div>`
+                            return `<div class="identity_flag">
+                                        <input value="${ data || ''}"  name="drink-name" class="form-control" type="text" style="width: 100%">			
+                                    </div>`
                         }
                     },
                     {
                         data: 'serve_method',
+
                         render: function (data) {
-                            return data || `<div class="text-center">-</div>`
-                        }
+                            let options = ['Bottle', 'Shot (50ml)', 'Shot (100ml)'];
+                            let optionsHTML = [];
+                            optionsHTML = options.map((option) => {
+                                return `<option value="${option}">${option}</option>`
+                            })
+                            return `
+                                <select name="currency" class="bs-select form-control">
+                                    ${optionsHTML.join("")}                             
+                                </select>
+                            `;
+                        },
+                        width: 75
                     },
                     {
                         data: "volume",
                         render: function (data) {
-                            return data || `<div class="text-center">-</div>`
-                        }
+                            return `<div class="identity_flag">
+                                        <input value="${ data || ''}"  name="volume" class="form-control" type="text" style="width: 100%">			
+                                    </div>`
+                        },
+                        width: 50
                     },
                     {
                         data: "price",
                         render: function (data) {
-                            return data || `<div class="text-center">-</div>`
-                        }
+                            return `<div class="identity_flag">
+                                        <input value="${ data || ''}"  name="price" class="form-control" type="text" style="width: 100%">			
+                                    </div>`
+                        },
+                        width: 50
                     },
                     {
                         data: "stock",
                         render: function (data) {
-                            return data || `<div class="text-center">-</div>`
-                        }
+                            return `<div class="identity_flag">
+                                        <input ${ data ? 'checked' : ''} type="checkbox" name="stock" class="form-control" type="text" style="width: 100%">			
+                                    </div>`
+                        },
+                        width: 50
                     }
                 ],
                 scrollY: 300,
