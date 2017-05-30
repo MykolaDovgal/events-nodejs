@@ -127,4 +127,34 @@ router.post('/party/bar/tenders/delete', (req, res, next) => { // Haven't tested
 	});
 });
 
+router.get('/party/:partyId/bar/:barId/drinks', (req, res, next) => {
+	Promise.props({
+		party: Party.findOne({ id: req.params.partyId }).execAsync()
+	}).then((results) => {
+		let drinks = results.party.bar.find((bar) => {
+			return bar._id == req.params.barId;
+		}).drinks;
+		let data = { data: drinks };
+		res.status(200).send(JSON.stringify(data));
+	}).catch((err) => {
+		next(err);
+	});
+});
+
+router.post('/party/bar/drink/add', (req, res, next) => {
+	let body = req.body;
+
+	Promise.props({
+		party: Party.findOne({ id: body.partyId }).execAsync()
+	}).then((results) => {
+		let bar = results.party.bar.find(function (bar) {
+			return bar._id == body.barId
+		}).drinks.push({ drinkname_eng: body.drinkName });
+		results.party.save();
+		res.status(200).send();
+	}).catch((err) => {
+		next(err);
+	});
+});
+
 module.exports = router;

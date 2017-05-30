@@ -30,6 +30,23 @@ $(document).ready(() => {
         }
     });
 
+    $('body').on('click', '.add-drink-button', function () {
+        let barId = $(this).parents('.bar-tab').attr('id');
+        let input = $(this).closest('div').find('.drink-input').first();
+        let data = { partyId: party.id, barId: barId, drinkName: input.val() };
+        $.ajax({
+            url: '/api/party/bar/drink/add',
+            type: 'POST',
+            data: data,
+            success: () => {
+                let parent = $(this).parents('.table-drinks');
+                let table = parent.find('table')[1];
+                updateTable($(table).attr('id'));
+                input.val('');
+            }
+        });
+    });
+
     $('body').on('click', '.edit_bar_btn_flag', function () {
         let barName = $(this).parent('.panel-heading').find('a.editable');
         barName.editable('toggleDisabled');
@@ -44,7 +61,8 @@ $(document).ready(() => {
         $('#bar_accordion_container').append(barTemplate);
         setBarEditable(barCount);
         setTypeahead('bar_' + barCount + '_tenders_input');
-        initTable('bar_' + barCount + '_tenders_table', bar._id);
+        initBarTenders('bar_' + barCount + '_tenders_table', bar._id);
+        initDrinks('bar_' + barCount + '_drinks_table', bar._id);
         barCount += 1;
     }
 
@@ -95,7 +113,7 @@ $(document).ready(() => {
                         url: '/api/party/bar/delete',
                         type: 'POST',
                         data: { partyId: party.id, barId: barId },
-                        success: (_id) => {
+                        success: _id => {
                             initBars();
                         }
                     });
@@ -107,13 +125,10 @@ $(document).ready(() => {
     let getBarTabTemplate = (counter, bar) => {
         return $(`
             <div id="${bar._id}" class="panel panel-default bar-tab">
-                <div class="panel-heading">
+                <div class="panel-heading collapse_accordion">
                     <a id="bar_${counter}_name" class="editable editable-click editable-disabled" data-name="bar_name_eng" href="#bar_${counter}_body"
                         style="margin:10px;display: inline-block" data-type="text" data-pk="${bar._id}"
                         data-parent="#bar_accordion_container">${bar.bar_name_eng}</a>
-                    <button id="enable_bar_${counter}_edit" class="edit_bar_btn_flag" type="button">
-                        <i class="fa fa-pencil"></i>
-                    </button>
                     <button id="delete_bar_${counter}" data-id="${bar._id}" class="delete_bar_btn_flag" type="button">
                         <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
@@ -153,7 +168,7 @@ $(document).ready(() => {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-7 table-drinks">
                             <div id="bar_${counter}_drinks_accordion" class="panel-group accordion"><!-- WORKING ON ACCORDION -->
 
                                 <div class="portlet light bordered">
@@ -162,17 +177,29 @@ $(document).ready(() => {
                                         <span class="caption-subject bold">Drinks</span>
                                     </div>
                                     <div class="portlet-body table-both-scroll">
-                                        <table id="" class="table table-striped table-bordered table-hover order-column">
+                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
                                             <thead>
                                             <th>#</th>
                                             <th>Drink</th>
                                             <th>Serve Method</th>
                                             <th>Volume</th>
                                             <th>Price</th>
-                                            <th>Currency</th>
                                             <th>In Stock</th>                             
                                             </thead>
                                         </table>
+                                    </div>
+                                </div>
+
+                                <div class="input-add">
+                                    <div class="input-group">
+                                        <input type="text" id="bar_${counter}_drinks_input" placeholder="Drink Name"
+                                                name="user_search" class="form-control drink-input"/>
+                                        <span class="input-group-addon btn-manager_user">
+                                            <button id="bar_${counter}_add_drink" type="button"
+                                                    class="btn btn-icon-only green pull-right add-drink-button">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -184,7 +211,7 @@ $(document).ready(() => {
         `);
     };
 
-    function initTable(tableId, barId) {
+    function initBarTenders(tableId, barId) {
         $('#' + tableId)
             .DataTable({
                 "ajax": {
@@ -209,6 +236,60 @@ $(document).ready(() => {
                         data: "realname",
                         render: function (data, type, full, meta) {
                             return full.firstname + ' ' + full.lastname;
+                        }
+                    }
+                ],
+                scrollY: 300,
+                scrollX: true,
+                scroller: true,
+                responsive: false,
+                autoWidth: false,
+                sScrollX: "100%",
+                "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+            });
+    }
+
+    function initDrinks(tableId, barId) {
+        $('#' + tableId)
+            .DataTable({
+                "ajax": {
+                    "url": "/api/party/" + party.id + "/bar/" + barId + "/drinks",
+                },
+                "columns": [
+                    {
+                        data: 'uniqueId',
+                        render: function (data) {
+                            return data || `<div class="text-center">-</div>`
+                        }
+                    },
+                    {
+                        data: 'drinkname_eng',
+                        render: function (data) {
+                            return data || `<div class="text-center">-</div>`
+                        }
+                    },
+                    {
+                        data: 'serve_method',
+                        render: function (data) {
+                            return data || `<div class="text-center">-</div>`
+                        }
+                    },
+                    {
+                        data: "volume",
+                        render: function (data) {
+                            return data || `<div class="text-center">-</div>`
+                        }
+                    },
+                    {
+                        data: "price",
+                        render: function (data) {
+                            return data || `<div class="text-center">-</div>`
+                        }
+                    },
+                    {
+                        data: "stock",
+                        render: function (data) {
+                            return data || `<div class="text-center">-</div>`
                         }
                     }
                 ],
