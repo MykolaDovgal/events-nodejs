@@ -16,7 +16,7 @@ router.get('/parties', function (request, response, next) {
 		partyCountFuture: Party.countByDate('gt')
 	}).then(function (results) {
 
-		var addresses = [];
+		let addresses = [];
 		results.addresses.forEach(function (party) {
 			if (party.location.city && party.location.country)
 				addresses.push({country: party.location.country, city: party.location.city});

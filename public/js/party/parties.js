@@ -104,8 +104,21 @@ $(document).ready(function () {
 				},
 
 				{
-					"data": 'event_name_eng',
-					//width: '15%'
+					"data": 'event_title',
+					render: function (data, type, full, meta) {
+						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+						let open_event = '';
+
+						let eventId = full.eventId || 0;
+						if (eventId > 0) {
+							open_event = '<a target="_blank" title="Open event - ' + data + '" class="party-open-line pull-right" href="/event/' + eventId + '">' +
+								'<i class="fa fa-external-link" aria-hidden="true"></i>' +
+								'</a> ';
+						}
+
+						return '<span title="' + data + '">' + text + '</span>' + open_event;
+
+					},
 				},
 
 
@@ -140,9 +153,16 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	$('#parties_datatable tbody').on('click', "tr :not('a')", function () {
-		let partyRow = parties_tables.row(this).data();
+	$('#parties_datatable tbody').on('click', "tr :not(a)", function (e) {
+		e.preventDefault();
+		let tag = e.target.nodeName;
+		let _t = this;
+		if (tag !== 'TD') {
+			_t = $(this).parent('td').get(0);
+		}
+		let partyRow = parties_tables.row(_t).data();
 		window.location = '/party/' + partyRow.party_id;
+		return false;
 	});
 
 
