@@ -19,31 +19,8 @@
 	transform: scale(2.5) !important;
 }
 
-#lines-gallery .mt-element-overlay img {
-	height: 300px;
-}
-
-#lines-gallery .mt-element-overlay {
-	max-height: 300px;
-	padding: 0 3px;
-	margin: 3px 0;
-	/*width: 33%;*/
-}
-
-#lines-gallery {
-	/*width: 85vw;*/
-}
-
 .page-lines-list {
 	overflow-y: scroll;
-}
-
-.mt-element-overlay .mt-overlay-5 .mt-overlay {
-	background-color: rgba(0, 0, 0, 0.55);
-}
-
-#lines-gallery .line-item .mt-overlay {
-	cursor: pointer;
 }
 
 #table-line-managers .profile-picture {
