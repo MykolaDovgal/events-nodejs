@@ -4,6 +4,7 @@ let Promise = require('bluebird');
 let moment = require('moment');
 let fs = require('fs');
 let config = require('config');
+
 let default_image_user = config.get('images:default_image_user');
 let Party = require('models/Party');
 let User = require('models/user');

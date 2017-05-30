@@ -10,8 +10,6 @@ let fs = require('fs');
 let config = require('config');
 let default_image_user = config.get('images:default_image_user');
 
-
-
 router.get('/party/:id/music/stages', function (req, res, next) {
 
 	Promise.props({
@@ -170,11 +168,9 @@ router.post('/party/music/stage/djs/delete', function (req, res, next) {
 	Promise.props({
 		party: Party.findOne( {'stage': {$elemMatch: {_id: body.stageId}} }, 'stage.djs').execAsync()
 	}).then(function (results) {
-
 		let ind = results.party.stage[0].djs.findIndex(x => x.userId == body.userId);
 		results.party.stage[0].djs.splice(ind,1);
 		results.party.save();
-
 		res.sendStatus(200);
 	})
 		.catch(function (err) {
