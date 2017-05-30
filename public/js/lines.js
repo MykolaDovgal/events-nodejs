@@ -84,8 +84,9 @@ $(document).ready(function () {
 	});
 
 	$('div.pull-left > div.pull-left > a').click(function () {
-		$('div.pull-left > div.pull-left > a').removeClass('btn-warning');
-		$(this).addClass('btn-warning');
+		$('div.pull-left > div.pull-left > a').removeClass('active');
+		$(this).addClass('active');
+		// $(this).addClass('btn-warning');
 	});
 
 	// $gallery.justifiedGallery().on('jg.complete', function (e) {
