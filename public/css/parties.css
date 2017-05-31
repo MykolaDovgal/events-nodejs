@@ -21,3 +21,7 @@
 	background-color: #207780;
 	border-color: #123339;
 }
+
+.accordion .panel .panel-title{
+	padding: 10px;
+}

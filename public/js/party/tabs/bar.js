@@ -133,7 +133,7 @@ $(document).ready(() => {
                         <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
                 </div>
-                <div id="bar_${counter}_body" class="panel-collapse in container horizontal-tab">
+                <div id="bar_${counter}_body" class="panel-collapse in horizontal-tab">
                     <div class="row">
                         <div class="col-md-5 table-tenders">
                             <div class="portlet light bordered">
@@ -169,7 +169,95 @@ $(document).ready(() => {
                             </div>
                         </div>
                         <div class="col-md-7 table-drinks">
-                            <div id="bar_${counter}_drinks_accordion" class="panel-group accordion"><!-- WORKING ON ACCORDION -->
+                        <div class="portlet light bordered">
+                         <div class="title-block caption font-red">
+                                        <i class="fa fa-star font-red" aria-hidden="true"></i>
+                                        <span class="caption-subject bold">Drinks</span>
+                                    </div>
+                            <div class="panel-group" id="accordion">
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                        Drinks 1</a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse in">
+                                      <div class="panel-body"><div class="portlet-body table-both-scroll">
+                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
+                                            <thead>
+                                            <th>#</th>
+                                            <th>Drink</th>
+                                            <th>Serve Method</th>
+                                            <th>Volume</th>
+                                            <th>Price</th>
+                                            <th>In Stock</th>                             
+                                            </thead>
+                                        </table>
+                                    </div></div>
+                                    </div>
+                                  </div>
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                        Drinks 2</a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse">
+                                      <div class="panel-body"><div class="portlet-body table-both-scroll">
+                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
+                                            <thead>
+                                            <th>#</th>
+                                            <th>Drink</th>
+                                            <th>Serve Method</th>
+                                            <th>Volume</th>
+                                            <th>Price</th>
+                                            <th>In Stock</th>                             
+                                            </thead>
+                                        </table>
+                                    </div></div>
+                                    </div>
+                                  </div>
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                                        Drinks 3</a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse3" class="panel-collapse collapse">
+                                      <div class="panel-body"><div class="portlet-body table-both-scroll">
+                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
+                                            <thead>
+                                            <th>#</th>
+                                            <th>Drink</th>
+                                            <th>Serve Method</th>
+                                            <th>Volume</th>
+                                            <th>Price</th>
+                                            <th>In Stock</th>                             
+                                            </thead>
+                                        </table>
+                                    </div></div>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                                    <div class="input-add">
+                                    <div class="input-group">
+                                        <input type="text" id="bar_${counter}_drinks_input" placeholder="Drink Name"
+                                                name="user_search" class="form-control drink-input"/>
+                                        <span class="input-group-addon btn-manager_user">
+                                            <button id="bar_${counter}_add_drink" type="button"
+                                                    class="btn btn-icon-only green pull-right add-drink-button">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                             </div>
+                        
+                          <!--  <div id="bar_${counter}_drinks_accordion" class="panel-group accordion">
 
                                 <div class="portlet light bordered">
                                     <div class="title-block caption font-red">
@@ -203,7 +291,7 @@ $(document).ready(() => {
                                     </div>
                                 </div>
 
-                            </div><!-- accordion -->
+                            </div> accordion -->
                         </div><!-- col-md-7 -->
                     </div>
                 </div>
@@ -242,7 +330,7 @@ $(document).ready(() => {
                 scrollY: 300,
                 scrollX: true,
                 scroller: true,
-                responsive: false,
+                responsive: true,
                 autoWidth: false,
                 sScrollX: "100%",
                 "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
@@ -319,7 +407,7 @@ $(document).ready(() => {
                 scrollY: 300,
                 scrollX: true,
                 scroller: true,
-                responsive: false,
+                responsive: true,
                 autoWidth: false,
                 sScrollX: "100%",
                 "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
