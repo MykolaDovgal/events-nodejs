@@ -19,7 +19,7 @@ let router = express.Router();
 router.get('/party/:id', function (request, response, next) {
 
 	Promise.props({
-		party: Party.findOne({id: request.params.id}).execAsync(),
+		party: Party.findOne({ id: request.params.id }).execAsync(),
 	})
 		.then(function (results) {
 			let party = results.party;
@@ -32,8 +32,8 @@ router.get('/party/:id', function (request, response, next) {
 			}
 
 			Promise.props({
-				line: Line.findOne({id: party.lineId}).execAsync(),
-				event: Event.findOne({id: party.eventId}).execAsync(),
+				line: Line.findOne({ id: party.lineId }).execAsync(),
+				event: Event.findOne({ id: party.eventId }).execAsync(),
 			})
 				.then(function (results_le) {
 					if (results_le.line === null) {
@@ -57,9 +57,6 @@ router.get('/party/:id', function (request, response, next) {
 						line: results_le.line,
 						event: results_le.event
 					};
-
-					console.warn(data);
-
 
 					response.render('pages/party/singleParty', data);
 				});
