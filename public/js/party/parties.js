@@ -199,14 +199,12 @@ let onTableInit = function () {
 
 let addFilterParam = function (filter_item, filter_value) {
 	let filter = global.filter;
-
 	if (!filter) {
 		filter = {};
 	}
 	filter[filter_item] = filter_value;
 
 	global.filter = filter;
-
 };
 
 jQuery.extend(jQuery.fn.dataTableExt.oSort, {
