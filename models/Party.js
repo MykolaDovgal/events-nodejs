@@ -13,7 +13,7 @@ let PartySchema = new Schema({
 	title_ol: {type: String, trim: true},
 	title_eng: {type: String, trim: true},
 	eventId: {type: Number},
-	only_for_mom_event_att: {type: Boolean},
+	only_for_event_att: {type: Boolean},
 	description_eng: {type: String, trim: true},
 	description_ol: {type: String, trim: true},
 	cover_picture_original: {type: String, trim: true},
