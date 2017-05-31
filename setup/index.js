@@ -226,7 +226,7 @@ setup = {
 					lineId: faker.random.arrayElement(lines),
 					title_eng: party_name + ' (eng)',
 					title_ol: faker.name.title() + ' (ol)',
-					mom_eventId: undefined,
+					eventId: undefined,
 					description_eng: faker.lorem.lines() + '(eng)',
 					description_ol: faker.lorem.lines() + '(ol)',
 					cover_picture: cover_picture,
@@ -293,7 +293,7 @@ setup = {
 				let eventData = {
 					title_eng: event_name + ' (eng)',
 					title_ol: faker.name.title() + ' (ol)',
-					mom_eventId: undefined,
+					eventId: undefined,
 					description_eng: faker.lorem.lines() + '(eng)',
 					description_ol: faker.lorem.lines() + '(ol)',
 					cover_picture: cover_picture,
