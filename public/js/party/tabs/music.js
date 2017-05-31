@@ -42,6 +42,8 @@ $(document).ready(function () {
 
 });
 
+
+
 let deleteGenre = function (stageId) {
 
 	let parent = $('#' + stageId);
@@ -341,7 +343,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 	let musicTemplate = `
 									<div class="col-md-6">
 					                
-					                	 <div class="border-line block-manager">
+					                	 <div class="border-line">
 					                        <div class="portlet-title">
 					                            <div class="title-block caption font-red">
 					                                <i class="fa fa-user" aria-hidden="true"></i>
@@ -386,7 +388,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 					        <a id="party_stage_${counter}_name" class="editable editable-click init_table_flag" data-name="stage_name"
 					           href="#" 
 					           style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}" data-counter="${counter}"
-					           data-parent="#music_accordion_container">${tabItem.stage_name}</a>
+					           data-parent="#music_accordion_container">${tabItem.stage_name ? tabItem.stage_name : 'Stage ' + ($('#music_accordion_container').find('.tab_flag').length + 1) }</a>
 					       
 					        <button id="enable_stage_${counter}_delete" data-id="${tabItem._id}" class="delete_stage_btn_flag" type="button">
 					            <i class="fa fa-trash-o"></i>
@@ -406,7 +408,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 					
 					                <div class="col-md-6">
 					
-					                    <div class="border-line block-manager">
+					                    <div class="border-line">
 					                        <div class="portlet-title">
 					                            <div class="title-block caption font-red">
 					                                <i class="fa fa-user" aria-hidden="true"></i>
