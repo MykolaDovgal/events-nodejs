@@ -160,7 +160,7 @@ let setStageNameEditable = function (counter) {
 
 let setStageTable = function (stage_table_id,_id) {
 
-	$('#' + stage_table_id).DataTable({
+	let tmpTable = $('#' + stage_table_id).DataTable({
 
 		"ajax": "/api/party/music/stage/"+ _id +"/djs",
 
@@ -220,6 +220,10 @@ let setStageTable = function (stage_table_id,_id) {
 		scroller: true,
 		responsive: false,
 		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+	});
+
+	$('#' + stage_table_id).on('click', 'td', function (event) {
+		window.location = '/users/' + tmpTable.row(this).data().id;
 	});
 
 };

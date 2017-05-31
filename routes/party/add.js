@@ -31,7 +31,8 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 		description_ol: body['originDescription'],
 		date: timeArray[0],
 		open_time: timeArray[1],
-		location: location
+		location: location,
+		lineId: body['lineId'] ? body['lineId'] : null
 	});
 
 	let data = {

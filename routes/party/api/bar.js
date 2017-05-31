@@ -44,7 +44,7 @@ router.post('/party/bar/add', (req, res, next) => {
 	let body = req.body;
 
 	Promise.props({
-		party: Party.findOneAndUpdate({ id: body.partyId }, { $push: { bar: { bar_name_eng: body.name } } }).execAsync()
+		party: Party.findOneAndUpdate({ id: body.partyId }, { $push: { bar: { bar_name_eng: body.name, drinksCategories: [], drinks: { list: [] } } } }).execAsync()
 	}).then((results) => {
 		Party.findOne({ id: body.partyId }).select('bar').then((doc) => {
 			res.status(200).send(doc.bar[doc.bar.length - 1]._id);
@@ -128,48 +128,32 @@ router.post('/party/bar/tenders/delete', (req, res, next) => {
 	});
 });
 
-router.get('/party/:partyId/bar/:barId/drinks', (req, res, next) => {
+router.get('/party/bar/:barId/drinks/:categoryId', (req, res, next) => {// Working on it
 	Promise.props({
-		party: Party.findOne({ id: req.params.partyId }).execAsync()
+		party: Party.findOne({ 'bar': { $elemMatch: { _id: req.params.barId } } }).execAsync()
 	}).then((results) => {
-		let drinks = results.party.bar.find((bar) => {
+		let category = results.party.bar.find((bar) => {
 			return bar._id == req.params.barId;
-		}).drinks;
-		let data = { data: drinks };
+		}).drinksCategories.find((category) => {
+			return category._id == req.params.categoryId
+		});
+		let data = { data: category };
 		res.status(200).send(JSON.stringify(data));
 	}).catch((err) => {
 		next(err);
 	});
 });
 
-router.post('/party/bar/drinks/update', function (req, res, next) {
-	let body = req.body;
-
-	let val;
-	if (body['value'])
-		val = body['value'];
-	else
-		val = body['value[]'];
-
-	Promise.props({
-		party: Party.findOne({ 'bar': { $elemMatch: { _id: body.pk } } }).execAsync()
-	}).then(function (results) {
-		console.log(results.party);
-		res.status(200).send();
-	}).catch(function (err) {
-		next(err);
-	});
-});
-
-router.post('/party/bar/drink/add', (req, res, next) => {
+router.post('/party/bar/drinkcategory/add', (req, res, next) => {
 	let body = req.body;
 
 	Promise.props({
-		party: Party.findOne({ id: body.partyId }).execAsync()
+		party: Party.findOne({ 'bar': { $elemMatch: { _id: body.barId } } }).execAsync()
 	}).then((results) => {
 		let bar = results.party.bar.find(function (bar) {
 			return bar._id == body.barId
-		}).drinks.push({ drinkname_eng: body.drinkName });
+		});
+		bar.drinkCategories.push({ category_name: body.categoryName });
 		results.party.save();
 		res.status(200).send();
 	}).catch((err) => {

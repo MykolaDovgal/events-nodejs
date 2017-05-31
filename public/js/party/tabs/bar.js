@@ -1,4 +1,5 @@
 let barCount = 0;
+let catCount = 0;
 isBarInit = false
 
 $(document).ready(() => {
@@ -30,31 +31,32 @@ $(document).ready(() => {
         }
     });
 
-    $('body').on('click', '.add-drink-button', function () {
+    $('body').on('click', '.add-category-button', function () {
         let barId = $(this).parents('.bar-tab').attr('id');
-        let input = $(this).closest('div').find('.drink-input').first();
-        let data = { partyId: party.id, barId: barId, drinkName: input.val() };
+        let data = { barId: barId, categoryName: 'Category I' }
         $.ajax({
-            url: '/api/party/bar/drink/add',
+            url: '/api/party/bar/drinkcategory/add',
             type: 'POST',
             data: data,
             success: () => {
-                let parent = $(this).parents('.table-drinks');
-                let table = parent.find('table')[1];
-                updateTable($(table).attr('id'));
-                input.val('');
+                //let parent = $(this).parents('.table-drinks');
+                //let table = parent.find('table')[1];
+                //updateTable($(table).attr('id'));
+                createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId });
             }
         });
     });
 
-    $('body').on('click', '.edit_bar_btn_flag', function () {
-        let barName = $(this).parent('.panel-heading').find('a.editable');
-        barName.editable('toggleDisabled');
-        let isCollapse = barName.attr('data-toggle') == 'collapse' ? '' : 'collapse';
-        barName.attr('data-toggle', isCollapse);
-    }).on('click', '.delete_bar_btn_flag', function () {
+    $('body').on('click', '.delete_bar_btn_flag', function () {
         deleteBar.apply(this);
     });
+
+    let createCategoryTab = bar => {
+        console.log(bar._id);
+        let categoryTemplate = getCategoryTabTemplate(catCount, bar);
+        console.log(categoryTemplate);
+        $(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
+    }
 
     let createBarTab = bar => {
         let barTemplate = getBarTabTemplate(barCount, bar);
@@ -62,7 +64,7 @@ $(document).ready(() => {
         setBarEditable(barCount);
         setTypeahead('bar_' + barCount + '_tenders_input');
         initBarTenders('bar_' + barCount + '_tenders_table', bar._id);
-        initDrinks('bar_' + barCount + '_drinks_table', bar._id);
+        //initDrinks('bar_' + barCount + '_drinks_table', bar._id);
         barCount += 1;
     }
 
@@ -122,6 +124,33 @@ $(document).ready(() => {
         })
     }
 
+    let getCategoryTabTemplate = (catCounter, bar) => {
+        return $(`
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#bar_${bar._id}_drinks_accordion" href="#bar_${bar._id}_drinks_${catCounter}">
+                    Drinks 1</a>
+                    </h4>
+                </div>
+                <div id="bar_${bar._id}_drinks_${catCounter}" class="panel-collapse collapse in">
+                    <div class="panel-body"><div class="portlet-body table-both-scroll">
+                    <table id="bar_${bar._id}_drinks_${catCounter}_table" class="table table-striped table-bordered table-hover order-column">
+                        <thead>
+                        <th>#</th>
+                        <th>Drink</th>
+                        <th>Serve Method</th>
+                        <th>Volume</th>
+                        <th>Price</th>
+                        <th>In Stock</th>                             
+                        </thead>
+                    </table>
+                </div></div>
+                </div>
+            </div>
+        `)
+    }
+
     let getBarTabTemplate = (counter, bar) => {
         return $(`
             <div id="${bar._id}" class="panel panel-default bar-tab">
@@ -169,129 +198,17 @@ $(document).ready(() => {
                             </div>
                         </div>
                         <div class="col-md-7 table-drinks">
-                        <div class="portlet light bordered">
-                         <div class="title-block caption font-red">
-                                        <i class="fa fa-star font-red" aria-hidden="true"></i>
-                                        <span class="caption-subject bold">Drinks</span>
-                                    </div>
-                            <div class="panel-group" id="accordion">
-                                  <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                                        Drinks 1</a>
-                                      </h4>
-                                    </div>
-                                    <div id="collapse1" class="panel-collapse collapse in">
-                                      <div class="panel-body"><div class="portlet-body table-both-scroll">
-                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
-                                            <thead>
-                                            <th>#</th>
-                                            <th>Drink</th>
-                                            <th>Serve Method</th>
-                                            <th>Volume</th>
-                                            <th>Price</th>
-                                            <th>In Stock</th>                             
-                                            </thead>
-                                        </table>
-                                    </div></div>
-                                    </div>
-                                  </div>
-                                  <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                                        Drinks 2</a>
-                                      </h4>
-                                    </div>
-                                    <div id="collapse2" class="panel-collapse collapse">
-                                      <div class="panel-body"><div class="portlet-body table-both-scroll">
-                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
-                                            <thead>
-                                            <th>#</th>
-                                            <th>Drink</th>
-                                            <th>Serve Method</th>
-                                            <th>Volume</th>
-                                            <th>Price</th>
-                                            <th>In Stock</th>                             
-                                            </thead>
-                                        </table>
-                                    </div></div>
-                                    </div>
-                                  </div>
-                                  <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                      <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                                        Drinks 3</a>
-                                      </h4>
-                                    </div>
-                                    <div id="collapse3" class="panel-collapse collapse">
-                                      <div class="panel-body"><div class="portlet-body table-both-scroll">
-                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
-                                            <thead>
-                                            <th>#</th>
-                                            <th>Drink</th>
-                                            <th>Serve Method</th>
-                                            <th>Volume</th>
-                                            <th>Price</th>
-                                            <th>In Stock</th>                             
-                                            </thead>
-                                        </table>
-                                    </div></div>
-                                    </div>
-                                  </div>
-                                  
-                                </div>
-                                    <div class="input-add">
-                                    <div class="input-group">
-                                        <input type="text" id="bar_${counter}_drinks_input" placeholder="Drink Name"
-                                                name="user_search" class="form-control drink-input"/>
-                                        <span class="input-group-addon btn-manager_user">
-                                            <button id="bar_${counter}_add_drink" type="button"
-                                                    class="btn btn-icon-only green pull-right add-drink-button">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                             </div>
-                        
-                          <!--  <div id="bar_${counter}_drinks_accordion" class="panel-group accordion">
 
-                                <div class="portlet light bordered">
-                                    <div class="title-block caption font-red">
-                                        <i class="fa fa-star font-red" aria-hidden="true"></i>
-                                        <span class="caption-subject bold">Drinks</span>
-                                    </div>
-                                    <div class="portlet-body table-both-scroll">
-                                        <table id="bar_${counter}_drinks_table" class="table table-striped table-bordered table-hover order-column">
-                                            <thead>
-                                            <th>#</th>
-                                            <th>Drink</th>
-                                            <th>Serve Method</th>
-                                            <th>Volume</th>
-                                            <th>Price</th>
-                                            <th>In Stock</th>                             
-                                            </thead>
-                                        </table>
-                                    </div>
+                            <div class="portlet light bordered">
+                                <div class="title-block caption font-red">
+                                    <i class="fa fa-star font-red" aria-hidden="true"></i>
+                                    <span class="caption-subject bold">Drinks</span>
                                 </div>
-
-                                <div class="input-add">
-                                    <div class="input-group">
-                                        <input type="text" id="bar_${counter}_drinks_input" placeholder="Drink Name"
-                                                name="user_search" class="form-control drink-input"/>
-                                        <span class="input-group-addon btn-manager_user">
-                                            <button id="bar_${counter}_add_drink" type="button"
-                                                    class="btn btn-icon-only green pull-right add-drink-button">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </span>
-                                    </div>
+                                <div class="panel-group" id="bar_${bar._id}_drinks_accordion">
                                 </div>
+                                <button id="bar_${counter}_add_category" class="btn btn-default add-category-button">Add Category</button>    
+                            </div>
 
-                            </div> accordion -->
                         </div><!-- col-md-7 -->
                     </div>
                 </div>
@@ -330,7 +247,7 @@ $(document).ready(() => {
                 scrollY: 300,
                 scrollX: true,
                 scroller: true,
-                responsive: true,
+                responsive: false,
                 autoWidth: false,
                 sScrollX: "100%",
                 "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
@@ -407,7 +324,7 @@ $(document).ready(() => {
                 scrollY: 300,
                 scrollX: true,
                 scroller: true,
-                responsive: true,
+                responsive: false,
                 autoWidth: false,
                 sScrollX: "100%",
                 "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
