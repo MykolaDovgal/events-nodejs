@@ -11,6 +11,10 @@ $(document).ready(function () {
 		}
 	});
 
+	$('#party_attendees').on('click', 'td', function (event) {
+		window.location = '/users/' + attendees_table.row(this).data().userId;
+	});
+
 });
 
 
