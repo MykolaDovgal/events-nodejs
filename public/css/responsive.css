@@ -58,6 +58,11 @@
     #select_container{
         margin-bottom: 5px;
     }
+    .lines-btb-group, .input-group-line{
+        float: none !important;
+        display: table;
+        margin: 10px auto;
+    }
 }
 
 @media (max-width: 768px) {
