@@ -98,9 +98,13 @@ router.post('/party/music/stage/delete', function (req, res, next) {
 
 router.get('/party/music/stage/:id/djs', function (req, res, next) {
 
+
+
 	Promise.props({
 		stages: Party.findOne({'stage': {$elemMatch: {_id: req.params.id}}}).select('stage').execAsync()
 	}).then(function (stageResults) {
+
+
 
 		let array = [];
 
@@ -108,7 +112,12 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 			return stage._id == req.params.id;
 		});
 
-		stageItem.djs.forEach((dj) => array.push(dj.userId));
+
+		stageItem.djs.forEach((dj) => {
+			if(dj.userId)
+				array.push(dj.userId)
+		});
+
 
 		User.find({
 			id : {$in: array }
@@ -130,11 +139,11 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 					username: user.username,
 					name: user.realname,
 					soundcloud: soundcloud || 'link'
-				})
+				});
+
 			});
 			res.status(200).send({data: users});
 		});
-
 
 	})
 		.catch(function (err) {

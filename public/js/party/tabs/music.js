@@ -30,15 +30,27 @@ $(document).ready(function () {
 	}).on('click','.init_table_flag',function () {
 
 	}).on('change', 'select[name="genres"]', function () {
-		updateStageGenres.apply(this);
+		updateStageGenres($(this).closest('.tab_flag').attr('id'));
 	}).on('click','.add_genres_btn_flag',function () {
 		let stage = $(this).closest('.tab_flag');
 		stage.find('.select_container').append(generateDefaultSelect(stage.attr('id')));
 	}).on('click', 'td > div.remove-column', function (event) {
 		deleteDjs.apply(this);
+	}).on('click','.remove_genres_btn_flag',function () {
+		deleteGenre($(this).closest('.tab_flag').attr('id'));
 	});
 
 });
+
+let deleteGenre = function (stageId) {
+
+	let parent = $('#' + stageId);
+	if(parent.find('select[name="genres"]').length <= 1)
+		return null;
+
+	parent.find('select[name="genres"]').last().remove();
+	updateStageGenres(stageId);
+};
 
 let deleteDjs = function () {
 
@@ -71,11 +83,10 @@ let deleteDjs = function () {
 	});
 };
 
-let updateStageGenres = function () {
+let updateStageGenres = function (stageId) {
 
 	let genresArray = [];
-	let selectedItems = $(this).closest('.block-music').find('select[name="genres"]');
-	let stageId = $(this).parents('.tab_flag').attr('id');
+	let selectedItems = $('#' + stageId).find('select[name="genres"]');
 
 	selectedItems.each(function () {
 		genresArray.push($(this).val());
@@ -351,6 +362,10 @@ let getStageTabTemplate = function (counter,tabItem) {
 															<button type="button"
 																	class="btn btn-circle btn-icon-only green add_genres_btn_flag">
 																<i class="fa fa-plus"></i>
+															</button>
+															<button type="button"
+															        class="btn btn-circle btn-icon-only red remove_genres_btn_flag">
+																<i class="fa fa-remove"></i>
 															</button>
 														</div>
 													</div>
