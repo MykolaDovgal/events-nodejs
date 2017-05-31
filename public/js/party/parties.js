@@ -93,7 +93,7 @@ $(document).ready(function () {
 
 							let line_id = full.line_id || 0;
 							if (line_id > 0) {
-								open_line = '<a target="_blank" title="Open line - ' + data + '" class="party-open-line pull-right" href="/line/' + line_id + '">' +
+								open_line = '<a target="_blank" title="Open line - ' + data + '" class="open_link pull-right" href="/line/' + line_id + '">' +
 									'<i class="fa fa-external-link" aria-hidden="true"></i>' +
 									'</a> ';
 							}
@@ -112,7 +112,7 @@ $(document).ready(function () {
 
 						let eventId = full.eventId || 0;
 						if (eventId > 0) {
-							open_event = '<a target="_blank" title="Open event - ' + data + '" class="party-open-line pull-right" href="/event/' + eventId + '">' +
+							open_event = '<a target="_blank" title="Open event - ' + data + '" class="open_link pull-right" href="/event/' + eventId + '">' +
 								'<i class="fa fa-external-link" aria-hidden="true"></i>' +
 								'</a> ';
 						}
@@ -134,7 +134,7 @@ $(document).ready(function () {
 					"targets": 'no_sort',
 					"orderable": false
 				},
-				{ type: 'date-uk', targets: 2 }
+				{type: 'date-uk', targets: 2}
 			],
 			scrollY: 500,
 			scrollX: true,
@@ -154,16 +154,24 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	$('#parties_datatable tbody').on('click', "tr :not(a)", function (e) {
-		//e.preventDefault();
+	$('#parties_datatable tbody').on('click', "tr :not(a,i)", function (e) {
+		let check = true;
+
 		let tag = e.target.nodeName;
 		let _t = this;
-		if (tag !== 'TD') {
-			_t = $(this).parent('td').get(0);
+		if (tag === 'A' || tag === 'I') {
+			check = false;
 		}
+
+		if (tag !== 'TD') {
+			_t = $(this).parent('tr').get(0);
+		}
+
+		console.log(tag);
 		let partyRow = parties_tables.row(_t).data();
-		window.location = '/party/' + partyRow.party_id;
-		//return false;
+		if (check) {
+			window.location = '/party/' + partyRow.party_id;
+		}
 	});
 
 
@@ -192,8 +200,6 @@ $(document).ready(function () {
 
 let onTableInit = function () {
 	let dest = $('.colunm-top-party .right-part');
-	//$('.search-party-filter').appendTo(dest);
-	//console.log(global.filter);
 };
 
 let addFilterParam = function (filter_item, filter_value) {
@@ -211,7 +217,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 		if (a == null || a == "") {
 			return 0;
 		}
-		var ukDatea = a.split('/');
+		let ukDatea = a.split('/');
 		return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
 	},
 

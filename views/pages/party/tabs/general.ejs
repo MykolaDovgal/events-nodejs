@@ -20,20 +20,28 @@
 
 		<div class="row vertical-row vertical-center offset-bottom-1_5">
 			<label class="col-md-3 control-label">
-				Line
+				<span>Line</span>
+				<% if (line.id > 0) { %>
+				<a target="_blank" title="Open line -<%= line.line_name_eng %>"
+				   class="party-open-line pull-right" href="/line/<%= line.id %>">
+					<i class="fa fa-external-link"
+					   aria-hidden="true"></i>
+				</a>
+				<% } %>
 			</label>
 			<div class="col-md-9">
 				<div class="col-xs-12">
-
-					<div class="language_switch_container">
-						<a class="lineId">
-							<span id="line_title_english"><%= line.line_name_eng %></span>
-						</a>
-					</div>
-					<div hidden class="language_switch_container">
-						<a class="lineId">
-							<span id="line_title_original"><%= line.line_name_ol %></span>
-						</a>
+					<div class="pull-left">
+						<div class="language_switch_container">
+							<a class="lineId">
+								<span id="line_title_english"><%= line.line_name_eng %></span>
+							</a>
+						</div>
+						<div hidden class="language_switch_container">
+							<a class="lineId">
+								<span id="line_title_original"><%= line.line_name_ol %></span>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -42,7 +50,14 @@
 		<!-- Event -->
 		<div class="row vertical-row vertical-center offset-bottom-1_5">
 			<label class="col-md-3 control-label">
-				Event
+				<span>Event</span>
+				<% if (event.id > 0) { %>
+				<a target="_blank" title="Open event -<%= event.title_eng %>"
+				   class="pull-right" href="/event/<%= event.id %>">
+					<i class="fa fa-external-link"
+					   aria-hidden="true"></i>
+				</a>
+				<% } %>
 			</label>
 			<div class="col-md-9">
 				<div class="col-xs-12">
