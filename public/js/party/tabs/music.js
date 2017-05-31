@@ -2,6 +2,7 @@ let stageCount = 0;
 let usersSet;
 let isMusicInit = false;
 let selectedResults;
+let djs_title_length = 10;
 let partyGenres = ["Rock", "Pop", "Hip-Hop", "Rap", "Jazz", "Metal"];
 
 $(document).ready(function () {
@@ -33,7 +34,9 @@ $(document).ready(function () {
 	}).on('click','.add_dj_btn_flag',function () {
 		addDjs.apply(this);
 	}).on('click','.init_table_flag',function () {
-
+		console.log('kek');
+		fixTableLayout.apply(this);
+		$(this).removeClass('init_table_flag')
 	}).on('change', 'select[name="genres"]', function () {
 		updateStageGenres($(this).closest('.tab_flag').attr('id'));
 	}).on('click','.add_genres_btn_flag',function () {
@@ -45,11 +48,13 @@ $(document).ready(function () {
 		deleteGenre($(this).closest('.tab_flag').attr('id'));
 	});
 
-
-
 });
 
 
+let fixTableLayout = function () {
+	let parent = $(this).closest('.tab_flag');
+	let table = parent.find('table').DataTable().columns.adjust().draw();
+};
 
 let deleteGenre = function (stageId) {
 
@@ -177,23 +182,31 @@ let setStageTable = function (stage_table_id,_id) {
 			},
 			{
 				"data": 'id',
-				width: '20%'
+				width: '15%'
 			},
 			{
 				"data": 'username',
+				render: function (data, type, full, meta) {
+					let text = data.length > djs_title_length ? data.substr(0, djs_title_length) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
+				},
 				width: '20%'
 			},
 			{
 				"data": 'name',
+				render: function (data, type, full, meta) {
+					let text = data.length > djs_title_length ? data.substr(0, djs_title_length) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
+				},
 				width: '20%'
 			},
-
 			{
 				"data": 'soundcloud',
 				render: function (data, type, full, meta) {
-					return `<div class="text-center"><a href="#">${data}</a></div>`;
+					let text = data.length > djs_title_length ? data.substr(0, djs_title_length) + '...' : data;
+					return `<div class="text-center"><a title="${data}" href="#">${text}</a></div>`;
 				},
-				width: '15%'
+				width: '20%'
 			}
 		],
 		"columnDefs": [
@@ -203,6 +216,7 @@ let setStageTable = function (stage_table_id,_id) {
 			}
 		],
 		scrollY: 200,
+		scrollX: true,
 		scroller: true,
 		responsive: false,
 		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
@@ -320,7 +334,7 @@ let updateTable = function(tableId) {
 	setTimeout(function () {
 		table.ajax.reload();
 		table.columns.adjust().draw();
-	}, 1000);
+	}, 0);
 };
 
 let generateSelectTemplate = function (genresArray) {
@@ -390,9 +404,9 @@ let getStageTabTemplate = function (counter,tabItem) {
 	return $(`
 					<div id="${tabItem._id}" class="panel panel-default tab_flag">
 
-					    <div class="panel-heading collapse_accordion">
+					    <div class="panel-heading collapse_accordion init_table_flag">
 					    
-					        <a id="party_stage_${counter}_name" class="editable editable-click init_table_flag" data-name="stage_name"
+					        <a id="party_stage_${counter}_name" class="editable editable-click" data-name="stage_name"
 					           href="#" 
 					           style="margin:10px;display: inline-block" data-type="text" data-pk="${tabItem._id}" data-counter="${counter}"
 					           data-parent="#music_accordion_container">${tabItem.stage_name ? tabItem.stage_name : 'Stage ' + ($('#music_accordion_container').find('.tab_flag').length + 1) }</a>
@@ -404,7 +418,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 					    </div>
 					    
 					
-					    <div id="stage_${counter}_body" class="panel-collapse">
+					    <div id="stage_${counter}_body" class="panel-collapse collapse">
 					
 					        <div class="accordion-content">
 					

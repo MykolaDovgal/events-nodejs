@@ -37,7 +37,8 @@ let initAttendeesTable = function () {
 			{
 				'data': 'user_name',
 				render: function (data, type, full, meta) {
-					return `<div class="text-center">${data}</div>`;
+					let text = data.length > 12 ? data.substr(0, 12) + '...' : data;
+					return '<span title="' + data + '">' + text + '</span>'
 				},
 				width: '10%'
 			},

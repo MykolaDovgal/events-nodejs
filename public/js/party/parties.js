@@ -104,7 +104,6 @@ $(document).ready(function () {
 					},
 					//width: '15%'
 				},
-
 				{
 					"data": 'event_title',
 					render: function (data, type, full, meta) {
