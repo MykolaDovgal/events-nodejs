@@ -87,18 +87,20 @@ $(document).ready(function () {
 				{
 					'data': 'line_name_eng',
 					render: function (data, type, full, meta) {
-						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
-						let open_line = '';
+						if (data) {
+							let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+							let open_line = '';
 
-						let line_id = full.line_id || 0;
-						if (line_id > 0) {
-							open_line = '<a target="_blank" title="Open line - ' + data + '" class="party-open-line pull-right" href="/line/' + line_id + '">' +
-								'<i class="fa fa-external-link" aria-hidden="true"></i>' +
-								'</a> ';
+							let line_id = full.line_id || 0;
+							if (line_id > 0) {
+								open_line = '<a target="_blank" title="Open line - ' + data + '" class="party-open-line pull-right" href="/line/' + line_id + '">' +
+									'<i class="fa fa-external-link" aria-hidden="true"></i>' +
+									'</a> ';
+							}
+
+							return '<span title="' + data + '">' + text + '</span>' + open_line;
 						}
-
-						return '<span title="' + data + '">' + text + '</span>' + open_line;
-
+						return '<span title="Empty">-</span>'
 					},
 					//width: '15%'
 				},
@@ -133,7 +135,7 @@ $(document).ready(function () {
 					"targets": 'no_sort',
 					"orderable": false
 				},
-				{type: 'date-uk', targets: 2}
+				{ type: 'date-uk', targets: 2 }
 			],
 			scrollY: 500,
 			scrollX: true,
