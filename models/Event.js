@@ -11,7 +11,7 @@ let EventSchema = new Schema({
     id: { type: Number, required: true, index: { unique: true } },
     title_ol: { type: String },
     title_eng: { type: String },
-    eventId: { stype: Number },
+    partyId: { type: Number },
     description_eng: { type: String },
     description_ol: { type: String },
     cover_picture: { type: String },
