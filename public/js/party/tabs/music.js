@@ -12,6 +12,7 @@ $(document).ready(function () {
 		if(!isMusicInit){
 			initStages();
 			isMusicInit = true;
+
 		}
 	});
 
@@ -20,9 +21,13 @@ $(document).ready(function () {
 		generateStageTab();
 	});
 
+
 	$('body').on('click','.collapse_accordion',function (e) {
-		if($(e.target).prop("tagName") =='DIV')
-			$(this).siblings('.panel-collapse').fadeToggle( 200 );
+		if($(e.target).prop("tagName") =='DIV' ){
+			$(this).closest('div.panel-group.accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
+			$(this).siblings('.panel-collapse').slideToggle(300);
+		}
+
 	}).on('click','.delete_stage_btn_flag',function () {
 		deleteStage.apply(this);
 	}).on('click','.add_dj_btn_flag',function () {
@@ -39,6 +44,8 @@ $(document).ready(function () {
 	}).on('click','.remove_genres_btn_flag',function () {
 		deleteGenre($(this).closest('.tab_flag').attr('id'));
 	});
+
+
 
 });
 
@@ -396,9 +403,6 @@ let getStageTabTemplate = function (counter,tabItem) {
 					        
 					    </div>
 					    
-					    <div style="float:left;display: block">
-					    	
-						</div>
 					
 					    <div id="stage_${counter}_body" class="panel-collapse">
 					
