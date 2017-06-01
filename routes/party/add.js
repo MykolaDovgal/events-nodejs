@@ -5,13 +5,13 @@ var bodyParser = require("body-parser");
 var Party = require('models/Party');
 
 var router = express.Router();
-var urlencodedParser = bodyParser.urlencoded({extended: false});
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
 router.post('/party/add', urlencodedParser, function (request, response, next) {
 	let body = request.body;
 
-	let location  = {
+	let location = {
 		club_name: body['clubName'],
 		city: body.locality,
 		country: body.country,
@@ -19,7 +19,7 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 		longitude: {
 			lat: body.lat,
 			lng: body.lng
-			}
+		}
 	};
 
 	let timeArray = body['party_start_time'].split(' ');
@@ -32,7 +32,7 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 		date: timeArray[0],
 		open_time: timeArray[1],
 		location: location,
-		lineId: body['lineId'] ? body['lineId'] : null
+		lineId: body['lineId']
 	});
 
 	let data = {

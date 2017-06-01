@@ -35,13 +35,13 @@ router.all('/parties', function (req, res, next) {
 			let cond;
 			switch (d_filter) {
 				case 'today':
-					cond = {$gt: from, $lt: to};
+					cond = { $gt: from, $lt: to };
 					break;
 				case 'future':
-					cond = {$gt: to};
+					cond = { $gt: to };
 					break;
 				case 'past':
-					cond = {$lt: from};
+					cond = { $lt: from };
 			}
 			if (cond) {
 				condition_date_filter.push(
@@ -57,7 +57,7 @@ router.all('/parties', function (req, res, next) {
 	if (cities.length > 0) {
 		filter.push(
 			{
-				'location.city': {$in: cities}
+				'location.city': { $in: cities }
 			}
 		);
 	}
@@ -73,7 +73,7 @@ router.all('/parties', function (req, res, next) {
 	}
 
 	Promise.props({
-		parties: Party.find({$and: filter}, null, {sort: {date: -1}}).execAsync(),
+		parties: Party.find({ $and: filter }, null, { sort: { date: -1 } }).execAsync(),
 		lines: Line.find().select('id line_name_eng').execAsync(),
 		events: Event.find().select('id title_eng').execAsync()
 	})
@@ -81,8 +81,8 @@ router.all('/parties', function (req, res, next) {
 			let data = [];
 			let lines = results.lines;
 			let events = results.events;
-			let lines_data = {0: ''};
-			let events_data = {0: ''};
+			let lines_data = { 0: '' };
+			let events_data = { 0: '' };
 
 			lines.forEach(function (line_item) {
 				lines_data[line_item.id] = line_item.line_name_eng;
@@ -95,8 +95,8 @@ router.all('/parties', function (req, res, next) {
 			results.parties.forEach(function (party) {
 				let lineId = (party.lineId === undefined || party.lineId < 0) ? 0 : party.lineId;
 				let eventId = (party.eventId === undefined || party.eventId < 0) ? 0 : party.eventId;
-				let line_name_eng = lines_data[lineId];
-				let event_title = events_data[eventId];
+				let line_name_eng = lines_data[lineId] || '';
+				let event_title = events_data[eventId] || '';
 
 				data.push({
 					party_id: party.id,
@@ -115,7 +115,7 @@ router.all('/parties', function (req, res, next) {
 				});
 
 			});
-			let temp = {data: data};
+			let temp = { data: data };
 			res.json(temp);
 		})
 		.catch(function (err) {

@@ -1,5 +1,5 @@
-let barCount = 0;
-let catCount = 0;
+let barCount = 1;
+let catCount = 1;
 isBarInit = false
 
 $(document).ready(() => {
@@ -33,7 +33,7 @@ $(document).ready(() => {
 
     $('body').on('click', '.add-category-button', function () {
         let barId = $(this).parents('.bar-tab').attr('id');
-        let data = { barId: barId, categoryName: 'Category I' }
+        let data = { barId: barId, categoryName: 'Category ' + catCount }
         $.ajax({
             url: '/api/party/bar/drinkcategory/add',
             type: 'POST',
@@ -42,7 +42,7 @@ $(document).ready(() => {
                 //let parent = $(this).parents('.table-drinks');
                 //let table = parent.find('table')[1];
                 //updateTable($(table).attr('id'));
-                createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId });
+                createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, { category_name: 'Category ' + catCount });
             }
         });
     });
@@ -51,11 +51,10 @@ $(document).ready(() => {
         deleteBar.apply(this);
     });
 
-    let createCategoryTab = bar => {
-        console.log(bar._id);
-        let categoryTemplate = getCategoryTabTemplate(catCount, bar);
-        console.log(categoryTemplate);
+    let createCategoryTab = (bar, category) => {
+        let categoryTemplate = getCategoryTabTemplate(catCount, bar, category);
         $(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
+        catCount += 1;
     }
 
     let createBarTab = bar => {
@@ -64,6 +63,11 @@ $(document).ready(() => {
         setBarEditable(barCount);
         setTypeahead('bar_' + barCount + '_tenders_input');
         initBarTenders('bar_' + barCount + '_tenders_table', bar._id);
+        if (bar.drinkCategories)
+            bar.drinkCategories.forEach(category => {
+                createCategoryTab(bar, category);
+                setCategoryEditable(category);
+            });
         //initDrinks('bar_' + barCount + '_drinks_table', bar._id);
         barCount += 1;
     }
@@ -87,6 +91,14 @@ $(document).ready(() => {
         });
     };
 
+    let setCategoryEditable = category => {
+        $('#category_' + category._id).editable({
+            url: '/api/party/bar/category/update',
+            type: 'text',
+            title: 'Enter category name'
+        });
+    }
+
     let initBars = () => {
         $.ajax({
             url: '/api/party/' + party.id + '/bars',
@@ -94,7 +106,7 @@ $(document).ready(() => {
             success: (data) => {
                 let accordion = $('#bar_accordion_container');
                 accordion.empty();
-                barCount = 0;
+                barCount = 1;
                 data.forEach((bar) => {
                     createBarTab(bar);
                 });
@@ -103,9 +115,7 @@ $(document).ready(() => {
     };
 
     function deleteBar() {
-        console.log(this);
         let barId = $(this).data('id');
-        console.log(barId);
         bootbox.confirm({
             size: "small",
             message: "Are you sure you want to remove this bar?",
@@ -124,14 +134,36 @@ $(document).ready(() => {
         })
     }
 
-    let getCategoryTabTemplate = (catCounter, bar) => {
+    function deleteCategory() {
+        let categoryId = $(this).data('id');
+        bootbox.confirm({
+            size: 'small',
+            message: 'Are you sure you want to remove this category?',
+            callback: function (results) {
+                if (results) {
+                    $.ajax({
+                        url: 'api/party/bar/category/delete',
+                        type: 'POST',
+                        data: { partyId: party.id, categoryId: categoryId },
+                        success: _id => {
+                            initBars();
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    let getCategoryTabTemplate = (catCounter, bar, category) => {
         return $(`
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#bar_${bar._id}_drinks_accordion" href="#bar_${bar._id}_drinks_${catCounter}">
-                    Drinks 1</a>
-                    </h4>
+                    <a id="category_${category._id}" class="editable editable-click editable-disabled" data-name="category_name" href="#bar_${bar._id}_drinks_${catCounter}"
+                    style="margin:10px;display: inline-block" data-type="text" data-pk="${category._id}"
+                    data-parent="#bar_${bar._id}_drinks_accordion">${category.category_name}</a>
+                    <button id="delete_category_${category._id}" data-id="${category._id}" class="delete_category_btn_flag" type="button">
+                        <i bar-id="${bar._id}" class="fa fa-trash"></i>
+                    </button>
                 </div>
                 <div id="bar_${bar._id}_drinks_${catCounter}" class="panel-collapse collapse in">
                     <div class="panel-body"><div class="portlet-body table-both-scroll">
@@ -164,7 +196,7 @@ $(document).ready(() => {
                 </div>
                 <div id="bar_${counter}_body" class="panel-collapse in horizontal-tab">
                     <div class="row">
-                        <div class="col-md-5 table-tenders">
+                        <div class="col-md-12 col-lg-5 table-tenders">
                             <div class="portlet light bordered">
                                 <div class="title-block caption font-red">
                                     <i class="fa fa-star font-red" aria-hidden="true"></i>
@@ -197,7 +229,7 @@ $(document).ready(() => {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7 table-drinks">
+                        <div class="col-md-12 col-lg-7 table-drinks">
 
                             <div class="portlet light bordered">
                                 <div class="title-block caption font-red">
@@ -254,11 +286,11 @@ $(document).ready(() => {
             });
     }
 
-    function initDrinks(tableId, barId) {
+    function initDrinks(tableId, barId, categoryId) {
         $('#' + tableId)
             .DataTable({
                 "ajax": {
-                    "url": "/api/party/" + party.id + "/bar/" + barId + "/drinks",
+                    "url": "/api/party/" + party.id + "/bar/" + barId + "/drinks/" + categoryId,
                 },
                 "columns": [
                     {
