@@ -11,7 +11,7 @@ $(document).ready(function () {
 		setDate: Date.now()
 	});
 
-	$('#modal_add_party, [id^=line_][id$=_add_event]').on('shown.bs.modal', function () {
+	$('#modal_add_party, [id^=line_][id$=_add_party]').on('shown.bs.modal', function () {
 		initGeoAddParty();
 	});
 

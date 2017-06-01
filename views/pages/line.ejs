@@ -308,7 +308,7 @@
 
 											<div class="pull-left group-btn">
 												<a class="btn btn-circle btn-info"
-												   data-target="#line_<%= line.id %>_add_event" data-toggle="modal">Add
+												   data-target="#line_<%= line.id %>_add_party" data-toggle="modal">Add
 													Party
 													<i class="fa fa-plus-circle" aria-hidden="true"></i>
 												</a>
@@ -560,7 +560,7 @@
 </div>
 
 
-<div id="line_<%= line.id %>_add_event" class="modal fade" tabindex="-1" aria-hidden="true">
+<div id="line_<%= line.id %>_add_party" class="modal fade" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -571,7 +571,7 @@
 				<div class="row">
 					<!-- BEGIN FORM-->
 					<form action="/party/add" method="post" class="form-horizontal"
-					      id="form_add_line">
+					      id="form_add_party">
 						<input type="hidden" name="lineId" value="<%= line.id %>">
 						<div class="form-body">
 							<div class="container col-md-12">
@@ -729,7 +729,7 @@
 
 			<div class="modal-footer">
 				<button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
-				<button id="button_send_notification" form="form_add_line" type="submit"
+				<button form="form_add_party" type="submit"
 				        class="btn green">Create
 				</button>
 			</div>
