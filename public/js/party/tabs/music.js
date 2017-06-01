@@ -34,7 +34,6 @@ $(document).ready(function () {
 	}).on('click','.add_dj_btn_flag',function () {
 		addDjs.apply(this);
 	}).on('click','.init_table_flag',function () {
-		console.log('kek');
 		fixTableLayout.apply(this);
 		$(this).removeClass('init_table_flag')
 	}).on('change', 'select[name="genres"]', function () {
