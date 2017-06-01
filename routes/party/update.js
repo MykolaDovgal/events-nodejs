@@ -68,13 +68,13 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 				results.party.cover_picture_original = picture.original;
 			if (picture.circle)
 				results.party.cover_picture = picture.circle;
+
 			results.party.save();
 		});
 	}
 	else {
 		body = req.body;
 	}
-
 
 
 	let val;
@@ -89,7 +89,9 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 		res.status(200).send(body['value']);
 	})
 		.catch(function (err) {
-			next(err);
+			console.warn(err);
+			res.status(500);
+			res.send(err.message);
 		});
 });
 
@@ -204,8 +206,6 @@ router.post('/party/update/event/:id', function (req, res, next) {
 		res.json(result);
 	}
 });
-
-
 
 
 module.exports = router;
