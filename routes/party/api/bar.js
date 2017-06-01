@@ -17,8 +17,9 @@ router.get('/party/:id/bars', (req, res, next) => {
 		results.parties.bar.forEach((bar) => {
 			data.push({
 				_id: bar._id,
-				bar_name_eng: bar.bar_name_eng ? bar.bar_name_eng : '',
-				bar_name_ol: bar.bar_name_ol ? bar.bar_name_ol : ''
+				bar_name_eng: bar.bar_name_eng || '',
+				bar_name_ol: bar.bar_name_ol || '',
+				drinkCategories: bar.drinkCategories || []
 			});
 		});
 
@@ -62,7 +63,7 @@ router.post('/party/bar/delete', (req, res, next) => {
 	Promise.props({
 		party: Party.findOneAndUpdate({ id: body.partyId }, { $pull: { bar: { _id: body.barId } } }).execAsync()
 	}).then((results) => {
-		res.status(200).send();
+		res.sendStatus(200);
 	}).catch((err) => {
 		next(err);
 	});
@@ -89,7 +90,7 @@ router.get('/party/:partyId/bar/:barId/tenders', (req, res, next) => {
 					user.profile_picture_circle = default_image_user;
 			});
 			let data = { data: results };
-			res.status(200).send(JSON.stringify(data));
+			res.json(data);
 		});
 	}).catch((err) => {
 		next(err);
@@ -106,7 +107,7 @@ router.post('/party/bar/tenders/add', (req, res, next) => {
 			return bar._id == body.barId;
 		}).party_managers.push({ userId: body.userId });
 		results.party.save();
-		res.status(200).send();
+		res.sendStatus(200);
 	}).catch((err) => {
 		next(err);
 	});
@@ -122,7 +123,7 @@ router.post('/party/bar/tenders/delete', (req, res, next) => {
 			return bar._id == body.barId;
 		}).party_managers.pull({ userId: body.userId });
 		results.party.save();
-		res.status(200).send();
+		res.sendStatus(200);
 	}).catch((err) => {
 		next(err);
 	});
@@ -138,7 +139,7 @@ router.get('/party/bar/:barId/drinks/:categoryId', (req, res, next) => {// Worki
 			return category._id == req.params.categoryId
 		});
 		let data = { data: category };
-		res.status(200).send(JSON.stringify(data));
+		res.json(data);
 	}).catch((err) => {
 		next(err);
 	});
@@ -155,7 +156,7 @@ router.post('/party/bar/drinkcategory/add', (req, res, next) => {
 		});
 		bar.drinkCategories.push({ category_name: body.categoryName });
 		results.party.save();
-		res.status(200).send();
+		res.sendStatus(200);
 	}).catch((err) => {
 		next(err);
 	});

@@ -50,6 +50,7 @@ $(document).ready(function () {
 				{
 					data: 'title_eng',
 					render: function (data, type, full, meta) {
+						console.log(data);
 						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
 						return '<span title="' + data + '">' + text + '</span>'
 					},
@@ -134,7 +135,7 @@ $(document).ready(function () {
 					"targets": 'no_sort',
 					"orderable": false
 				},
-				{type: 'date-uk', targets: 2}
+				{ type: 'date-uk', targets: 2 }
 			],
 			scrollY: 500,
 			scrollX: true,

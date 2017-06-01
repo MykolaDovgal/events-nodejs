@@ -10,8 +10,8 @@ autoIncrement.initialize(mongoose.connection);
 let PartySchema = new Schema({
 	id: { type: Number, required: true, index: { unique: true } },
 	lineId: { type: Number },
-	title_ol: { type: String, trim: true },
-	title_eng: { type: String, trim: true },
+	title_ol: { type: String, trim: true, required: true },
+	title_eng: { type: String, trim: true, required: true },
 	eventId: { type: Number },
 	only_for_event_att: { type: Boolean },
 	description_eng: { type: String, trim: true },
