@@ -44,7 +44,7 @@ $(document).ready(function () {
 				title: 'Enter title',
 				success: function (data) {
 					$('#english_title').text(data);
-				}
+				},
 			});
 			$('#title_ol').editable({
 				type: 'text',
