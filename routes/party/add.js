@@ -1,11 +1,10 @@
-var express = require('express');
-var Promise = require('bluebird');
-var bodyParser = require("body-parser");
+let express = require('express');
+let bodyParser = require('body-parser');
 
-var Party = require('models/Party');
+let Party = require('models/Party');
 
-var router = express.Router();
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let router = express.Router();
+let urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 router.post('/party/add', urlencodedParser, function (request, response, next) {
@@ -25,8 +24,8 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 	let timeArray = body['party_start_time'].split(' ');
 
 	let newParty = Party({
-		title_eng: body['lineOriginName'],
-		title_ol: body['lineEnglishName'],
+		title_eng: body['lineEnglishName'],
+		title_ol: body['lineOriginName'],
 		description_eng: body['englishDescription'],
 		description_ol: body['originDescription'],
 		date: timeArray[0],
