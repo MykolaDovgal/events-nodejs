@@ -1,7 +1,10 @@
 /**
  * Created by Nazarii Beseniuk on 5/17/2017.
  */
+
+let SelectedManager = {};
 $(document).ready(function () {
+
 	let datetime = $('#datetime_div').datetimepicker({
 		format: 'dd/mm/yyyy hh:ii',
 		autoclose: true,
@@ -378,5 +381,153 @@ $(document).ready(function () {
 		});
 
 		return false;
+	});
+	
+	
+	
+
+	let party_managers_table = $('#table_party_managers').DataTable({
+		"ajax": "/api/party/" + party.id +"/managers",
+		"columns": [
+			{
+				data: 'delete_button',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+				},
+				width: '5%'
+			},
+			{
+				'data': 'id',
+				width: '10%'
+			},
+			{
+				data: 'profile_picture_circle',
+				render: function (data, type, full, meta) {
+					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+				},
+				width: '20%'
+			},
+			{
+				"data": 'username',
+				width: '45%'
+			},
+			{
+				"data": 'permission_level',
+				width: '20%'
+			}
+		],
+		"columnDefs": [
+			{
+				"targets": 'no-sort',
+				"orderable": false
+			}
+		],
+		scrollY: 200,
+		scroller: true,
+		responsive: false,
+		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+	});
+
+	//user dataset for search
+	let users = new Bloodhound({
+		datumTokenizer: function (datum) {
+			let emailTokens = Bloodhound.tokenizers.whitespace(datum.id);
+			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
+			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
+
+			return emailTokens.concat(lastNameTokens).concat(firstNameTokens);
+		},
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		prefetch: {
+			url: '/api/users/usersname',
+			cache: false,
+			transform: function (response) {
+				return $.map(response, function (item) {
+					return {
+						id: item.id,
+						name: item.name,
+						username: item.username,
+						picture: item.picture
+					};
+				});
+			}
+		}
+	});
+
+	//display searched result
+	$('#party_managers_search').typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1
+		},
+		{
+			name: 'users_dataset',
+			display: 'name',
+			source: users,
+			templates: {
+				suggestion: function (item) {
+					return '<div class="col-md-12">' +
+						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
+						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>' + '</div>' +
+						'</div>';
+				}
+			}
+		}).bind('typeahead:select', (ev, suggestion) => SelectedManager = suggestion);
+
+	$('#add_party_manager').click(() => {
+		SelectedManager.lineId = party.id;
+		//let data = JSON.stringify(SelectedManager);
+		$.ajax({
+			url: '/api/party/manager/add',
+			type: 'POST',
+			data: SelectedManager,
+			success: function (data) {
+				updateManagersTable();
+			},
+			error: function (jqXHR, textStatus, err) {
+			}
+		}).then(function () {
+		});
+		SelectedManager = {};
+		$('#party_managers_search').val('');
+	});
+
+	function updateManagersTable() {
+		party_managers_table.clear().draw();
+		setTimeout(function () {
+			party_managers_table.ajax.reload();
+			party_managers_table.columns.adjust().draw();
+		}, 1000);
+	}
+
+	$('#table_party_managers').on('click', 'td', function (event) {
+			window.location = '/users/' + party_managers_table.row(this).data().id;
+	});
+
+	$('#table_party_managers').on('click', 'td > div.remove-column', function (event) {
+		let parent = this.parentElement;
+		bootbox.confirm({
+			size: "small",
+			message: "Are you sure you want to remove this user from managers?",
+			callback: function (result) {
+				if (result) {
+					let data = JSON.stringify({ userId: party_managers_table.row(parent).data().id, lineId: line.id });
+					$.ajax({
+						url: '/api/line/manager/delete',
+						type: 'POST',
+						dataType: 'json',
+						contentType: "application/json; charset=utf-8",
+						data: data,
+						//TODO fix this KOSTYL
+						success: function () {
+							updateManagersTable();
+						},
+						error: function () {
+							updateManagersTable();
+						}
+					});
+				}
+			}
+		});
 	});
 });

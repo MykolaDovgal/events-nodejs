@@ -241,6 +241,7 @@ setup = {
 							lng: faker.address.longitude()
 						}
 					},
+					// bar: [{drinkCategories: []}],
 					tkts_avbl_here: faker.random.boolean(),
 					tkt_price: [],
 					attendees: attendees

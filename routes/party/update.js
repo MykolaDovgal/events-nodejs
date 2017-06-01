@@ -35,6 +35,9 @@ let upload = multer({storage: storage});
 
 
 router.post('/party/update/:id', upload.any(), function (req, res, next) {
+
+	console.warn(req.body);
+
 	let body = {};
 	let files = req.files;
 
@@ -71,6 +74,8 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 	else {
 		body = req.body;
 	}
+
+
 
 	let val;
 	if (body['value'])
@@ -199,6 +204,8 @@ router.post('/party/update/event/:id', function (req, res, next) {
 		res.json(result);
 	}
 });
+
+
 
 
 module.exports = router;

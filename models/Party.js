@@ -22,6 +22,9 @@ let PartySchema = new Schema({
 	date: { type: Date },
 	video_stream_avbl: { type: Boolean, default: true },
 	video_stream_on: { type: Boolean, default: false },
+	party_managers: [
+		{ userId: { type: Number } }
+	],
 	video_stream: { type: String, trim: true },
 	location: {
 		club_name: { type: String, trim: true },

@@ -25,19 +25,24 @@ let attendees = require('./party/api/attendees');
 let music = require('./party/api/music');
 let bar = require('./party/api/bar');
 let events = require('./event/api/events');
+let general = require('./party/api/general');
 
 let followers = require('./line/api/followers');
 let line_parties = require('./line/api/parties');
 
+
 router.use(followers);
 router.use(line_parties);
 
+router.use(general);
 router.use(parties);
 router.use(prices);
 router.use(attendees);
 router.use(music);
 router.use(bar);
 router.use(events);
+
+
 
 router.get('/users', function (req, res, next) {
 	Promise.props({
