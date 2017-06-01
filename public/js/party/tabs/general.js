@@ -500,35 +500,45 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	$('#table_party_managers').on('click', 'td', function (event) {
-		window.location = '/users/' + party_managers_table.row(this).data().id;
+
+
+
+	$('#table_party_managers').on('click', '.remove-column', function (event) {
+		console.log($(event.target).prop("tagName"));
+		if($(event.target).prop("tagName") == "I"){
+			console.log($(event.target).prop("tagName"));
+			let parent = this.parentElement;
+			bootbox.confirm({
+				size: "small",
+				message: "Are you sure you want to remove this user from managers?",
+				callback: function (result) {
+					if (result) {
+						let data = JSON.stringify({ userId: party_managers_table.row(parent).data().id, partyId: party.id });
+						$.ajax({
+							url: '/api/party/manager/delete',
+							type: 'POST',
+							dataType: 'json',
+							contentType: "application/json; charset=utf-8",
+							data: data,
+							//TODO fix this KOSTYL
+							success: function () {
+								updateManagersTable();
+							},
+							error: function () {
+								updateManagersTable();
+							}
+						});
+					}
+				}
+			});
+		}
 	});
 
-	$('#table_party_managers').on('click', 'td > div.remove-column', function (event) {
-		event.preventDefault();
-		let parent = this.parentElement;
-		bootbox.confirm({
-			size: "small",
-			message: "Are you sure you want to remove this user from managers?",
-			callback: function (result) {
-				if (result) {
-					let data = JSON.stringify({ userId: party_managers_table.row(parent).data().id, partyId: party.id });
-					$.ajax({
-						url: '/api/party/manager/delete',
-						type: 'POST',
-						dataType: 'json',
-						contentType: "application/json; charset=utf-8",
-						data: data,
-						//TODO fix this KOSTYL
-						success: function () {
-							updateManagersTable();
-						},
-						error: function () {
-							updateManagersTable();
-						}
-					});
-				}
-			}
-		});
+	$('#table_party_managers').on('click', 'td', function (event) {
+		console.log($(event.target).prop("tagName") != "I");
+		if($(event.target).prop("tagName") != "I") {
+			console.log($(event.target).prop("tagName") != "I");
+			window.location = '/users/' + party_managers_table.row(this).data().id;
+		}
 	});
 });
