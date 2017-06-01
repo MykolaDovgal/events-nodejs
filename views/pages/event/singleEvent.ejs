@@ -133,7 +133,7 @@
 							</ul>
 							<div class="tab-content offset-table-retreat">
 								<div class="tab-pane active" id="general-container">
-
+									<% include ../../pages/event/tabs/general %>
 								</div>
 
 								<div class="tab-pane" id="pricing_container">
@@ -248,7 +248,7 @@
 	<script src="/js/plugins/croppie.js" type="text/javascript"></script>
 	<script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
 	<script>
-		let party = <%- JSON.stringify(event) %>;
+		let event = <%- JSON.stringify(event) %>;
 	</script>
 	<script>
 		let currentLanguage = 'English';
@@ -261,9 +261,8 @@
 
 	<script src="/js/party/geocomplete_party.js" type="text/javascript"></script>
 	<script src="/js/party/tabs/pricing.js"></script>
-	<script src="/js/party/tabs/general.js"></script>
+	<script src="/js/event/tabs/general.js"></script>
 	<script src="/js/party/tabs/attendees.js"></script>
-	<script src="/js/party/tabs/smart.js"></script>
 	<script src="/js/party/tabs/music.js"></script>
 	<script src="/js/party/tabs/bar.js"></script>
 

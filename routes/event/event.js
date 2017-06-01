@@ -52,7 +52,8 @@ router.get('/event/:id', function (request, response, next) {
 						title: results.event.title_eng,
 						showMenu: true,
 						event: event,
-						party_date: event.date ? moment(event.date).format('DD/MM/YYYY HH:mm') : '',
+						start_date: event.start_date ? moment(event.start_date).format('DD/MM/YYYY HH:mm') : '',
+						end_date: event.end_date ? moment(event.end_date).format('DD/MM/YYYY HH:mm') : '',
 						line: results_le.line
 					};
 

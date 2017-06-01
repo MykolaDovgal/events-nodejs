@@ -12,7 +12,7 @@ router.get('/events', function (req, res, next) {
         eventCountPast: Event.countByDate('lt'),
         eventCountFuture: Event.countByDate('gt')
     }).then(function (results) {
-        var addresses = [];
+        let addresses = [];
         results.addresses.forEach(function (event) {
             if (event.location.city && event.location.country)
                 addresses.push({ country: event.location.country, city: event.location.city });
