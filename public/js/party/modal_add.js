@@ -11,10 +11,9 @@ $(document).ready(function () {
 		setDate: Date.now()
 	});
 
-	$('#modal_add_party').on('shown.bs.modal', function () {
+	$('#modal_add_party, [id^=line_][id$=_add_event]').on('shown.bs.modal', function () {
 		initGeoAddParty();
 	});
-
 
 
 });
@@ -23,13 +22,13 @@ $(document).ready(function () {
 window.initGeoAddParty = function () {
 
 
-	var geocomplete_line_add = $('#geocomplete_party_add').geocomplete({
+	let geocomplete_line_add = $('#geocomplete_party_add').geocomplete({
 		details: '.geo-data',
 		//types: ['(cities)']
 
 	}).on('geocode:result', function (e, result) {
-		var geo_data = $('.geo-data');
-		var data = {
+		let geo_data = $('.geo-data');
+		let data = {
 			lat: $('#lat').val(),
 			lng: $('#lng').val(),
 			locality: $('#locality').val(),
@@ -38,9 +37,6 @@ window.initGeoAddParty = function () {
 			route: $('#route').val(),
 			street_number: $('#street_number').val(),
 		};
-
-
-		console.log(data);
 
 	});
 };
