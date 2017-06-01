@@ -27,8 +27,6 @@ $(document).ready(function () {
 		buttonWidth: '150px'
 	});
 
-	let form = $('#form_add_user');
-
 	buildLines();
 
 	$(window).scroll(function () {
@@ -83,29 +81,7 @@ $(document).ready(function () {
 		}, delay));
 	});
 
-	$('div.pull-left > div.pull-left > a').click(function () {
-		$('div.pull-left > div.pull-left > a').removeClass('active');
-		$(this).addClass('active');
-		// $(this).addClass('btn-warning');
-	});
-
-	// $gallery.justifiedGallery().on('jg.complete', function (e) {
-	// 	$('html, body').scrollTop(height);
-	// });
-
-
 });
-
-// let onResize = function onResize() {
-// 	buildLines();
-// };
-//
-//
-// let doit;
-// window.onresize = function () {
-// 	clearTimeout(doit);
-// 	doit = setTimeout(onResize, 250);
-// };
 
 
 // go to the line item
@@ -122,14 +98,6 @@ $('#lines-gallery').on('click', '.line-item', function () {
 
 function initGallery() {
 	$gallery = $('#lines-gallery');
-	// $gallery.justifiedGallery({
-	// 	rowHeight: 300,
-	// 	maxRowHeight: 300,
-	// 	margins: 5,
-	// 	lastRow: 'justify',
-	// 	cssAnimation: false,
-	// 	imagesAnimationDuration: 0
-	// });
 }
 
 
@@ -170,23 +138,13 @@ function addNewLines(page, filter) {
 						generateLine(line)
 					);
 				});
-
-				// $gallery.justifiedGallery('norewind');
-				// $gallery.justifiedGallery('destroy');
-				// console.log($gallery.height());
-				// height = $gallery.height();
-				//initGallery();
 				global.page++;
 			}
-
-
 		},
 		error: function (jqXHR, textStatus, err) {
 			//location.reload();
 		}
 	});
-
-
 }
 
 function generateLine(line) {
