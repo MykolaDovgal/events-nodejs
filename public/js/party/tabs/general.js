@@ -392,7 +392,7 @@ $(document).ready(function () {
 			{
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
-					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					return '<div class="text-center remove_party_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
 				},
 				width: '5%'
 			},
@@ -423,6 +423,7 @@ $(document).ready(function () {
 			}
 		],
 		scrollY: 200,
+		scrollX: true,
 		scroller: true,
 		responsive: false,
 		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
@@ -503,11 +504,11 @@ $(document).ready(function () {
 
 
 
-	$('#table_party_managers').on('click', '.remove-column', function (event) {
+	$('#table_party_managers').on('click', '.remove_party_manager_column', function (event) {
 		console.log($(event.target).prop("tagName"));
 		if($(event.target).prop("tagName") == "I"){
-			console.log($(event.target).prop("tagName"));
 			let parent = this.parentElement;
+			console.log($(event.target).prop("tagName"));
 			bootbox.confirm({
 				size: "small",
 				message: "Are you sure you want to remove this user from managers?",
@@ -535,9 +536,7 @@ $(document).ready(function () {
 	});
 
 	$('#table_party_managers').on('click', 'td', function (event) {
-		console.log($(event.target).prop("tagName") != "I");
 		if($(event.target).prop("tagName") != "I") {
-			console.log($(event.target).prop("tagName") != "I");
 			window.location = '/users/' + party_managers_table.row(this).data().id;
 		}
 	});

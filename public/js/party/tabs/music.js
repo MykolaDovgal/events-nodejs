@@ -222,7 +222,9 @@ let setStageTable = function (stage_table_id,_id) {
 	});
 
 	$('#' + stage_table_id).on('click', 'td', function (event) {
-		window.location = '/users/' + tmpTable.row(this).data().id;
+		if($(event.target).prop("tagName") != "I") {
+			window.location = '/users/' + tmpTable.row(this).data().id;
+		}
 	});
 
 };
@@ -489,4 +491,3 @@ let getStageTabTemplate = function (counter,tabItem) {
 					</div>
 			`);
 };
-
