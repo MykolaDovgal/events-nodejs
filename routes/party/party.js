@@ -10,7 +10,8 @@ let Line = require('models/line');
 let Event = require('models/Event');
 
 let text = {
-	'not_selected': config.get('text:not_selected')
+	'not_selected': config.get('text:not_selected'),
+	'empty': config.get('text:not_selected')
 };
 
 

@@ -7,6 +7,9 @@ let mongoose = require('mongoose');
 let Promise = require('bluebird');
 let fs = require('fs');
 
+let text = {
+	'empty': config.get('text:empty')
+};
 
 Promise.promisifyAll(mongoose);
 
@@ -26,7 +29,10 @@ router.get('/api/events/getAll', function (req, res, next) {
 		events: Event.find({$or: filter_search}).execAsync()
 	})
 		.then(function (results) {
-			let data = [];
+			let data = [{
+				id: -1,
+				text: text.empty
+			}];
 
 
 			results.events.forEach(function (event, index) {

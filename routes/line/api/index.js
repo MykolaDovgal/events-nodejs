@@ -1,9 +1,14 @@
-var express = require('express');
-var Promise = require('bluebird');
+let express = require('express');
+let Promise = require('bluebird');
+let config = require('config');
 
-var Line = require('models/line');
+let Line = require('models/line');
 
-var router = express.Router();
+let router = express.Router();
+
+let text = {
+	'empty': config.get('text:empty')
+};
 
 
 // get all lines
@@ -11,7 +16,7 @@ router.get('/api/getAllLines', function (req, res, next) {
 
 	let search = req.query.q || '';
 
-	var filter_search = [
+	let filter_search = [
 		{'line_name_eng': new RegExp(search, "i")},
 		{'line_name_eng': new RegExp(search, "i")},
 		{'description_ol': new RegExp(search, "i")},
@@ -28,7 +33,10 @@ router.get('/api/getAllLines', function (req, res, next) {
 		lines: Line.find({$or: filter_search}).execAsync()
 	})
 		.then(function (results) {
-			let data = [];
+			let data = [{
+				id: -1,
+				text: text.empty
+			}];
 
 
 			results.lines.forEach(function (line, index) {

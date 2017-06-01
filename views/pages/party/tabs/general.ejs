@@ -23,7 +23,7 @@
 				<span>Line</span>
 				<% if (line.id > 0) { %>
 				<a target="_blank" title="Open line -<%= line.line_name_eng %>"
-				   class="party-open-line pull-right" href="/line/<%= line.id %>">
+				   class="open_link_line pull-right" href="/line/<%= line.id %>">
 					<i class="fa fa-external-link"
 					   aria-hidden="true"></i>
 				</a>
@@ -53,7 +53,7 @@
 				<span>Event</span>
 				<% if (event.id > 0) { %>
 				<a target="_blank" title="Open event -<%= event.title_eng %>"
-				   class="pull-right" href="/event/<%= event.id %>">
+				   class="pull-right open_link_event" href="/event/<%= event.id %>">
 					<i class="fa fa-external-link"
 					   aria-hidden="true"></i>
 				</a>

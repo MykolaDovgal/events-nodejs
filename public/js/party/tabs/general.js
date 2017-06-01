@@ -34,7 +34,6 @@ $(document).ready(function () {
 			$.fn.editable.defaults.url = '/party/update/' + party.id;
 			$.fn.editable.defaults.mode = 'inline';
 
-			//editables element samples
 			$('#title_eng').editable({
 				type: 'text',
 				pk: 1,
@@ -84,14 +83,24 @@ $(document).ready(function () {
 				},
 				display: function (value, sourceData) {
 
+
 					let line;
-					let title;
-					if (sourceData) {
+					let title = '';
+					if (sourceData && sourceData !== null) {
 						line = sourceData.line || 0;
 						title = (currentLanguage == 'English') ? line.line_name_eng : line.line_name_ol;
 
 					} else {
 						title = '';
+					}
+					if (!title) {
+						title = '';
+					}
+
+					if (value === '-1') {
+						$('.open_link_line').hide();
+					} else {
+						$('.open_link_line').show();
 					}
 
 					if (title.length > 0) {
@@ -132,8 +141,8 @@ $(document).ready(function () {
 				type: 'select2',
 				success: function success(response, newValue) {
 					// console.log(newValue);
-					$('#event_title_english').text('09');
-					$('#event_title_original').text('099');
+					//$('#event_title_english').text('09');
+					//$('#event_title_original').text('099');
 				},
 				display: function (value, sourceData) {
 

@@ -2,12 +2,20 @@ let express = require('express');
 let Promise = require('bluebird');
 let path = require('path');
 let crypto = require('crypto');
+let config = require('config');
+let multer = require('multer');
+
 let Party = require('models/Party');
 let Line = require('models/line');
 let Event = require('models/Event');
 
 let router = express.Router();
-let multer = require('multer');
+
+
+let text = {
+	'empty': config.get('text:empty'),
+	'not_selected': config.get('text:not_selected'),
+};
 
 let storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -125,19 +133,26 @@ router.post('/party/update/line/:id', function (req, res, next) {
 
 	let body = req.body;
 
-	let result = {};
+	let result = {
+		line: {
+			line_name_eng: text.not_selected,
+			line_name_ol: text.not_selected,
+		}
+	};
 
 	let lineId = body.value || 0;
 
-	if (lineId > 0) {
+	if (!isNaN(lineId)) {
 
 		Promise.props({
 			party: Party.update({id: req.params.id}, {lineId: lineId}).execAsync(),
 			line: Line.findOne({id: lineId}).execAsync()
 		}).then(function (result_p) {
 
-			result.msg = 'Line saved.';
-			result.line = result_p.line;
+			if (result_p.line) {
+				result.msg = 'Party updated.';
+				result.line = result_p.line;
+			}
 
 			res.json(result);
 		})
@@ -154,19 +169,26 @@ router.post('/party/update/event/:id', function (req, res, next) {
 
 	let body = req.body;
 
-	let result = {};
+	let result = {
+		event: {
+			title_eng: text.not_selected,
+			title_ol: text.not_selected,
+		}
+	};
 
 	let eventId = body.value || 0;
 
-	if (eventId > 0) {
+	if (!isNaN(eventId)) {
 
 		Promise.props({
 			party: Party.update({id: req.params.id}, {eventId: eventId}).execAsync(),
 			event: Event.findOne({id: eventId}).execAsync()
 		}).then(function (result_p) {
 
-			result.msg = 'Event saved.';
-			result.event = result_p.event;
+			if (result_p.event) {
+				result.msg = 'Event updated.';
+				result.event = result_p.event;
+			}
 
 			res.json(result);
 		})

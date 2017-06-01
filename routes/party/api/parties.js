@@ -93,8 +93,8 @@ router.all('/parties', function (req, res, next) {
 			});
 
 			results.parties.forEach(function (party) {
-				let lineId = party.lineId || 0;
-				let eventId = party.eventId || 0;
+				let lineId = (party.lineId === undefined || party.lineId < 0) ? 0 : party.lineId;
+				let eventId = (party.eventId === undefined || party.eventId < 0) ? 0 : party.eventId;
 				let line_name_eng = lines_data[lineId];
 				let event_title = events_data[eventId];
 

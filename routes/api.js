@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var fs = require('fs');
-var _ = require('underscore');
+let express = require('express');
+let router = express.Router();
+let passport = require('passport');
+let fs = require('fs');
+let _ = require('underscore');
 
 require('rootpath')();
 
-var User = require('models/user');
-var Line = require('models/line');
+let User = require('models/user');
+let Line = require('models/line');
 let config = require('config');
 
-var default_image_line = config.get('images:default_image_line');
-var default_image_user = config.get('images:default_image_user');
+let default_image_line = config.get('images:default_image_line');
+let default_image_user = config.get('images:default_image_user');
 
-var mongoose = require('mongoose');
-var Promise = require('bluebird');
+let mongoose = require('mongoose');
+let Promise = require('bluebird');
 
 Promise.promisifyAll(mongoose);
 
@@ -44,17 +44,17 @@ router.get('/users', function (req, res, next) {
 		users: User.find({}).execAsync()
 	})
 		.then(function (results) {
-			var lastActivities = [];
+			let lastActivities = [];
 
 			results.users.map(function (user) {
-				var lastActivity = user.getActivity()[user.getActivity().length - 1] ? user.getActivity()[user.getActivity().length - 1].login_time : '-';
+				let lastActivity = user.getActivity()[user.getActivity().length - 1] ? user.getActivity()[user.getActivity().length - 1].login_time : '-';
 				lastActivities.push(lastActivity);
 				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
 					user.profile_picture_circle = default_image_user;
 				return user;
 			});
 
-			var users = [];
+			let users = [];
 
 			//TODO FIX THIS IMMEDIATELY
 			results.users.forEach(function (user, index) {
@@ -79,7 +79,7 @@ router.get('/users', function (req, res, next) {
 				});
 			});
 
-			var data = {
+			let data = {
 				data: users,
 			};
 
@@ -92,9 +92,9 @@ router.get('/users', function (req, res, next) {
 
 router.get('/activity/:id?', function (req, res, next) {
 	Promise.props({
-		user: User.findOne({ id: req.params.id })
+		user: User.findOne({id: req.params.id})
 	}).then(function (results) {
-		var data = {
+		let data = {
 			data: results.user.getActivity()
 		};
 
@@ -128,44 +128,42 @@ router.post('/lines/:page?', function (req, res, next) {
 	}
 
 	if (search !== undefined && search.length > 1) {
-		var id = parseInt(search, 10);
+		let id = parseInt(search, 10);
 		if (Number.isNaN(Number(id))) {
 			id = 0;
 		}
 
-		var filter_search = [
-			{ 'line_name_eng': new RegExp(search, "i") },
-			{ 'line_name_eng': new RegExp(search, "i") },
-			{ 'description_ol': new RegExp(search, "i") },
-			{ 'description_eng': new RegExp(search, "i") },
-			{ 'website': new RegExp(search, "i") },
-			{ 'facebook_page': new RegExp(search, "i") },
-			{ 'phone_number': new RegExp(search, "i") },
-			{ 'address.city': new RegExp(search, "i") },
-			{ 'address.country': new RegExp(search, "i") },
-			{ 'music.music_genres': new RegExp(search, "i") }
+		let filter_search = [
+			{'line_name_eng': new RegExp(search, "i")},
+			{'line_name_eng': new RegExp(search, "i")},
+			{'description_ol': new RegExp(search, "i")},
+			{'description_eng': new RegExp(search, "i")},
+			{'website': new RegExp(search, "i")},
+			{'facebook_page': new RegExp(search, "i")},
+			{'phone_number': new RegExp(search, "i")},
+			{'address.city': new RegExp(search, "i")},
+			{'address.country': new RegExp(search, "i")},
+			{'music.music_genres': new RegExp(search, "i")}
 		];
 
 		if (id > 0) {
-			filter_search.push({ 'id': id });
+			filter_search.push({'id': id});
 		}
 
-		filter.push({ $or: filter_search });
+		filter.push({$or: filter_search});
 	}
 
 	if (active !== undefined) {
-		filter.push({ 'active': active });
+		filter.push({'active': active});
 	}
 
 	if (cities.length > 0) {
 		filter.push(
 			{
-				'address.city': { $in: cities }
+				'address.city': {$in: cities}
 			}
 		);
 	}
-
-	console.log(filter);
 
 	if (filter.length === 0) {
 		filter.push({});
@@ -173,12 +171,12 @@ router.post('/lines/:page?', function (req, res, next) {
 
 
 	Promise.props({
-		lines: Line.paginate({ $and: filter }, { page: page, limit: limit })
+		lines: Line.paginate({$and: filter}, {page: page, limit: limit})
 	}).then(function (results) {
 
 		let lines = results.lines.docs;
 		lines.forEach(function (line) {
-			var cover_img = line.cover_picture;
+			let cover_img = line.cover_picture;
 			console.log(cover_img);
 			if (cover_img !== undefined && cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
 				if (!fs.existsSync('public' + cover_img)) {
@@ -200,13 +198,13 @@ router.post('/lines/:page?', function (req, res, next) {
 
 //get line managers
 router.get('/line/managers/:lineid?', function (req, res, next) {
-	var lineid = req.params.lineid;
+	let lineid = req.params.lineid;
 
 	if (lineid > 0) {
 		Promise.props({
-			managers: Line.findOne({ id: lineid }).select('managers').lean()
+			managers: Line.findOne({id: lineid}).select('managers').lean()
 		}).then(function (results) {
-			var users = [];
+			let users = [];
 
 			if (Array.isArray(results.managers.managers)) {
 				results.managers.managers.forEach(function (manager) {
@@ -217,7 +215,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 			}
 
 			User.find({
-				'id': { $in: users }
+				'id': {$in: users}
 			})
 				.select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
 				.exec(function (err, users) {
@@ -230,7 +228,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 							user.profile_picture_circle = default_image_user;
 					});
 
-					var data = {
+					let data = {
 						data: users
 					};
 
@@ -241,7 +239,8 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 
 		}).catch(function (err) {
 			next(err);
-		}); ``
+		});
+		``
 	} else {
 		next();
 	}
@@ -254,7 +253,6 @@ router.get('/users/usersname', function (req, res, next) {
 	})
 		.then(function (results) {
 			let data = [];
-
 
 
 			results.users.forEach(function (user, index) {
@@ -281,7 +279,7 @@ router.get('/users/usersname', function (req, res, next) {
 router.get('/user/lines/:id?', function (req, res, next) {
 	Promise.props({
 		lines: Line.find({
-			'managers': { $elemMatch: { user_id: { $in: [req.params.id] } } }
+			'managers': {$elemMatch: {user_id: {$in: [req.params.id]}}}
 		}).execAsync()
 	})
 		.then(function (results) {
@@ -313,7 +311,10 @@ router.post('/line/manager/add', function (req, res, next) {
 	let body = req.body;
 
 	Promise.props({
-		line: Line.update({ id: body.lineId, "managers.user_id": { $nin: [body.id] } }, { $addToSet: { "managers": { user_id: body.id } }, }).execAsync()
+		line: Line.update({
+			id: body.lineId,
+			"managers.user_id": {$nin: [body.id]}
+		}, {$addToSet: {"managers": {user_id: body.id}},}).execAsync()
 	}).then(function (results) {
 		res.send(200);
 	})
@@ -326,7 +327,7 @@ router.post('/line/manager/add', function (req, res, next) {
 //delete manager from line
 router.post('/line/manager/delete', function (req, res, next) {
 	Promise.props({
-		line: Line.update({ id: req.body.lineId }, { $pull: { managers: { user_id: req.body.userId } } }).execAsync()
+		line: Line.update({id: req.body.lineId}, {$pull: {managers: {user_id: req.body.userId}}}).execAsync()
 	}).then(function (results) {
 		res.send(200);
 	})

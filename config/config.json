@@ -40,6 +40,7 @@
     "default_image_user": "/uploads/users/no-pic.png"
   },
   "text": {
-    "not_selected": "Not selected"
+    "not_selected": "Not selected",
+    "empty": "Empty"
   }
 }
