@@ -50,7 +50,6 @@ $(document).ready(function () {
 				{
 					data: 'title_eng',
 					render: function (data, type, full, meta) {
-						console.log(data);
 						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
 						return '<span title="' + data + '">' + text + '</span>'
 					},

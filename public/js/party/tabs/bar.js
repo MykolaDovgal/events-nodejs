@@ -35,14 +35,14 @@ $(document).ready(() => {
         let barId = $(this).parents('.bar-tab').attr('id');
         let data = { barId: barId, categoryName: 'Category ' + catCount }
         $.ajax({
-            url: '/api/party/bar/drinkcategory/add',
+            url: '/api/party/bar/category/add',
             type: 'POST',
             data: data,
-            success: () => {
+            success: (_id) => {
                 //let parent = $(this).parents('.table-drinks');
                 //let table = parent.find('table')[1];
                 //updateTable($(table).attr('id'));
-                createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, { category_name: 'Category ' + catCount });
+                createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, { category_name: 'Category ' + catCount, _id: _id });
             }
         });
     });
@@ -51,9 +51,14 @@ $(document).ready(() => {
         deleteBar.apply(this);
     });
 
+    $('body').on('click', '.delete_category_btn_flag', function () {
+        deleteCategory.apply(this);
+    });
+
     let createCategoryTab = (bar, category) => {
         let categoryTemplate = getCategoryTabTemplate(catCount, bar, category);
         $(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
+        setCategoryEditable(category);
         catCount += 1;
     }
 
@@ -66,7 +71,6 @@ $(document).ready(() => {
         if (bar.drinkCategories)
             bar.drinkCategories.forEach(category => {
                 createCategoryTab(bar, category);
-                setCategoryEditable(category);
             });
         //initDrinks('bar_' + barCount + '_drinks_table', bar._id);
         barCount += 1;
@@ -107,6 +111,7 @@ $(document).ready(() => {
                 let accordion = $('#bar_accordion_container');
                 accordion.empty();
                 barCount = 1;
+                catCount = 1;
                 data.forEach((bar) => {
                     createBarTab(bar);
                 });
@@ -142,10 +147,10 @@ $(document).ready(() => {
             callback: function (results) {
                 if (results) {
                     $.ajax({
-                        url: 'api/party/bar/category/delete',
+                        url: '/api/party/bar/category/delete',
                         type: 'POST',
-                        data: { partyId: party.id, categoryId: categoryId },
-                        success: _id => {
+                        data: { categoryId: categoryId },
+                        success: () => {
                             initBars();
                         }
                     })

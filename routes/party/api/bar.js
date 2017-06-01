@@ -1,13 +1,13 @@
-let express = require('express');
-let router = express.Router();
-let Promise = require('bluebird');
-let moment = require('moment');
-let fs = require('fs');
-let config = require('config');
+const express = require('express');
+const router = express.Router();
+const Promise = require('bluebird');
+const moment = require('moment');
+const fs = require('fs');
+const config = require('config');
 
-let default_image_user = config.get('images:default_image_user');
-let Party = require('models/Party');
-let User = require('models/user');
+const default_image_user = config.get('images:default_image_user');
+const Party = require('models/Party');
+const User = require('models/user');
 
 router.get('/party/:id/bars', (req, res, next) => {
 	Promise.props({
@@ -145,7 +145,7 @@ router.get('/party/bar/:barId/drinks/:categoryId', (req, res, next) => {// Worki
 	});
 });
 
-router.post('/party/bar/drinkcategory/add', (req, res, next) => {
+router.post('/party/bar/category/add', (req, res, next) => {
 	let body = req.body;
 
 	Promise.props({
@@ -156,10 +156,43 @@ router.post('/party/bar/drinkcategory/add', (req, res, next) => {
 		});
 		bar.drinkCategories.push({ category_name: body.categoryName });
 		results.party.save();
-		res.sendStatus(200);
+		res.send(bar.drinkCategories[bar.drinkCategories.length - 1]._id);
 	}).catch((err) => {
 		next(err);
 	});
+});
+
+router.post('/party/bar/category/update', (req, res, next) => {
+	let body = req.body;
+
+	Promise.props({
+		party: Party.findOne({ 'bar.drinkCategories._id': body.pk }).execAsync()
+	}).then((results) => {
+		let category;
+		results.party.bar.forEach(bar => {
+			category = bar.drinkCategories.find(category => {
+				return category._id == body.pk
+			})
+		})
+		category.category_name = body.value;
+		results.party.save();
+		res.sendStatus(200);
+	})
+});
+
+router.post('/party/bar/category/delete', (req, res, next) => {
+	let body = req.body;
+
+	Promise.props({
+		party: Party.findOne({ 'bar.drinkCategories._id': body.categoryId }).execAsync()
+	}).then((results) => {
+		let category;
+		results.party.bar.forEach(bar => {
+			bar.drinkCategories.pull({ _id: body.categoryId });
+		})
+		results.party.save();
+		res.sendStatus(200);
+	})
 });
 
 module.exports = router;
