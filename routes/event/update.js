@@ -102,7 +102,6 @@ router.post('/event/update/address/:id', function (req, res, next) {
 	let result = {status: true};
 
 	let location = {
-		club_name: '',
 		country: body.country,
 		city: body.locality,
 		address: '',
@@ -112,6 +111,8 @@ router.post('/event/update/address/:id', function (req, res, next) {
 		}
 	};
 
+	console.warn('location', location);
+
 	if (!location.city || !location.country) {
 		result.status = false;
 		result.msg = 'Please, select correct city or country.';
@@ -120,7 +121,7 @@ router.post('/event/update/address/:id', function (req, res, next) {
 	if (result.status) {
 
 		Promise.props({
-			event: Party.update({id: req.params.id}, {location: location}).execAsync()
+			event: Event.update({id: req.params.id}, {location: location}).execAsync()
 		}).then(function () {
 
 			result.status = true;
@@ -159,42 +160,6 @@ router.post('/event/update/line/:id', function (req, res, next) {
 			if (result_p.line) {
 				result.msg = 'Party updated.';
 				result.line = result_p.line;
-			}
-
-			res.json(result);
-		})
-			.catch(function (err) {
-				next(err);
-			});
-	} else {
-		res.json(result);
-	}
-});
-
-// save event id
-router.post('/event/update/event/:id', function (req, res, next) {
-
-	let body = req.body;
-
-	let result = {
-		event: {
-			title_eng: text.not_selected,
-			title_ol: text.not_selected,
-		}
-	};
-
-	let eventId = body.value || 0;
-
-	if (!isNaN(eventId)) {
-
-		Promise.props({
-			event: Party.update({id: req.params.id}, {eventId: eventId}).execAsync(),
-			event: Event.findOne({id: eventId}).execAsync()
-		}).then(function (result_p) {
-
-			if (result_p.event) {
-				result.msg = 'Event updated.';
-				result.event = result_p.event;
 			}
 
 			res.json(result);

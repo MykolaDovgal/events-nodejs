@@ -1,24 +1,27 @@
-var mongoose = require('mongoose');
-var autoIncrement = require('mongoose-auto-increment');
+let mongoose = require('mongoose');
+let autoIncrement = require('mongoose-auto-increment');
 
-var faker = require('faker');
-var fs = require('fs');
-var request = require('request');
-var Promise = require('bluebird');
+let faker = require('faker');
+let fs = require('fs');
+let request = require('request');
+let Promise = require('bluebird');
+let path = require('path');
+
 
 require('rootpath')();
 
-var config = require('config');
+
+let config = require('config');
 // mongo connect
-var mongo_uri = config.get('db:connection');
-var User = require('models/user');
-var Line = require('models/line');
+let mongo_uri = config.get('db:connection');
+let User = require('models/user');
+let Line = require('models/line');
 let Party = require('models/Party');
 let Event = require('models/Event');
 
-//var UserSchema = require('mongoose').model('Song').schema;
-var UserSchema = User.schema;
-var LineSchema = Line.schema;
+//let UserSchema = require('mongoose').model('Song').schema;
+let UserSchema = User.schema;
+let LineSchema = Line.schema;
 let PartySchema = Party.schema;
 let EventSchema = Event.schema;
 
@@ -28,12 +31,12 @@ const COUNT_OF_PARTY = 50;
 const COUNT_OF_EVENTS = 50;
 const PASSWORD_USER = '12345';
 
-var setup;
+let setup;
 
 setup = {
 	createAdmin: function () {
 		// create a new user
-		var newUser = User({
+		let newUser = User({
 			id: 0,
 			username: config.get('project:admin:username'),
 			realname: 'Admin Admin',
@@ -60,20 +63,20 @@ setup = {
 		});
 
 
-		for (var i = 0; i < COUNT_OF_USERS; i++) {
+		for (let i = 0; i < COUNT_OF_USERS; i++) {
 			// create a new user
-			var first_name = faker.name.firstName();
-			var last_name = faker.name.lastName();
-			var remote_url = faker.image.avatar();
+			let first_name = faker.name.firstName();
+			let last_name = faker.name.lastName();
+			let remote_url = faker.image.avatar();
 
-			var local_image = './public/uploads/users/' + first_name + '.png';
-			var local_image_save = '/uploads/users/' + first_name + '.png';
+			let local_image = './public/uploads/users/' + first_name + '.png';
+			let local_image_save = '/uploads/users/' + first_name + '.png';
 
 			downloadImage(remote_url, local_image, function () {
 				console.log(local_image_save);
 			});
 
-			var userData = {
+			let userData = {
 				username: faker.internet.userName(first_name, last_name),
 				password: PASSWORD_USER,
 				firstname: first_name,
@@ -91,7 +94,7 @@ setup = {
 			};
 			console.log(userData);
 
-			var user = new User(userData);
+			let user = new User(userData);
 
 			// save the user
 			user.save(function (err) {
@@ -143,22 +146,22 @@ setup = {
 			startAt: 1
 		});
 
-		for (var i = 0; i < COUNT_OF_LINES; i += 1) {
-			var manag = [];
-			var mus = [];
-			var count = faker.random.number(2, 10);
-			for (var j = 0; j < count; j += 1) {
-				manag.push({ userid: j });
+		for (let i = 0; i < COUNT_OF_LINES; i += 1) {
+			let manag = [];
+			let mus = [];
+			let count = faker.random.number(2, 10);
+			for (let j = 0; j < count; j += 1) {
+				manag.push({userid: j});
 				mus.push(faker.lorem.word());
 			}
 
-			var line_name = faker.name.title();
-			var color = faker.random.arrayElement(['FFFF00', 'CC0000', '663366', 'FF3366', '0099FF', '00FF66', 'FFFF99']);
-			//var cover_picture = 'http://dummyimage.com/415x240/' + color + '/000.png';
-			var cover_picture = 'https://placeimg.com/450/240/arch?' + line_name;
+			let line_name = faker.name.title();
+			let color = faker.random.arrayElement(['FFFF00', 'CC0000', '663366', 'FF3366', '0099FF', '00FF66', 'FFFF99']);
+			//let cover_picture = 'http://dummyimage.com/415x240/' + color + '/000.png';
+			let cover_picture = 'https://placeimg.com/450/240/arch?' + line_name;
 			//http://dummyimage.com/415x240/000/ffffff.png
 
-			var lineData = {
+			let lineData = {
 				active: faker.random.boolean(),
 				line_name_eng: line_name + '(eng)',
 				line_name_ol: line_name + '(ol)',
@@ -177,7 +180,7 @@ setup = {
 				}
 			};
 
-			var line = new Line(lineData);
+			let line = new Line(lineData);
 
 			line.save(function (err) {
 				if (err) {
@@ -206,7 +209,7 @@ setup = {
 
 				let attendees = [];
 
-				for (let j = 0; j < faker.random.number({ min: 0, max: 30 }); j += 1) {
+				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
 					attendees.push({
 						userId: faker.random.arrayElement(users),
 						ticket_purchase: faker.random.boolean(),
@@ -275,7 +278,7 @@ setup = {
 
 				let attendees = [];
 
-				for (let j = 0; j < faker.random.number({ min: 0, max: 30 }); j += 1) {
+				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
 					attendees.push({
 						userId: faker.random.arrayElement(users),
 						ticket_purchase: faker.random.boolean(),
@@ -330,6 +333,29 @@ setup = {
 
 	},
 
+	createDirectories: function (cb) {
+		let app_path = path.join(__dirname, '../');
+
+		console.warn(app_path);
+
+		let dirs = [
+			app_path + 'public/uploads/events/',
+			app_path + 'public/uploads/parties/',
+			app_path + 'public/uploads/lines/',
+			app_path + 'public/uploads/users/',
+		];
+
+		dirs.forEach(function (dir) {
+			if (!fs.existsSync(dir)) {
+				fs.mkdirSync(dir);
+			}
+		});
+
+		if (cb) {
+			cb();
+		}
+	},
+
 	getRandomElements: function (array, count = 1) {
 		let result = array;
 		if (count < array.length) {
@@ -344,7 +370,7 @@ setup = {
 
 };
 
-var downloadImage = function (uri, filename, callback) {
+let downloadImage = function (uri, filename, callback) {
 	request.head(uri, function (err, res, body) {
 		console.log('content-type:', res.headers['content-type']);
 		console.log('content-length:', res.headers['content-length']);

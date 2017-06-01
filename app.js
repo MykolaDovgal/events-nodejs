@@ -144,6 +144,7 @@ app.use(function (err, req, res, next) {
 console.warn('App Started');
 
 app.set('absolute_view', __dirname + '/views');
-console.warn(__dirname);
+app.set('absolute_path', __dirname );
+//console.warn(__dirname);
 
 module.exports = app;
