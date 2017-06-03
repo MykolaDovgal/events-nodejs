@@ -9,9 +9,9 @@ autoIncrement.initialize(mongoose.connection);
 
 let EventSchema = new Schema({
 	id: {type: Number, required: true, index: {unique: true}},
-	title_ol: {type: String},
+	title_ol: {type: String, required: true, trim: true},
+	title_eng: {type: String, required: true, trim: true},
 	active: {type: Boolean, default: true},
-	title_eng: {type: String},
 	partyId: {type: Number},
 	description_eng: {type: String},
 	description_ol: {type: String},
@@ -80,6 +80,12 @@ EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
 	return eventModel.count({start_date: condition});
 
 };
+
+// validate on update
+EventSchema.pre('update', function (next) {
+	this.options.runValidators = true;
+	next();
+});
 
 EventSchema.plugin(autoIncrement.plugin, {
 	model: 'Event',

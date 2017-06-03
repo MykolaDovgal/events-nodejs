@@ -97,7 +97,7 @@ let initPricingTable = function () {
 			{
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
-					return `<div data-id="${full.id != undefined ? full.id : ''}" class="text-center remove-column flag_delete_btn"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
+					return `<div data-id="${full.id != undefined ? full.id : ''}" class="text-center remove_column flag_delete_btn"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
 				},
 				width: '5%'
 			},
