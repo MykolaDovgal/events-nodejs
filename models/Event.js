@@ -28,14 +28,14 @@ let EventSchema = new Schema({
 		}
 	},
 	tkts_avbl_here: {type: Boolean},
-	tkt_price: {
+	tkt_price: [{
 		priceId: {type: Number},
 		start_date: {type: Date},
 		end_date: {type: Date},
 		price: {type: Number},
 		currency: {type: String}
-	},
-	attendees: {
+	}],
+	attendees: [{
 		userId: {type: Number},
 		ticket_purchase: {type: Boolean},
 		purchase_priceId: {type: Number},
@@ -45,16 +45,16 @@ let EventSchema = new Schema({
 		here_mark_time: {type: Date},
 		location_ver: {type: Boolean},
 		location_ver_time: {type: Date}
-	},
+	}],
 	managers: [],
-	notifications: {
+	notifications: [{
 		notificationId: {type: Number},
 		time: {type: Date},
 		content: {type: String},
 		link: {type: String},
 		sender: {type: Number},
 		audience: []
-	}
+	}]
 });
 
 EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {

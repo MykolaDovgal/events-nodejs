@@ -19,20 +19,24 @@ $(document).ready(function () {
 
 		});
 		$(this).removeClass('row_datetime');
-	}).on('change', '.date,select.price_currency', function () { sendUpdateAJAX.call(this) })
-		.on('blur', '.identity_flag', function () { sendUpdateAJAX.call(this) })
+	}).on('change', '.date,select.price_currency', function () {
+		sendUpdateAJAX.call(this)
+	})
+		.on('blur', '.identity_flag', function () {
+			sendUpdateAJAX.call(this)
+		})
 		.on('click', '.flag_delete_btn', function () {
 			sendDeleteAjax.call(this);
 			event_pricing_table.ajax.reload();
 		});
 
 
-	$('#party_add_price').click(() => {
+	$('#event_add_price').click(() => {
 
 		$.ajax({
 			url: '/api/event/prices/add',
 			type: 'POST',
-			data: { partyId: party.id },
+			data: {eventId: event.id},
 			success: function (data) {
 				event_pricing_table.row.add({
 					id: data
@@ -56,7 +60,7 @@ let sendUpdateAJAX = function () {
 	$.ajax({
 		url: '/api/event/prices/update',
 		type: 'POST',
-		data: { priceId: priceId, name: name, value: value },
+		data: {priceId: priceId, name: name, value: value},
 		success: function (data) {
 		},
 		error: function (jqXHR, textStatus, err) {
@@ -72,7 +76,7 @@ let sendDeleteAjax = function () {
 	$.ajax({
 		url: '/api/event/prices/delete',
 		type: 'POST',
-		data: { priceId: priceId },
+		data: {priceId: priceId},
 		success: function (data) {
 			event_pricing_table.ajax.reload();
 
@@ -85,9 +89,9 @@ let sendDeleteAjax = function () {
 };
 
 let initPricingTable = function () {
-	event_pricing_table = $('#party_pricing').DataTable({
+	event_pricing_table = $('#event_pricing').DataTable({
 
-		"ajax": '/api/event/' + party.id + '/prices',
+		"ajax": '/api/event/' + event.id + '/prices',
 		"columns": [
 
 			{
