@@ -35,8 +35,8 @@ router.get('/event/:id', function (request, response, next) {
 				title: results.event.title_eng,
 				showMenu: true,
 				event: event,
-				start_date: event.start_date ? moment(event.start_date).format('DD/MM/YYYY HH:mm') : '',
-				end_date: event.end_date ? moment(event.end_date).format('DD/MM/YYYY HH:mm') : ''
+				start_date: event.start_date ? moment(event.start_date).format('DD/MM/YYYY') : '',
+				end_date: event.end_date ? moment(event.end_date).format('DD/MM/YYYY') : ''
 			};
 
 			console.warn(data);

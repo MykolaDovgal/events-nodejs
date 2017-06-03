@@ -6,9 +6,10 @@ let SelectedManager = {};
 $(document).ready(function () {
 
 	let start_date_div = $('#start_date_div').datetimepicker({
-		format: 'dd/mm/yyyy hh:ii',
+		format: 'dd/mm/yyyy',
 		autoclose: true,
-		useCurrent: false,
+		minView: 2,
+		useCurrent: true,
 	}).on('changeDate', function (ev) {
 		let date = {name: 'start_date', value: ev.date, pk: 1};
 		$.ajax({
@@ -21,9 +22,10 @@ $(document).ready(function () {
 	});
 
 	let end_date_div = $('#end_date_div').datetimepicker({
-		format: 'dd/mm/yyyy hh:ii',
+		format: 'dd/mm/yyyy',
 		autoclose: true,
-		useCurrent: false,
+		useCurrent: true,
+		minView: 2,
 	}).on('changeDate', function (ev) {
 		let date = {name: 'end_date', value: ev.date, pk: 1};
 		$.ajax({
