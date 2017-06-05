@@ -58,7 +58,7 @@ let fixTableLayout = function () {
 let deleteGenre = function (stageId) {
 
 	let parent = $('#' + stageId);
-	if(parent.find('select[name="genres"]').length <= 1)
+	if(parent.find('select[name="genres"]').length <= 0)
 		return null;
 
 	parent.find('select[name="genres"]').last().remove();
@@ -358,7 +358,7 @@ let generateSelectTemplate = function (genresArray) {
 		});
 	}
 	else {
-		selectTemplate.append(generateDefaultSelect());
+		//selectTemplate.append(generateDefaultSelect());
 	}
 	return selectTemplate.html();
 
