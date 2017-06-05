@@ -45,7 +45,7 @@ router.post('/party/bar/add', (req, res, next) => {
 	let body = req.body
 
 	Promise.props({
-		party: Party.findOneAndUpdate({ id: body.partyId }, { $push: { bar: { bar_name_eng: body.name, drinksCategories: [], drinks: { list: [] } } } }).execAsync()
+		party: Party.findOneAndUpdate({ id: body.partyId }, { $push: { bar: { bar_name_eng: body.name, drinksCategories: [] } } }).execAsync()
 	}).then((results) => {
 		Party.findOne({ id: body.partyId }).select('bar').then((doc) => {
 			res.status(200).send(doc.bar[doc.bar.length - 1]._id)
@@ -129,22 +129,6 @@ router.post('/party/bar/tenders/delete', (req, res, next) => {
 	})
 })
 
-router.get('/party/bar/:barId/drinks/:categoryId', (req, res, next) => {// Working on it
-	Promise.props({
-		party: Party.findOne({ 'bar': { $elemMatch: { _id: req.params.barId } } }).execAsync()
-	}).then((results) => {
-		let category = results.party.bar.find((bar) => {
-			return bar._id == req.params.barId
-		}).drinksCategories.find((category) => {
-			return category._id == req.params.categoryId
-		})
-		let data = { data: category }
-		res.json(data)
-	}).catch((err) => {
-		next(err)
-	})
-})
-
 router.post('/party/bar/category/add', (req, res, next) => {
 	let body = req.body
 
@@ -168,7 +152,6 @@ router.post('/party/bar/category/update', (req, res, next) => {
 	Promise.props({
 		party: Party.findOne({ 'bar.drinkCategories._id': body.pk }).execAsync()
 	}).then((results) => {
-		let category
 		results.party.bar.forEach(bar => {
 			let category = bar.drinkCategories.find(category => {
 				return category._id == body.pk
@@ -192,6 +175,38 @@ router.post('/party/bar/category/delete', (req, res, next) => {
 		})
 		results.party.save()
 		res.sendStatus(200)
+	})
+})
+
+router.post('/party/bar/drinks/add', (req, res, next) => {
+	let body = req.body
+
+	Promise.props({
+		party: Party.findOne({ 'bar.drinkCategories._id': body.categoryId }).execAsync()
+	}).then((results) => {
+		let category = results.party.bar.find(bar => {
+			return bar._id == body.barId
+		}).drinkCategories.find(category => {
+			return category._id == body.categoryId
+		})
+		category.drinks.push({})
+		results.party.save()
+		res.sendStatus(200)
+	})
+})
+
+router.get('/party/bar/:barId/drinks/:categoryId', (req, res, next) => {// REWORK
+	Promise.props({
+		party: Party.findOne({ 'bar.drinkCategories._id': req.params.categoryId }).execAsync()
+	}).then((results) => {
+		let drinks = results.party.bar.find(bar => {
+			return bar._id == req.params.barId
+		}).drinkCategories.find(category => {
+			return category._id == req.params.categoryId
+		}).drinks
+		res.json({ data: drinks })
+	}).catch(err => {
+		next(err)
 	})
 })
 

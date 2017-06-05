@@ -47,7 +47,17 @@ $(document).ready(() => {
     $('body').on('click', '.collapse_category', function (e) {
         if ($(e.target).prop("tagName") == 'DIV') {
             $(this).closest('.category-accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
-            $(this).siblings('.panel-collapse').slideToggle(300);
+            $(this).siblings('.panel-collapse').slideToggle({ 
+                start: function () {
+                    let table = $(this).find('table')[0];
+                    if ($(table).hasClass('not-initialized')) {
+                        console.log('Updating', table)
+                        fixTableLayout.apply(this);
+                        $(table).removeClass('not-initialized')
+                    }
+                },
+                duration: 300
+             });
         }
     })
 
@@ -59,10 +69,20 @@ $(document).ready(() => {
         deleteCategory.apply(this);
     });
 
+    $('body').on('click', '.add_drink_button', function () {
+        let data = { barId: $(this).parents('.bar-tab').attr('id'), categoryId: $(this).data('id') }
+        $.ajax({
+            url: '/api/party/bar/drinks/add',
+            type: 'POST',
+            data: data
+        });
+    });
+
     let createCategoryTab = (bar, category) => {
         let categoryTemplate = getCategoryTabTemplate(catCount, bar, category);
         $(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
         setCategoryEditable(category);
+        initDrinks('category_' + category._id + '_drinks', bar._id, category._id);
         catCount += 1;
     }
 
@@ -173,19 +193,20 @@ $(document).ready(() => {
                         <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
                 </div>
-                <div id="bar_${bar._id}_drinks_${catCounter}" class="panel-collapse collapse in">
+                <div id="bar_${bar._id}_drinks_${catCounter}" class="panel-collapse collapse">
                     <div class="panel-body"><div class="portlet-body table-both-scroll">
-                    <table id="bar_${bar._id}_drinks_${catCounter}_table" class="table table-striped table-bordered table-hover order-column">
-                        <thead>
-                        <th>#</th>
-                        <th>Drink</th>
-                        <th>Serve Method</th>
-                        <th>Volume</th>
-                        <th>Price</th>
-                        <th>In Stock</th>                             
-                        </thead>
-                    </table>
-                </div></div>
+                        <table id="category_${category._id}_drinks" class="table table-striped table-bordered table-hover order-column not-initialized">
+                            <thead>
+                            <th>#</th>
+                            <th>Drink</th>
+                            <th>Serve Method</th>
+                            <th>Volume</th>
+                            <th>Price</th>
+                            <th>In Stock</th>                             
+                            </thead>
+                        </table>
+                        <button class="btn btn-default add_drink_button" data-id="${category._id}">Add Drink</button>
+                    </div>
                 </div>
             </div>
         `)
@@ -193,8 +214,8 @@ $(document).ready(() => {
 
     let getBarTabTemplate = (counter, bar) => {
         return $(`
-            <div id="${bar._id}" class="panel panel-default bar-tab">
-                <div class="panel-heading collapse_accordion">
+            <div id="${bar._id}" class="panel panel-default bar-tab tab_flag">
+                <div class="panel-heading collapse_accordion init_table_flag">
                     <a id="bar_${counter}_name" class="editable editable-click editable-disabled" data-name="bar_name_eng" href="#bar_${counter}_body"
                         style="margin:10px;display: inline-block" data-type="text" data-pk="${bar._id}"
                         data-parent="#bar_accordion_container">${bar.bar_name_eng}</a>
@@ -202,7 +223,7 @@ $(document).ready(() => {
                         <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
                 </div>
-                <div id="bar_${counter}_body" class="panel-collapse in horizontal-tab">
+                <div id="bar_${counter}_body" class="panel-collapse collapse horizontal-tab">
                     <div class="row">
                         <div class="col-md-12 col-lg-5 table-tenders">
                             <div class="portlet light bordered">
@@ -298,7 +319,7 @@ $(document).ready(() => {
         $('#' + tableId)
             .DataTable({
                 "ajax": {
-                    "url": "/api/party/" + party.id + "/bar/" + barId + "/drinks/" + categoryId,
+                    "url": "/api/party/bar/" + barId + "/drinks/" + categoryId,
                 },
                 "columns": [
                     {
@@ -346,7 +367,7 @@ $(document).ready(() => {
                         data: "price",
                         render: function (data) {
                             return `<div class="identity_flag">
-                                        <input value="${ data || ''}"  name="price" class="form-control" type="text" style="width: 100%">			
+                                        <input value="${ data || ''}"  name="drink_price" class="form-control" type="text" style="width: 100%">			
                                     </div>`
                         },
                         width: 50

@@ -77,21 +77,18 @@ let PartySchema = new Schema({
 		drinkCategories: [
 			{
 				category_name: {type: String},
-				drinksId: [{type: String}]
+				drinks: [
+					{
+						drinkname_ol: {type: String},
+						drinkname_eng: {type: String},
+						serve_method: {type: String},
+						volume: {type: String},
+						price: {type: Number},
+						in_stock: {type: Boolean}
+					}
+				]
 			}
-		],
-		drinks: {
-			list: [
-				{
-					drinkname_ol: {type: String},
-					drinkname_eng: {type: String},
-					serve_method: {type: String},
-					volume: {type: String},
-					price: {type: Number},
-					in_stock: {type: Boolean}
-				}
-			]
-		}
+		]
 	}]
 });
 
