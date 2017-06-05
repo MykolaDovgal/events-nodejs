@@ -31,9 +31,6 @@ npm-debug.log
 
 # Uploaded pictures
 /public/uploads/
-!/public/uploads/lines/cover-picture.jpg
-!/public/uploads/users/no-pic.png
-!/public/uploads/parties/cover-picture.jpg
 
 # WebStorm files
 .idea

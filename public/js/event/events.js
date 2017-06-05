@@ -25,8 +25,7 @@ $(document).ready(function () {
 		buttonWidth: '150px'
 	});
 
-
-	buildEvents();
+	//buildEvents();
 
 	$(window).scroll(function () {
 		if ($(window).scrollTop() + $(window).height() === $(document).height()) {
@@ -100,15 +99,10 @@ $('#events-gallery').on('click', '.event-item', function () {
 	}
 });
 
-function initGallery() {
-
-}
-
 
 function buildEvents(filter) {
 
 	$gallery.html('');
-	initGallery();
 
 	setTimeout(function () {
 		addNewEvents(0, filter);
@@ -145,15 +139,11 @@ function addNewEvents(page, filter) {
 
 				global.page++;
 			}
-
-
 		},
 		error: function (jqXHR, textStatus, err) {
 			//location.reload();
 		}
 	});
-
-
 }
 
 function generateEvent(event) {

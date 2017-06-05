@@ -39,13 +39,17 @@ $(document).ready(() => {
             type: 'POST',
             data: data,
             success: (_id) => {
-                //let parent = $(this).parents('.table-drinks');
-                //let table = parent.find('table')[1];
-                //updateTable($(table).attr('id'));
                 createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, { category_name: 'Category ' + catCount, _id: _id });
             }
         });
     });
+
+    $('body').on('click', '.collapse_category', function (e) {
+        if ($(e.target).prop("tagName") == 'DIV') {
+            $(this).closest('.category-accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
+            $(this).siblings('.panel-collapse').slideToggle(300);
+        }
+    })
 
     $('body').on('click', '.delete_bar_btn_flag', function () {
         deleteBar.apply(this);
@@ -72,7 +76,6 @@ $(document).ready(() => {
             bar.drinkCategories.forEach(category => {
                 createCategoryTab(bar, category);
             });
-        //initDrinks('bar_' + barCount + '_drinks_table', bar._id);
         barCount += 1;
     }
 
@@ -162,7 +165,7 @@ $(document).ready(() => {
     let getCategoryTabTemplate = (catCounter, bar, category) => {
         return $(`
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading collapse_category">
                     <a id="category_${category._id}" class="editable editable-click editable-disabled" data-name="category_name" href="#bar_${bar._id}_drinks_${catCounter}"
                     style="margin:10px;display: inline-block" data-type="text" data-pk="${category._id}"
                     data-parent="#bar_${bar._id}_drinks_accordion">${category.category_name}</a>
@@ -241,7 +244,7 @@ $(document).ready(() => {
                                     <i class="fa fa-star font-red" aria-hidden="true"></i>
                                     <span class="caption-subject bold">Drinks</span>
                                 </div>
-                                <div class="panel-group" id="bar_${bar._id}_drinks_accordion">
+                                <div class="panel-group category-accordion" id="bar_${bar._id}_drinks_accordion">
                                 </div>
                                 <button id="bar_${counter}_add_category" class="btn btn-default add-category-button">Add Category</button>    
                             </div>

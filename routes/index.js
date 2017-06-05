@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let passport = require('passport');
+let url = require('url');
 
 require('rootpath')();
 
@@ -39,7 +40,6 @@ let party_index = require('./party/index');
 let api_lines = require('./line/api/index');
 
 
-
 router.all('*', middleware.all);
 router.all('*', middleware.auth);
 
@@ -63,8 +63,26 @@ router.use(setup);
 router.use(party_index);
 router.use(api_lines);
 
+router.get('/login', function (req, res, next) {
+	let address = req.connection.remoteAddress;
+	let debug_address = req.app.get('debug_address');
 
-
+	if (debug_address.includes(address)) {
+		User.findOne({id: 0}).exec(function (err, user) {
+			if (req.app.get('debug')) {
+				if (user) {
+					req.login(user, function (err) {
+						if (!err) {
+							res.redirect('/');
+						}
+					});
+				}
+			}
+		});
+	} else {
+		next();
+	}
+});
 
 /* GET home page. */
 router.get('/', home);
@@ -76,36 +94,36 @@ router.all('/users/:id?', profile);
 
 // login
 router.get('/login', function (req, res, next) {
-    let data = {
-        title: 'Login',
-        showMenu: false
-    };
-    res.render('pages/login', data);
+	let data = {
+		title: 'Login',
+		showMenu: false
+	};
+	res.render('pages/login', data);
 });
 
 router.post('/login', function (req, res, next) {
-    console.warn('trying to login');
+	console.warn('trying to login');
 
-    passport.authenticate('local', function (err, user, info) {
-        if (err) {
-            return next(err)
-        }
-        if (!user) {
-            console.log(info);
-            return res.redirect('/login')
-        }
-        // user ok
-        req.logIn(user, function (err) {
-            console.log(info);
-            console.error(user);
-            // save login time
-            User.setLogInTime(user.id);
-            if (err) {
-                return next(err);
-            }
-            return res.redirect('/');
-        });
-    })(req, res, next);
+	passport.authenticate('local', function (err, user, info) {
+		if (err) {
+			return next(err)
+		}
+		if (!user) {
+			console.log(info);
+			return res.redirect('/login')
+		}
+		// user ok
+		req.logIn(user, function (err) {
+			console.log(info);
+			console.error(user);
+			// save login time
+			User.setLogInTime(user.id);
+			if (err) {
+				return next(err);
+			}
+			return res.redirect('/');
+		});
+	})(req, res, next);
 
 
 });

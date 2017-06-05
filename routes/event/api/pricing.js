@@ -3,18 +3,21 @@ let router = express.Router();
 let Promise = require('bluebird');
 let moment = require('moment');
 
-let Party = require('models/Party');
+let Event = require('models/Event');
 
+// get prices
 router.get('/event/:id/prices', function (req, res, next) {
 
 	Promise.props({
-		parties: Party.findOne({id: req.params.id}).select('tkt_price').execAsync()
+		event: Event.findOne({id: req.params.id}).select('tkt_price').execAsync()
 	})
 		.then(function (results) {
 			let data = [];
 
+			console.warn(req.params.id);
+			console.warn(results);
 
-			results.parties.tkt_price.forEach( (tkts) => {
+			results.event.tkt_price.forEach((tkts) => {
 				data.push({
 					delete_button: null,
 					id: tkts._id,
@@ -33,12 +36,21 @@ router.get('/event/:id/prices', function (req, res, next) {
 		});
 });
 
-router.post('/event/prices/update',function (req, res, next) {
+router.post('/event/prices/update', function (req, res, next) {
 
 	let body = req.body;
 
 	Promise.props({
-		event: Party.update({ 'tkt_price':{$elemMatch: {_id: body.priceId}} }, {'$set': {['tkt_price.$.' + body.name]: body['value'],}}).execAsync()
+		event: Event.update({
+				'tkt_price': {
+					$elemMatch: {_id: body.priceId}
+				}
+			},
+			{
+				'$set': {
+					['tkt_price.$.' + body.name]: body['value'],
+				}
+			}).execAsync()
 	}).then(function (results) {
 		res.status(200).send(body['value']);
 	})
@@ -47,19 +59,19 @@ router.post('/event/prices/update',function (req, res, next) {
 		});
 });
 
-router.post('/event/prices/add',function (req, res, next) {
+router.post('/event/prices/add', function (req, res, next) {
 
 	let body = req.body;
 
 	Promise.props({
-		event: Party.findOneAndUpdate( {id: body.partyId }, {$push : {'tkt_price' : {} }}).execAsync()
+		event: Event.findOneAndUpdate({id: body.eventId}, {$push: {'tkt_price': {}}}).execAsync()
 	}).then(function (results) {
 
-		Party.findOne({ id: body.partyId }).select('tkt_price')
-			.then(function(doc){
+		Event.findOne({id: body.eventId}).select('tkt_price')
+			.then(function (doc) {
 				res.status(200).send(doc.tkt_price[doc.tkt_price.length - 1]._id);
 			})
-			.catch(function (err){
+			.catch(function (err) {
 				next(err);
 			});
 	})
@@ -68,15 +80,14 @@ router.post('/event/prices/add',function (req, res, next) {
 		});
 
 
-
 });
 
-router.post('/event/prices/delete',function (req, res, next) {
+router.post('/event/prices/delete', function (req, res, next) {
 
 	let body = req.body;
 
 	Promise.props({
-		event: Party.update( {'tkt_price':{$elemMatch: {_id: body.priceId}} }, {$pull : { tkt_price : {_id : body.priceId}  } } ).execAsync()
+		event: Event.update({'tkt_price': {$elemMatch: {_id: body.priceId}}}, {$pull: {tkt_price: {_id: body.priceId}}}).execAsync()
 	}).then(function (results) {
 		res.status(200);
 	})
@@ -85,9 +96,7 @@ router.post('/event/prices/delete',function (req, res, next) {
 		});
 
 
-
 });
-
 
 
 module.exports = router;

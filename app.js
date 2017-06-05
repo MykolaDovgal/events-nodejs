@@ -144,7 +144,9 @@ app.use(function (err, req, res, next) {
 console.warn('App Started');
 
 app.set('absolute_view', __dirname + '/views');
-app.set('absolute_path', __dirname );
-//console.warn(__dirname);
+app.set('absolute_path', __dirname);
+app.set('debug', true);
+app.set('debug_address', ['127.0.0.1', '::ffff:127.0.0.1', '::1']);
+
 
 module.exports = app;

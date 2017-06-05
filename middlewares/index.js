@@ -2,19 +2,15 @@
  * Created by tegos on 11.04.2017.
  */
 
-var express = require('express');
-var router = express.Router();
-
-var authenticated = require('./authenticated');
+let authenticated = require('./authenticated');
 
 
-var middlewares = {
-    'auth': authenticated,
-    'all': function (req, res, next) {
-        //console.warn('user ', req.user);
-        console.log('all Time:', Date.now());
-        next();
-    }
+let middlewares = {
+	'auth': authenticated,
+	'all': function (req, res, next) {
+		console.warn('Global middleware,  Time:', new Date().toISOString());
+		next();
+	}
 };
 
 module.exports = middlewares;

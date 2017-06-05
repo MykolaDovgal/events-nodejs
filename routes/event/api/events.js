@@ -1,6 +1,6 @@
 let Event = require('models/Event');
 let config = require('config');
-let default_image_line = config.get('images:default_image_line');
+let default_image_event = config.get('images:default_image_event');
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
@@ -120,7 +120,8 @@ router.post('/events/:page?', function (req, res, next) {
 		let events = results.events.docs;
 		events.forEach(function (event) {
 			let cover_img = event.cover_picture;
-			if (cover_img !== undefined && cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
+
+			if (cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
 				if (!fs.existsSync('public' + cover_img)) {
 					event.cover_picture = default_image_event;
 				}

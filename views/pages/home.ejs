@@ -4,119 +4,119 @@
 <head>
 	<% include ../static/head %>
 
-		<link href="/css/home.css" rel="stylesheet" type="text/css" />
+	<link href="/css/home.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
 
 
-	<!-- Wrapper -->
-	<div class="page-wrapper">
+<!-- Wrapper -->
+<div class="page-wrapper">
 
-		<header id="header" valign="botoom">
-			<% include ../static/header %>
-		</header>
+	<header id="header" valign="botoom">
+		<% include ../static/header %>
+	</header>
 
 
-		<!-- Main -->
-		<section class="tiles">
-			<article class="style1">
+	<!-- Main -->
+	<section class="tiles">
+		<article class="style1">
 				<span class="image">
 										<img src="images/pic01.jpg" alt=""/>
 									</span>
-				<a href="/users">
-					<h2>Users
+			<a href="/users">
+				<h2>Users
 
-					</h2>
-					<div class="content">
-						<span>All: <%= userAllCount %> </span><br/>
-						<span>Active: <%= userAllActiveCount %></span>
-					</div>
-				</a>
-			</article>
-			<article class="style2">
+				</h2>
+				<div class="content">
+					<span>All: <%= userAllCount %> </span><br/>
+					<span>Active: <%= userAllActiveCount %></span>
+				</div>
+			</a>
+		</article>
+		<article class="style2">
 				<span class="image">
 										<img src="images/pic02.jpg" alt=""/>
 									</span>
-				<a href="/lines">
-					<h2>Lines</h2>
-					<div class="content">
-						<p><br> Active:
-							<%= lineActiveCount %> <br> Inactive:
-								<%= lineUnActiveCount %>
-						</p>
-					</div>
-				</a>
-			</article>
+			<a href="/lines">
+				<h2>Lines</h2>
+				<div class="content">
+					<p><br> Active:
+						<%= lineActiveCount %> <br> Inactive:
+						<%= lineUnActiveCount %>
+					</p>
+				</div>
+			</a>
+		</article>
 
-			<article class="style3">
+		<article class="style3">
 				<span class="image">
 										<img src="images/pic02.jpg" alt=""/>
 									</span>
-				<a href="/parties">
-					<h2>Parties</h2>
-					<div class="content">
-						<p>Today:
-							<%= partyCountToday %> <br/> Future:
-								<%= partyCountFuture %> <br/> Past:
-									<%= partyCountPast %><br/> All:
-										<%= partyCount %>
-						</p>
-					</div>
-				</a>
-			</article>
+			<a href="/parties">
+				<h2>Parties</h2>
+				<div class="content">
+					<p>Today:
+						<%= partyCountToday %> <br/> Future:
+						<%= partyCountFuture %> <br/> Past:
+						<%= partyCountPast %><br/> All:
+						<%= partyCount %>
+					</p>
+				</div>
+			</a>
+		</article>
 
-			<article class="style2">
+		<article class="style2">
 				<span class="image">
 										<img src="images/pic03.jpg" alt=""/>
 									</span>
-				<a href="/events">
-					<h2>Events</h2>
-					<div class="content">
-						<p>Today:
-							<%= eventCountToday %> <br/> Future:
-								<%= eventCountFuture %> <br/> Past:
-									<%= eventCountPast %><br/> All:
-										<%= eventCount %>
-						</p>
-					</div>
-				</a>
-			</article>
-			<article class="style4">
+			<a href="/events">
+				<h2>Events</h2>
+				<div class="content">
+					<p>Today:
+						<%= eventCountToday %> <br/> Future:
+						<%= eventCountFuture %> <br/> Past:
+						<%= eventCountPast %><br/> All:
+						<%= eventCount %>
+					</p>
+				</div>
+			</a>
+		</article>
+		<article class="style4">
+				<span class="image">
+										<img src="images/pic01.jpg" alt=""/>
+									</span>
+			<a href="/">
+				<h2>Bars</h2>
+				<div class="content">
+					<p>Not ready</p>
+				</div>
+			</a>
+		</article>
+
+		<article class="style1">
 				<span class="image">
 										<img src="images/pic04.jpg" alt=""/>
 									</span>
-				<a href="/">
-					<h2>Bars</h2>
-					<div class="content">
-						<p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-					</div>
-				</a>
-			</article>
-
-			<article class="style4">
-				<span class="image">
-										<img src="images/pic04.jpg" alt=""/>
-									</span>
-				<a href="/">
-					<h2>Bars</h2>
-					<div class="content">
-						<p>Sed nisl arcu euismod sit amet nisi lorem etiam dolor veroeros et feugiat.</p>
-					</div>
-				</a>
-			</article>
+			<a href="/">
+				<h2>Media</h2>
+				<div class="content">
+					<p>Test item</p>
+				</div>
+			</a>
+		</article>
 
 
-		</section>
+	</section>
 
-	</div>
+</div>
 
 
-	<footer>
-		<% include ../static/footer %>
-	</footer>
+<footer>
+	<% include ../static/footer %>
+</footer>
 
-	<% include ../static/menu %>
+<% include ../static/menu %>
 
 </body>
 

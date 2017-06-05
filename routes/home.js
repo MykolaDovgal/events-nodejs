@@ -2,17 +2,17 @@
 /**
  * Module dependencies.
  */
-var _ = require('underscore');
-var express = require('express');
-var mongoose = require('mongoose');
-var Promise = require('bluebird');
+let _ = require('underscore');
+let express = require('express');
+let mongoose = require('mongoose');
+let Promise = require('bluebird');
 
 require('rootpath')();
 
-var User = require('models/user');
-var Line = require('models/line');
-var Party = require('models/Party');
-var Event = require('models/Event');
+let User = require('models/user');
+let Line = require('models/line');
+let Party = require('models/Party');
+let Event = require('models/Event');
 
 
 Promise.promisifyAll(mongoose);
@@ -21,9 +21,9 @@ module.exports = function (req, res, next) {
 
 	Promise.props({
 		userAllCount: User.count().execAsync(),
-		userAllActiveCount: User.count({ active: true }).execAsync(),
-		lineActiveCount: Line.count({ active: true }).execAsync(),
-		lineUnActiveCount: Line.count({ active: false }).execAsync(),
+		userAllActiveCount: User.count({active: true}).execAsync(),
+		lineActiveCount: Line.count({active: true}).execAsync(),
+		lineUnActiveCount: Line.count({active: false}).execAsync(),
 		partyCount: Party.count().execAsync(),
 		partyCountToday: Party.countByDate(),
 		partyCountPast: Party.countByDate('lt'),
@@ -35,7 +35,7 @@ module.exports = function (req, res, next) {
 	})
 		.then(function (results) {
 			//console.warn(results);
-			var data = {
+			let data = {
 				title: 'Home',
 				showMenu: true,
 				userAllCount: results.userAllCount,

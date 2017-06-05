@@ -9,9 +9,9 @@ autoIncrement.initialize(mongoose.connection);
 
 let EventSchema = new Schema({
 	id: {type: Number, required: true, index: {unique: true}},
-	title_ol: {type: String},
+	title_ol: {type: String, required: true, trim: true},
+	title_eng: {type: String, required: true, trim: true},
 	active: {type: Boolean, default: true},
-	title_eng: {type: String},
 	partyId: {type: Number},
 	description_eng: {type: String},
 	description_ol: {type: String},
@@ -28,14 +28,14 @@ let EventSchema = new Schema({
 		}
 	},
 	tkts_avbl_here: {type: Boolean},
-	tkt_price: {
+	tkt_price: [{
 		priceId: {type: Number},
 		start_date: {type: Date},
 		end_date: {type: Date},
 		price: {type: Number},
 		currency: {type: String}
-	},
-	attendees: {
+	}],
+	attendees: [{
 		userId: {type: Number},
 		ticket_purchase: {type: Boolean},
 		purchase_priceId: {type: Number},
@@ -45,16 +45,16 @@ let EventSchema = new Schema({
 		here_mark_time: {type: Date},
 		location_ver: {type: Boolean},
 		location_ver_time: {type: Date}
-	},
+	}],
 	managers: [],
-	notifications: {
+	notifications: [{
 		notificationId: {type: Number},
 		time: {type: Date},
 		content: {type: String},
 		link: {type: String},
 		sender: {type: Number},
 		audience: []
-	}
+	}]
 });
 
 EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
@@ -80,6 +80,12 @@ EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
 	return eventModel.count({start_date: condition});
 
 };
+
+// validate on update
+EventSchema.pre('update', function (next) {
+	this.options.runValidators = true;
+	next();
+});
 
 EventSchema.plugin(autoIncrement.plugin, {
 	model: 'Event',
