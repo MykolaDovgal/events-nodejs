@@ -8,7 +8,9 @@ let urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 router.post('/party/add', urlencodedParser, function (request, response, next) {
+
 	let body = request.body;
+
 
 	let location = {
 		club_name: body['clubName'],
@@ -22,7 +24,6 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 	};
 
 	let timeArray = body['party_start_time'].split(' ');
-
 	let newParty = Party({
 		title_eng: body['lineEnglishName'],
 		title_ol: body['lineOriginName'],
@@ -31,7 +32,8 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 		date: timeArray[0],
 		open_time: timeArray[1],
 		location: location,
-		lineId: body['lineId']
+		lineId: body['lineId'],
+		eventId: body['eventId']
 	});
 
 	let data = {

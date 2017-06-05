@@ -114,7 +114,7 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	$('#filter-party-table').keyup(function () {
+	$('#filter-event-table').keyup(function () {
 		event_parties_table.search($(this).val()).draw();
 	});
 
