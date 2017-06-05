@@ -11,7 +11,7 @@ $(document).ready(function () {
 	});
 
 
-	$('body').on('mousedown mouseup', ".row_datetime", function () {
+	$('body').on('mousedown mouseup', "#party_pricing .row_datetime", function () {
 		$(this).datetimepicker({
 			format: 'mm/dd/yyyy hh:ii',
 			autoclose: true,
@@ -19,8 +19,12 @@ $(document).ready(function () {
 
 		});
 		$(this).removeClass('row_datetime');
-	}).on('change', '.date,select.price_currency', function () { sendUpdateAJAX.call(this) })
-		.on('blur', '.identity_flag', function () { sendUpdateAJAX.call(this) })
+	}).on('change', '#party_pricing .date, select.price_currency', function () {
+		sendUpdateAJAX.call(this)
+	})
+		.on('blur', '.identity_flag', function () {
+			sendUpdateAJAX.call(this)
+		})
 		.on('click', '.flag_delete_pricing_btn', function () {
 			sendDeleteAjax.call(this);
 			pricing_table.ajax.reload();
@@ -32,7 +36,7 @@ $(document).ready(function () {
 		$.ajax({
 			url: '/api/party/prices/add',
 			type: 'POST',
-			data: { partyId: party.id },
+			data: {partyId: party.id},
 			success: function (data) {
 				pricing_table.row.add({
 					id: data
@@ -56,7 +60,7 @@ let sendUpdateAJAX = function () {
 	$.ajax({
 		url: '/api/party/prices/update',
 		type: 'POST',
-		data: { priceId: priceId, name: name, value: value },
+		data: {priceId: priceId, name: name, value: value},
 		success: function (data) {
 		},
 		error: function (jqXHR, textStatus, err) {
@@ -72,7 +76,7 @@ let sendDeleteAjax = function () {
 	$.ajax({
 		url: '/api/party/prices/delete',
 		type: 'POST',
-		data: { priceId: priceId },
+		data: {priceId: priceId},
 		success: function (data) {
 			pricing_table.ajax.reload();
 

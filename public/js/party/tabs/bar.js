@@ -1,189 +1,203 @@
 let barCount = 1;
 let catCount = 1;
-isBarInit = false
+let isBarInit = false;
 
 $(document).ready(() => {
-    $('#bar_tab_btn').on('click', () => {
-        if (!isBarInit) {
-            initBars();
-            isBarInit = true;
-        }
-    });
 
-    $('#party_add_bar').on('click', () => {
-        addBarTab();
-    });
+	$('#bar_tab_btn').on('click', () => {
+		if (!isBarInit) {
+			initBars();
+			isBarInit = true;
+		}
+	});
 
-    $('body').on('click', '.add-tender-button', function () {
-        if (selectedResults && selectedResults.username) {
-            let barId = $(this).parents('.bar-tab').attr('id');
-            let data = { partyId: party.id, barId: barId, userId: selectedResults.id };
-            $.ajax({
-                url: '/api/party/bar/tenders/add',
-                type: 'POST',
-                data: data,
-                success: () => {
-                    let parent = $(this).parents('.table-tenders');
-                    let table = parent.find('table')[1];
-                    updateTable($(table).attr('id'));
-                }
-            });
-        }
-    });
+	$('#party_add_bar').on('click', () => {
+		addBarTab();
+	});
 
-    $('body').on('click', '.add-category-button', function () {
-        let barId = $(this).parents('.bar-tab').attr('id');
-        let data = { barId: barId, categoryName: 'Category ' + catCount }
-        $.ajax({
-            url: '/api/party/bar/category/add',
-            type: 'POST',
-            data: data,
-            success: (_id) => {
-                createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, { category_name: 'Category ' + catCount, _id: _id });
-            }
-        });
-    });
+	$('body').on('click', '.add-tender-button', function () {
+		if (selectedResults && selectedResults.username) {
+			let barId = $(this).parents('.bar-tab').attr('id');
+			let data = {partyId: party.id, barId: barId, userId: selectedResults.id};
+			$.ajax({
+				url: '/api/party/bar/tenders/add',
+				type: 'POST',
+				data: data,
+				success: () => {
+					let parent = $(this).parents('.table-tenders');
+					let table = parent.find('table')[1];
+					updateTable($(table).attr('id'));
+				}
+			});
+		}
+	});
 
-    $('body').on('click', '.collapse_category', function (e) {
-        if ($(e.target).prop("tagName") == 'DIV') {
-            $(this).closest('.category-accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
-            $(this).siblings('.panel-collapse').slideToggle({ 
-                start: function () {
-                    let table = $(this).find('table')[0];
-                    if ($(table).hasClass('not-initialized')) {
-                        console.log('Updating', table)
-                        fixTableLayout.apply(this);
-                        $(table).removeClass('not-initialized')
-                    }
-                },
-                duration: 300
-             });
-        }
-    })
+	$('body').on('click', '.add-category-button', function () {
+		let barId = $(this).parents('.bar-tab').attr('id');
+		let data = {barId: barId, categoryName: 'Category ' + catCount}
+		$.ajax({
+			url: '/api/party/bar/category/add',
+			type: 'POST',
+			data: data,
+			success: (_id) => {
+				createCategoryTab({bar_name_eng: 'Bar ' + barCount, _id: barId}, {
+					category_name: 'Category ' + catCount,
+					_id: _id
+				});
 
-    $('body').on('click', '.delete_bar_btn_flag', function () {
-        deleteBar.apply(this);
-    });
+			}
+		});
+	});
 
-    $('body').on('click', '.delete_category_btn_flag', function () {
-        deleteCategory.apply(this);
-    });
+	$('body').on('click', '.collapse_category', function (e) {
+		if ($(e.target).prop("tagName") == 'DIV') {
+			$(this).closest('.category-accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
+			$(this).siblings('.panel-collapse').slideToggle({
+				start: function () {
+					if (!$(this).is(':hidden')) {
+						let table = $(this).find('table');
+						if (table.hasClass('not-initialized')) {
+							updateTable(table);
+							table.removeClass('not-initialized')
+						}
+					}
+				},
+				duration: 300
+			});
+		}
+	});
 
-    $('body').on('click', '.add_drink_button', function () {
-        let data = { barId: $(this).parents('.bar-tab').attr('id'), categoryId: $(this).data('id') }
-        $.ajax({
-            url: '/api/party/bar/drinks/add',
-            type: 'POST',
-            data: data
-        });
-    });
+	$('body').on('click', '.delete_bar_btn_flag', function () {
+		deleteBar.apply(this);
+	});
 
-    let createCategoryTab = (bar, category) => {
-        let categoryTemplate = getCategoryTabTemplate(catCount, bar, category);
-        $(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
-        setCategoryEditable(category);
-        initDrinks('category_' + category._id + '_drinks', bar._id, category._id);
-        catCount += 1;
-    }
+	$('body').on('click', '.delete_category_btn_flag', function () {
+		deleteCategory.apply(this);
+	});
 
-    let createBarTab = bar => {
-        let barTemplate = getBarTabTemplate(barCount, bar);
-        $('#bar_accordion_container').append(barTemplate);
-        setBarEditable(barCount);
-        setTypeahead('bar_' + barCount + '_tenders_input');
-        initBarTenders('bar_' + barCount + '_tenders_table', bar._id);
-        if (bar.drinkCategories)
-            bar.drinkCategories.forEach(category => {
-                createCategoryTab(bar, category);
-            });
-        barCount += 1;
-    }
+	$('body').on('click', '.add_drink_button', function () {
+		let data = {
+			barId: $(this).parents('.bar-tab').attr('id'), categoryId: $(this).data('id')
+		};
 
-    let addBarTab = () => {
-        $.ajax({
-            url: '/api/party/bar/add',
-            type: 'POST',
-            data: { partyId: party.id, name: 'Bar ' + barCount },
-            success: (_id) => {
-                createBarTab({ bar_name_eng: 'Bar ' + barCount, _id: _id });
-            }
-        });
-    };
+		let table = $('#category_' + $(this).data('id') + '_drinks');
 
-    let setBarEditable = counter => {
-        $('#bar_' + counter + '_name').editable({
-            url: '/api/party/bar/update',
-            type: 'text',
-            title: 'Enter title',
-        });
-    };
+		$.ajax({
+			url: '/api/party/bar/drinks/add',
+			type: 'POST',
+			data: data,
+			success: function () {
+				updateTable(table, true);
+			}
+		});
+	});
 
-    let setCategoryEditable = category => {
-        $('#category_' + category._id).editable({
-            url: '/api/party/bar/category/update',
-            type: 'text',
-            title: 'Enter category name'
-        });
-    }
+	let createCategoryTab = (bar, category) => {
+		let categoryTemplate = getCategoryTabTemplate(catCount, bar, category);
+		$(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
+		setCategoryEditable(category);
+		initDrinks('category_' + category._id + '_drinks', bar._id, category._id);
+		catCount += 1;
+	};
 
-    let initBars = () => {
-        $.ajax({
-            url: '/api/party/' + party.id + '/bars',
-            type: 'GET',
-            success: (data) => {
-                let accordion = $('#bar_accordion_container');
-                accordion.empty();
-                barCount = 1;
-                catCount = 1;
-                data.forEach((bar) => {
-                    createBarTab(bar);
-                });
-            }
-        });
-    };
+	let createBarTab = bar => {
+		let barTemplate = getBarTabTemplate(barCount, bar);
+		$('#bar_accordion_container').append(barTemplate);
+		setBarEditable(barCount);
+		setTypeahead('bar_' + barCount + '_tenders_input');
+		initBarTenders('bar_' + barCount + '_tenders_table', bar._id);
+		if (bar.drinkCategories)
+			bar.drinkCategories.forEach(category => {
+				createCategoryTab(bar, category);
+			});
+		barCount += 1;
+	};
 
-    function deleteBar() {
-        let barId = $(this).data('id');
-        bootbox.confirm({
-            size: "small",
-            message: "Are you sure you want to remove this bar?",
-            callback: function (result) {
-                if (result) {
-                    $.ajax({
-                        url: '/api/party/bar/delete',
-                        type: 'POST',
-                        data: { partyId: party.id, barId: barId },
-                        success: _id => {
-                            initBars();
-                        }
-                    });
-                }
-            }
-        })
-    }
+	let addBarTab = () => {
+		$.ajax({
+			url: '/api/party/bar/add',
+			type: 'POST',
+			data: {partyId: party.id, name: 'Bar ' + barCount},
+			success: (_id) => {
+				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id});
+			}
+		});
+	};
 
-    function deleteCategory() {
-        let categoryId = $(this).data('id');
-        bootbox.confirm({
-            size: 'small',
-            message: 'Are you sure you want to remove this category?',
-            callback: function (results) {
-                if (results) {
-                    $.ajax({
-                        url: '/api/party/bar/category/delete',
-                        type: 'POST',
-                        data: { categoryId: categoryId },
-                        success: () => {
-                            initBars();
-                        }
-                    })
-                }
-            }
-        })
-    }
+	let setBarEditable = counter => {
+		$('#bar_' + counter + '_name').editable({
+			url: '/api/party/bar/update',
+			type: 'text',
+			title: 'Enter title',
+		});
+	};
 
-    let getCategoryTabTemplate = (catCounter, bar, category) => {
-        return $(`
+	let setCategoryEditable = category => {
+		$('#category_' + category._id).editable({
+			url: '/api/party/bar/category/update',
+			type: 'text',
+			title: 'Enter category name'
+		});
+	};
+
+	let initBars = () => {
+		$.ajax({
+			url: '/api/party/' + party.id + '/bars',
+			type: 'GET',
+			success: (data) => {
+				let accordion = $('#bar_accordion_container');
+				accordion.empty();
+				barCount = 1;
+				catCount = 1;
+				data.forEach((bar) => {
+					createBarTab(bar);
+				});
+			}
+		});
+	};
+
+	function deleteBar() {
+		let barId = $(this).data('id');
+		bootbox.confirm({
+			size: "small",
+			message: "Are you sure you want to remove this bar?",
+			callback: function (result) {
+				if (result) {
+					$.ajax({
+						url: '/api/party/bar/delete',
+						type: 'POST',
+						data: {partyId: party.id, barId: barId},
+						success: _id => {
+							initBars();
+						}
+					});
+				}
+			}
+		})
+	}
+
+	function deleteCategory() {
+		let categoryId = $(this).data('id');
+		bootbox.confirm({
+			size: 'small',
+			message: 'Are you sure you want to remove this category?',
+			callback: function (results) {
+				if (results) {
+					$.ajax({
+						url: '/api/party/bar/category/delete',
+						type: 'POST',
+						data: {categoryId: categoryId},
+						success: () => {
+							initBars();
+						}
+					})
+				}
+			}
+		})
+	}
+
+	let getCategoryTabTemplate = (catCounter, bar, category) => {
+		return $(`
             <div class="panel panel-default">
                 <div class="panel-heading collapse_category">
                     <a id="category_${category._id}" class="editable editable-click editable-disabled" data-name="category_name" href="#bar_${bar._id}_drinks_${catCounter}"
@@ -210,10 +224,10 @@ $(document).ready(() => {
                 </div>
             </div>
         `)
-    }
+	};
 
-    let getBarTabTemplate = (counter, bar) => {
-        return $(`
+	let getBarTabTemplate = (counter, bar) => {
+		return $(`
             <div id="${bar._id}" class="panel panel-default bar-tab tab_flag">
                 <div class="panel-heading collapse_accordion init_table_flag">
                     <a id="bar_${counter}_name" class="editable editable-click editable-disabled" data-name="bar_name_eng" href="#bar_${counter}_body"
@@ -275,121 +289,131 @@ $(document).ready(() => {
                 </div>
             </div>
         `);
-    };
+	};
 
-    function initBarTenders(tableId, barId) {
-        $('#' + tableId)
-            .DataTable({
-                "ajax": {
-                    "url": "/api/party/" + party.id + "/bar/" + barId + "/tenders",
-                },
-                "columns": [
-                    {
-                        data: 'id',
-                    },
-                    {
-                        data: 'profile_picture_circle',
-                        render: function (data) {
-                            return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
-                        },
-                        width: 50
-                    },
-                    {
-                        data: 'username',
-                    },
+	function initBarTenders(tableId, barId) {
+		$('#' + tableId)
+			.DataTable({
+				"ajax": {
+					"url": "/api/party/" + party.id + "/bar/" + barId + "/tenders",
+				},
+				"columns": [
+					{
+						data: 'id',
+					},
+					{
+						data: 'profile_picture_circle',
+						render: function (data) {
+							return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+						},
+						width: 50
+					},
+					{
+						data: 'username',
+					},
 
-                    {
-                        data: "realname",
-                        render: function (data, type, full, meta) {
-                            return full.firstname + ' ' + full.lastname;
-                        }
-                    }
-                ],
-                scrollY: 300,
-                scrollX: true,
-                scroller: true,
-                responsive: false,
-                autoWidth: false,
-                sScrollX: "100%",
-                "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
-            });
-    }
+					{
+						data: "realname",
+						render: function (data, type, full, meta) {
+							return full.firstname + ' ' + full.lastname;
+						}
+					}
+				],
+				scrollY: 300,
+				scrollX: true,
+				scroller: true,
+				responsive: false,
+				autoWidth: false,
+				sScrollX: "100%",
+				"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+			});
+	}
 
-    function initDrinks(tableId, barId, categoryId) {
-        $('#' + tableId)
-            .DataTable({
-                "ajax": {
-                    "url": "/api/party/bar/" + barId + "/drinks/" + categoryId,
-                },
-                "columns": [
-                    {
-                        data: 'uniqueId',
-                        render: function (data) {
-                            return data || `<div class="text-center">-</div>`
-                        },
-                        width: 30
-                    },
-                    {
-                        data: 'drinkname_eng',
-                        render: function (data) {
-                            return `<div class="identity_flag">
+	function initDrinks(tableId, barId, categoryId) {
+		$('#' + tableId)
+			.DataTable({
+				"ajax": {
+					"url": "/api/party/bar/" + barId + "/drinks/" + categoryId,
+				},
+				"columns": [
+					{
+						data: 'uniqueId',
+						render: function (data) {
+							return data || `<div class="text-center">-</div>`
+						},
+						width: 30
+					},
+					{
+						data: 'drinkname_eng',
+						render: function (data) {
+							return `<div class="identity_flag">
                                         <input value="${ data || ''}"  name="drink-name" class="form-control" type="text" style="width: 100%">			
                                     </div>`
-                        }
-                    },
-                    {
-                        data: 'serve_method',
+						}
+					},
+					{
+						data: 'serve_method',
 
-                        render: function (data) {
-                            let options = ['Bottle', 'Shot (50ml)', 'Shot (100ml)'];
-                            let optionsHTML = [];
-                            optionsHTML = options.map((option) => {
-                                return `<option value="${option}">${option}</option>`
-                            })
-                            return `
+						render: function (data) {
+							let options = ['Bottle', 'Shot (50ml)', 'Shot (100ml)'];
+							let optionsHTML = [];
+							optionsHTML = options.map((option) => {
+								return `<option value="${option}">${option}</option>`
+							})
+							return `
                                 <select name="currency" class="bs-select form-control">
                                     ${optionsHTML.join("")}                             
                                 </select>
                             `;
-                        },
-                        width: 75
-                    },
-                    {
-                        data: "volume",
-                        render: function (data) {
-                            return `<div class="identity_flag">
+						},
+						width: 75
+					},
+					{
+						data: "volume",
+						render: function (data) {
+							return `<div class="identity_flag">
                                         <input value="${ data || ''}"  name="volume" class="form-control" type="text" style="width: 100%">			
                                     </div>`
-                        },
-                        width: 50
-                    },
-                    {
-                        data: "price",
-                        render: function (data) {
-                            return `<div class="identity_flag">
+						},
+						width: 50
+					},
+					{
+						data: "price",
+						render: function (data) {
+							return `<div class="identity_flag">
                                         <input value="${ data || ''}"  name="drink_price" class="form-control" type="text" style="width: 100%">			
                                     </div>`
-                        },
-                        width: 50
-                    },
-                    {
-                        data: "stock",
-                        render: function (data) {
-                            return `<div class="identity_flag">
+						},
+						width: 50
+					},
+					{
+						data: "stock",
+						render: function (data) {
+							return `<div class="identity_flag">
                                         <input ${ data ? 'checked' : ''} type="checkbox" name="stock" class="form-control" type="text" style="width: 100%">			
                                     </div>`
-                        },
-                        width: 50
-                    }
-                ],
-                scrollY: 300,
-                scrollX: true,
-                scroller: true,
-                responsive: false,
-                autoWidth: false,
-                sScrollX: "100%",
-                "dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
-            });
-    }
+						},
+						width: 50
+					}
+				],
+				scrollY: 300,
+				scrollX: true,
+				scroller: true,
+				responsive: false,
+				autoWidth: false,
+				sScrollX: "100%",
+				"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+			});
+	}
+
+	let updateTable = function (table, reload = false) {
+		if (reload) {
+			table.DataTable().ajax.reload();
+		}
+
+		table.DataTable().columns.adjust().draw();
+
+
+	}
 
 });

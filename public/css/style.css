@@ -11,7 +11,7 @@
 	src: url(/fonts/Montserrat-Light.otf);
 }
 
-*:not(.fa):not(i) {
+*:not(.fa):not(i):not(.glyphicon) {
 	font-family: Montserrat-Regular;
 }
 

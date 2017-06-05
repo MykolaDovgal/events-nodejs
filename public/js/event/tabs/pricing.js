@@ -11,7 +11,7 @@ $(document).ready(function () {
 	});
 
 
-	$('body').on('mousedown mouseup', ".row_datetime", function () {
+	$('body').on('mousedown mouseup', "#event_pricing .row_datetime", function () {
 		$(this).datetimepicker({
 			format: 'mm/dd/yyyy hh:ii',
 			autoclose: true,
@@ -19,7 +19,7 @@ $(document).ready(function () {
 
 		});
 		$(this).removeClass('row_datetime');
-	}).on('change', '.date,select.price_currency', function () {
+	}).on('change', '#event_pricing .date, select.price_currency', function () {
 		sendUpdateAJAX.call(this)
 	})
 		.on('blur', '.identity_flag', function () {
@@ -29,7 +29,6 @@ $(document).ready(function () {
 			sendDeleteAjax.call(this);
 			event_pricing_table.ajax.reload();
 		});
-
 
 	$('#event_add_price').click(() => {
 
@@ -47,8 +46,6 @@ $(document).ready(function () {
 		}).then(function () {
 		});
 	});
-
-
 });
 
 let sendUpdateAJAX = function () {
