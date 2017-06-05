@@ -31,10 +31,16 @@ let util = {
 		let data_field = object_data[field];
 
 		if (typeof data_field !== 'undefined'
-			&& data_field.indexOf('http://') === -1 && data_field.indexOf('https://') === -1) {
-			if (fs.existsSync('public' + data_field)) {
+			&& data_field.indexOf('http://') === -1 && data_field.indexOf('https://') === -1
+		) {
+			let path = 'public' + data_field;
+			if (fs.existsSync(path)) {
 				result = data_field;
+			} else {
+				result = default_image;
 			}
+		} else {
+			result = data_field;
 		}
 		return result;
 	}

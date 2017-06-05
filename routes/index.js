@@ -20,8 +20,9 @@ let users = require('./users');
 let profile = require('./user/profile');
 let logout = require('./logout');
 
-let lines = require('./line/lines');
-let line = require('./line/line');
+
+let line_index = require('./line/index');
+
 let line_add = require('./line/add');
 let line_update = require('./line/update');
 let line_delete = require('./line/delete');
@@ -49,8 +50,7 @@ router.use(user_update);
 router.use(user_delete);
 router.use(user_changePicture);
 
-router.use(lines);
-router.use(line);
+
 router.use(line_add);
 router.use(line_update);
 router.use(line_delete);
@@ -62,6 +62,7 @@ router.use(setup);
 
 router.use(party_index);
 router.use(api_lines);
+router.use(line_index);
 
 router.get('/login', function (req, res, next) {
 	let address = req.connection.remoteAddress;

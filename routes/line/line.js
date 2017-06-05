@@ -1,12 +1,12 @@
-var express = require('express');
-var Promise = require('bluebird');
-var fs = require('fs');
-var config = require('config');
-var default_image_line = config.get('images:default_image_line');
+let express = require('express');
+let Promise = require('bluebird');
+let fs = require('fs');
+let config = require('config');
+let default_image_line = config.get('images:default_image_line');
 
-var Line = require('models/line');
+let Line = require('models/line');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/line/:id', function (request, response, next) {
 
@@ -25,9 +25,9 @@ router.get('/line/:id', function (request, response, next) {
 			let data = {
 				title: results.line.line_name_eng,
 				showMenu: true,
-				line : line
+				line: line
 			};
-			response.render('pages/line', data);
+			response.render('pages/line/line', data);
 		})
 		.catch(function (err) {
 			next(err);
