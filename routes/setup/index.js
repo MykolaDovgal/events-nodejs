@@ -1,17 +1,17 @@
-var express = require('express');
-var fs = require('fs');
-var config = require('config');
+let express = require('express');
+let fs = require('fs');
+let config = require('config');
 
-var router = express.Router();
+let router = express.Router();
 
 
-var setup = require('setup');
+let setup = require('setup');
 
 let pass = 1488;
 
 router.get('/setup/users/:id', function (req, res, next) {
 
-	var id = +req.params.id;
+	let id = +req.params.id;
 
 	if (id === pass) {
 		setup.createDummyUser();
@@ -23,7 +23,7 @@ router.get('/setup/users/:id', function (req, res, next) {
 
 router.get('/setup/userImages/:id', function (req, res, next) {
 
-	var id = +req.params.id;
+	let id = +req.params.id;
 
 	if (id === pass) {
 		setup.updateUserImages(function () {
@@ -37,7 +37,7 @@ router.get('/setup/userImages/:id', function (req, res, next) {
 
 router.get('/setup/parties/:id', function (req, res) {
 
-	var id = +req.params.id;
+	let id = +req.params.id;
 
 	if (id === pass) {
 		setup.createParty(function () {
@@ -51,11 +51,25 @@ router.get('/setup/parties/:id', function (req, res) {
 
 router.get('/setup/events/:id', function (req, res) {
 
-	var id = +req.params.id;
+	let id = +req.params.id;
 
 	if (id === pass) {
 		setup.createEvent(function () {
 			res.send('Events created.');
+		});
+
+	} else {
+		res.sendStatus(404);
+	}
+});
+
+router.get('/setup/generateAttendees/:id', function (req, res) {
+
+	let id = +req.params.id;
+
+	if (id === pass) {
+		setup.generateAttendees(function () {
+			res.send('Setup: generateAttendees.');
 		});
 
 	} else {

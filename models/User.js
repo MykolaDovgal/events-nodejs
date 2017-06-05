@@ -1,14 +1,18 @@
-var mongoose = require('mongoose'),
+let mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	bcrypt = require('bcrypt'),
 	moment = require('moment'),
 	SALT_WORK_FACTOR = 10;
 
-var autoIncrement = require('mongoose-auto-increment');
+let config = require('config');
+let util = require('util/index');
+
+let autoIncrement = require('mongoose-auto-increment');
+let default_image_user = config.get('images:default_image_user');
 
 autoIncrement.initialize(mongoose.connection);
 
-var UserSchema = new Schema({
+let UserSchema = new Schema({
 	id: {type: Number, required: true, index: {unique: true}},
 	username: {type: String, required: true, index: {unique: true}},
 	email: {type: String, index: {unique: true}},
@@ -41,10 +45,10 @@ var UserSchema = new Schema({
 });
 
 UserSchema.pre('save', function (next) {
-	var user = this;
+	let user = this;
 
 	// get the current date
-	var currentDate = new Date();
+	let currentDate = new Date();
 
 	// change the updated_at field to current date
 	user.updated_at = currentDate;
@@ -130,6 +134,9 @@ UserSchema.statics.setLogOutTime = function (userId) {
 	});
 };
 
+UserSchema.virtual('image_circle').get(function () {
+	return util.getImage(this, 'profile_picture_circle', default_image_user);
+});
 
 
 UserSchema.plugin(autoIncrement.plugin, {

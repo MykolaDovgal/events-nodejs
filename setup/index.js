@@ -356,6 +356,46 @@ setup = {
 		}
 	},
 
+	generateAttendees: function (cb) {
+		Promise.props({
+			users: User.find().lean().distinct('id'),
+			events: Event.find()
+		}).then(function (results) {
+			let users = results.users;
+			let events = results.events;
+
+			if (events !== null) {
+				events.forEach(function (event) {
+
+					let attendees = [];
+
+					for (let j = 0; j < faker.random.number({min: 5, max: 30}); j += 1) {
+						attendees.push({
+							userId: faker.random.arrayElement(users),
+							ticket_purchase: faker.random.boolean(),
+							ticket_checkin: faker.random.boolean(),
+							checkin_time: faker.date.past(10),
+							attend_mark_time: faker.date.past(10),
+							here_mark_time: faker.date.past(1),
+							location_ver: faker.random.boolean(),
+							location_ver_time: faker.date.past(5)
+						});
+					}
+
+					console.log(attendees);
+
+					event.attendees = attendees;
+					event.save();
+				});
+			}
+
+			if (cb) {
+				cb();
+			}
+
+		});
+	},
+
 	getRandomElements: function (array, count = 1) {
 		let result = array;
 		if (count < array.length) {

@@ -1,16 +1,16 @@
 'use strict';
-var fs = require('fs');
-var _ = require('underscore');
-var express = require('express');
-var mongoose = require('mongoose');
-var Promise = require('bluebird');
-var moment = require('moment');
-var config = require('config');
-var default_image_user = config.get('images:default_image_user');
+let fs = require('fs');
+let _ = require('underscore');
+let express = require('express');
+let mongoose = require('mongoose');
+let Promise = require('bluebird');
+let moment = require('moment');
+let config = require('config');
+let default_image_user = config.get('images:default_image_user');
 
 Promise.promisifyAll(mongoose);
 
-var User = require('models/user');
+let User = require('models/user');
 
 module.exports = function (req, res, next) {
 
@@ -18,13 +18,13 @@ module.exports = function (req, res, next) {
         user: User.findOne({id: req.params.id}).execAsync()
     })
         .then(function (results) {
-            var user = results.user;
-            var title_page = user.username + "'s Profile";
+            let user = results.user;
+            let title_page = user.username + "'s Profile";
 
             if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
                 user.profile_picture_circle = default_image_user;
 
-            var data = {
+            let data = {
                 title: title_page,
                 showMenu: true,
                 user: user,

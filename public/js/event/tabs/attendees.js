@@ -4,8 +4,8 @@ let isAttendeesInit = false;
 
 $(document).ready(function () {
 
-	$('#attendees_tab_btn').on('click',function () {
-		if(!isAttendeesInit){
+	$('#attendees_tab_btn').on('click', function () {
+		if (!isAttendeesInit) {
 			initAttendeesTable();
 			isAttendeesInit = true;
 		}
@@ -18,11 +18,10 @@ $(document).ready(function () {
 });
 
 
-
 let initAttendeesTable = function () {
 
-	attendees_table = $('#party_attendees').DataTable({
-		"ajax": '/api/party/'+ party.id +'/attendees',
+	attendees_table = $('#event_attendees').DataTable({
+		"ajax": '/api/event/' + event.id + '/attendees',
 		"columns": [
 			{
 				'data': 'user_picture',

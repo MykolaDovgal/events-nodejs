@@ -8,54 +8,60 @@ let moment = require('moment');
 autoIncrement.initialize(mongoose.connection);
 
 let EventSchema = new Schema({
-	id: {type: Number, required: true, index: {unique: true}},
-	title_ol: {type: String, required: true, trim: true},
-	title_eng: {type: String, required: true, trim: true},
-	active: {type: Boolean, default: true},
-	partyId: {type: Number},
-	description_eng: {type: String},
-	description_ol: {type: String},
-	cover_picture: {type: String},
-	start_date: {type: Date},
-	end_date: {type: Date},
-	location: {
-		country: {type: String, trim: true},
-		city: {type: String, trim: true},
-		address: {type: String},
-		longitude: {
-			lat: {type: Number},
-			lng: {type: Number}
-		}
-	},
-	tkts_avbl_here: {type: Boolean},
-	tkt_price: [{
-		priceId: {type: Number},
+		id: {type: Number, required: true, index: {unique: true}},
+		title_ol: {type: String, required: true, trim: true},
+		title_eng: {type: String, required: true, trim: true},
+		active: {type: Boolean, default: true},
+		partyId: {type: Number},
+		description_eng: {type: String},
+		description_ol: {type: String},
+		cover_picture: {type: String},
 		start_date: {type: Date},
 		end_date: {type: Date},
-		price: {type: Number},
-		currency: {type: String}
-	}],
-	attendees: [{
-		userId: {type: Number},
-		ticket_purchase: {type: Boolean},
-		purchase_priceId: {type: Number},
-		ticket_checkin: {type: Boolean},
-		checkin_time: {type: Date},
-		attend_mark_time: {type: Date},
-		here_mark_time: {type: Date},
-		location_ver: {type: Boolean},
-		location_ver_time: {type: Date}
-	}],
-	managers: [],
-	notifications: [{
-		notificationId: {type: Number},
-		time: {type: Date},
-		content: {type: String},
-		link: {type: String},
-		sender: {type: Number},
-		audience: []
-	}]
-});
+		location: {
+			country: {type: String, trim: true},
+			city: {type: String, trim: true},
+			address: {type: String},
+			longitude: {
+				lat: {type: Number},
+				lng: {type: Number}
+			}
+		},
+		tkts_avbl_here: {type: Boolean},
+		tkt_price: [{
+			priceId: {type: Number},
+			start_date: {type: Date},
+			end_date: {type: Date},
+			price: {type: Number},
+			currency: {type: String}
+		}],
+		attendees: [{
+			user: {type: Object},
+			userId: {type: Number},
+			ticket_purchase: {type: Boolean},
+			purchase_priceId: {type: Number},
+			ticket_checkin: {type: Boolean},
+			checkin_time: {type: Date},
+			attend_mark_time: {type: Date},
+			here_mark_time: {type: Date},
+			location_ver: {type: Boolean},
+			location_ver_time: {type: Date}
+		}],
+		managers: [],
+		notifications: [{
+			notificationId: {type: Number},
+			time: {type: Date},
+			content: {type: String},
+			link: {type: String},
+			sender: {type: Number},
+			audience: []
+		}]
+	},
+	{
+		toObject: {virtuals: true},
+		toJSON: {virtuals: true}
+	}
+);
 
 EventSchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
 
@@ -92,6 +98,20 @@ EventSchema.plugin(autoIncrement.plugin, {
 	field: 'id',
 	startAt: 1
 });
+
+EventSchema.virtual('attendees.user', {
+	ref: 'User',
+	localField: 'attendees.userId',
+	foreignField: 'id',
+	justOne: true // for many-to-1
+});
+
+let autoPopulateUser = function (next) {
+	this.populate('attendees.user');
+	next();
+};
+
+EventSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
 
 EventSchema.plugin(mongoosePaginate);
 
