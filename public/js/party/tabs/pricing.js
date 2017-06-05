@@ -21,7 +21,7 @@ $(document).ready(function () {
 		$(this).removeClass('row_datetime');
 	}).on('change', '.date,select.price_currency', function () { sendUpdateAJAX.call(this) })
 		.on('blur', '.identity_flag', function () { sendUpdateAJAX.call(this) })
-		.on('click', '.flag_delete_btn', function () {
+		.on('click', '.flag_delete_pricing_btn', function () {
 			sendDeleteAjax.call(this);
 			pricing_table.ajax.reload();
 		});
@@ -93,7 +93,7 @@ let initPricingTable = function () {
 			{
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
-					return `<div data-id="${full.id != undefined ? full.id : ''}" class="text-center remove-column flag_delete_btn"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
+					return `<div data-id="${full.id != undefined ? full.id : ''}" class="text-center remove-column flag_delete_pricing_btn"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
 				},
 				width: '5%'
 			},

@@ -41,7 +41,7 @@ $(document).ready(function () {
 	}).on('click','.add_genres_btn_flag',function () {
 		let stage = $(this).closest('.tab_flag');
 		stage.find('.select_container').append(generateDefaultSelect(stage.attr('id')));
-	}).on('click', 'td > div.remove-column', function (event) {
+	}).on('click', '.remove_djs_btn_flag', function (event) {
 		deleteDjs.apply(this);
 	}).on('click','.remove_genres_btn_flag',function () {
 		deleteGenre($(this).closest('.tab_flag').attr('id'));
@@ -58,7 +58,7 @@ let fixTableLayout = function () {
 let deleteGenre = function (stageId) {
 
 	let parent = $('#' + stageId);
-	if(parent.find('select[name="genres"]').length <= 1)
+	if(parent.find('select[name="genres"]').length <= 0)
 		return null;
 
 	parent.find('select[name="genres"]').last().remove();
@@ -168,7 +168,7 @@ let setStageTable = function (stage_table_id,_id) {
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
 					console.log(full);
-					return `<div data-id="${full.id}" class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
+					return `<div data-id="${full.id}" class="text-center remove_djs_btn_flag"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
 				},
 				width: '5%'
 			},
@@ -358,7 +358,7 @@ let generateSelectTemplate = function (genresArray) {
 		});
 	}
 	else {
-		selectTemplate.append(generateDefaultSelect());
+		//selectTemplate.append(generateDefaultSelect());
 	}
 	return selectTemplate.html();
 

@@ -37,7 +37,7 @@ $(document).ready(function () {
 			});
 		}
 		else {
-			generateDefaultSelect();
+			//generateDefaultSelect();
 		}
 	});
 
@@ -53,7 +53,7 @@ $(document).ready(function () {
 		}
 	});
 	$('#delete_genres_btn').click(() => {
-		if (genresCounter > 1) {
+		if (genresCounter >= 0) {
 			deleteGenreSelect();
 		}
 	});

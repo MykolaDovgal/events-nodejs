@@ -8,6 +8,7 @@ let update = require('./update');
 let pricing = require('./api/pricing');
 let attendees = require('./api/attendees');
 
+
 router.use(event);
 router.use(events);
 router.use(getAll);
