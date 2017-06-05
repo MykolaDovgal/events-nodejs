@@ -7,6 +7,7 @@ let getAll = require('./api/getAll');
 let update = require('./update');
 let pricing = require('./api/pricing');
 
+
 router.use(event);
 router.use(events);
 router.use(getAll);
