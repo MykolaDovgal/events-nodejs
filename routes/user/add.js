@@ -5,7 +5,7 @@ var path = require('path');
 var crypto = require('crypto');
 var multer = require('multer');
 
-var User = require('../../models/user');
+var User = require('../../models/User');
 var util = require('../../util');
 
 var Promise = require('bluebird');

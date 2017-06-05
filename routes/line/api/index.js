@@ -2,7 +2,7 @@ let express = require('express');
 let Promise = require('bluebird');
 let config = require('config');
 
-let Line = require('models/line');
+let Line = require('models/Line');
 
 let router = express.Router();
 

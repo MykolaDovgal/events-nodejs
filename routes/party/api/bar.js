@@ -7,7 +7,7 @@ const config = require('config')
 
 const default_image_user = config.get('images:default_image_user')
 const Party = require('models/Party')
-const User = require('models/user')
+const User = require('models/User')
 
 router.get('/party/:id/bars', (req, res, next) => {
 	Promise.props({

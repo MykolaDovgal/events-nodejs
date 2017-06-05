@@ -3,7 +3,7 @@ let Promise = require('bluebird');
 let faker = require('faker');
 let moment = require('moment');
 
-let User = require('models/user');
+let User = require('models/User');
 
 let router = express.Router();
 

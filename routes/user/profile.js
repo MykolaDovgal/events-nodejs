@@ -10,7 +10,7 @@ let default_image_user = config.get('images:default_image_user');
 
 Promise.promisifyAll(mongoose);
 
-let User = require('models/user');
+let User = require('models/User');
 
 module.exports = function (req, res, next) {
 

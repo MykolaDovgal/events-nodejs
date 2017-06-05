@@ -4,7 +4,7 @@ let Promise = require('bluebird');
 let moment = require('moment');
 
 let Party = require('models/Party');
-let User = require('models/user');
+let User = require('models/User');
 
 let fs = require('fs');
 let config = require('config');

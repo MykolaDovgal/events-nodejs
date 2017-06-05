@@ -9,8 +9,8 @@ let Promise = require('bluebird');
 
 require('rootpath')();
 
-let User = require('models/user');
-let Line = require('models/line');
+let User = require('models/User');
+let Line = require('models/Line');
 let Party = require('models/Party');
 let Event = require('models/Event');
 

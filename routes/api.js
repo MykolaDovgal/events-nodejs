@@ -6,8 +6,8 @@ let _ = require('underscore');
 
 require('rootpath')();
 
-let User = require('models/user');
-let Line = require('models/line');
+let User = require('models/User');
+let Line = require('models/Line');
 let config = require('config');
 
 let default_image_line = config.get('images:default_image_line');

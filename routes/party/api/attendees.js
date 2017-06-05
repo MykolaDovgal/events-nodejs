@@ -7,7 +7,7 @@ let config = require('config');
 let default_image_user = config.get('images:default_image_user');
 
 let Party = require('models/Party');
-let User = require('models/user');
+let User = require('models/User');
 
 router.get('/party/:id/attendees', function (req, res, next) {
 

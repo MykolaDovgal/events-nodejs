@@ -2,7 +2,7 @@ var express = require('express');
 var Promise = require('bluebird');
 var bodyParser = require("body-parser");
 
-var Line = require('models/line');
+var Line = require('models/Line');
 
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({extended: false});

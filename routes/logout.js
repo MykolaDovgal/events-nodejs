@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
-var User = require('models/user');
+var User = require('models/User');
 
 router.get('/logout', function (req, res) {
     User.setLogOutTime(req.user.id);

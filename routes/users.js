@@ -5,7 +5,7 @@
  */
 let _ = require('underscore');
 let express = require('express');
-let User = require('../models/user');
+let User = require('../models/User');
 let Promise = require('bluebird');
 
 module.exports = function (req, res, next) {

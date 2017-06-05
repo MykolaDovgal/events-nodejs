@@ -6,7 +6,7 @@ let fs = require('fs');
 let config = require('config');
 
 let Party = require('models/Party');
-let Line = require('models/line');
+let Line = require('models/Line');
 let default_image_line = config.get('images:default_image_line');
 
 let router = express.Router();

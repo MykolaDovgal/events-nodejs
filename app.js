@@ -24,7 +24,7 @@ mongoose.connect(mongo_uri);
 Promise.promisifyAll(mongoose);
 
 
-let User = require('./models/user');
+let User = require('./models/User');
 
 // add admin
 User.count({username: config.get('project:admin:username')}, function (err, count) {

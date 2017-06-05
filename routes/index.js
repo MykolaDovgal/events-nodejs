@@ -8,7 +8,7 @@ require('rootpath')();
 let util = require('util');
 //let Promise = require('bluebird');
 
-let User = require('models/user');
+let User = require('models/User');
 
 
 let middleware = require('middlewares');

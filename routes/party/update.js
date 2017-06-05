@@ -6,7 +6,7 @@ let config = require('config');
 let multer = require('multer');
 
 let Party = require('models/Party');
-let Line = require('models/line');
+let Line = require('models/Line');
 let Event = require('models/Event');
 
 let router = express.Router();

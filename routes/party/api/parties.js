@@ -5,7 +5,7 @@ let moment = require('moment');
 let console = require('better-console');
 
 let Party = require('models/Party');
-let Line = require('models/line');
+let Line = require('models/Line');
 let Event = require('models/Event');
 
 router.all('/parties', function (req, res, next) {

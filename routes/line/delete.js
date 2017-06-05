@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Line = require('../../models/line');
+var Line = require('../../models/Line');
 
 
 

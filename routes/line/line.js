@@ -4,7 +4,7 @@ let fs = require('fs');
 let config = require('config');
 let default_image_line = config.get('images:default_image_line');
 
-let Line = require('models/line');
+let Line = require('models/Line');
 
 let router = express.Router();
 

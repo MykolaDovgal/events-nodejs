@@ -2,7 +2,7 @@ var express = require('express');
 var Promise = require('bluebird');
 var path = require('path');
 var crypto = require('crypto');
-var Line = require('models/line');
+var Line = require('models/Line');
 
 var router = express.Router();
 var multer = require('multer');

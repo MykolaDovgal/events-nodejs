@@ -1,14 +1,13 @@
-var express = require('express');
-var Promise = require('bluebird');
-var bodyParser = require("body-parser");
+let express = require('express');
+let bodyParser = require("body-parser");
 
-var Notification = require('models/notification');
+let Notification = require('models/Notification');
 
-var router = express.Router();
-var urlencodedParser = bodyParser.urlencoded({extended: false});
+let router = express.Router();
+let urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
-router.post('/notification/add',urlencodedParser, function (request, response, next) {
+router.post('/notification/add', urlencodedParser, function (request, response, next) {
 
 	let query = request.query;
 	console.log(query['notification_time']);
@@ -20,17 +19,17 @@ router.post('/notification/add',urlencodedParser, function (request, response, n
 	let newNotification = new Notification({
 		time: date.getDate(),
 		content: query['notification_content'],
-		link:query['notification_link'],
+		link: query['notification_link'],
 		sender: query['notificationSender'],
-		audience:query['notification_audience'],
+		audience: query['notification_audience'],
 	});
 
 	newNotification.save()
-		.then(function(doc){
+		.then(function (doc) {
 			console.log(doc);
 			response.send(200);
 		})
-		.catch(function (err){
+		.catch(function (err) {
 			console.log(err);
 		});
 
