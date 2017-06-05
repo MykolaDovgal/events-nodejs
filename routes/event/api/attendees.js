@@ -18,7 +18,7 @@ router.get('/event/:id/attendees', function (req, res, next) {
 			//let users = results.users;
 			let attendees = results.event.attendees;
 			let data = [];
-
+			console.warn(attendees);
 			attendees.forEach(function (attendee, index) {
 				let user = attendee.user;
 				if (user !== null) {

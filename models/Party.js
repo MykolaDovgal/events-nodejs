@@ -45,6 +45,7 @@ let PartySchema = new Schema({
 	}],
 	active: {type: Boolean},
 	attendees: [{
+		user: {type: Object},
 		userId: {type: Number},
 		ticket_purchase: {type: Boolean},
 		purchase_priceId: {type: String},
@@ -125,11 +126,19 @@ PartySchema.plugin(autoIncrement.plugin, {
 	startAt: 1
 });
 
-// PartySchema.plugin(autoIncrement.plugin, {
-// 	model: 'Party',
-// 	field: 'bar.drinkCategories.id',
-// 	startAt: 1
-// });
+PartySchema.virtual('attendees.user', {
+	ref: 'User',
+	localField: 'attendees.userId',
+	foreignField: 'id',
+	justOne: true // for many-to-1
+});
+
+let autoPopulateUser = function (next) {
+	this.populate('attendees.user');
+	next();
+};
+
+PartySchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
 
 
 // validate on update
