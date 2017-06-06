@@ -346,8 +346,8 @@ $(document).ready(function () {
 		});
 	});
 
-	$('#visible-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		let active = {name: 'only_for_event_att', value: state, pk: 1};
+	$('#visible-switch').on('change', function (event, state) {
+		let active = {name: 'only_for_event_att', value: this.checked, pk: 1};
 		$.ajax({
 			url: '/party/update/' + party.id,
 			type: 'POST',
