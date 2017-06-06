@@ -99,10 +99,6 @@ $(document).ready(function () {
 				},
 				tpl: '<select style="width:200px;">',
 				type: 'select2',
-				success: function success(response, newValue) {
-					// console.log(newValue);
-					//$('#lineTitle').text(title);
-				},
 				display: function (value, sourceData) {
 
 
@@ -161,11 +157,6 @@ $(document).ready(function () {
 				},
 				tpl: '<select style="width:200px;">',
 				type: 'select2',
-				success: function success(response, newValue) {
-					// console.log(newValue);
-					//$('#event_title_english').text('09');
-					//$('#event_title_original').text('099');
-				},
 				display: function (value, sourceData) {
 
 					let event;
@@ -178,20 +169,11 @@ $(document).ready(function () {
 						title = '';
 					}
 
-					//if (title.length > 0) {
-					//$(this).text(line.id);
-
 					if (event) {
 						$('#event_title_english').text(event.title_eng);
 						$('#event_title_original').text(event.title_ol);
-						console.log(event.title_eng, event.title_ol);
-						console.log(value, sourceData);
+
 					}
-					//}
-
-
-					//console.log(value, sourceData);
-
 				}
 			})
 				.click(function (e) {
@@ -367,7 +349,7 @@ $(document).ready(function () {
 		$('.language_switch_container').toggle();
 	});
 
-	$('#delete_party').click(function (event) {
+	$('#delete_event').click(function (event) {
 		event.preventDefault();
 		console.log(event);
 		bootbox.confirm({
@@ -393,13 +375,13 @@ $(document).ready(function () {
 	});
 
 
-	let party_managers_table = $('#table_party_managers').DataTable({
+	let event_managers_table = $('#table_event_managers').DataTable({
 		"ajax": "/api/event/" + event.id + "/managers",
 		"columns": [
 			{
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
-					return '<div class="text-center remove_party_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					return '<div class="text-center remove_event_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
 				},
 				width: '5%'
 			},
@@ -463,7 +445,7 @@ $(document).ready(function () {
 	});
 
 	//display searched result
-	$('#party_managers_search').typeahead({
+	$('#event_managers_search').typeahead({
 			hint: true,
 			highlight: true,
 			minLength: 1
@@ -482,7 +464,7 @@ $(document).ready(function () {
 			}
 		}).bind('typeahead:select', (ev, suggestion) => SelectedManager = suggestion);
 
-	$('#add_party_manager').click(() => {
+	$('#add_event_manager').click(() => {
 		SelectedManager.lineId = event.id;
 		//let data = JSON.stringify(SelectedManager);
 		$.ajax({
@@ -497,31 +479,29 @@ $(document).ready(function () {
 		}).then(function () {
 		});
 		SelectedManager = {};
-		$('#party_managers_search').val('');
+		$('#event_managers_search').val('');
 	});
 
 	function updateManagersTable() {
-		party_managers_table.clear().draw();
+		event_managers_table.clear().draw();
 		setTimeout(function () {
-			party_managers_table.ajax.reload();
-			party_managers_table.columns.adjust().draw();
+			event_managers_table.ajax.reload();
+			event_managers_table.columns.adjust().draw();
 		}, 1000);
 	}
 
 
-	$('#table_party_managers').on('click', '.remove_party_manager_column', function (event) {
-		console.log($(event.target).prop("tagName"));
-		if ($(event.target).prop("tagName") == "I") {
+	$('#table_event_managers').on('click', '.remove_event_manager_column', function (e) {
+		if ($(e.target).prop("tagName") == "I") {
 			let parent = this.parentElement;
-			console.log($(event.target).prop("tagName"));
 			bootbox.confirm({
 				size: "small",
 				message: "Are you sure you want to remove this user from managers?",
 				callback: function (result) {
 					if (result) {
 						let data = JSON.stringify({
-							userId: party_managers_table.row(parent).data().id,
-							partyId: event.id
+							userId: event_managers_table.row(parent).data().id,
+							eventId: event.id
 						});
 						$.ajax({
 							url: '/api/event/manager/delete',
@@ -529,7 +509,6 @@ $(document).ready(function () {
 							dataType: 'json',
 							contentType: "application/json; charset=utf-8",
 							data: data,
-							//TODO fix this KOSTYL
 							success: function () {
 								updateManagersTable();
 							},
@@ -543,9 +522,9 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#table_party_managers').on('click', 'td', function (event) {
+	$('#table_event_managers').on('click', 'td', function (event) {
 		if ($(event.target).prop("tagName") != "I") {
-			window.location = '/users/' + party_managers_table.row(this).data().id;
+			window.location = '/users/' + event_managers_table.row(this).data().id;
 		}
 	});
 });

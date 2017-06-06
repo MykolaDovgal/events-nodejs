@@ -91,12 +91,13 @@ let PartySchema = new Schema({
 				category_name: {type: String},
 				drinks: [
 					{
-						drinkname_ol: {type: String},
-						drinkname_eng: {type: String},
-						serve_method: {type: String},
-						volume: {type: String},
-						price: {type: Number},
-						in_stock: {type: Boolean}
+						drinkId: { type: Number, index: true },
+						drinkname_ol: { type: String },
+						drinkname_eng: { type: String },
+						serve_method: { type: String },
+						volume: { type: String },
+						price: { type: Number },
+						in_stock: { type: Boolean }
 					}
 				]
 			}

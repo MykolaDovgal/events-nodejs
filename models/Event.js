@@ -56,7 +56,9 @@ let EventSchema = new Schema({
 			location_ver: {type: Boolean},
 			location_ver_time: {type: Date}
 		}],
-		managers: [],
+		managers: [
+			{userId: {type: Number}}
+		],
 		notifications: [{
 			notificationId: {type: Number},
 			time: {type: Date},

@@ -7,6 +7,7 @@ let getAll = require('./api/getAll');
 let update = require('./update');
 let pricing = require('./api/pricing');
 let attendees = require('./api/attendees');
+let general = require('./api/general');
 
 
 router.use(event);
@@ -15,6 +16,7 @@ router.use(getAll);
 router.use(update);
 router.use('/api', pricing);
 router.use('/api', attendees);
+router.use('/api', general);
 
 module.exports = router;
 
