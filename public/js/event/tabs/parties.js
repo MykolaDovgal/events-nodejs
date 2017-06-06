@@ -1,7 +1,7 @@
 /**
  * Created by tegos on 09.05.2017.
  */
-
+let SelectedParty = {};
 $(document).ready(function () {
 	let event_parties_table;
 
@@ -11,6 +11,11 @@ $(document).ready(function () {
 			initTableParties();
 		}
 	});
+
+	$('#submit_set_event_party').on('click',function () {
+		sendUpdateEventAjax();
+	});
+
 
 
 	function initTableParties() {
@@ -114,9 +119,66 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	$('#filter-event-table').keyup(function () {
-		event_parties_table.search($(this).val()).draw();
+
+	//user dataset for search
+	let parties = new Bloodhound({
+		datumTokenizer: function (datum) {
+			let emailTokens = Bloodhound.tokenizers.whitespace(datum.id);
+			let titleOlTokens = Bloodhound.tokenizers.whitespace(datum.title_ol);
+			let titleEngTokens = Bloodhound.tokenizers.whitespace(datum.title_eng);
+			let dateTokens = Bloodhound.tokenizers.whitespace(datum.date);
+
+			return emailTokens.concat(titleOlTokens).concat(titleEngTokens).concat(dateTokens);
+		},
+		queryTokenizer: Bloodhound.tokenizers.whitespace,
+		prefetch: {
+			url: '/api/parties/typeahead',
+			cache: false,
+			transform: function (response) {
+				return $.map(response, function (item) {
+					return {
+						id: item.id,
+						title_ol: item.title_ol,
+						title_eng: item.title_eng,
+						date: item.date,
+						picture: item.picture
+					};
+				});
+			}
+		}
 	});
 
+	//display searched result
+	$('#event_party_search').typeahead({
+			hint: true,
+			highlight: true,
+			minLength: 1
+		},
+		{
+			name: 'parties_dataset',
+			display: 'title_eng',
+			source: parties,
+			templates: {
+				suggestion: function (item) {
+					return `<div class="col-md-12"> 
+							<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src=" ${item.picture} "/></div> 
+							<div> ID: ${item.id} <strong> ${item.title_eng} </strong></div> 
+						</div>`
+				}
+			}
+		}).bind('typeahead:select', (ev, suggestion) => SelectedParty = suggestion);
+
+	let sendUpdateEventAjax = function () {
+		$.ajax({
+			url: '/party/update/' + SelectedParty.id,
+			type: 'POST',
+			data: {name: 'eventId', value: +event.id},
+			success: function (data) {
+				updateTable();
+			},
+		});
+	};
 
 });
+
+

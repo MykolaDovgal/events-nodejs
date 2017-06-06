@@ -16,7 +16,6 @@ router.get('/event/:id/parties', function (req, res, next) {
 		.then(function (results) {
 			let parties = [];
 			results.party.forEach((party) => {
-				console.warn(party);
 				parties.push({
 					id: party.id,
 					lineId: party.lineId || '-',

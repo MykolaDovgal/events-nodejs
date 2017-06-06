@@ -25,6 +25,7 @@ let attendees = require('./party/api/attendees');
 let music = require('./party/api/music');
 let bar = require('./party/api/bar');
 let general = require('./party/api/general');
+let apiParties = require('./party/api/apiParties');
 
 
 let events = require('./event/api/events');
@@ -37,12 +38,15 @@ let line_parties = require('./line/api/parties');
 router.use(followers);
 router.use(line_parties);
 
+
+router.use(apiParties);
 router.use(general);
 router.use(parties);
 router.use(prices);
 router.use(attendees);
 router.use(music);
 router.use(bar);
+
 
 router.use(events);
 router.use(event_party);

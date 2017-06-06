@@ -9,6 +9,12 @@
                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
             </a>
         </div>
+        <div class="pull-left group-btn">
+            <a class="btn btn-circle btn-info"
+               data-target="#event_add_existing_party" data-toggle="modal">Add an existing party
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </a>
+        </div>
 
 
         <div class="pull-right group-btn">
@@ -54,6 +60,8 @@
         </table>
     </div>
 </div>
+
+
 
 <div id="event_add_party" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
@@ -227,6 +235,62 @@
                 <button form="form_add_party" type="submit"
                         class="btn green">Create
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div id="event_add_existing_party" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Set party</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- BEGIN FORM-->
+                    <form  class="form-horizontal"
+                          id="form_add_existing_party">
+                        <input type="hidden" name="eventId" value="<%= event.id %>">
+                        <div class="form-body">
+                            <div class="container col-md-12">
+
+
+                                <div class="input-add">
+                                    <div class="input-group">
+														<span class="input-group-addon">
+															<i class="fa fa-search" aria-hidden="true"></i>
+														</span>
+                                        <input type="text" id="event_party_search" placeholder="User name"
+                                               name="user_search" class="form-control"/>
+                                        <span class="input-group-addon btn-manager_user">
+															<button id="add_party_manager" type="button"
+                                                                    class="btn btn-icon-only green pull-right">
+															<i class="fa fa-plus"></i>
+														</button>
+														</span>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+                <button id="submit_set_event_party" type="button" data-dismiss="modal" class="btn green">Submit</button>
             </div>
         </div>
     </div>
