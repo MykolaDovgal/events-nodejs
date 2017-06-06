@@ -12,8 +12,10 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#submit_set_event_party').on('click',function () {
+	$('#submit_set_event_party').on('click', () => {
 		sendUpdateEventAjax();
+		$('#event_party_search').val('');
+
 	});
 
 
@@ -162,7 +164,7 @@ $(document).ready(function () {
 				suggestion: function (item) {
 					return `<div class="col-md-12"> 
 							<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src=" ${item.picture} "/></div> 
-							<div> ID: ${item.id} <strong> ${item.title_eng} </strong></div> 
+							<div> ID: ${item.id} <strong> ${item.title_eng} </strong> <br> <strong> ${item.title_ol} </strong></div> 
 						</div>`
 				}
 			}
@@ -175,6 +177,7 @@ $(document).ready(function () {
 			data: {name: 'eventId', value: +event.id},
 			success: function (data) {
 				updateTable();
+				SelectedParty = {};
 			},
 		});
 	};
