@@ -1,11 +1,11 @@
-var express = require('express');
-var Promise = require('bluebird');
-var bodyParser = require("body-parser");
+let express = require('express');
+let Promise = require('bluebird');
+let bodyParser = require("body-parser");
 
-var Line = require('models/Line');
+let Line = require('models/Line');
 
-var router = express.Router();
-var urlencodedParser = bodyParser.urlencoded({extended: false});
+let router = express.Router();
+let urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 router.post('/line/add', urlencodedParser, function (request, response, next) {

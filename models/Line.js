@@ -4,6 +4,7 @@ let mongoose = require('mongoose'),
 let autoIncrement = require('mongoose-auto-increment');
 let mongoosePaginate = require('mongoose-paginate');
 
+
 let config = require('config');
 let util = require('util/index');
 let default_image_line = config.get('images:default_image_line');
@@ -13,8 +14,16 @@ autoIncrement.initialize(mongoose.connection);
 let LineSchema = new Schema({
 		id: {type: Number, required: true, index: {unique: true}},
 		active: {type: Boolean, default: true},
-		line_name_eng: {type: String, trim: true},
-		line_name_ol: {type: String, trim: true},
+		line_name_eng: {
+			type: String, trim: true, validate: [
+				util.isEmptyValidator
+			]
+		},
+		line_name_ol: {
+			type: String, trim: true, validate: [
+				util.isEmptyValidator
+			]
+		},
 		description_eng: {type: String, trim: true},
 		description_ol: {type: String, trim: true},
 		facebook_page: {type: String, trim: true},
@@ -54,5 +63,11 @@ LineSchema.plugin(autoIncrement.plugin, {
 });
 
 LineSchema.plugin(mongoosePaginate);
+
+// validate on update
+LineSchema.pre('update', function (next) {
+	this.options.runValidators = true;
+	next();
+});
 
 module.exports = mongoose.model('Line', LineSchema);

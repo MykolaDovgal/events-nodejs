@@ -18,7 +18,11 @@ let UserSchema = new Schema({
 	email: {type: String, index: {unique: true}},
 	active: {type: Boolean, default: true},
 	password: {type: String, required: true},
-	firstname: {type: String, trim: true},
+	firstname: {
+		type: String, trim: true, validate: [
+			util.isEmptyValidator
+		]
+	},
 	lastname: {type: String, trim: true},
 	realname: {type: String, trim: true},
 	permission_level: {type: Number},
@@ -143,6 +147,12 @@ UserSchema.plugin(autoIncrement.plugin, {
 	model: 'User',
 	field: 'id',
 	startAt: 1
+});
+
+// validate on update
+UserSchema.pre('update', function (next) {
+	this.options.runValidators = true;
+	next();
 });
 
 module.exports = mongoose.model('User', UserSchema);

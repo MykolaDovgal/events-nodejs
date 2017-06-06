@@ -45,6 +45,7 @@ $(document).ready(function () {
 				success: function (data) {
 					$('#english_title').text(data);
 				},
+				validate: xeditable.validators.notEmpty
 			});
 			$('#title_ol').editable({
 				type: 'text',
@@ -53,7 +54,8 @@ $(document).ready(function () {
 				title: 'Enter title',
 				success: function (data) {
 					$('#ol_title').text(data);
-				}
+				},
+				validate: xeditable.validators.notEmpty
 			});
 
 
@@ -179,8 +181,6 @@ $(document).ready(function () {
 							generateLinkData(div_event_link);
 						}
 					}
-
-
 				}
 			})
 				.click(function (e) {

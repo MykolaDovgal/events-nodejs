@@ -209,7 +209,8 @@ $(document).ready(function () {
 				title: 'Enter title',
 				success: function (data) {
 					$('#english_title').text(data);
-				}
+				},
+				validate: xeditable.validators.notEmpty
 			});
 			$('#line_name_ol').editable({
 				type: 'text',
@@ -218,7 +219,8 @@ $(document).ready(function () {
 				title: 'Enter title',
 				success: function (data) {
 					$('#ol_title').text(data);
-				}
+				},
+				validate: xeditable.validators.notEmpty
 			});
 			$('#line_facebook_page').editable({
 				type: 'text',

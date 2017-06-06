@@ -62,6 +62,7 @@ $(document).ready(function () {
 				success: function (data) {
 					$('#english_title').text(data);
 				},
+				validate: xeditable.validators.notEmpty
 			});
 			$('#title_ol').editable({
 				type: 'text',
@@ -70,7 +71,8 @@ $(document).ready(function () {
 				title: 'Enter title',
 				success: function (data) {
 					$('#ol_title').text(data);
-				}
+				},
+				validate: xeditable.validators.notEmpty
 			});
 
 

@@ -4,13 +4,22 @@ let mongoose = require('mongoose'),
 let autoIncrement = require('mongoose-auto-increment');
 let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
+let util = require('util/index');
 
 autoIncrement.initialize(mongoose.connection);
 
 let EventSchema = new Schema({
 		id: {type: Number, required: true, index: {unique: true}},
-		title_ol: {type: String, required: true, trim: true},
-		title_eng: {type: String, required: true, trim: true},
+		title_ol: {
+			type: String, required: true, trim: true, validate: [
+				util.isEmptyValidator
+			]
+		},
+		title_eng: {
+			type: String, required: true, trim: true, validate: [
+				util.isEmptyValidator
+			]
+		},
 		active: {type: Boolean, default: true},
 		partyId: {type: Number},
 		description_eng: {type: String},
@@ -112,6 +121,12 @@ let autoPopulateUser = function (next) {
 };
 
 EventSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
+
+// validate on update
+EventSchema.pre('update', function (next) {
+	this.options.runValidators = true;
+	next();
+});
 
 EventSchema.plugin(mongoosePaginate);
 

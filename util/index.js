@@ -43,7 +43,17 @@ let util = {
 			result = data_field;
 		}
 		return result;
-	}
+	},
+	isEmptyValidator: {
+		validator: function (v) {
+			let result = (v && v.trim() !== '' && v.trim().length > 1);
+			console.warn(result);
+			return result;
+		},
+		message: 'Can not be empty.'
+	},
+
+
 };
 
 module.exports = util;

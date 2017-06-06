@@ -5,10 +5,12 @@
  */
 let _ = require('underscore');
 let express = require('express');
-let User = require('../models/User');
+let User = require('models/User');
 let Promise = require('bluebird');
+let router = express.Router();
 
-module.exports = function (req, res, next) {
+
+router.get('/users', function (req, res, next) {
 
 	Promise.props({
 		userAllCount: User.count().execAsync(),
@@ -23,9 +25,11 @@ module.exports = function (req, res, next) {
 				userAllCount: results.userAllCount,
 				userAllActiveCount: results.userAllActiveCount
 			};
-			res.render('pages/users', data);
+			res.render('pages/user/users', data);
 		})
 		.catch(function (err) {
 			res.send(500);
 		});
-};
+});
+
+module.exports = router;

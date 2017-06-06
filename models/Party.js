@@ -4,14 +4,26 @@ let mongoose = require('mongoose'),
 let autoIncrement = require('mongoose-auto-increment');
 let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
+let util = require('util/index');
 
 autoIncrement.initialize(mongoose.connection);
 
 let PartySchema = new Schema({
 	id: {type: Number, required: true, index: {unique: true}},
 	lineId: {type: Number},
-	title_ol: {type: String, trim: true, required: true},
-	title_eng: {type: String, trim: true, required: true},
+	title_ol: {
+		type: String, trim: true, required: true,
+		validate: [
+			util.isEmptyValidator
+		]
+
+	},
+	title_eng: {
+		type: String, trim: true, required: true,
+		validate: [
+			util.isEmptyValidator
+		]
+	},
 	eventId: {type: Number},
 	only_for_event_att: {type: Boolean},
 	description_eng: {type: String, trim: true},
