@@ -63,6 +63,11 @@
         display: table;
         margin: 10px auto;
     }
+    .switch-lang{
+        position: relative;
+        margin: 15px auto;
+        display: table;
+    }
 }
 
 @media (max-width: 768px) {

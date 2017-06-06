@@ -84,10 +84,14 @@
 		<div class="row vertical-row vertical-center offset-bottom-1_5">
 			<label class="col-md-3 control-label" for="active">Visible Only for Event Participants</label>
 			<div class="col-md-9 md-checkbox-inline">
-				<div class="col-xs-12">
-					<input id="visible-switch" type="checkbox"
-					       class="make-switch form-control" <%= party.only_for_event_att ? 'checked' : '' %>
-					       data-on-color="success" data-on-text="Yes" data-off-text="No" data-off-color="warning"/>
+				<div class="col-xs-12 md-checkbox-list">
+					<div class="md-checkbox">
+						<input id="visible-switch" type="checkbox" class="md-check" <%= party.only_for_event_att ? 'checked' : '' %> />
+						<label for="visible-switch">
+							<span></span>
+							<span class="check"></span>
+							<span class="box"></span></label>
+					</div>
 				</div>
 			</div>
 		</div>

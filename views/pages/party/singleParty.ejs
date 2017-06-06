@@ -53,6 +53,14 @@
 							<h4 id="place_title">
 								in <%= party.location ? party.location.city + ', ' + party.location.country : '' %></h4>
 						</div>
+
+						<div class="switch-lang party-item">
+							<input id="language_switch" type="checkbox"
+								   class="make-switch form-control"
+								   data-on-color="success" data-on-text="Local"
+								   data-off-text="English"
+								   data-off-color="warning"/>
+						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="wrapper-line border-line croppie-container mt-element-overlay">
@@ -102,13 +110,7 @@
 						</div>
 					</div>
 					<div class="col-md-9">
-						<div class="switch-lang party-item">
-							<input id="language_switch" type="checkbox"
-							       class="make-switch form-control"
-							       data-on-color="success" data-on-text="Local"
-							       data-off-text="English"
-							       data-off-color="warning"/>
-						</div>
+
 						<div class="tabbable-line line-tab-width">
 
 							<ul class="nav nav-tabs">

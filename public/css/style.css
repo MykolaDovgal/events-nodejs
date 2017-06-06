@@ -28,10 +28,10 @@ body {
 	color: black !important;
 }
 
-.party-item.switch-lang {
+.switch-lang {
 	position: absolute;
 	right: 15px;
-	top: -75px;
+	top: 0;
 }
 
 .tab-smart-video-wrap .content-block {
@@ -763,6 +763,8 @@ body.is-menu-visible #menu .closes {
 .wrapper-title {
 	border-radius: 4px 4px 0 0;
 	margin-bottom: 5px;
+	position: relative;
+	padding: 0 15px;
 }
 
 .wrapper-title h4 {

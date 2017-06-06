@@ -55,6 +55,11 @@
 							<h4 id="place_title">in <%= line.address.city + ', ' + line.address.country %></h4>
 							<% } %>
 						</div>
+						<div class="switch-lang"><input id="language_switch" type="checkbox"
+																   class="make-switch form-control"
+																   data-on-color="success" data-on-text="Local"
+																   data-off-text="English"
+																   data-off-color="warning"/></div>
 					</div>
 					<div class="col-md-3">
 						<div class="wrapper-line border-line mt-element-overlay">
@@ -109,11 +114,7 @@
 					</div>
 					<div class="col-md-9">
 						<div class="tabbable-line line-tab-width">
-							<div class="switch-lang pull-right"><input id="language_switch" type="checkbox"
-							                                           class="make-switch form-control"
-							                                           data-on-color="success" data-on-text="Local"
-							                                           data-off-text="English"
-							                                           data-off-color="warning"/></div>
+
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#general-container"
 								                      data-toggle="tab"
