@@ -18,15 +18,15 @@ $(document).ready(() => {
 	$('body').on('click', '.add-tender-button', function () {
 		if (selectedResults && selectedResults.username) {
 			let barId = $(this).parents('.bar-tab').attr('id');
-			let data = {partyId: party.id, barId: barId, userId: selectedResults.id};
+			let data = { partyId: party.id, barId: barId, userId: selectedResults.id };
 			$.ajax({
 				url: '/api/party/bar/tenders/add',
 				type: 'POST',
 				data: data,
 				success: () => {
 					let parent = $(this).parents('.table-tenders');
-					let table = parent.find('table')[1];
-					updateTable($(table).attr('id'));
+					let table = parent.find('table');				
+					updateTable(table, true);
 				}
 			});
 		}
@@ -34,17 +34,16 @@ $(document).ready(() => {
 
 	$('body').on('click', '.add-category-button', function () {
 		let barId = $(this).parents('.bar-tab').attr('id');
-		let data = {barId: barId, categoryName: 'Category ' + catCount}
+		let data = { barId: barId, categoryName: 'Category ' + catCount }
 		$.ajax({
 			url: '/api/party/bar/category/add',
 			type: 'POST',
 			data: data,
 			success: (_id) => {
-				createCategoryTab({bar_name_eng: 'Bar ' + barCount, _id: barId}, {
+				createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, {
 					category_name: 'Category ' + catCount,
 					_id: _id
 				});
-
 			}
 		});
 	});
@@ -63,6 +62,39 @@ $(document).ready(() => {
 					}
 				},
 				duration: 300
+			});
+		}
+	});
+
+	$('body').on('click', '.remove_tender_column', function (event) {
+		if ($(event.target).prop("tagName") == "I") {
+			let parent = this.parentElement;
+			let table = $(this.closest('table'));
+			let userId = table.DataTable().row(parent).data().id;
+			let barId = $(this.closest('.bar-tab')).attr('id');
+			bootbox.confirm({
+				size: "small",
+				message: "Are you sure you want to remove this user from bar tenders?",
+				callback: function (result) {
+					if (result) {
+						let data = JSON.stringify({ userId: userId, barId: barId });
+						$.ajax({
+							url: '/api/party/bar/tenders/delete',
+							type: 'POST',
+							dataType: 'json',
+							contentType: "application/json; charset=utf-8",
+							data: data,
+							success: function () {
+								console.log('OK')
+								updateTable(table, true)
+							},
+							error: function() {
+								console.log('NOT OK')
+								updateTable(table, true)
+							}
+						});
+					}
+				}
 			});
 		}
 	});
@@ -117,9 +149,9 @@ $(document).ready(() => {
 		$.ajax({
 			url: '/api/party/bar/add',
 			type: 'POST',
-			data: {partyId: party.id, name: 'Bar ' + barCount},
+			data: { partyId: party.id, name: 'Bar ' + barCount },
 			success: (_id) => {
-				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id});
+				createBarTab({ bar_name_eng: 'Bar ' + barCount, _id: _id });
 			}
 		});
 	};
@@ -166,7 +198,7 @@ $(document).ready(() => {
 					$.ajax({
 						url: '/api/party/bar/delete',
 						type: 'POST',
-						data: {partyId: party.id, barId: barId},
+						data: { partyId: party.id, barId: barId },
 						success: _id => {
 							initBars();
 						}
@@ -186,7 +218,7 @@ $(document).ready(() => {
 					$.ajax({
 						url: '/api/party/bar/category/delete',
 						type: 'POST',
-						data: {categoryId: categoryId},
+						data: { categoryId: categoryId },
 						success: () => {
 							initBars();
 						}
@@ -211,6 +243,7 @@ $(document).ready(() => {
                     <div class="panel-body"><div class="portlet-body table-both-scroll">
                         <table id="category_${category._id}_drinks" class="table table-striped table-bordered table-hover order-column not-initialized">
                             <thead>
+							<th></th>
                             <th>#</th>
                             <th>Drink</th>
                             <th>Serve Method</th>
@@ -246,8 +279,9 @@ $(document).ready(() => {
                                     <span class="caption-subject bold">Bar Tenders</span>
                                 </div>
                                 <div class="portlet-body table-both-scroll">
-                                    <table id="bar_${counter}_tenders_table" class="table table-striped table-bordered table-hover order-column">
+                                    <table id="bar_${counter}_tenders_table" class="table table-striped table-bordered table-hover order-column tenders_table">
                                         <thead>
+										<th></th>
                                         <th>#</th>
                                         <th>Pic</th>
                                         <th>User Name</th>
@@ -299,6 +333,14 @@ $(document).ready(() => {
 				},
 				"columns": [
 					{
+						data: 'delete_button',
+						render: function (data, type, full, meta) {
+							return '<div class="text-center remove_tender_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+						},
+						orderable: false,
+						width: '5%'
+					},
+					{
 						data: 'id',
 					},
 					{
@@ -336,6 +378,14 @@ $(document).ready(() => {
 					"url": "/api/party/bar/" + barId + "/drinks/" + categoryId,
 				},
 				"columns": [
+					{
+						data: 'delete_button',
+						render: function (data, type, full, meta) {
+							return '<div class="text-center remove_drink_button"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+						},
+						orderable: false,
+						width: '5%'
+					},
 					{
 						data: 'uniqueId',
 						render: function (data) {
@@ -410,10 +460,7 @@ $(document).ready(() => {
 		if (reload) {
 			table.DataTable().ajax.reload();
 		}
-
 		table.DataTable().columns.adjust().draw();
-
-
 	}
 
 });

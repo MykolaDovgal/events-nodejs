@@ -103,9 +103,11 @@ router.post('/party/bar/tenders/add', (req, res, next) => {
 	Promise.props({
 		party: Party.findOne({ id: parseInt(body.partyId) }, 'bar')
 	}).then((results) => {
-		results.party.bar.find((bar) => {
+		let bar = results.party.bar.find((bar) => {
 			return bar._id == body.barId
-		}).party_managers.push({ userId: body.userId })
+		})
+		if (!bar.party_managers.find(manager => manager.userId == body.userId))
+			bar.party_managers.push({ userId: body.userId })
 		results.party.save()
 		res.sendStatus(200)
 	}).catch((err) => {
@@ -115,13 +117,15 @@ router.post('/party/bar/tenders/add', (req, res, next) => {
 
 router.post('/party/bar/tenders/delete', (req, res, next) => {
 	let body = req.body
+	console.log(body);
 
 	Promise.props({
-		party: Party.findOne({ id: parseInt(body.partyId) }, 'bar')
+		party: Party.findOne({ 'bar._id': body.barId }, 'bar')
 	}).then((results) => {
-		results.party.bar.find((bar) => {
+		let bar = results.party.bar.find((bar) => {
 			return bar._id == body.barId
-		}).party_managers.pull({ userId: body.userId })
+		})
+		bar.party_managers.splice(bar.party_managers.findIndex(manager => manager.userId == body.userId), 1);
 		results.party.save()
 		res.sendStatus(200)
 	}).catch((err) => {
