@@ -89,10 +89,14 @@ $(document).ready(function () {
 
 					let line;
 					let title = '';
+					let div_line_link = $('.div_line_link');
+					let href;
+
+
 					if (sourceData && sourceData !== null) {
 						line = sourceData.line || 0;
 						title = (currentLanguage == 'English') ? line.line_name_eng : line.line_name_ol;
-
+						href = '/line/' + line.id;
 					} else {
 						title = '';
 					}
@@ -100,14 +104,15 @@ $(document).ready(function () {
 						title = '';
 					}
 
-					if (value === '-1') {
-						$('.open_link_line').hide();
-					} else {
-						$('.open_link_line').show();
+					if (value) {
+						if (+value === -1) {
+							generateLinkData(div_line_link);
+						} else {
+							generateLinkData(div_line_link, title, href, 'line');
+						}
 					}
 
 					if (title.length > 0) {
-						//$(this).text(line.id);
 
 						$('#line_title_english').text(line.line_name_eng);
 						$('#line_title_original').text(line.line_name_ol);
@@ -143,14 +148,13 @@ $(document).ready(function () {
 				tpl: '<select style="width:200px;">',
 				type: 'select2',
 				success: function success(response, newValue) {
-					// console.log(newValue);
-					//$('#event_title_english').text('09');
-					//$('#event_title_original').text('099');
+
 				},
 				display: function (value, sourceData) {
 
 					let event;
 					let title;
+					let div_event_link = $('.div_event_link');
 					if (sourceData) {
 						event = sourceData.event || 0;
 						title = (currentLanguage == 'English') ? event.title_eng : event.title_ol;
@@ -159,19 +163,23 @@ $(document).ready(function () {
 						title = '';
 					}
 
-					//if (title.length > 0) {
-					//$(this).text(line.id);
 
 					if (event) {
+						let href = '/event/' + event.id;
 						$('#event_title_english').text(event.title_eng);
 						$('#event_title_original').text(event.title_ol);
-						console.log(event.title_eng, event.title_ol);
-						console.log(value, sourceData);
+
+
+						generateLinkData(div_event_link, title, href, 'event');
+
 					}
-					//}
 
+					if (value && sourceData) {
+						if (+value === -1) {
+							generateLinkData(div_event_link);
+						}
+					}
 
-					//console.log(value, sourceData);
 
 				}
 			})
@@ -382,12 +390,10 @@ $(document).ready(function () {
 
 		return false;
 	});
-	
-	
-	
+
 
 	let party_managers_table = $('#table_party_managers').DataTable({
-		"ajax": "/api/party/" + party.id +"/managers",
+		"ajax": "/api/party/" + party.id + "/managers",
 		"columns": [
 			{
 				data: 'delete_button',
@@ -502,11 +508,9 @@ $(document).ready(function () {
 	}
 
 
-
-
 	$('#table_party_managers').on('click', '.remove_party_manager_column', function (event) {
 		console.log($(event.target).prop("tagName"));
-		if($(event.target).prop("tagName") == "I"){
+		if ($(event.target).prop("tagName") == "I") {
 			let parent = this.parentElement;
 			console.log($(event.target).prop("tagName"));
 			bootbox.confirm({
@@ -514,7 +518,10 @@ $(document).ready(function () {
 				message: "Are you sure you want to remove this user from managers?",
 				callback: function (result) {
 					if (result) {
-						let data = JSON.stringify({ userId: party_managers_table.row(parent).data().id, partyId: party.id });
+						let data = JSON.stringify({
+							userId: party_managers_table.row(parent).data().id,
+							partyId: party.id
+						});
 						$.ajax({
 							url: '/api/party/manager/delete',
 							type: 'POST',
@@ -536,8 +543,20 @@ $(document).ready(function () {
 	});
 
 	$('#table_party_managers').on('click', 'td', function (event) {
-		if($(event.target).prop("tagName") != "I") {
+		if ($(event.target).prop("tagName") != "I") {
 			window.location = '/users/' + party_managers_table.row(this).data().id;
 		}
 	});
+
+	let generateLinkData = function (jquery_div_link, title, href, type = '') {
+		if (title && href) {
+			let text = 'Open ' + type + ' - ';
+			let link = jquery_div_link.find('a');
+			link.attr('title', text + title);
+			link.attr('href', href);
+			jquery_div_link.removeClass('hide');
+		} else {
+			jquery_div_link.addClass('hide');
+		}
+	}
 });
