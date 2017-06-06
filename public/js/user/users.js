@@ -26,7 +26,7 @@ $(document).ready(function () {
 			{
 				data: 'active',
 				render: function (data, type, full, meta) {
-					var content;
+					let content;
 					if (data) {
 						content = '<div class="text-center"><span class="badge badge-success">Active</span></div>'
 					} else {
@@ -98,7 +98,7 @@ $(document).ready(function () {
 
 	function readFile(input) {
 		if (input.files && input.files[0]) {
-			var reader = new FileReader();
+			let reader = new FileReader();
 			reader.onload = function (e) {
 				$uploadCrop.croppie('bind', {
 					url: e.target.result
@@ -135,9 +135,9 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	var form = $('#form_add_user');
-	var error = $('.alert-danger', form);
-	var success = $('.alert-success', form);
+	let form = $('#form_add_user');
+	let error = $('.alert-danger', form);
+	let success = $('.alert-success', form);
 
 	form.validate({
 		errorElement: 'span', //default input error message container
@@ -213,7 +213,7 @@ $(document).ready(function () {
 	form.submit(function (e) {
 		e.preventDefault();
 
-		var formData = new FormData(form[0]);
+		let formData = new FormData(form[0]);
 
 		//set hidden cropped image
 		$uploadCrop.croppie('result', {
@@ -221,7 +221,7 @@ $(document).ready(function () {
 			size: 'viewport',
 			circle: true
 		}).then(function (resp) {
-			var input = $('#form-profile-pic');
+			let input = $('#form-profile-pic');
 			if (input[0].files && input[0].files[0])
 				formData.append('userpic', resp, 'userpic.png');
 
@@ -235,8 +235,8 @@ $(document).ready(function () {
 					processData: false,
 					data: formData,
 					success: function (data) {
-						var status = data.status;
-						var message = data.message;
+						let status = data.status;
+						let message = data.message;
 
 						bootbox.alert({
 							title: status ? 'Success' : 'Error',

@@ -19,7 +19,6 @@ $(document).ready(function () {
 	});
 
 
-
 	function initTableParties() {
 		if (!$.fn.DataTable.isDataTable('#event_parties')) {
 
@@ -33,7 +32,8 @@ $(document).ready(function () {
 					},
 					{
 						data: 'lineId',
-						width: '10%'
+						width: '10%',
+						className: 'text-center'
 					},
 					{
 						data: 'club',
@@ -45,11 +45,20 @@ $(document).ready(function () {
 					},
 					{
 						data: 'open_time',
-						width: '15%'
+						width: '15%',
+						className: 'text-center'
 					},
 					{
 						data: 'attendees_count',
-						width: '15%'
+						width: '15%',
+						className: 'text-center'
+					},
+					{
+						data: 'event_only',
+						width: '15%',
+						render: function (data, type, full, meta) {
+							return `<div class="text-center"><input disabled type="checkbox" ${data === true ? 'checked' : ''} ></div>`;
+						},
 					},
 					{
 						data: 'video_stream_avbl',
@@ -68,7 +77,7 @@ $(document).ready(function () {
 				],
 				"columnDefs": [
 					{
-						"targets": 'no-sort',
+						"targets": 'no_sort',
 						"orderable": false
 					}
 				],
@@ -80,9 +89,6 @@ $(document).ready(function () {
 
 				"dom": "<'row' <'col-md-12'  t >  <'col-md-12'i> >",
 			});
-
-
-
 
 
 			$('#event_parties tbody').on('click', "tr :not(a,i)", function (e) {
@@ -106,19 +112,14 @@ $(document).ready(function () {
 				}
 			});
 
+			dataTableHelper.eventForUpdateTable('.update_table', event_parties_table);
+			dataTableHelper.eventForSearchInTable('#filter_event_parties_table', event_parties_table);
+
 		} else {
-			updateTable();
+			dataTableHelper.updateTable(event_parties_table);
 		}
 
 
-	}
-
-	function updateTable() {
-		event_parties_table.clear().draw();
-		setTimeout(function () {
-			event_parties_table.ajax.reload();
-			event_parties_table.columns.adjust().draw();
-		}, 1000);
 	}
 
 
@@ -176,7 +177,7 @@ $(document).ready(function () {
 			type: 'POST',
 			data: {name: 'eventId', value: +event.id},
 			success: function (data) {
-				updateTable();
+				dataTableHelper.updateTable(event_parties_table);
 				SelectedParty = {};
 			},
 		});

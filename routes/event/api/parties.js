@@ -11,7 +11,7 @@ let router = express.Router();
 router.get('/event/:id/parties', function (req, res, next) {
 
 	Promise.props({
-		party: Party.find( {eventId: req.params.id} ).execAsync()
+		party: Party.find({eventId: req.params.id}).execAsync()
 	})
 		.then(function (results) {
 			let parties = [];
@@ -20,14 +20,15 @@ router.get('/event/:id/parties', function (req, res, next) {
 					id: party.id,
 					lineId: party.lineId || '-',
 					club: party.location.club_name,
-					date: party.date ?  moment(party.date).format('DD/MM/YYYY') : '',
+					event_only: !!party.only_for_event_att,
+					date: party.date ? moment(party.date).format('DD/MM/YYYY') : '',
 					open_time: party.date ? moment(party.date).format('HH:mm') : '',
 					attendees_count: party.attendees.length,
 					video_stream_avbl: party.video_stream_avbl,
 					tkts_avbl_here: party.tkts_avbl_here
 				})
 			});
-			res.json({data : parties});
+			res.json({data: parties});
 		})
 		.catch(function (err) {
 			next(err)

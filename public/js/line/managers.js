@@ -2,7 +2,7 @@ let selectedResult;
 
 $(document).ready(function () {
 
-	var line_managers_table = $('#table-line-managers').DataTable({
+	let line_managers_table = $('#table-line-managers').DataTable({
 		"ajax": "/api/line/managers/" + line.id,
 		"columns": [
 			{
@@ -39,6 +39,7 @@ $(document).ready(function () {
 			}
 		],
 		scrollY: 200,
+		scrollX: true,
 		scroller: true,
 		responsive: false,
 		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
@@ -73,10 +74,10 @@ $(document).ready(function () {
 
 	//display searched result
 	$('#user_search').typeahead({
-		hint: true,
-		highlight: true,
-		minLength: 1
-	},
+			hint: true,
+			highlight: true,
+			minLength: 1
+		},
 		{
 			name: 'users_dataset',
 			display: 'name',
@@ -134,7 +135,7 @@ $(document).ready(function () {
 			message: "Are you sure you want to remove this user from managers?",
 			callback: function (result) {
 				if (result) {
-					let data = JSON.stringify({ userId: line_managers_table.row(parent).data().id, lineId: line.id });
+					let data = JSON.stringify({userId: line_managers_table.row(parent).data().id, lineId: line.id});
 					$.ajax({
 						url: '/api/line/manager/delete',
 						type: 'POST',
@@ -152,6 +153,8 @@ $(document).ready(function () {
 				}
 			}
 		});
-		setTimeout(function () { lock = false }, 150);
+		setTimeout(function () {
+			lock = false
+		}, 150);
 	});
 });

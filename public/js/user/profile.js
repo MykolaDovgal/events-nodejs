@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-	var user_activity = $('#table-user-activity').DataTable({
+	let user_activity = $('#table-user-activity').DataTable({
 		"ajax": "/api/activity/" + user.id,
 		"columns": [
 			{
@@ -19,17 +19,17 @@ $(document).ready(function () {
 		"dom": "<'row' <'col-md-12'>> t <'row'<'col-md-12'>>",
 	});
 
-	var lines;
+	let lines;
 
 	toastr.options.showMethod = 'slideDown';
 	FormEditable.init();
 
 	// croppie
-	var $uploadCrop;
+	let $uploadCrop;
 
 	function readFile(input) {
 		if (input.files && input.files[0]) {
-			var reader = new FileReader();
+			let reader = new FileReader();
 			reader.onload = function (e) {
 				$uploadCrop.croppie('bind', {
 					url: e.target.result
@@ -92,7 +92,7 @@ $(document).ready(function () {
 		$toCrop.croppie('result', 'base64').then(function (base64) {
 			$('#userpic').attr("src", base64);
 
-			var formData = new FormData($('#form_update_user')[0]);
+			let formData = new FormData($('#form_update_user')[0]);
 
 			$toCrop.croppie('result', {
 				type: 'blob',
@@ -187,7 +187,7 @@ $(document).ready(function () {
 	});
 
 	$('#form-date-of-birth').change(function () {
-		var date_of_birth = {name: 'date_of_birth', value: $(this).val(), pk: 1};
+		let date_of_birth = {name: 'date_of_birth', value: $(this).val(), pk: 1};
 		console.log(date_of_birth);
 		$.ajax({
 			url: '/user/update/' + user.id,
@@ -199,7 +199,7 @@ $(document).ready(function () {
 	});
 
 	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		var active = {name: 'active', value: state, pk: 1};
+		let active = {name: 'active', value: state, pk: 1};
 		$.ajax({
 			url: '/user/update/' + user.id,
 			type: 'POST',
@@ -334,7 +334,7 @@ let FormEditable = function () {
 			// handle editable elements on hidden event fired
 			$('#user .editable').on('hidden', function (e, reason) {
 				if (reason === 'save' || reason === 'nochange') {
-					var $next = $(this).closest('tr').next().find('.editable');
+					let $next = $(this).closest('tr').next().find('.editable');
 					if ($('#autoopen').is(':checked')) {
 						setTimeout(function () {
 							$next.editable('show');

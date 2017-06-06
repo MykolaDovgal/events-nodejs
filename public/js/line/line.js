@@ -96,7 +96,7 @@ $(document).ready(function () {
 		$('#upload-picture-modal').modal('show');
 	});
 
-	var $uploadCrop;
+	let $uploadCrop;
 	$uploadCrop = $('#upload-cover-picture').croppie({
 		viewport: {
 			width: 368,
@@ -114,7 +114,7 @@ $(document).ready(function () {
 
 	function readFile(input) {
 		if (input.files && input.files[0]) {
-			var reader = new FileReader();
+			let reader = new FileReader();
 			reader.onload = function (e) {
 				$uploadCrop.croppie('bind', {
 					url: e.target.result
@@ -276,7 +276,7 @@ $(document).ready(function () {
 				// handle editable elements on hidden event fired
 				$('#user .editable').on('hidden', function (e, reason) {
 					if (reason === 'save' || reason === 'nochange') {
-						var $next = $(this).closest('tr').next().find('.editable');
+						let $next = $(this).closest('tr').next().find('.editable');
 						if ($('#autoopen').is(':checked')) {
 							setTimeout(function () {
 								$next.editable('show');
@@ -320,14 +320,14 @@ $(document).ready(function () {
 
 	$('#cover_picture_upload').change(function () {
 		if (this.files && this.files[0]) {
-			var reader = new FileReader();
+			let reader = new FileReader();
 			reader.onload = function (e) {
 				$('#cover_picture')
 					.attr('src', e.target.result).width('100%');
 			};
 			reader.readAsDataURL(this.files[0]);
 
-			var formData = new FormData();
+			let formData = new FormData();
 			formData.append('cover_picture', this.files[0], 'cover_picture.png');
 
 			console.log(formData);
@@ -352,7 +352,7 @@ $(document).ready(function () {
 
 
 	$('#active-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		var active = {name: 'active', value: state, pk: 1};
+		let active = {name: 'active', value: state, pk: 1};
 		$.ajax({
 			url: '/line/update/' + line.id,
 			type: 'POST',
