@@ -26,7 +26,7 @@ router.post('/event/notification/add',urlencodedParser, function (req, res, next
 	Promise.props({
 		event: Event.findOneAndUpdate( {id: req.body.id}, { $push: {'notifications': newNotification}}).execAsync()
 	}).then(function (results) {
-
+		res.sendStatus(200);
 	})
 		.catch(function (err) {
 			next(err);
