@@ -76,6 +76,15 @@ $(document).ready(function () {
 						},
 						cache: true
 					},
+					templateResult: function (state) {
+						if (state.id !== -1) {
+							return state.text;
+						}
+						let $state = $(
+							'<div class="empty_item_in_select"><span class="pull-left">' + state.text + '</span><span class="pull-right"><i class="fa fa-minus-circle" aria-hidden="true"></i></span></div>'
+						);
+						return $state;
+					},
 					escapeMarkup: function (markup) {
 						return markup;
 					},
@@ -142,6 +151,15 @@ $(document).ready(function () {
 							};
 						},
 						cache: true
+					},
+					templateResult: function (state) {
+						if (state.id !== -1) {
+							return state.text;
+						}
+						let $state = $(
+							'<div class="empty_item_in_select"><span class="pull-left">' + state.text + '</span><span class="pull-right"><i class="fa fa-minus-circle" aria-hidden="true"></i></span></div>'
+						);
+						return $state;
 					},
 					escapeMarkup: function (markup) {
 						return markup;

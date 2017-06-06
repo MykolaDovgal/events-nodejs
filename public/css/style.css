@@ -15,6 +15,11 @@
 	font-family: Montserrat-Regular;
 }
 
+.empty_item_in_select {
+	color: darkred;
+	height: 20px;
+}
+
 body {
 	background: #35a2c1;
 	background-image: url(/images/party-bg.jpg);

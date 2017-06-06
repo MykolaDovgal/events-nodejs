@@ -1,3 +1,6 @@
+/**
+ * Created by Nataly_Ivan on 06.06.2017.
+ */
 let express = require('express');
 let Promise = require('bluebird');
 let config = require('config');
@@ -12,7 +15,7 @@ let text = {
 
 
 // get all lines
-router.get('/api/getAllLines', function (req, res, next) {
+router.get('/getAllLines', function (req, res, next) {
 
 	let search = req.query.q || '';
 
@@ -30,19 +33,16 @@ router.get('/api/getAllLines', function (req, res, next) {
 	];
 
 	Promise.props({
-		lines: Line.find({$or: filter_search}).execAsync()
+		lines: Line.find({$or: filter_search}).limit(50).execAsync()
 	})
 		.then(function (results) {
 			let data = [{
 				id: -1,
-				text: text.empty
+				text: text.empty + ' line'
 			}];
 
 
 			results.lines.forEach(function (line, index) {
-
-				// if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
-				// 	user.profile_picture_circle = default_image_user;
 
 				data.push({
 					id: line.id,

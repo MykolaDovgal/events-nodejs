@@ -13,7 +13,7 @@ let text = {
 
 Promise.promisifyAll(mongoose);
 
-router.get('/api/events/getAll', function (req, res, next) {
+router.get('/events/getAll', function (req, res, next) {
 	let search = req.query.q || '';
 
 	let filter_search = [
@@ -26,15 +26,13 @@ router.get('/api/events/getAll', function (req, res, next) {
 	];
 
 	Promise.props({
-		events: Event.find({$or: filter_search}).execAsync()
+		events: Event.find({$or: filter_search}).limit(50).execAsync()
 	})
 		.then(function (results) {
 			let data = [{
 				id: -1,
-				text: text.empty
+				text: text.empty + ' event'
 			}];
-
-
 			results.events.forEach(function (event, index) {
 
 				data.push({

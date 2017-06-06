@@ -22,7 +22,6 @@ let notification_add = require('./notification/add');
 let setup = require('./setup');
 
 let party_index = require('./party/index');
-let api_lines = require('./line/api/index');
 
 
 router.all('*', middleware.all);
@@ -37,7 +36,6 @@ router.use(notification_add);
 router.use(setup);
 
 router.use(party_index);
-router.use(api_lines);
 router.use(line_index);
 
 

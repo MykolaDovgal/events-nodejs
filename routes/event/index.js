@@ -14,13 +14,13 @@ let event_party = require('./api/parties');
 
 router.use(event);
 router.use(events);
-router.use(getAll);
 router.use(update);
 
 router.use('/api', pricing);
 router.use('/api', attendees);
 router.use('/api', general);
 router.use('/api', event_party);
+router.use('/api', getAll);
 
 module.exports = router;
 
