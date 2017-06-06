@@ -138,5 +138,84 @@
 				Save & Quit
 			</button>
 		</a>
+        <a class="btn btn-circle btn-info" data-target="#send_event_notification" data-toggle="modal">Send
+            Notification
+        </a>
+
 	</div>
+</div>
+
+
+<div id="send_event_notification" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Send Notification</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- BEGIN FORM-->
+                    <form id="notification_form" method="post">
+                        <div class="col-xs-12 form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="form_control_1">Memo</label>
+                            <div class="col-md-9">
+								<textarea id="notification_content"
+                                          class="form-control"
+                                          name="notification_content"
+                                          rows="5" rows="3"></textarea>
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="notification_link">Link
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-9">
+                                <input id="notification_link" type="text"
+                                       class="form-control"
+                                       placeholder="Enter link"
+                                       name="notification_link" required>
+                                <div class="form-control-focus"></div>
+                                <span class="help-block">Link</span>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 form-group form-md-line-input">
+                            <label class="control-label col-md-3">Send Time</label>
+                            <div class="col-md-9">
+                                <div id="datetime_input" class="input-group date">
+                                    <input name="notification_time" class="form-control" type="text" style="width: 100%"
+                                           data-date-format="yyyy/mm/dd hh:ii">
+                                    <span class="input-group-addon"><i class="fa fa-times"></i></span>
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 form-group form-md-line-input">
+                            <label class="control-label col-md-3">Audience<span class="required">*</span></label>
+                            <div class="col-md-9">
+                                <select id="form-line-city-select"
+                                        class="bs-select form-control" data-live-search="true"
+                                        data-size="8"
+                                        name="notification_audience">
+                                    <option>All</option>
+                                    <option>Not All</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+                <button id="submit_send_event_party" type="button" data-dismiss="modal" class="btn green">Submit</button>
+            </div>
+        </div>
+    </div>
 </div>

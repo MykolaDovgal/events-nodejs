@@ -30,6 +30,7 @@ let apiParties = require('./party/api/apiParties');
 
 let events = require('./event/api/events');
 let event_party = require('./event/api/parties');
+let notifications = require('./event/api/notifications');
 
 let followers = require('./line/api/followers');
 let line_parties = require('./line/api/parties');
@@ -48,6 +49,7 @@ router.use(music);
 router.use(bar);
 
 
+router.use(notifications);
 router.use(events);
 router.use(event_party);
 
