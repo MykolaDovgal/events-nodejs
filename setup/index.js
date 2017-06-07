@@ -18,7 +18,7 @@ let User = require('models/User');
 let Line = require('models/Line');
 let Party = require('models/Party');
 let Event = require('models/Event');
-let Bar = require('models/Bars');
+let Bar = require('models/Bar');
 
 //let UserSchema = require('mongoose').model('Song').schema;
 let UserSchema = User.schema;
