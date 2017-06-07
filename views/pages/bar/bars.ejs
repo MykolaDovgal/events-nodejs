@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../../static/head %>
+
+    <!--<link href="../assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css" />-->
+
+    <link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color"/>
+
+    <link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="/css/plugins/bootstrap-multiselect.css" type="text/css"/>
+
+    <link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/css/plugins/justifiedGallery.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/css/events.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-events-list">
+
+
+<div class="page-wrapper">
+
+    <header id="header" valign="botoom">
+        <% include ../../static/header %>
+    </header>
+
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container">
+
+        <!-- BEGIN CONTENT -->
+        <div class="page-content-wrapper">
+            <!-- BEGIN CONTENT BODY -->
+            <div class="page-content">
+
+                <!-- END PAGE TITLE-->
+                <div class="wrapper-title">
+                    <h1 class="page-title text-center"> Events</h1>
+                </div>
+                <!-- END PAGE HEADER-->
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div class="btn-group pull-left" id="button-filters" data-toggle="buttons">
+
+                            <label class="btn btn-circle btn-success">
+                                <input value="past" type="checkbox" autocomplete="off">Past
+                            </label>
+                            <label class="btn">
+                                <span><%= eventCountPast %></span>
+                            </label>
+
+                            <label class="btn btn-circle btn-success active">
+                                <input checked value="today" type="checkbox" autocomplete="off">Today
+                            </label>
+                            <label class="btn">
+                                <span><%= eventCountToday %></span>
+                            </label>
+
+                            <label class="btn btn-circle btn-success active">
+                                <input checked value="future" type="checkbox" autocomplete="off">Future
+                            </label>
+                            <label class="btn">
+                                <span><%= eventCountFuture %></span>
+                            </label>
+
+                        </div>
+
+                        <div class="pull-right group-input">
+
+                                <span class="pull-left multiselect-native-select">
+                                   <select
+                                           id="country-city-select"
+                                           class="mt-multiselect btn btn-default mt-noicon" multiple="multiple"
+                                           data-clickable-groups="true" data-collapse-groups="true" data-width="100%">
+                                       <% addresses.forEach((address, countryIndex) => { %>
+                                       <optgroup label="<%= address.country %>" class="group-<%= countryIndex %>">
+                                           <% address.cities.forEach((city, cityIndex) => { %>
+                                           <option value='{ "country": "<%= address.country %>", "city": "<%= city %>"}'><%= city %></option>
+                                           <% }) %>
+                                       </optgroup>
+                                       <% }) %>
+                                   </select>
+                               </span>
+
+
+                            <div id="refresh-events" class="btn btn-circle">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="pull-right group-btn">
+                                <div class="form-group party-search-filter">
+                                    <div class="input-group">
+                                            <span class="input-group-addon input-circle-left">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                        <input id="search-events" type="search"
+                                               class="search form-control input-circle-right"
+                                               placeholder="Filter events"/>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <div id="events-gallery" class="gallery-grid"></div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+<!-- END CONTENT BODY -->
+
+<footer>
+    <% include ../../static/footer %>
+
+    <script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+
+    <script src="/assets/pages/scripts/ui-modals.min.js" type="text/javascript"></script>
+
+    <script src="/js/plugins/croppie.js" type="text/javascript"></script>
+
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVlanyJ2xLrNhMZIUhSXTYu1uq31e7Ti4&libraries=places&language=en">
+
+    </script>
+
+    <script src="/js/plugins/jquery.geocomplete.js"></script>
+
+    <!--<script src="/js/events/geocomplete_event_add.js" type="text/javascript"></script>-->
+
+    <script src="/js/event/events.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="/js/plugins/bootstrap-multiselect.js"></script>
+</footer>
+
+<% include ../../static/menu %>
+
+</body>
+
+</html>
