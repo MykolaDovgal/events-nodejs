@@ -114,19 +114,21 @@ $(document).ready(() => {
 		deleteDrink.apply(this);
 	});
 
+	// add drink
 	$('body').on('click', '.add_drink_button', function () {
 		let data = {
 			barId: $(this).parents('.bar-tab').attr('id'), categoryId: $(this).data('id')
 		};
 
 		let table = $('#category_' + $(this).data('id') + '_drinks');
+		let currentDataTable = table.DataTable();
 
 		$.ajax({
 			url: '/api/party/bar/drinks/add',
 			type: 'POST',
 			data: data,
 			success: function () {
-				updateTable(table, true);
+				dataTableHelper.updateTable(currentDataTable);
 			}
 		});
 	});
@@ -206,7 +208,7 @@ $(document).ready(() => {
 						url: '/api/party/bar/delete',
 						type: 'POST',
 						data: {partyId: party.id, barId: barId},
-						success: _id => {
+						success: () => {
 							initBars();
 						}
 					});
@@ -467,28 +469,22 @@ $(document).ready(() => {
 	function deleteDrink() {
 		let partyId = party.id;
 		let t = $(this);
-		//let remove_drink_button = t.parent('.remove_drink_button');
 		let remove_drink_button = t.parent('.remove_drink_button');
 		let currentTable = $(t.closest('table'));
 		let currentDataTable = currentTable.DataTable();
 
-		console.log(currentDataTable);
-		console.log(remove_drink_button);
-
 		let drinkId = +t.data('drink_id');
-		console.dir(drinkId);
-		let categoryId = t.data('id');
 		bootbox.confirm({
 			size: 'small',
 			message: 'Are you sure you want to remove this drink?',
 			callback: function (results) {
 				if (results) {
 					$.ajax({
-						url: '/api//party/bar/category/drink/delete',
+						url: '/api/party/bar/category/drink/delete',
 						type: 'POST',
 						data: {drinkId: drinkId, partyId: partyId},
 						success: () => {
-							alert('ok');
+							dataTableHelper.updateTable(currentDataTable);
 						}
 					})
 				}

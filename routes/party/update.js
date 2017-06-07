@@ -36,8 +36,6 @@ let upload = multer({storage: storage});
 
 router.post('/party/update/:id', upload.any(), function (req, res, next) {
 
-	console.warn(req.body);
-
 	let body = {};
 	let files = req.files;
 
@@ -89,7 +87,6 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 		res.status(200).send(body['value']);
 	})
 		.catch(function (err) {
-			console.warn(err);
 			res.status(500);
 			res.send(err.message);
 		});

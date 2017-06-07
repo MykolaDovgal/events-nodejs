@@ -14,9 +14,6 @@ router.get('/event/:id/prices', function (req, res, next) {
 		.then(function (results) {
 			let data = [];
 
-			console.warn(req.params.id);
-			console.warn(results);
-
 			results.event.tkt_price.forEach((tkts) => {
 				data.push({
 					delete_button: null,

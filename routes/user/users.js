@@ -17,7 +17,6 @@ router.get('/users', function (req, res, next) {
 		userAllActiveCount: User.count({active: true}).execAsync()
 	})
 		.then(function (results) {
-			console.warn(results);
 			let data = {
 				title: 'Users',
 				absolute_view: req.app.get('absolute_view'),

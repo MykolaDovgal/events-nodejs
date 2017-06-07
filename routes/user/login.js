@@ -33,7 +33,6 @@ router.get('/login', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-	console.warn('trying to login');
 
 	passport.authenticate('local', function (err, user, info) {
 		if (err) {

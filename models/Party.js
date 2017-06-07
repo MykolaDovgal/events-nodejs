@@ -156,7 +156,7 @@ PartySchema.statics.findNextIdBar = function (id_party) {
 	return this.find({id: id_party})
 		.sort('-bar.drinkCategories.drinks.drinkId').select('bar.drinkCategories.drinks')
 		.exec(function (err, result) {
-			console.warn('findNextIdBar', result);
+
 		});
 };
 
@@ -164,7 +164,34 @@ PartySchema.statics.updateDrinkId = function (id_party, cb) {
 
 	return this.findOneAndUpdate({id: id_party}, {$inc: {global_drink_id: 1}})
 		.exec(function (err, result) {
-			//console.warn('updateDrinkId', result);
+			if (cb) {
+				cb();
+			}
+		});
+};
+
+PartySchema.statics.removeDrinkById = function (partyId, drinkId, cb) {
+	return this.findOne({id: partyId})
+		.exec(function (err, result) {
+			let bars = result.bar;
+
+			try {
+				bars.forEach(function (bar) {
+					let drinkCategories = bar.drinkCategories;
+					drinkCategories.forEach(function (drinkCategory) {
+						let drinks = drinkCategory.drinks;
+
+						drinks.forEach(function (drink) {
+							if (drink.drinkId === drinkId) {
+								drink.remove();
+							}
+						});
+					});
+				});
+				result.save();
+			} catch (e) {
+			}
+
 			if (cb) {
 				cb();
 			}

@@ -344,9 +344,7 @@ setup = {
 			let random_users = setup.getRandomElements(users, 20);
 
 
-
-			for(let i = 0;i < COUNT_OF_BARS;i+=1)
-			{
+			for (let i = 0; i < COUNT_OF_BARS; i += 1) {
 				let party_name = faker.name.title();
 				let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
 				let attendees = [];
@@ -400,8 +398,6 @@ setup = {
 
 	createDirectories: function (cb) {
 		let app_path = path.join(__dirname, '../');
-
-		console.warn(app_path);
 
 		let dirs = [
 			app_path + 'public/uploads/events/',

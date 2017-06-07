@@ -99,11 +99,9 @@ router.post('/party/music/stage/delete', function (req, res, next) {
 router.get('/party/music/stage/:id/djs', function (req, res, next) {
 
 
-
 	Promise.props({
 		stages: Party.findOne({'stage': {$elemMatch: {_id: req.params.id}}}).select('stage').execAsync()
 	}).then(function (stageResults) {
-
 
 
 		let array = [];
@@ -114,19 +112,19 @@ router.get('/party/music/stage/:id/djs', function (req, res, next) {
 
 
 		stageItem.djs.forEach((dj) => {
-			if(dj.userId)
+			if (dj.userId)
 				array.push(dj.userId)
 		});
 
 
 		User.find({
-			id : {$in: array }
+			id: {$in: array}
 		}).exec().then((results) => {
 			let users = [];
 
 			results.forEach((user) => {
-				let soundcloud = stageItem.djs.find((dj)=> {
-					if( dj.userId == user.id)
+				let soundcloud = stageItem.djs.find((dj) => {
+					if (dj.userId == user.id)
 						return dj.soundcloud;
 				});
 
@@ -156,11 +154,11 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 	//TODO fix: add only one user
 	let body = req.body;
 	Promise.props({
-		party : Party.findOne(   {'stage._id' : body.stageId}, 'stage').execAsync()
+		party: Party.findOne({'stage._id': body.stageId}, 'stage').execAsync()
 	}).then(function (results) {
 		results.party.stage.find((stage) => {
 			return stage._id == body.stageId;
-		}).djs.push({ userId: body.id });
+		}).djs.push({userId: body.id});
 		results.party.save();
 		res.status(200).send();
 	})
@@ -172,13 +170,12 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 
 router.post('/party/music/stage/djs/delete', function (req, res, next) {
 	let body = req.body;
-	console.warn(body);
 
 	Promise.props({
-		party: Party.findOne( {'stage': {$elemMatch: {_id: body.stageId}} }, 'stage.djs').execAsync()
+		party: Party.findOne({'stage': {$elemMatch: {_id: body.stageId}}}, 'stage.djs').execAsync()
 	}).then(function (results) {
 		let ind = results.party.stage[0].djs.findIndex(x => x.userId == body.userId);
-		results.party.stage[0].djs.splice(ind,1);
+		results.party.stage[0].djs.splice(ind, 1);
 		results.party.save();
 		res.sendStatus(200);
 	})

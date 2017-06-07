@@ -39,8 +39,6 @@ router.get('/event/:id', function (request, response, next) {
 				end_date: event.end_date ? moment(event.end_date).format('DD/MM/YYYY') : ''
 			};
 
-			console.warn(data);
-
 
 			response.render('pages/event/singleEvent', data);
 

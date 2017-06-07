@@ -101,8 +101,6 @@ router.post('/user/add', upload.any(), function (req, res, next) {
     })
         .then(function (results) {
 
-            //console.warn(results);
-
             if (results.isEmail) {
                 result = {
                     message: 'This email already exists',

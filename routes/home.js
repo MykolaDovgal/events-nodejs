@@ -34,7 +34,6 @@ module.exports = function (req, res, next) {
 		eventCountFuture: Event.countByDate('gt')
 	})
 		.then(function (results) {
-			//console.warn(results);
 			let data = {
 				title: 'Home',
 				showMenu: true,

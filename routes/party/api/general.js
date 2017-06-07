@@ -16,18 +16,18 @@ let router = express.Router();
 router.get('/party/:id/managers', function (req, res, next) {
 
 	Promise.props({
-		managers: Party.findOne({'id':  req.params.id}).select('party_managers').execAsync()
+		managers: Party.findOne({'id': req.params.id}).select('party_managers').execAsync()
 	}).then(function (results) {
 
 		let array = [];
 
 		results.managers.party_managers.forEach(managerId => {
-			 array.push(managerId.userId)
+			array.push(managerId.userId)
 		});
 
 
 		User.find({
-			id : {$in: array }
+			id: {$in: array}
 		}).exec().then((results) => {
 			let users = [];
 
@@ -54,10 +54,6 @@ router.get('/party/:id/managers', function (req, res, next) {
 });
 
 router.post('/party/manager/add', function (req, res, next) {
-
-
-	console.warn('asdasdas');
-	console.warn(req.body);
 
 	let body = req.body;
 
@@ -86,7 +82,6 @@ router.post('/party/manager/delete', function (req, res, next) {
 			next(err);
 		});
 });
-
 
 
 module.exports = router;
