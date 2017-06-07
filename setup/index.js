@@ -18,6 +18,7 @@ let User = require('models/User');
 let Line = require('models/Line');
 let Party = require('models/Party');
 let Event = require('models/Event');
+let Bar = require('models/Bars');
 
 //let UserSchema = require('mongoose').model('Song').schema;
 let UserSchema = User.schema;
@@ -29,6 +30,7 @@ const COUNT_OF_USERS = 100;
 const COUNT_OF_LINES = 50;
 const COUNT_OF_PARTY = 50;
 const COUNT_OF_EVENTS = 50;
+const COUNT_OF_BARS = 50;
 const PASSWORD_USER = '12345';
 
 let setup;
@@ -328,6 +330,69 @@ setup = {
 			}
 			if (cb) {
 				cb();
+			}
+		});
+
+	},
+
+	createBar: function (cb) {
+
+		Promise.props({
+			users: User.find().lean().distinct('id'),
+			lines: Line.find().lean().distinct('id')
+		}).then(function (results) {
+			let users = results.users;
+			let random_users = setup.getRandomElements(users, 20);
+			let party_name = faker.name.title();
+			let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
+
+
+			for(let i = 0;i < COUNT_OF_BARS;i+=1)
+			{
+				let attendees = [];
+
+				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
+					attendees.push({
+						userId: faker.random.arrayElement(users),
+						ticket_purchase: faker.random.boolean(),
+						ticket_checkin: faker.random.boolean(),
+						checkin_time: faker.date.past(10),
+						attend_mark_time: faker.date.past(10),
+						here_mark_time: faker.date.past(1),
+						location_ver: faker.random.boolean(),
+						location_ver_time: faker.date.past(5)
+					});
+				}
+
+				let barData = {
+					bar_name_eng: party_name + ' (eng)',
+					ber_name_ol: faker.name.title() + ' (ol)',
+					description_eng: faker.lorem.lines() + '(eng)',
+					description_ol: faker.lorem.lines() + '(ol)',
+					location: {
+						club_name: faker.company.companyName(),
+						country: faker.address.country(),
+						city: faker.address.city(),
+						address: faker.address.streetName(),
+						longitude: {
+							lat: faker.address.latitude(),
+							lng: faker.address.longitude()
+						}
+					},
+					facebook_page: faker.internet.url(),
+					website: faker.internet.url(),
+					phone_number: faker.phone.phoneNumber(),
+					cover_picture: cover_picture,
+					attendees: attendees,
+				};
+
+				let bar = new Bar(barData);
+
+				bar.save(function (err) {
+					if (err) {
+						throw err;
+					}
+				});
 			}
 		});
 

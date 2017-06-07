@@ -60,9 +60,9 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//setup.createParty();
+// setup.createParty();
 // setup.createEvent();
-
+// setup.createBar();
 
 // auth
 let userModel = User;
