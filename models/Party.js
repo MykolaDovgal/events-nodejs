@@ -91,18 +91,19 @@ let PartySchema = new Schema({
 				category_name: {type: String},
 				drinks: [
 					{
-						drinkId: { type: Number, index: true },
-						drinkname_ol: { type: String },
-						drinkname_eng: { type: String },
-						serve_method: { type: String },
-						volume: { type: String },
-						price: { type: Number },
-						in_stock: { type: Boolean }
+						drinkId: {type: Number, default: 0, index: {unique: true}},
+						drinkname_ol: {type: String},
+						drinkname_eng: {type: String},
+						serve_method: {type: String},
+						volume: {type: String},
+						price: {type: Number},
+						in_stock: {type: Boolean}
 					}
 				]
 			}
 		]
-	}]
+	}],
+	global_drink_id: {type: Number, default: 0}
 });
 
 PartySchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
@@ -149,6 +150,60 @@ let autoPopulateUser = function (next) {
 };
 
 PartySchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
+
+PartySchema.statics.findNextIdBar = function (id_party) {
+
+	return this.find({id: id_party})
+		.sort('-bar.drinkCategories.drinks.drinkId').select('bar.drinkCategories.drinks')
+		.exec(function (err, result) {
+			console.warn('findNextIdBar', result);
+		});
+};
+
+PartySchema.statics.updateDrinkId = function (id_party, cb) {
+
+	return this.findOneAndUpdate({id: id_party}, {$inc: {global_drink_id: 1}})
+		.exec(function (err, result) {
+			//console.warn('updateDrinkId', result);
+			if (cb) {
+				cb();
+			}
+		});
+};
+
+PartySchema.pre('save', function (next) {
+	let doc = this;
+
+	let bars = this.bar;
+	let party_id = this.id;
+	let global_drink_id = this.global_drink_id;
+	let party_model = mongoose.models['Party'];
+
+	if (doc.isModified() || doc.isModified('bar') || doc.isNew) {
+
+		party_model.updateDrinkId(party_id, function () {
+			bars.forEach(function (bar) {
+				let drinkCategories = bar.drinkCategories;
+				drinkCategories.forEach(function (drinkCategory) {
+					let drinks = drinkCategory.drinks;
+
+					drinks.forEach(function (drink) {
+
+						if (drink.drinkId === 0) {
+							drink.drinkId = parseInt(party_id + '' + global_drink_id);
+							global_drink_id++;
+						}
+					});
+				});
+			});
+
+			next();
+		});
+	} else {
+		next();
+	}
+
+});
 
 
 // validate on update

@@ -18,14 +18,14 @@ $(document).ready(() => {
 	$('body').on('click', '.add-tender-button', function () {
 		if (selectedResults && selectedResults.username) {
 			let barId = $(this).parents('.bar-tab').attr('id');
-			let data = { partyId: party.id, barId: barId, userId: selectedResults.id };
+			let data = {partyId: party.id, barId: barId, userId: selectedResults.id};
 			$.ajax({
 				url: '/api/party/bar/tenders/add',
 				type: 'POST',
 				data: data,
 				success: () => {
 					let parent = $(this).parents('.table-tenders');
-					let table = parent.find('table');				
+					let table = parent.find('table');
 					updateTable(table, true);
 				}
 			});
@@ -34,13 +34,13 @@ $(document).ready(() => {
 
 	$('body').on('click', '.add-category-button', function () {
 		let barId = $(this).parents('.bar-tab').attr('id');
-		let data = { barId: barId, categoryName: 'Category ' + catCount }
+		let data = {barId: barId, categoryName: 'Category ' + catCount}
 		$.ajax({
 			url: '/api/party/bar/category/add',
 			type: 'POST',
 			data: data,
 			success: (_id) => {
-				createCategoryTab({ bar_name_eng: 'Bar ' + barCount, _id: barId }, {
+				createCategoryTab({bar_name_eng: 'Bar ' + barCount, _id: barId}, {
 					category_name: 'Category ' + catCount,
 					_id: _id
 				});
@@ -77,7 +77,7 @@ $(document).ready(() => {
 				message: "Are you sure you want to remove this user from bar tenders?",
 				callback: function (result) {
 					if (result) {
-						let data = JSON.stringify({ userId: userId, barId: barId });
+						let data = JSON.stringify({userId: userId, barId: barId});
 						$.ajax({
 							url: '/api/party/bar/tenders/delete',
 							type: 'POST',
@@ -88,7 +88,7 @@ $(document).ready(() => {
 								console.log('OK')
 								updateTable(table, true)
 							},
-							error: function() {
+							error: function () {
 								console.log('NOT OK')
 								updateTable(table, true)
 							}
@@ -149,9 +149,9 @@ $(document).ready(() => {
 		$.ajax({
 			url: '/api/party/bar/add',
 			type: 'POST',
-			data: { partyId: party.id, name: 'Bar ' + barCount },
+			data: {partyId: party.id, name: 'Bar ' + barCount},
 			success: (_id) => {
-				createBarTab({ bar_name_eng: 'Bar ' + barCount, _id: _id });
+				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id});
 			}
 		});
 	};
@@ -198,7 +198,7 @@ $(document).ready(() => {
 					$.ajax({
 						url: '/api/party/bar/delete',
 						type: 'POST',
-						data: { partyId: party.id, barId: barId },
+						data: {partyId: party.id, barId: barId},
 						success: _id => {
 							initBars();
 						}
@@ -218,7 +218,7 @@ $(document).ready(() => {
 					$.ajax({
 						url: '/api/party/bar/category/delete',
 						type: 'POST',
-						data: { categoryId: categoryId },
+						data: {categoryId: categoryId},
 						success: () => {
 							initBars();
 						}
@@ -387,7 +387,7 @@ $(document).ready(() => {
 						width: '5%'
 					},
 					{
-						data: 'uniqueId',
+						data: 'drinkId',
 						render: function (data) {
 							return data || `<div class="text-center">-</div>`
 						},
