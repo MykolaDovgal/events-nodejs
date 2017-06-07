@@ -49,6 +49,7 @@ $(document).ready(function () {
 		click: function () {
 			if (genresCounter < 5) {
 				generateDefaultSelect();
+
 			}
 		}
 	});
