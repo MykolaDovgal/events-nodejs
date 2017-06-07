@@ -41,6 +41,7 @@ $(document).ready(function () {
 	}).on('click','.add_genres_btn_flag',function () {
 		let stage = $(this).closest('.tab_flag');
 		stage.find('.select_container').append(generateDefaultSelect(stage.attr('id')));
+		updateStageGenres(stage.attr('id'));
 	}).on('click', '.remove_djs_btn_flag', function (event) {
 		deleteDjs.apply(this);
 	}).on('click','.remove_genres_btn_flag',function () {

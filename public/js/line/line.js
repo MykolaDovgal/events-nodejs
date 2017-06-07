@@ -64,6 +64,7 @@ $(document).ready(function () {
 		selectItem.html(genres.join(""));
 		$('#select_container').append(selectItem);
 		genresCounter += 1;
+		updateGenres();
 	}
 
 	function deleteGenreSelect() {
