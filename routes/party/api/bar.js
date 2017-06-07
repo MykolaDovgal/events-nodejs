@@ -179,7 +179,6 @@ router.post('/party/bar/category/delete', (req, res, next) => {
 	Promise.props({
 		party: Party.findOne({'bar.drinkCategories._id': body.categoryId}).execAsync()
 	}).then((results) => {
-		let category;
 		results.party.bar.forEach(bar => {
 			bar.drinkCategories.pull({_id: body.categoryId})
 		});
@@ -222,6 +221,57 @@ router.get('/party/bar/:barId/drinks/:categoryId', (req, res, next) => {// REWOR
 	}).catch(err => {
 		next(err)
 	})
+});
+
+// removing drink
+router.post('/party/bar/category/drink/delete', (req, res, next) => {
+	let body = req.body;
+	console.log(body);
+	let drinkId = +body.drinkId;
+	let partyId = +body.partyId;
+
+	if (drinkId > 0 && partyId > 0) {
+
+		// Promise.props({
+		// 	party: Party.findOne({id: partyId}).execAsync()
+		// }).then((results) => {
+		// 	let party = results.party;
+		// 	//console.warn(party.bar);
+		//
+		// 	party.bar.forEach(bar => {
+		// 		bar.drinkCategories.forEach(categories => {
+		// 			console.warn(categories);
+		// 			categories.drinks.pull({drinkId: drinkId});
+		// 			categories.save();
+		// 		})
+		// 	});
+		// 	results.party.save();
+		// 	res.sendStatus(200);
+		// });
+
+		Party.update(
+			{id: partyId},
+			{
+				//$pull: {'bar.drinkCategories.drinks': {drinkId: drinkId}},
+				$pull: {
+					bar: {
+						drinkCategories: {
+							drinks: {
+								drinkId: drinkId
+							}
+						}
+					}
+				},
+			},
+			{multi: true},
+
+			function (err, doc) {
+				res.sendStatus(200);
+			});
+
+	} else {
+		next();
+	}
 });
 
 module.exports = router;

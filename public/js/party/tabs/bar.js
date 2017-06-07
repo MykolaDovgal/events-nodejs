@@ -4,6 +4,8 @@ let isBarInit = false;
 
 $(document).ready(() => {
 
+	let j_body = $('body');
+
 	$('#bar_tab_btn').on('click', () => {
 		if (!isBarInit) {
 			initBars();
@@ -105,6 +107,11 @@ $(document).ready(() => {
 
 	$('body').on('click', '.delete_category_btn_flag', function () {
 		deleteCategory.apply(this);
+	});
+
+	// delete drink
+	j_body.on('click', '.remove_drink_button', function () {
+		deleteDrink.apply(this);
 	});
 
 	$('body').on('click', '.add_drink_button', function () {
@@ -381,7 +388,7 @@ $(document).ready(() => {
 					{
 						data: 'delete_button',
 						render: function (data, type, full, meta) {
-							return '<div class="text-center remove_drink_button"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+							return '<div data-drink_id="' + full.drinkId + '" class="text-center remove_drink_button"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
 						},
 						orderable: false,
 						width: '5%'
@@ -389,9 +396,10 @@ $(document).ready(() => {
 					{
 						data: 'drinkId',
 						render: function (data) {
-							return data || `<div class="text-center">-</div>`
+							return data || '-'
 						},
-						width: 30
+						width: 30,
+						className: 'text-center'
 					},
 					{
 						data: 'drinkname_eng',
@@ -454,6 +462,38 @@ $(document).ready(() => {
 				sScrollX: "100%",
 				"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
 			});
+	}
+
+	function deleteDrink() {
+		let partyId = party.id;
+		let t = $(this);
+		//let remove_drink_button = t.parent('.remove_drink_button');
+		let remove_drink_button = t.parent('.remove_drink_button');
+		let currentTable = $(t.closest('table'));
+		let currentDataTable = currentTable.DataTable();
+
+		console.log(currentDataTable);
+		console.log(remove_drink_button);
+
+		let drinkId = +t.data('drink_id');
+		console.dir(drinkId);
+		let categoryId = t.data('id');
+		bootbox.confirm({
+			size: 'small',
+			message: 'Are you sure you want to remove this drink?',
+			callback: function (results) {
+				if (results) {
+					$.ajax({
+						url: '/api//party/bar/category/drink/delete',
+						type: 'POST',
+						data: {drinkId: drinkId, partyId: partyId},
+						success: () => {
+							alert('ok');
+						}
+					})
+				}
+			}
+		})
 	}
 
 	let updateTable = function (table, reload = false) {
