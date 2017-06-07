@@ -1,4 +1,5 @@
 let global = {};
+let $gallery = $('#bars_gallery');
 
 $(document).ready(function () {
 
@@ -17,7 +18,7 @@ $(document).ready(function () {
 			} else {
 				delete global.filter.address;
 			}
-			buildEvents();
+			buildBars();
 		},
 		maxHeight: +($(window).height() / 2.5),
 		nonSelectedText: 'City filter',
@@ -26,15 +27,107 @@ $(document).ready(function () {
 
 	$(window).scroll(function () {
 		if ($(window).scrollTop() + $(window).height() === $(document).height()) {
-			addNewEvents(2);
+			addNewBars(2);
 		}
 	});
 
+	$('#refresh_bars, .filter-all').click(function () {
+		delete global.filter;
+		buildBars();
+	});
+
+	$('#search_bars').bind('input keyup', function () {
+		let $this = $(this);
+		let delay = 700;
+
+		clearTimeout($this.data('timer'));
+		$this.data('timer', setTimeout(function () {
+			$this.removeData('timer');
+
+			let search = $this.val();
+
+			if (search.length > 1) {
+				let filter = global.filter;
+				if (!filter) {
+					filter = {};
+				}
+				filter['search'] = search;
+
+				global.filter = filter;
 
 
+			} else {
+				delete global.filter.search;
+			}
+			buildBars();
 
+		}, delay));
+	});
 
+	$('#button-filters input').change(function () {
+		eventForButtonTimeFilter();
+	});
+
+	$('#bars_gallery').on('click', '.event-item', function () {
+		let t = $(this);
+
+		let event_url = '/event/';
+		let event_id = +t.data('event');
+		if (event_id > -1) {
+			event_url += event_id;
+			window.location = event_url;
+		}
+	});
+
+	buildBars();
 });
+
+
+
+
+let buildBars = function(filter) {
+	$gallery.html('');
+
+	setTimeout(function () {
+		addNewBars(0, filter);
+	}, 500);
+};
+
+let generateBar = function(event) {
+	let html = `<div class="mt-element-overlay col-xs-12 col-sm-6  col-lg-4" data-event="` + event.id + `">
+                    <div class="mt-overlay-3">
+                        <img src="` + event.cover_picture + `"/>
+                        <div class="mt-overlay">
+                            <h2>` + event.bar_name_eng + `</h2>
+                            <a class="mt-info" href="/event/` + event.id + `">
+                                <div style="position: relative; top: -50px;">` +  + `` +  + `
+                                    <br>` + event.location.city + `, ` + event.location.country + `
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>`;
+	return html;
+};
+
+let addFilterParam = function (filter_item, filter_value) {
+	let filter = global.filter;
+	if (!filter) {
+		filter = {};
+	}
+	filter[filter_item] = filter_value;
+
+	global.filter = filter;
+};
+
+let eventForButtonTimeFilter = function () {
+	let date = $('#button-filters input:checkbox:checked').map(function () {
+		return $(this).val();
+	}).get();
+	addFilterParam('date', date);
+
+	buildBars();
+};
 
 let addNewBars = function(page, filter) {
 
@@ -61,7 +154,7 @@ let addNewBars = function(page, filter) {
 			if ($.isArray(events) && events.length) {
 				events.forEach(function (event) {
 					$gallery.append(
-						generateEvent(event)
+						generateBar(event)
 					);
 				});
 

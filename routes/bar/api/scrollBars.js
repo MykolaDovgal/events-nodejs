@@ -1,4 +1,4 @@
-let Event = require('models/Event');
+let Bar = require('models/Bar');
 let config = require('config');
 let default_image_event = config.get('images:default_image_event');
 let express = require('express');
@@ -8,11 +8,11 @@ let Promise = require('bluebird');
 let fs = require('fs');
 let moment = require('moment');
 
-
 Promise.promisifyAll(mongoose);
 
 router.post('/scrollBars/:page?', function (req, res, next) {
-	let limit = config.get('project:events:limit_on_page') || 9;
+
+	let limit = config.get('project:bars:limit_on_page') || 9;
 	let search = req.query.search;
 	let active = req.query.active;
 	let addresses = req.query.address;
@@ -39,29 +39,29 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 
 	let filter = [];
 
-	let condition_date_filter = [];
-	if (date_filter.length > 0) {
-		date_filter.forEach(function (d_filter) {
-			let cond;
-			switch (d_filter) {
-				case 'today':
-					cond = {$gt: from, $lt: to};
-					break;
-				case 'future':
-					cond = {$gt: to};
-					break;
-				case 'past':
-					cond = {$lt: from};
-			}
-			if (cond) {
-				condition_date_filter.push(
-					{
-						'start_date': cond
-					}
-				);
-			}
-		});
-	}
+	// let condition_date_filter = [];
+	// if (date_filter.length > 0) {
+	// 	date_filter.forEach(function (d_filter) {
+	// 		let cond;
+	// 		switch (d_filter) {
+	// 			case 'today':
+	// 				cond = {$gt: from, $lt: to};
+	// 				break;
+	// 			case 'future':
+	// 				cond = {$gt: to};
+	// 				break;
+	// 			case 'past':
+	// 				cond = {$lt: from};
+	// 		}
+	// 		if (cond) {
+	// 			condition_date_filter.push(
+	// 				{
+	// 					'start_date': cond
+	// 				}
+	// 			);
+	// 		}
+	// 	});
+	// }
 
 	if (page < 1) {
 		page = 1;
@@ -74,10 +74,10 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 		}
 
 		let filter_search = [
-			{'title_ol': new RegExp(search, "i")},
-			{'title_eng': new RegExp(search, "i")},
-			{'description_ol': new RegExp(search, "i")},
+			{'bar_name_eng': new RegExp(search, "i")},
+			{'bar_name_ol': new RegExp(search, "i")},
 			{'description_eng': new RegExp(search, "i")},
+			{'description_ol': new RegExp(search, "i")},
 			{'location.city': new RegExp(search, "i")},
 			{'city.country': new RegExp(search, "i")}
 		];
@@ -101,11 +101,11 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 		);
 	}
 
-	if (condition_date_filter.length > 0) {
-		filter.push({
-			$or: condition_date_filter
-		});
-	}
+	// if (condition_date_filter.length > 0) {
+	// 	filter.push({
+	// 		$or: condition_date_filter
+	// 	});
+	// }
 
 
 	if (filter.length === 0) {
@@ -114,23 +114,13 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 
 
 	Promise.props({
-		events: Event.paginate({$and: filter}, {page: page, limit: limit})
+		bars: Bar.paginate({$and: filter}, {page: page, limit: limit})
 	}).then(function (results) {
-
-		let events = results.events.docs;
-		events.forEach(function (event) {
-			let cover_img = event.cover_picture;
-
-			if (cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
-				if (!fs.existsSync('public' + cover_img)) {
-					event.cover_picture = default_image_event;
-				}
-			}
-		});
-
+		let bars = results.bars.docs;
 		let data = {
-			data: events
+			data: bars
 		};
+		console.warn(bars);
 
 		res.json(data);
 	}).catch(function (err) {

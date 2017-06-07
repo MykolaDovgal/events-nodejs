@@ -338,17 +338,17 @@ setup = {
 	createBar: function (cb) {
 
 		Promise.props({
-			users: User.find().lean().distinct('id'),
-			lines: Line.find().lean().distinct('id')
+			users: User.find().lean().distinct('id')
 		}).then(function (results) {
 			let users = results.users;
 			let random_users = setup.getRandomElements(users, 20);
-			let party_name = faker.name.title();
-			let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
+
 
 
 			for(let i = 0;i < COUNT_OF_BARS;i+=1)
 			{
+				let party_name = faker.name.title();
+				let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
 				let attendees = [];
 
 				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
