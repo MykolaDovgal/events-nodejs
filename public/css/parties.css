@@ -16,7 +16,11 @@
 	word-wrap: break-word;
 }
 
-
-.accordion .panel .panel-title{
+.accordion .panel .panel-title {
 	padding: 10px;
+}
+
+.title_data_row {
+	white-space: nowrap;
+	min-width: 200px;
 }

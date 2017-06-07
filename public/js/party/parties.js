@@ -98,7 +98,7 @@ $(document).ready(function () {
 									'</a> ';
 							}
 
-							return '<span title="' + data + '">' + text + '</span>' + open_line;
+							return '<div class="title_data_row" ><span title="' + data + '">' + text + '</span>' + open_line + '</div>';
 						}
 						return '<span title="Empty">-</span>'
 					},
@@ -117,7 +117,8 @@ $(document).ready(function () {
 								'</a> ';
 						}
 
-						return '<span title="' + data + '">' + text + '</span>' + open_event;
+						return '<div class="title_data_row" ><span title="' + data + '">' + text + '</span>' + open_event + '</div>';
+						//return '<span title="' + data + '">' + text + '</span>' + open_event;
 
 					},
 				},
@@ -134,7 +135,7 @@ $(document).ready(function () {
 					"targets": 'no_sort',
 					"orderable": false
 				},
-				{ type: 'date-uk', targets: 2 }
+				{type: 'date-uk', targets: 2}
 			],
 			scrollY: 500,
 			scrollX: true,
