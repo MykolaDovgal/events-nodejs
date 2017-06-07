@@ -10,7 +10,7 @@ $(document).ready(function () {
 			isAttendeesInit = true;
 		}
 	});
-
+	
 	$('#party_attendees').on('click', 'td', function (event) {
 		window.location = '/users/' + attendees_table.row(this).data().userId;
 	});
@@ -21,7 +21,20 @@ $(document).ready(function () {
 let initAttendeesTable = function () {
 
 	attendees_table = $('#event_attendees').DataTable({
-		"ajax": '/api/event/' + event.id + '/attendees',
+		'ajax': {
+			type: 'GET',
+			'url': '/api/event/' + event.id + '/attendees',
+			'data': function (d) {
+				return d ;
+			},
+			"dataSrc": function (json) {
+				$('#total_attendees_number').text(json.total_count);
+				$('#total_tickets_sold').text(json.tkt_purchase_count);
+				$('#total_checked_in').text(json.ticket_checkin_count);
+				console.log(json.total_number);
+				return json.data;
+			}
+		},
 		"columns": [
 			{
 				'data': 'user_picture',
@@ -100,6 +113,10 @@ let initAttendeesTable = function () {
 		scroller: true,
 
 
-		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+		"dom": "<'row' <'col-md-12'  t >  <'col-md-12'i> >",
 	});
+
+	dataTableHelper.eventForUpdateTable('.update_table', attendees_table);
+	dataTableHelper.eventForSearchInTable('#filter_event_attendees_table', attendees_table);
+
 };

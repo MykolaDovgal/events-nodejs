@@ -1,3 +1,38 @@
+<div class="rov">
+    <div class="col-md-12">
+        <label>Total Number: </label>
+        <labele id="total_attendees_number"></labele>&emsp;
+        <label>Tickets Sold: </label>
+        <labele id="total_tickets_sold"></labele>&emsp;
+        <label>Checked-in: </label>
+        <labele id="total_checked_in"></labele>&emsp;
+        <a class="btn btn-circle btn-info" data-target="#send_event_notification" data-toggle="modal">Send
+            Notification
+        </a>
+
+        <div class="pull-right group-btn">
+            <div class="form-group party-search-filter">
+                <div class="input-group">
+                                                        <span class="input-group-addon input-circle-left">
+                                                            <i class="fa fa-search"></i>
+                                                        </span>
+                    <input id="filter_event_attendees_table" type="search"
+                           class="search form-control input-circle-right"
+                           placeholder="Filter parties"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="pull-right group-input">
+            <div title="Update table" class="btn btn-circle update_table">
+                <i class="fa fa-refresh"
+                   aria-hidden="true"></i>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <table id="event_attendees"
@@ -18,3 +53,4 @@
         </table>
     </div>
 </div>
+

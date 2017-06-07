@@ -18,13 +18,19 @@ router.get('/event/:id/attendees', function (req, res, next) {
 			//let users = results.users;
 			let attendees = results.event.attendees;
 			let data = [];
-			console.warn(attendees);
+			let tkt_purchase_count = 0,ticket_checkin_count = 0,total_count = 0;
+
 			attendees.forEach(function (attendee, index) {
 				let user = attendee.user;
 				if (user !== null) {
 
 					let username = user.username;
 					let user_pic = user.image_circle;
+
+					if(attendee.ticket_purchase)
+						tkt_purchase_count+=1;
+					if(attendee.ticket_checkin)
+						ticket_checkin_count+=1;
 
 					data.push({
 						user_picture: user_pic,
@@ -39,7 +45,7 @@ router.get('/event/:id/attendees', function (req, res, next) {
 					});
 				}
 			});
-			let temp = {data: data};
+			let temp = { ticket_checkin_count: ticket_checkin_count,data: data,tkt_purchase_count: tkt_purchase_count,total_count:total_count };
 			res.json(temp);
 		})
 		.catch(function (err) {
