@@ -52,6 +52,44 @@ router.get('/bar/:id/attendees', function (req, res, next) {
         });
 });
 
+router.get('/bar/:id/followers', function (req, res, next) {
+
+    Promise.props({
+        bar: Bar.findOne({ id: req.params.id }).execAsync()
+    })
+        .then(function (results) {
+            let followers = results.bar.followers;
+            let data = [];
+
+            followers.forEach(function (follower, index) {
+                let user = follower.user;
+                if (user !== null) {
+
+                    let username = user.username;
+                    let user_pic = user.image_circle;
+
+                    if (follower.ticket_purchase)
+                        tkt_purchase_count += 1;
+                    if (follower.ticket_checkin)
+                        ticket_checkin_count += 1;
+
+                    data.push({
+                        user_picture: user_pic,
+                        userId: follower.userId,
+                        user_name: username,
+                        times_attended: follower.times_attended,
+                        last_attendence: follower.last_attendence ? moment(follower.last_attendence).format('DD/MM/YYYY HH:mm') : ''
+                    });
+                }
+            });
+            let temp = { data: data };
+            res.json(temp);
+        })
+        .catch(function (err) {
+            next(err)
+        });
+});
+
 
 module.exports = router;
 

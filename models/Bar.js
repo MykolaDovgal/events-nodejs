@@ -46,8 +46,10 @@ let BarSchema = new Schema({
 		location_ver_time: {type: Date}
 	}],
 	followers: [{
+		user: {type: Object},
 		userId:{type: Number},
-		mark_time: {type: Date}
+		times_attended:{type: Number},
+		last_attendence:{type: Date}
 	}],
 	music: [{
 		date: {type: Date},
@@ -125,8 +127,16 @@ BarSchema.virtual('attendees.user', {
 	justOne: true // for many-to-1
 });
 
+BarSchema.virtual('followers.user', {
+	ref: 'User',
+	localField: 'followers.userId',
+	foreignField: 'id',
+	justOne: true // for many-to-1
+});
+
 let autoPopulateUser = function (next) {
 	this.populate('attendees.user');
+	this.populate('followers.user');
 	next();
 };
 
