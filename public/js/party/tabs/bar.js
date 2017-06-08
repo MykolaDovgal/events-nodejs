@@ -255,10 +255,10 @@ $(document).ready(() => {
 							<th></th>
                             <th>#</th>
                             <th>Drink</th>
-                            <th>Serve Method</th>
+                            <th>Serve&nbsp;Method</th>
                             <th>Volume</th>
                             <th>Price</th>
-                            <th>In Stock</th>                             
+                            <th>In&nbsp;Stock</th>                             
                             </thead>
                         </table>
                         <button class="btn btn-default add_drink_button" data-id="${category._id}">Add Drink</button>
@@ -381,7 +381,7 @@ $(document).ready(() => {
 	}
 
 	function initDrinks(tableId, barId, categoryId) {
-		$('#' + tableId)
+		let currentTable = $('#' + tableId)
 			.DataTable({
 				"ajax": {
 					"url": "/api/party/bar/" + barId + "/drinks/" + categoryId,
@@ -405,53 +405,60 @@ $(document).ready(() => {
 					},
 					{
 						data: 'drinkname_eng',
-						render: function (data) {
-							return `<div class="identity_flag">
-                                        <input value="${ data || ''}"  name="drink-name" class="form-control" type="text" style="width: 100%">			
-                                    </div>`
+						render: function (data, type, full, meta) {
+							let className = 'drink_name editable';
+							if (!data || data.trim().length < 1 || data.trim() === 'Empty') {
+								className += ' editable-empty';
+							}
+							return `<a href="#" data-pk="` + full.drinkId + `" class="` + className + `">` + (data || 'Empty') + `</a>`
 						}
 					},
 					{
 						data: 'serve_method',
 
 						render: function (data) {
-							let options = ['Bottle', 'Shot (50ml)', 'Shot (100ml)'];
-							let optionsHTML = [];
-							optionsHTML = options.map((option) => {
-								return `<option value="${option}">${option}</option>`
-							})
-							return `
-                                <select name="currency" class="bs-select form-control">
-                                    ${optionsHTML.join("")}                             
-                                </select>
-                            `;
+							let className = 'serve_method editable';
+							if (!data || data.trim().length < 1 || data.trim() === 'Empty') {
+								className += ' editable-empty';
+							}
+
+							return `<a class="` + className + `" data-pk="1" data-value="` + data + `" data-original-title="Select serve method">` + (data || 'Empty') + `</a>`;
 						},
 						width: 75
 					},
 					{
-						data: "volume",
-						render: function (data) {
-							return `<div class="identity_flag">
-                                        <input value="${ data || ''}"  name="volume" class="form-control" type="text" style="width: 100%">			
-                                    </div>`
+						data: 'volume',
+						render: function (data, type, full, meta) {
+							let className = 'volume_input editable';
+							if (!data || data.trim().length < 1 || data.trim() === 'Empty') {
+								className += ' editable-empty';
+							}
+							return `<a href="#" data-pk="` + full.drinkId + `" class="` + className + `">` + (data || 'Empty') + `</a>`
 						},
 						width: 50
 					},
 					{
-						data: "price",
-						render: function (data) {
-							return `<div class="identity_flag">
-                                        <input value="${ data || ''}"  name="drink_price" class="form-control" type="text" style="width: 100%">			
-                                    </div>`
+						data: 'price',
+						render: function (data, type, full, meta) {
+							let className = 'price_input editable';
+							if (!data || data < 0 || data === 'Empty') {
+								className += ' editable-empty';
+							}
+							return `<a href="#" data-pk="` + full.drinkId + `" class="` + className + `">` + (data || 'Empty') + `</a>`
 						},
 						width: 50
 					},
 					{
-						data: "stock",
-						render: function (data) {
-							return `<div class="identity_flag">
-                                        <input ${ data ? 'checked' : ''} type="checkbox" name="stock" class="form-control" type="text" style="width: 100%">			
-                                    </div>`
+						data: 'in_stock',
+						render: function (data, type, full, meta) {
+							let className = 'stock_input editable stock_drink';
+							if (data) {
+								className += ' in_stock_drink';
+							} else {
+								className += ' not_in_stock_drink';
+							}
+
+							return `<a href="#" data-value="` + (data ? 1 : 0) + `" data-pk="` + full.drinkId + `" class="` + className + `">` + (data ? '' : '') + `</a>`
 						},
 						width: 50
 					}
@@ -464,8 +471,13 @@ $(document).ready(() => {
 				sScrollX: "100%",
 				"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
 			});
+
+
+		initForDrinkEditable(tableId);
+
 	}
 
+	// event for deleting drinks
 	function deleteDrink() {
 		let partyId = party.id;
 		let t = $(this);
@@ -492,11 +504,202 @@ $(document).ready(() => {
 		})
 	}
 
+	let eventForSubmitDrink = function () {
+		console.log();
+	};
+
+
 	let updateTable = function (table, reload = false) {
 		if (reload) {
 			table.DataTable().ajax.reload();
 		}
 		table.DataTable().columns.adjust().draw();
-	}
+	};
+
+	let initForDrinkEditable = function (tableId) {
+		let table = $('#' + tableId);
+
+		table.editable({
+			mode: 'popup',
+			name: 'drinkname_eng',
+			container: 'body',
+			placement: 'right',
+			selector: '.drink_name',
+			url: '/api/party/bar/category/drink/update',
+			type: 'text',
+			title: 'Enter name of drink',
+			params: function (params) {
+				let t = $(this);
+				let currentTable = $(t.closest('table'));
+				let currentTableRow = $(t.closest('tr'));
+				let currentDataTable = currentTable.DataTable();
+
+				let rowData = currentDataTable.row(currentTableRow.get(0)).data();
+				let drinkId = rowData.drinkId;
+				if (drinkId > 0) {
+					params.drinkId = drinkId;
+					params.pk = drinkId;
+					params.partyId = party.id;
+				}
+
+				return params;
+
+			}
+		});
+
+		table.editable({
+			mode: 'popup',
+			name: 'serve_method',
+			container: 'body',
+			placement: 'right',
+			selector: '.serve_method',
+			url: '/api/party/bar/category/drink/update',
+			type: 'select',
+			source: sourceOfServeMethods,
+			title: 'Select serve method',
+			params: function (params) {
+				let t = $(this);
+
+				console.log(t.text());
+				let currentTable = $(t.closest('table'));
+				let currentTableRow = $(t.closest('tr'));
+				let currentDataTable = currentTable.DataTable();
+
+				let rowData = currentDataTable.row(currentTableRow.get(0)).data();
+				let drinkId = rowData.drinkId;
+				if (drinkId > 0) {
+					params.drinkId = drinkId;
+					params.pk = drinkId;
+					params.partyId = party.id;
+				}
+
+				return params;
+
+			}
+		});
+
+		table.editable({
+			mode: 'popup',
+			name: 'volume',
+			container: 'body',
+			placement: 'right',
+			selector: '.volume_input',
+			url: '/api/party/bar/category/drink/update',
+			type: 'text',
+			title: 'Enter volume of drink',
+			params: function (params) {
+				let t = $(this);
+				let currentTable = $(t.closest('table'));
+				let currentTableRow = $(t.closest('tr'));
+				let currentDataTable = currentTable.DataTable();
+
+				let rowData = currentDataTable.row(currentTableRow.get(0)).data();
+				let drinkId = rowData.drinkId;
+				if (drinkId > 0) {
+					params.drinkId = drinkId;
+					params.pk = drinkId;
+					params.partyId = party.id;
+				}
+
+				return params;
+
+			}
+		});
+
+		table.editable({
+			mode: 'popup',
+			name: 'price',
+			container: 'body',
+			placement: 'right',
+			selector: '.price_input',
+			url: '/api/party/bar/category/drink/update',
+			type: 'text',
+			title: 'Enter volume of drink',
+			params: function (params) {
+				let t = $(this);
+				let currentTable = $(t.closest('table'));
+				let currentTableRow = $(t.closest('tr'));
+				let currentDataTable = currentTable.DataTable();
+
+				let rowData = currentDataTable.row(currentTableRow.get(0)).data();
+				let drinkId = rowData.drinkId;
+				if (drinkId > 0) {
+					params.drinkId = drinkId;
+					params.pk = drinkId;
+					params.partyId = party.id;
+				}
+
+				return params;
+
+			},
+			validate: function (value) {
+				let regex = /^[0-9]+$/;
+				if (!regex.test(value)) {
+					return 'Price must contains numbers only!';
+				}
+			},
+		});
+
+		table.editable({
+			mode: 'popup',
+			name: 'in_stock',
+			container: 'body',
+			placement: 'right',
+			emptytext: '',
+			emptyclass: '',
+			selector: '.stock_input',
+			url: '/api/party/bar/category/drink/update',
+			type: 'checklist',
+			source: {'1': 'In Stock'},
+			title: 'Is drink in stock?',
+			savenochange: true,
+			params: function (params) {
+				let t = $(this);
+				let currentTable = $(t.closest('table'));
+				let currentTableRow = $(t.closest('tr'));
+				let currentDataTable = currentTable.DataTable();
+
+
+				let value = params.value;
+				if (Array.isArray(value)) {
+					value = !!value[0];
+				} else {
+					value = false;
+				}
+
+				params.value = value;
+
+				let rowData = currentDataTable.row(currentTableRow.get(0)).data();
+				let drinkId = rowData.drinkId;
+				if (drinkId > 0) {
+					params.drinkId = drinkId;
+					params.pk = drinkId;
+					params.partyId = party.id;
+				}
+				return params;
+			},
+			display: function (value, sourceData) {
+				let a = $(this);
+				let check = 'in_stock_drink';
+				let uncheck = 'not_in_stock_drink';
+
+				a.removeClass(check).removeClass(uncheck);
+
+				let checked = value;
+				if (Array.isArray(value)) {
+					checked = !!value[0];
+				} else {
+					checked = false;
+				}
+
+				if (checked) {
+					a.addClass(check)
+				} else {
+					a.addClass(uncheck)
+				}
+			}
+		});
+
+	};
 
 });
