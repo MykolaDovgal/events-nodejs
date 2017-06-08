@@ -71,7 +71,6 @@ router.post('/bar/manager/add', function (req, res, next) {
 
 router.post('/bar/manager/delete', function (req, res, next) {
 	let body = req.body;
-    console.log(body);
 	Promise.props({
 		bar: Bar.update({id: body.barId}, {$pull: {managers: {userId: body.userId}}}).execAsync()
 	}).then(function (results) {

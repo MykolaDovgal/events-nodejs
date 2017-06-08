@@ -33,9 +33,6 @@ let upload = multer({storage: storage});
 
 
 router.post('/bar/update/:id', upload.any(), function (req, res, next) {
-
-	console.warn(req.body);
-
 	let body = {};
 	let files = req.files;
 
@@ -87,7 +84,6 @@ router.post('/bar/update/:id', upload.any(), function (req, res, next) {
 		res.status(200).send(body['value']);
 	})
 		.catch(function (err) {
-			console.warn(err);
 			res.status(500);
 			res.send(err.message);
 		});
@@ -108,8 +104,6 @@ router.post('/bar/update/address/:id', function (req, res, next) {
 			lng: body.lng
 		}
 	};
-
-	console.warn('location', location);
 
 	if (!location.city || !location.country) {
 		result.status = false;

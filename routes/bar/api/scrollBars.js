@@ -26,7 +26,6 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 
 	let date_filter = req.query.date ? req.query.date : [];
 
-
 	delete req.query.search;
 
 	let cities = [];
@@ -38,30 +37,6 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 	}
 
 	let filter = [];
-
-	// let condition_date_filter = [];
-	// if (date_filter.length > 0) {
-	// 	date_filter.forEach(function (d_filter) {
-	// 		let cond;
-	// 		switch (d_filter) {
-	// 			case 'today':
-	// 				cond = {$gt: from, $lt: to};
-	// 				break;
-	// 			case 'future':
-	// 				cond = {$gt: to};
-	// 				break;
-	// 			case 'past':
-	// 				cond = {$lt: from};
-	// 		}
-	// 		if (cond) {
-	// 			condition_date_filter.push(
-	// 				{
-	// 					'start_date': cond
-	// 				}
-	// 			);
-	// 		}
-	// 	});
-	// }
 
 	if (page < 1) {
 		page = 1;
@@ -101,13 +76,6 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 		);
 	}
 
-	// if (condition_date_filter.length > 0) {
-	// 	filter.push({
-	// 		$or: condition_date_filter
-	// 	});
-	// }
-
-
 	if (filter.length === 0) {
 		filter.push({});
 	}
@@ -120,8 +88,6 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 		let data = {
 			data: bars
 		};
-		console.warn(bars);
-
 		res.json(data);
 	}).catch(function (err) {
 		next(err);

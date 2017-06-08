@@ -118,7 +118,19 @@ BarSchema.virtual('image_circle').get(function () {
 	return util.getImage(this, 'cover_picture', default_image_bar);
 });
 
+BarSchema.virtual('attendees.user', {
+	ref: 'User',
+	localField: 'attendees.userId',
+	foreignField: 'id',
+	justOne: true // for many-to-1
+});
 
+let autoPopulateUser = function (next) {
+	this.populate('attendees.user');
+	next();
+};
+
+BarSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
 
 BarSchema.plugin(mongoosePaginate);
 
