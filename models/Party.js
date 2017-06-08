@@ -93,11 +93,11 @@ let PartySchema = new Schema({
 					{
 						drinkId: {type: Number, default: 0, index: {unique: true}},
 						drinkname_ol: {type: String},
-						drinkname_eng: {type: String},
-						serve_method: {type: String},
-						volume: {type: String},
+						drinkname_eng: {type: String, trim: true, default: ''},
+						serve_method: {type: String, trim: true},
+						volume: {type: String, trim: true},
 						price: {type: Number},
-						in_stock: {type: Boolean}
+						in_stock: {type: Boolean, default: false}
 					}
 				]
 			}
@@ -198,6 +198,36 @@ PartySchema.statics.removeDrinkById = function (partyId, drinkId, cb) {
 		});
 };
 
+// update drink
+PartySchema.statics.updateDrinkById = function (partyId, drinkId, update_data, cb) {
+	this.findOne({id: partyId})
+		.exec(function (err, result) {
+			let bars = result.bar;
+
+			try {
+				bars.forEach(function (bar) {
+					let drinkCategories = bar.drinkCategories;
+					drinkCategories.forEach(function (drinkCategory) {
+						let drinks = drinkCategory.drinks;
+
+						drinks.forEach(function (drink) {
+							if (drink.drinkId === drinkId) {
+								drink[update_data.name] = update_data.value;
+								return drink;
+							}
+						});
+					});
+				});
+				result.save();
+			} catch (e) {
+			}
+
+			if (cb) {
+				cb();
+			}
+		});
+};
+
 PartySchema.pre('save', function (next) {
 	let doc = this;
 
@@ -209,7 +239,7 @@ PartySchema.pre('save', function (next) {
 	if (doc.isModified() || doc.isModified('bar') || doc.isNew) {
 
 		party_model.updateDrinkId(party_id, function () {
-			if(bars){
+			if (bars) {
 				bars.forEach(function (bar) {
 					let drinkCategories = bar.drinkCategories;
 					drinkCategories.forEach(function (drinkCategory) {

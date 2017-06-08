@@ -240,4 +240,25 @@ router.post('/party/bar/category/drink/delete', (req, res, next) => {
 	}
 });
 
+// update drink
+router.post('/party/bar/category/drink/update', (req, res, next) => {
+	let body = req.body;
+	let drinkId = +body.drinkId;
+	let partyId = +body.partyId;
+
+	let name = body.name;
+	let value = body.value;
+
+
+	if (drinkId > -1 && partyId > 0) {
+
+		Party.updateDrinkById(partyId, drinkId, {name, value}, function () {
+			res.sendStatus(200);
+		});
+
+	} else {
+		next();
+	}
+});
+
 module.exports = router;

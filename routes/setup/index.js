@@ -63,6 +63,20 @@ router.get('/setup/events/:id', function (req, res) {
 	}
 });
 
+router.get('/setup/bars/:id', function (req, res) {
+
+	let id = +req.params.id;
+
+	if (id === pass) {
+		setup.createBar(function () {
+			res.send('Bars created.');
+		});
+
+	} else {
+		res.sendStatus(404);
+	}
+});
+
 router.get('/setup/generateAttendees/:id', function (req, res) {
 
 	let id = +req.params.id;

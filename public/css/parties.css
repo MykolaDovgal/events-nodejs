@@ -24,3 +24,25 @@
 	white-space: nowrap;
 	min-width: 200px;
 }
+
+.stock_drink {
+	position: relative;
+}
+
+.in_stock_drink:before {
+	content: "\f14a";
+	font-family: FontAwesome !important;
+	left: 40px;
+	position: absolute;
+	top: 0;
+	font-size: 20px;
+}
+
+.not_in_stock_drink:before {
+	content: "\f096";
+	font-family: FontAwesome !important;
+	left: 40px;
+	position: absolute;
+	top: 0;
+	font-size: 20px;
+}
