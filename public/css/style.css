@@ -1111,3 +1111,7 @@ pre {
 	background-color: #207780;
 	border-color: #123339;
 }
+
+.table-tab>tbody>tr>td{
+	vertical-align: middle;
+}
