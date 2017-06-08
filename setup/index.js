@@ -348,6 +348,7 @@ setup = {
 				let party_name = faker.name.title();
 				let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
 				let attendees = [];
+				let followers = [];
 
 				for (let j = 0; j < faker.random.number({min: 0, max: 30}); j += 1) {
 					attendees.push({
@@ -360,6 +361,14 @@ setup = {
 						location_ver: faker.random.boolean(),
 						location_ver_time: faker.date.past(5)
 					});
+				}
+
+				for (let j = 0; j < faker.random.number({min: 0, max: 40}); j += 1) {
+					followers.push({
+						userId: faker.random.arrayElement(users),
+						times_attended: faker.random.number({min: 0, max: 30}),
+						last_attendence: faker.date.past(30)						
+					})
 				}
 
 				let barData = {
@@ -382,6 +391,7 @@ setup = {
 					phone_number: faker.phone.phoneNumber(),
 					cover_picture: cover_picture,
 					attendees: attendees,
+					followers: followers,
 				};
 
 				let bar = new Bar(barData);
