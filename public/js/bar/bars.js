@@ -93,15 +93,16 @@ let buildBars = function(filter) {
 	}, 500);
 };
 
-let generateBar = function(event) {
-	let html = `<div class="mt-element-overlay col-xs-12 col-sm-6  col-lg-4" data-event="` + event.id + `">
+let generateBar = function(bar) {
+	let html = `<div class="mt-element-overlay col-xs-12 col-sm-6  col-lg-4" data-event="${bar.id}">
                     <div class="mt-overlay-3">
-                        <img src="` + event.cover_picture + `"/>
+                        <img src="${bar.cover_picture}"/>
                         <div class="mt-overlay">
-                            <h2>` + event.bar_name_eng + `</h2>
-                            <a class="mt-info" href="/bar/` + event.id + `">
-                                <div style="position: relative; top: -50px;">` +  + `` +  + `
-                                    <br>` + event.location.city + `, ` + event.location.country + `
+                            <h2>${bar.bar_name_eng}</h2>
+                            <a class="mt-info" href="/bar/${bar.id}">
+                                <div style="position: relative; top: -50px;">
+									#${bar.id}
+                                    <br>${bar.location.city}, ${bar.location.country}
                                 </div>
                             </a>
                         </div>

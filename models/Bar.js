@@ -46,9 +46,9 @@ let BarSchema = new Schema({
 		location_ver_time: {type: Date}
 	}],
 	followers: [{
-			userId:{type: Number},
-			mark_time: {type: Date}
-		}],
+		userId:{type: Number},
+		mark_time: {type: Date}
+	}],
 	music: [{
 		date: {type: Date},
 		music_genres: [{type: String}],
