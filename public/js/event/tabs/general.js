@@ -361,7 +361,7 @@ $(document).ready(function () {
 						url: '/event/delete/' + event.id,
 						type: 'POST',
 						success: function () {
-							window.location = '/parties';
+							window.location = '/events';
 						},
 						error: function (jqXHR, textStatus, err) {
 

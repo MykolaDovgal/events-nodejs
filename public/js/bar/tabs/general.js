@@ -23,6 +23,10 @@ $(document).ready(function () {
         }
     });
 
+	$('#form-bar-pic').on('change', function () {
+		readFile(this);
+	});
+
     function readFile(input) {
 		if (input.files && input.files[0]) {
 			let reader = new FileReader();
@@ -41,27 +45,6 @@ $(document).ready(function () {
 			$('#coverpic').attr("src", base64);
 			setCoverPicture();
 		});
-	});
-
-    $('#active-switch').on('switchChange.bootstrapSwitch', function (e, state) {
-		let active = {name: 'active', value: state, pk: 1};
-		$.ajax({
-			url: '/bar/update/' + bar.id,
-			type: 'POST',
-			dataType: 'json',
-			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify(active)
-		});
-	});
-
-
-	$('#language_switch').on('switchChange.bootstrapSwitch', function (event, state) {
-		if (state) {
-			currentLanguage = 'Original';
-		} else {
-			currentLanguage = 'English';
-		}
-		$('.language_switch_container').toggle();
 	});
 
 	function setCoverPicture() {
@@ -122,6 +105,27 @@ $(document).ready(function () {
 			});
 		});
 	}
+
+    $('#active-switch').on('switchChange.bootstrapSwitch', function (e, state) {
+		let active = {name: 'active', value: state, pk: 1};
+		$.ajax({
+			url: '/bar/update/' + bar.id,
+			type: 'POST',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(active)
+		});
+	});
+
+
+	$('#language_switch').on('switchChange.bootstrapSwitch', function (event, state) {
+		if (state) {
+			currentLanguage = 'Original';
+		} else {
+			currentLanguage = 'English';
+		}
+		$('.language_switch_container').toggle();
+	});
 
     //inline edit
 	let FormEditable = function () {
@@ -206,8 +210,6 @@ $(document).ready(function () {
 			}
 		};
 	}();
-
-    //---------------------------
 
     let bar_managers_table = $('#table_bar_managers').DataTable({
 		"ajax": "/api/bar/" + bar.id + "/managers",
