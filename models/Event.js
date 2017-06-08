@@ -4,7 +4,10 @@ let mongoose = require('mongoose'),
 let autoIncrement = require('mongoose-auto-increment');
 let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
+
+let config = require('config');
 let util = require('util/index');
+let default_image_event = config.get('images:default_image_line');
 
 autoIncrement.initialize(mongoose.connection);
 
@@ -128,6 +131,10 @@ EventSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
 EventSchema.pre('update', function (next) {
 	this.options.runValidators = true;
 	next();
+});
+
+EventSchema.virtual('image').get(function () {
+	return util.getImage(this, 'cover_picture', default_image_event);
 });
 
 EventSchema.plugin(mongoosePaginate);

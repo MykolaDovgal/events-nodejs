@@ -112,20 +112,15 @@ router.post('/events/:page?', function (req, res, next) {
 		filter.push({});
 	}
 
+	let sort = {start_date: 1};
 
 	Promise.props({
-		events: Event.paginate({$and: filter}, {page: page, limit: limit})
+		events: Event.paginate({$and: filter}, {page: page, limit: limit, sort})
 	}).then(function (results) {
 
 		let events = results.events.docs;
 		events.forEach(function (event) {
-			let cover_img = event.cover_picture;
-
-			if (cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
-				if (!fs.existsSync('public' + cover_img)) {
-					event.cover_picture = default_image_event;
-				}
-			}
+			event.cover_picture = event.image;
 		});
 
 		let data = {
