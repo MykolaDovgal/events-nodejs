@@ -94,7 +94,7 @@ let initAttendeesTable = function () {
 		"dom": "<'row' <'col-md-12'  t >  <'col-md-12'i> >",
 	});
 
-	dataTableHelper.eventForUpdateTable('.update_table', attendees_table);
+	dataTableHelper.eventForUpdateTable('#update_attendees', attendees_table);
 	dataTableHelper.eventForSearchInTable('#filter_bar_attendees_table', attendees_table);
 };
 
@@ -157,6 +157,6 @@ let initFollowersTable = function () {
 		"dom": "<'row' <'col-md-12'  t >  <'col-md-12'i> >",
 	});
 
-	dataTableHelper.eventForUpdateTable('.update_table', followers_table);
+	dataTableHelper.eventForUpdateTable('#update_followers', followers_table);
 	dataTableHelper.eventForSearchInTable('#filter_bar_followers_table', followers_table);
 };
