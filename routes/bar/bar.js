@@ -30,7 +30,7 @@ router.get('/bar/:id', function (request, response, next) {
 			}
 
 			let data = {
-				title: results.bar.bar_name_eng,
+				title: bar.bar_name_eng,
 				showMenu: true,
 				bar: bar,
 			};

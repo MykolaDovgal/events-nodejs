@@ -1,0 +1,136 @@
+<form enctype="multipart/form-data" method="post"
+      id="form_change_bar">
+	<div class="col-md-7 form-md-line-input">
+
+		<div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label">
+				Title
+			</label>
+			<div class="col-md-9">
+				<div class="col-xs-12 language_switch_container">
+					<a id="title_eng" data-type="text" data-pk="1"
+					   class="editable editable-click" style="display: inline-block"> <%= bar.bar_name_eng %> </a>
+				</div>
+				<div hidden class="col-xs-12 language_switch_container">
+					<a id="title_ol" data-type="text" data-pk="1"
+					   class="editable editable-click" style="display: inline-block"> <%= bar.bar_name_ol %> </a>
+				</div>
+			</div>
+		</div>
+
+        <div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label">
+				Facebook Page
+			</label>
+			<div class="col-md-9">
+				<div class="col-xs-12">
+					<a id="facebook_page" data-type="text" data-pk="1"
+					   class="editable editable-click" style="display: inline-block"> <%= bar.facebook_page %> </a>
+				</div>
+			</div>
+		</div>
+
+        <div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label">
+				Website
+			</label>
+			<div class="col-md-9">
+				<div class="col-xs-12">
+					<a id="website" data-type="text" data-pk="1"
+					   class="editable editable-click" style="display: inline-block"> <%= bar.website %> </a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row vertical-row vertical-center offset-bottom-1_5">
+			<label class="col-md-3 control-label" for="active">Active</label>
+			<div class="col-md-9 md-checkbox-inline">
+				<div class="col-xs-12">
+					<input id="active-switch" type="checkbox"
+					       class="make-switch form-control" <%= bar.active ? 'checked' : '' %> data-on-color="success"
+					       data-on-text="Active" data-off-text="Disabled" data-off-color="warning"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="row vertical-row vertical-top offset-bottom-1_5">
+
+			<label class="col-md-3 control-label">
+				Description
+			</label>
+
+			<div class="col-md-9 description-general form-group form-textarea">
+				<div id="description_eng" data-pk="1" data-type="wysihtml5"
+				     data-original-title="Enter notes"
+				     class="editable editable-open language_switch_container"><%= bar.description_eng %></div>
+
+				<div hidden id="description_ol" data-pk="1" data-type="wysihtml5"
+				     data-original-title="Enter notes"
+				     class="editable editable-open language_switch_container"><%= bar.description_ol %></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-5 border-line block-manager offset-top-xs-2">
+
+		<div class="portlet-title">
+
+			<div class="title-block caption font-red">
+				<i class="fa fa-user" aria-hidden="true"></i>
+				<span class="caption-subject bold">Managers</span>
+			</div>
+		</div>
+		<div class="portlet-body table-both-scroll">
+			<table class="table table-striped table-bordered table-hover order-column"
+			       id="table_bar_managers">
+				<thead>
+				<th class="no-sort"></th>
+				<th>UserID</th>
+				<th>Picture</th>
+				<th>User Name</th>
+				<th>Permission</th>
+				</thead>
+			</table>
+
+			<div class="input-add">
+				<div class="input-group">
+														<span class="input-group-addon">
+															<i class="fa fa-search" aria-hidden="true"></i>
+														</span>
+					<input type="text" id="bar_managers_search" placeholder="User name"
+					       name="user_search" class="form-control"/>
+					<span class="input-group-addon btn-manager_user">
+															<button id="add_bar_manager" type="button"
+															        class="btn btn-icon-only green pull-right">
+															<i class="fa fa-plus"></i>
+														</button>
+														</span>
+				</div>
+				<div class="col-md-2">
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	
+</form>
+<div class="col-xs-12 offset-top-5">
+	<div class="pull-right group-btn">
+		<button class="btn yellow btn-outline sbold" id="delete_bar">
+			Delete Bar
+		</button>
+		<a href="/bars">
+			<button type="button" class="btn green pull-right">
+				Save & Quit
+			</button>
+		</a>
+        <a class="btn btn-circle btn-info" data-target="#send_bar_notification" data-toggle="modal">Send
+            Notification
+        </a>
+
+	</div>
+</div>
+
+
