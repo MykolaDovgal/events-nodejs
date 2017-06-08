@@ -136,7 +136,7 @@ let generateStageTab = function () {
 		type: 'POST',
 		data: {partyId: party.id},
 		success: function (item) {
-			let stageTemplate = getStageTabTemplate(stageCount,item);
+			let stageTemplate = getStageTabTemplate(stageCount,item,false);
 			$('#music_accordion_container').append(stageTemplate);
 			setStageNameEditable(stageCount);
 			setStageTable('party_stage_'+ stageCount +'_djs',item._id);
@@ -318,6 +318,7 @@ let addDjs = function () {
 	let parent = $(this).closest('.tab_flag');
 	selectedResults.stageId = parent.attr('id');
 	let table = parent.find('table')[1];
+	let input = parent.find('input[name=djs_search]');
 
 	$.ajax({
 		url: '/api/party/music/stage/djs/add',
@@ -330,6 +331,7 @@ let addDjs = function () {
 		}
 	}).then(function () {
 	});
+	input.val('');
 	selectedResults = {};
 
 };
@@ -340,7 +342,7 @@ let updateTable = function(tableId) {
 	setTimeout(function () {
 		table.ajax.reload();
 		table.columns.adjust().draw();
-	}, 0);
+	}, 1000);
 };
 
 let generateSelectTemplate = function (genresArray) {
@@ -365,7 +367,7 @@ let generateSelectTemplate = function (genresArray) {
 
 };
 
-let getStageTabTemplate = function (counter,tabItem) {
+let getStageTabTemplate = function (counter,tabItem,isCollapsed = true) {
 
 	let musicTemplate = `
 									<div class="col-md-6">
@@ -424,7 +426,7 @@ let getStageTabTemplate = function (counter,tabItem) {
 					    </div>
 					    
 					
-					    <div id="stage_${counter}_body" class="panel-collapse collapse">
+					    <div id="stage_${counter}_body" class="panel-collapse ${isCollapsed ? 'collapse' : ''}">
 					
 					        <div class="accordion-content">
 					

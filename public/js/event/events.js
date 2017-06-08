@@ -80,10 +80,7 @@ $(document).ready(function () {
 
 		buildEvents();
 	};
-
 	eventForButtonTimeFilter();
-
-
 });
 
 

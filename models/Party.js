@@ -209,20 +209,22 @@ PartySchema.pre('save', function (next) {
 	if (doc.isModified() || doc.isModified('bar') || doc.isNew) {
 
 		party_model.updateDrinkId(party_id, function () {
-			bars.forEach(function (bar) {
-				let drinkCategories = bar.drinkCategories;
-				drinkCategories.forEach(function (drinkCategory) {
-					let drinks = drinkCategory.drinks;
+			if(bars){
+				bars.forEach(function (bar) {
+					let drinkCategories = bar.drinkCategories;
+					drinkCategories.forEach(function (drinkCategory) {
+						let drinks = drinkCategory.drinks;
 
-					drinks.forEach(function (drink) {
+						drinks.forEach(function (drink) {
 
-						if (drink.drinkId === 0) {
-							drink.drinkId = parseInt(party_id + '' + global_drink_id);
-							global_drink_id++;
-						}
+							if (drink.drinkId === 0) {
+								drink.drinkId = parseInt(party_id + '' + global_drink_id);
+								global_drink_id++;
+							}
+						});
 					});
 				});
-			});
+			}
 
 			next();
 		});
