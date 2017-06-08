@@ -71,8 +71,8 @@ $(document).ready(function () {
 	$('#bars_gallery').on('click', '.event-item', function () {
 		let t = $(this);
 
-		let event_url = '/event/';
-		let event_id = +t.data('event');
+		let event_url = '/bar/';
+		let event_id = +t.data('bar');
 		if (event_id > -1) {
 			event_url += event_id;
 			window.location = event_url;
@@ -99,7 +99,7 @@ let generateBar = function(event) {
                         <img src="` + event.cover_picture + `"/>
                         <div class="mt-overlay">
                             <h2>` + event.bar_name_eng + `</h2>
-                            <a class="mt-info" href="/event/` + event.id + `">
+                            <a class="mt-info" href="/bar/` + event.id + `">
                                 <div style="position: relative; top: -50px;">` +  + `` +  + `
                                     <br>` + event.location.city + `, ` + event.location.country + `
                                 </div>

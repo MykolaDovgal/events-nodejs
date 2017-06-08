@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ../../static/head %>
+
+	<link href="/assets/pages/css/portfolio.min.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css"
+	      id="style_color"/>
+	<link href="/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css"/>
+	<!-- END THEME LAYOUT STYLES -->
+	<link href="/assets/global/plugins/typeahead/typeahead.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/css/plugins/croppie.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/css/bar/bar.css" rel="stylesheet" type="text/css"/>
+
+	<link href="/assets/global/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css"
+	      rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+
+
+<div class="page-wrapper">
+
+	<header id="header" valign="botoom">
+		<% include ../../static/header %>
+	</header>
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+
+			<!-- BEGIN CONTENT BODY -->
+			<div class="page-content">
+				<div class="row">
+					<div class="wrapper-title">
+
+						<div class="text-center">
+							<div class="language_switch_container">
+								<h1 id="english_title" class="page-title"> <%= bar.title_eng %> </h1>
+							</div>
+							<div hidden class="language_switch_container">
+								<h1 id="ol_title" class="page-title"> <%= bar.title_ol %> </h1>
+							</div>
+							<h4>#<%= bar.id %></h4>
+							<h4 id="place_title">
+								in <%= bar.location ? bar.location.city + ', ' + bar.location.country : '' %></h4>
+						</div>
+						<div class="switch-lang party-item">
+							<input id="language_switch" type="checkbox"
+								   class="make-switch form-control"
+								   data-on-color="success" data-on-text="Local"
+								   data-off-text="English"
+								   data-off-color="warning"/>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="wrapper-line border-line croppie-container mt-element-overlay">
+							<div class="mt-overlay-1">
+								<img id="coverpic" class="cover-picture"
+								     src="<%= bar.cover_picture ? bar.cover_picture : '/images/cover-picture.jpg' %>">
+								<div class="mt-overlay">
+									<ul class="mt-info">
+										<li>
+											<a id="button-open-upload" class="btn default btn-outline">
+												<i class="fa fa-pencil" aria-hidden="true"></i></i>Upload
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="wrapper-line border-line offset-top-2">
+							<p class="title-block">Location</p>
+							<div id="map" class="map"></div>
+						</div>
+
+						<div class=" wrapper-line border-line offset-top-2">
+							<div class="input-group">
+								<% if (bar.location) { %>
+								<input value="<%= bar.location.city %> <%= bar.location.country ? ', ' + bar.location.country : '' %>"
+								<% } else { %>
+								<input
+										<% } %>
+										type="text" id="geocomplete" class="form-control"
+										placeholder="Search for city, country">
+								<span class="input-group-btn">
+								<button id="find_geocomplete" class="btn green"
+								        type="button">Save address</button>
+							  </span>
+							</div>
+
+
+							<div class="geo-data">
+								<input id="lat" name="lat" type="text" value=""/>
+								<input id="lng" name="lng" type="text" value=""/>
+								<input id="locality" name="locality" type="text" value=""/>
+								<input id="country" name="country" type="text" value=""/>
+								<input id="country_short" name="country_short" type="text" value=""/>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-9">
+
+						<div class="tabbable-line line-tab-width">
+
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#general-container"
+								                      data-toggle="tab"
+								                      aria-expanded="true">General</a>
+								</li>
+								<li><a id="pricing_tab_btn" href="#pricing_container"
+								       data-toggle="tab"
+								       aria-expanded="false">Opening Hours</a>
+								</li>
+								<li><a id="attendees_tab_btn" href="#attendees_container"
+								       data-toggle="tab"
+								       aria-expanded="false">Followers & Attendees</a>
+								</li>
+							</ul>
+							<div class="tab-content offset-table-retreat">
+								<div class="tab-pane active" id="general_container">
+									<% include ../../pages/bar/tabs/general.ejs %>
+								</div>
+
+								<div class="tab-pane" id="opening_container">
+									<% include ../bar/tabs/openingHours.ejs %>
+								</div>
+
+								<div class="tab-pane" id="attendees_container">
+									<% include ../bar/tabs/followersAndAttendees.ejs %>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- END CONTENT BODY -->
+		</div>
+		<!-- END CONTENT -->
+
+	</div>
+	<!-- END CONTAINER -->
+</div>
+
+<div id="upload-picture-modal" class="modal fade bs-modal-lg" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Upload Bar Cover Picture</h4>
+			</div>
+			<div class="modal-body">
+				<div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- BEGIN VALIDATION STATES-->
+							<div class="portlet light portlet-fit portlet-form bordered">
+								<div class="portlet-body">
+									<!-- BEGIN FORM-->
+									<form method="post"
+									      enctype="multipart/form-data" id="form_change_picture">
+										<div class="form-body">
+											<div class="form-group form-md-line-input row">
+
+												<div class="upload-cover-picture-wrap">
+													<div id="upload-line-pic"></div>
+												</div>
+
+												<div class="col-md-3">
+													<label class="control-label" for="form-profile-pic">
+														Bar Cover Picture
+													</label>
+												</div>
+
+												<div class="col-md-9">
+													<input type="file" id="form-line-pic" name="cover-image"
+													       class="form-control"
+													       value="Choose a file"
+													       accept="image/*"/>
+
+													<div class="form-control-focus"></div>
+												</div>
+											</div>
+
+											<div class="form-group form-md-line-input row">
+												<div class="col-md-12">
+													<div id="upload-cover-picture"></div>
+													<input type="hidden" id="imagebase64" name="imagebase64">
+												</div>
+											</div>
+										</div>
+									</form>
+									<!-- END FORM-->
+								</div>
+							</div>
+							<!-- END VALIDATION STATES-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="progress hide">
+							<div class="progress-bar " role="progressbar" aria-valuenow="0"
+							     aria-valuemin="0" aria-valuemax="100" style="width:0%">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<button type="button" data-dismiss="modal" class="btn dark btn-outline">Cancel</button>
+						<button id="button-upload-picture" class="btn green">Upload Picture</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="send_bar_notification" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title">Send Notification</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<!-- BEGIN FORM-->
+					<form id="notification_form" method="post">
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="col-md-3 control-label" for="form_control_1">Memo</label>
+							<div class="col-md-9">
+								<textarea id="notification_content"
+										  class="form-control"
+										  name="notification_content"
+										  rows="5" rows="3"></textarea>
+								<div class="form-control-focus"></div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="col-md-3 control-label" for="notification_link">Link
+								<span class="required">*</span>
+							</label>
+							<div class="col-md-9">
+								<input id="notification_link" type="text"
+									   class="form-control"
+									   placeholder="Enter link"
+									   name="notification_link" required>
+								<div class="form-control-focus"></div>
+								<span class="help-block">Link</span>
+							</div>
+						</div>
+
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="control-label col-md-3">Send Time</label>
+							<div class="col-md-9">
+								<div id="datetime_input" class="input-group date">
+									<input name="notification_time" class="form-control" type="text" style="width: 100%"
+										   data-date-format="yyyy/mm/dd hh:ii">
+									<span class="input-group-addon"><i class="fa fa-times"></i></span>
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 form-group form-md-line-input">
+							<label class="control-label col-md-3">Audience<span class="required">*</span></label>
+							<div class="col-md-9">
+								<select id="form-line-city-select"
+										class="bs-select form-control" data-live-search="true"
+										data-size="8"
+										name="notification_audience">
+									<option>All</option>
+									<option>Not All</option>
+								</select>
+							</div>
+						</div>
+
+					</form>
+					<!-- END FORM-->
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
+				<button id="submit_send_bar_party" type="button" data-dismiss="modal" class="btn green">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+<footer>
+	<% include ../../static/footer %>
+
+	<script src="/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+	<script src="/js/plugins/croppie.js" type="text/javascript"></script>
+	<script src="/assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
+	<script>
+		let bar = <%- JSON.stringify(bar) %>;
+	</script>
+	<script>
+		let currentLanguage = 'English';
+	</script>
+	<script defer
+	        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVlanyJ2xLrNhMZIUhSXTYu1uq31e7Ti4&callback=initMap&libraries=places&language=en">
+	</script>
+	<script src="/js/plugins/jquery.geocomplete.js"></script>
+	<script src="/assets/global/plugins/typeahead/typeahead.bundle.min.js" type="text/javascript"></script>
+	<script src="/js/bar/geocomplete.js" type="text/javascript"></script>
+</footer>
+
+<% include ../../static/menu %>
+
+</body>
+</html>
