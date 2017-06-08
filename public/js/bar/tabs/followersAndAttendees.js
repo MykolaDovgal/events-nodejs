@@ -28,10 +28,6 @@ let initAttendeesTable = function () {
 				return d ;
 			},
 			"dataSrc": function (json) {
-				$('#total_attendees_number').text(json.total_count);
-				$('#total_tickets_sold').text(json.tkt_purchase_count);
-				$('#total_checked_in').text(json.ticket_checkin_count);
-				console.log(json.total_number);
 				return json.data;
 			}
 		},
@@ -83,6 +79,7 @@ let initAttendeesTable = function () {
 		],
 		autoWidth: false,
 		scrollY: 400,
+		scrollX: true,
 		scroller: true,
 
 
@@ -91,5 +88,4 @@ let initAttendeesTable = function () {
 
 	dataTableHelper.eventForUpdateTable('.update_table', attendees_table);
 	dataTableHelper.eventForSearchInTable('#filter_bar_attendees_table', attendees_table);
-
 };

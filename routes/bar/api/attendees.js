@@ -15,11 +15,9 @@ router.get('/bar/:id/attendees', function (req, res, next) {
         bar: Bar.findOne({ id: req.params.id }).execAsync()
     })
         .then(function (results) {
-            //let users = results.users;
             let attendees = results.bar.attendees;
-            console.log(attendees)
             let data = [];
-            let tkt_purchase_count = 0, ticket_checkin_count = 0, total_count = 0;
+            let tkt_purchase_count = 0, ticket_checkin_count = 0, total_count = attendees.length;
 
             attendees.forEach(function (attendee, index) {
                 let user = attendee.user;
