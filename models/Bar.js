@@ -21,7 +21,7 @@ let BarSchema = new Schema({
 		country:{type: String},
 		city:{type: String},
 		address:{type: String},
-		coordinate: {
+		longitude: {
 			lat: {type: Number},
 			lng: {type: Number}
 		}
@@ -30,7 +30,9 @@ let BarSchema = new Schema({
 	website: {type: String},
 	phone_number: {type: String},
 	cover_picture: {type: String},
-	managers: [ {userId: {type: String},} ],
+	managers: [ 
+		{userId: {type: Number},} 
+	],
 	attendees: [{
 		user: {type: Object},
 		userId: {type: Number},
@@ -101,7 +103,8 @@ let BarSchema = new Schema({
 			close: {type: String},
 			notes: {type: String}
 		}
-	}
+	},
+	active: {type: Boolean}
 });
 
 
