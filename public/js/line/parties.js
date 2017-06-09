@@ -25,8 +25,13 @@ $(document).ready(function () {
 						width: '10%'
 					},
 					{
-						data: 'lineId',
-						width: '10%'
+						data: 'title',
+						width: '10%',
+						render: function (data, type, full, meta) {
+							let title_length = 20;
+							let text = data.length > title_length ? data.substr(0, title_length).trim() + '...' : data;
+							return '<span title="' + data + '">' + text + '</span>'
+						},
 					},
 					{
 						data: 'club',
@@ -34,15 +39,18 @@ $(document).ready(function () {
 					},
 					{
 						data: 'date',
-						width: '10%'
+						width: '10%',
+						className: 'text-center'
 					},
 					{
 						data: 'open_time',
-						width: '15%'
+						width: '15%',
+						className: 'text-center'
 					},
 					{
 						data: 'attendees_count',
-						width: '15%'
+						width: '15%',
+						className: 'text-center'
 					},
 					{
 						data: 'video_stream_avbl',
@@ -61,7 +69,7 @@ $(document).ready(function () {
 				],
 				"columnDefs": [
 					{
-						"targets": 'no-sort',
+						"targets": 'no_sort',
 						"orderable": false
 					}
 				],
@@ -69,7 +77,7 @@ $(document).ready(function () {
 				scrollY: 400,
 				scroller: true,
 				responsive: false,
-
+				scrollX: true,
 
 				"dom": "<'row' <'col-md-12'  t >  <'col-md-12'i> >",
 			});
@@ -84,36 +92,24 @@ $(document).ready(function () {
 				}
 
 				if (tag !== 'TD') {
-					_t = $(this).parent('tr').get(0);
+					_t = $(this).closest('tr').get(0);
 				}
 
-				console.log(tag);
+
 				let partyRow = line_parties_table.row(_t).data();
 				console.log(partyRow);
 				if (check) {
 					window.open('/party/' + partyRow.id, '_blank');
-					//window.location = '/party/' + partyRow.party_id;
 				}
 			});
 
+			dataTableHelper.eventForUpdateTable('.update_tab_table_parties', line_parties_table);
+			dataTableHelper.eventForSearchInTable('#filter-party-table', line_parties_table);
+
 		} else {
-			updateTable();
+			dataTableHelper.updateTable(line_parties_table);
 		}
 
 
 	}
-
-	function updateTable() {
-		line_parties_table.clear().draw();
-		setTimeout(function () {
-			line_parties_table.ajax.reload();
-			line_parties_table.columns.adjust().draw();
-		}, 1000);
-	}
-
-	$('#filter-party-table').keyup(function () {
-		line_parties_table.search($(this).val()).draw();
-	});
-
-
 });

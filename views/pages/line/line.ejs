@@ -304,65 +304,7 @@
 
 								<!-- Tab parties -->
 								<div class="tab-pane" id="parties-container">
-									<div class="row">
-
-										<div class="col-md-12">
-
-											<div class="pull-left group-btn">
-												<a class="btn btn-circle btn-info"
-												   data-target="#line_<%= line.id %>_add_party" data-toggle="modal">Add
-													Party
-													<i class="fa fa-plus-circle" aria-hidden="true"></i>
-												</a>
-											</div>
-
-
-											<div class="pull-right group-btn">
-												<div class="form-group party-search-filter">
-													<div class="input-group">
-                                                        <span class="input-group-addon input-circle-left">
-                                                            <i class="fa fa-search"></i>
-                                                        </span>
-														<input id="filter-party-table" type="search"
-														       class="search form-control input-circle-right"
-														       placeholder="Filter parties"/>
-													</div>
-												</div>
-											</div>
-
-											<div class="pull-right group-input">
-												<div class="btn btn-circle update-table-users">
-													<i class="fa fa-refresh"
-													   aria-hidden="true"></i>
-												</div>
-											</div>
-
-
-										</div>
-									</div>
-
-									<div class="row">
-
-										<div class="col-md-12">
-
-
-											<table id="table-line-parties"
-											       class="table table-striped table-bordered table-hover table-checkable order-column">
-												<thead>
-												<tr>
-													<th>#</th>
-													<th>Line</th>
-													<th>Club</th>
-													<th>Date</th>
-													<th>Open Time</th>
-													<th>Attendees</th>
-													<th>Video</th>
-													<th>Tkts</th>
-												</tr>
-												</thead>
-											</table>
-										</div>
-									</div>
+									<% include ./tabs/parties %>
 								</div>
 
 								<!-- Tab followers -->
