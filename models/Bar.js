@@ -140,7 +140,6 @@ let autoPopulateUser = function (next) {
 	next();
 };
 
-
 BarSchema.statics.countByDate1 = function () {
 	let date = Date.now();
 	let barModel = this.model('Bar');

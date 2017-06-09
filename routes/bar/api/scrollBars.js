@@ -84,6 +84,7 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 	Promise.props({
 		bars: Bar.paginate({$and: filter}, {page: page, limit: limit})
 	}).then(function (results) {
+
 		let bars = results.bars.docs;
 		let data = {
 			data: bars

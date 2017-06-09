@@ -46,26 +46,31 @@
 
                         <div class="btn-group pull-left" id="button-filters" data-toggle="buttons">
 
-                            <!--<label class="btn btn-circle btn-success">-->
-                                <!--<input value="past" type="checkbox" autocomplete="off">Past-->
-                            <!--</label>-->
-                            <!--<label class="btn">-->
-                                <!--<span><%= eventCountPast %></span>-->
-                            <!--</label>-->
+                            <label class="btn btn-circle btn-success">
+                            <input value="past" type="checkbox" autocomplete="off">Past
+                            </label>
+                            <label class="btn">
+                            <span><%= eventCountPast %></span>
+                            </label>
 
-                            <!--<label class="btn btn-circle btn-success active">-->
-                                <!--<input checked value="today" type="checkbox" autocomplete="off">Today-->
-                            <!--</label>-->
-                            <!--<label class="btn">-->
-                                <!--<span><%= eventCountToday %></span>-->
-                            <!--</label>-->
+                            <label class="btn btn-circle btn-success active">
+                            <input checked value="today" type="checkbox" autocomplete="off">Today
+                            </label>
+                            <label class="btn">
+                            <span><%= eventCountToday %></span>
+                            </label>
 
-                            <!--<label class="btn btn-circle btn-success active">-->
-                                <!--<input checked value="future" type="checkbox" autocomplete="off">Future-->
-                            <!--</label>-->
-                            <!--<label class="btn">-->
-                                <!--<span><%= eventCountFuture %></span>-->
-                            <!--</label>-->
+                            <label class="btn btn-circle btn-success active">
+                            <input checked value="future" type="checkbox" autocomplete="off">Future
+                            </label>
+                            <label class="btn">
+                            <span><%= eventCountFuture %></span>
+                            </label>
+
+                            <a class="btn btn-circle btn-info" data-target="#modal-add-bar"
+                               data-toggle="modal"> Add
+                                Bar <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </a>
 
                         </div>
 
@@ -125,6 +130,153 @@
 </div>
 <!-- END CONTENT BODY -->
 
+<!-- responsive modal -->
+<div id="modal-add-bar" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Create Bar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- BEGIN FORM-->
+                    <form action="/bar/add" method="post" class="form-horizontal" id="form_add_bar">
+                        <div class="form-body">
+                            <div class="container col-md-12">
+                                <div class="alert alert-danger display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success display-hide">
+                                    <button class="close" data-close="alert"></button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-3 control-label" for="form_bar_origin_name">Name
+                                        In Local Language
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input id="form_bar_origin_name" type="text"
+                                               class="form-control"
+                                               placeholder="Local Name" value=""
+                                               name="barOriginName" required maxlength="40">
+                                        <div class="form-control-focus"></div>
+                                        <span class="help-block">Name In Local Language</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="col-md-3 control-label" for="form_bar_english_name">Name
+                                        In English
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input id="form_bar_english_name" type="text"
+                                               class="form-control"
+                                               placeholder="Name In English" value=""
+                                               name="barEnglishName" required maxlength="40">
+                                        <div class="form-control-focus"></div>
+                                        <span class="help-block">Name In English</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="control-label col-md-3">Location
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input required
+                                               type="text" id="geocomplete_bar_add" class="form-control"
+                                               placeholder="Search for city, country"/>
+
+                                        <div class="geo-data">
+                                            <input id="lat" name="lat" type="text" value=""/>
+                                            <input id="lng" name="lng" type="text" value=""/>
+                                            <input id="locality" name="locality" type="text" value=""/>
+                                            <input id="country" name="country" type="text" value=""/>
+                                            <input id="country_short" name="country_short" type="text" value=""/>
+                                            <input id="route" name="route" type="text" value=""/>
+                                            <input id="street_number" name="street_number" type="text" value="">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-md-line-input">
+                                    <label class="control-label col-md-3">Description</label>
+
+                                    <div class="col-md-9">
+                                        <div class="tabbable-line">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a
+                                                            href="#english_language_bar_description_container"
+                                                            data-toggle="tab"
+                                                            aria-expanded="true">English</a>
+                                                </li>
+                                                <li><a href="#origin_language_bar_description_container"
+                                                       data-toggle="tab"
+                                                       aria-expanded="false">Local</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active"
+                                                     id="english_language_party_description_container">
+                                                    <div class="form-group form-md-line-input">
+                                                        <div class="col-md-12">
+																			<textarea
+                                                                                    id="english_language_party_description"
+                                                                                    class="form-control"
+                                                                                    name="englishDescription"
+                                                                                    rows="3"
+                                                                                    placeholder="English description "
+                                                                                    style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
+                                                            <div class="form-control-focus"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="origin_language_bar_description_container">
+                                                    <div class="form-group form-md-line-input">
+                                                        <div class="col-md-12">
+																			<textarea
+                                                                                    id="origin_language_bar_description"
+                                                                                    class="form-control"
+                                                                                    name="originDescription"
+                                                                                    rows="3"
+                                                                                    placeholder="Local description "
+                                                                                    style="margin-top: 0px; margin-bottom: 0px; height: 96px;"></textarea>
+                                                            <div class="form-control-focus"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-outevent dark">Cancel</button>
+                <button id="button_create_bar" form="form_add_bar" type="submit" class="btn green">Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer>
     <% include ../../static/footer %>
 
@@ -140,6 +292,7 @@
 
 
     <script src="/js/bar/bars.js"></script>
+    <script src="/js/bar/modal_add_bar.js"></script>
 
 </footer>
 
