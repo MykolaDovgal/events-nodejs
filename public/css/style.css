@@ -1115,3 +1115,7 @@ pre {
 .table-tab>tbody>tr>td{
 	vertical-align: middle;
 }
+
+.modal-open {
+	overflow-y: hidden !important;
+}
