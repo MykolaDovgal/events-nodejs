@@ -138,7 +138,7 @@ UserSchema.statics.setLogOutTime = function (userId) {
 	});
 };
 
-UserSchema.virtual('image_circle').get(function () {
+UserSchema.virtual('image').get(function () {
 	return util.getImage(this, 'profile_picture_circle', default_image_user);
 });
 

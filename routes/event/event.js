@@ -25,13 +25,8 @@ router.get('/event/:id', function (request, response, next) {
 			let event = results.event;
 
 
-			if (typeof event.cover_picture !== 'undefined' && event.cover_picture.indexOf('http://') === -1 && event.cover_picture.indexOf('https://') === -1) {
-				if (!fs.existsSync('public' + event.cover_picture)) {
-					event.cover_picture = default_image_line;
-				}
-			}
-
 			let data = {
+				cover_picture: event.cover_picture,
 				title: results.event.title_eng,
 				showMenu: true,
 				event: event,
