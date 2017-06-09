@@ -18,7 +18,7 @@ router.get('/event/:id/parties', function (req, res, next) {
 			results.party.forEach((party) => {
 				parties.push({
 					id: party.id,
-					lineId: party.lineId || '-',
+					title: party.title_eng,
 					club: party.location.club_name,
 					event_only: !!party.only_for_event_att,
 					date: party.date ? moment(party.date).format('DD/MM/YYYY') : '',

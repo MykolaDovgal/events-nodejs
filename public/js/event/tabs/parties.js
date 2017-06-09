@@ -31,9 +31,13 @@ $(document).ready(function () {
 						width: '10%'
 					},
 					{
-						data: 'lineId',
+						data: 'title',
 						width: '10%',
-						className: 'text-center'
+						render: function (data, type, full, meta) {
+							let title_length = 20;
+							let text = data.length > title_length ? data.substr(0, title_length).trim() + '...' : data;
+							return '<span title="' + data + '">' + text + '</span>'
+						},
 					},
 					{
 						data: 'club',
@@ -103,7 +107,6 @@ $(document).ready(function () {
 					_t = $(this).parent('tr').get(0);
 				}
 
-				console.log(tag);
 				let partyRow = event_parties_table.row(_t).data();
 				console.log(partyRow);
 				if (check) {
