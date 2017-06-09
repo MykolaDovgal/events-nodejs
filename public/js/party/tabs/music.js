@@ -19,16 +19,15 @@ $(document).ready(function () {
 
 
 	$('#party_add_stage').on('click',() => {
+		//collapseAllStageTab();
 		generateStageTab();
 	});
 
 
 	$('body').on('click','.collapse_accordion',function (e) {
 		if($(e.target).prop("tagName") =='DIV' ){
-			$(this).closest('div.panel-group.accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
-			$(this).siblings('.panel-collapse').slideToggle(300);
+			collapseAnimatedStageTab.call(this);
 		}
-
 	}).on('click','.delete_stage_btn_flag',function () {
 		deleteStage.apply(this);
 	}).on('click','.add_dj_btn_flag',function () {
@@ -50,6 +49,14 @@ $(document).ready(function () {
 
 });
 
+let collapseAllStageTab = function () {
+	$('music_accordion_container div.panel-group.accordion').find('.panel-collapse').slideUp(300);
+};
+
+let collapseAnimatedStageTab = function () {
+	$(this).closest('div.panel-group.accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
+	$(this).siblings('.panel-collapse').slideToggle(300);
+};
 
 let fixTableLayout = function () {
 	let parent = $(this).closest('.tab_flag');
