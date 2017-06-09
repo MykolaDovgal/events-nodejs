@@ -19,7 +19,7 @@ $(document).ready(function () {
 
 
 	$('#party_add_stage').on('click',() => {
-		//collapseAllStageTab();
+		collapseAllStageTab();
 		generateStageTab();
 	});
 
@@ -50,7 +50,7 @@ $(document).ready(function () {
 });
 
 let collapseAllStageTab = function () {
-	$('music_accordion_container div.panel-group.accordion').find('.panel-collapse').slideUp(300);
+	$('#music_accordion_container div.panel-collapse').slideUp(300);
 };
 
 let collapseAnimatedStageTab = function () {
