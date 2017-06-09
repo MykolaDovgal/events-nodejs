@@ -9,7 +9,6 @@ let router = express.Router();
 router.post('/bar/update/:id', function (req, res, next) {
 
 	let body = req.body;
-	console.warn(body);
 	Promise.props({
 		party: Bar.update({id: req.params.id}, {['opening_times.' + body.name]: body['value'],}).execAsync()
 	}).then(function (results) {
@@ -29,8 +28,6 @@ router.get('/bar/:id/opening', function (req, res, next) {
 	})
 		.then(function (results) {
 			let data = [];
-			console.warn(results.times.opening_times);
-
 			res.json(results.times.opening_times);
 		})
 		.catch(function (err) {

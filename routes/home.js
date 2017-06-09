@@ -13,6 +13,7 @@ let User = require('models/User');
 let Line = require('models/Line');
 let Party = require('models/Party');
 let Event = require('models/Event');
+let Bar = require('models/Bar');
 
 
 Promise.promisifyAll(mongoose);
@@ -20,6 +21,7 @@ Promise.promisifyAll(mongoose);
 module.exports = function (req, res, next) {
 
 	Promise.props({
+		barCounter: Bar.countByDate1(),
 		userAllCount: User.count().execAsync(),
 		userAllActiveCount: User.count({active: true}).execAsync(),
 		lineActiveCount: Line.count({active: true}).execAsync(),
@@ -31,9 +33,11 @@ module.exports = function (req, res, next) {
 		eventCount: Event.count().execAsync(),
 		eventCountToday: Event.countByDate(),
 		eventCountPast: Event.countByDate('lt'),
-		eventCountFuture: Event.countByDate('gt')
+		eventCountFuture: Event.countByDate('gt'),
+
 	})
 		.then(function (results) {
+			console.warn(results);
 			let data = {
 				title: 'Home',
 				showMenu: true,
@@ -49,6 +53,9 @@ module.exports = function (req, res, next) {
 				eventCountToday: results.eventCountToday,
 				eventCountPast: results.eventCountPast,
 				eventCountFuture: results.eventCountFuture,
+				barCountOpen: results.barCounter.open,
+				barCountClose: results.barCounter.close,
+				barCountAll: results.barCounter.all
 			};
 			console.log(results);
 			res.render('pages/home', data);

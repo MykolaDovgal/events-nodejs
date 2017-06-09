@@ -1,6 +1,6 @@
 let mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
-
+let Promise = require('bluebird');
 let autoIncrement = require('mongoose-auto-increment');
 let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
@@ -18,9 +18,9 @@ let BarSchema = new Schema({
 	description_eng: {type: String},
 	description_ol: {type: String},
 	location: {
-		country:{type: String},
-		city:{type: String},
-		address:{type: String},
+		country: {type: String},
+		city: {type: String},
+		address: {type: String},
 		longitude: {
 			lat: {type: Number},
 			lng: {type: Number}
@@ -30,8 +30,8 @@ let BarSchema = new Schema({
 	website: {type: String},
 	phone_number: {type: String},
 	cover_picture: {type: String},
-	managers: [ 
-		{userId: {type: Number},} 
+	managers: [
+		{userId: {type: Number},}
 	],
 	attendees: [{
 		user: {type: Object},
@@ -47,9 +47,9 @@ let BarSchema = new Schema({
 	}],
 	followers: [{
 		user: {type: Object},
-		userId:{type: Number},
-		times_attended:{type: Number},
-		last_attendence:{type: Date}
+		userId: {type: Number},
+		times_attended: {type: Number},
+		last_attendence: {type: Date}
 	}],
 	music: [{
 		date: {type: Date},
@@ -70,38 +70,38 @@ let BarSchema = new Schema({
 		audience: []
 	}],
 	opening_times: {
-		sunday:{
-			open:{type: String},
+		sunday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		},
-		monday:{
-			open:{type: String},
+		monday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		},
-		tuesday:{
-			open:{type: String},
+		tuesday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		},
-		wednesday:{
-			open:{type: String},
+		wednesday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		},
-		thursday:{
-			open:{type: String},
+		thursday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		},
-		friday:{
-			open:{type: String},
+		friday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		},
-		saturday:{
-			open:{type: String},
+		saturday: {
+			open: {type: String},
 			close: {type: String},
 			notes: {type: String}
 		}
@@ -138,6 +138,41 @@ let autoPopulateUser = function (next) {
 	this.populate('attendees.user');
 	this.populate('followers.user');
 	next();
+};
+
+
+BarSchema.statics.countByDate1 = function () {
+	let date = Date.now();
+	let barModel = this.model('Bar');
+	let todayDate = new Date(date);
+	let dayArrays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	let counter = {open: 0, close: 0, all: 0};
+
+
+	barModel.find({}, ['opening_times.' + dayArrays[todayDate.getDay()]]).exec(function (err, result) {
+		result.forEach((openingTime) => {
+			let dayObj = openingTime.opening_times[dayArrays[todayDate.getDay()]];
+			if (dayObj['open'] && dayObj['close'] && (dayObj['open'] !== '-' && dayObj['open'] !== 'The last Client') && (dayObj['close'] !== '-' && dayObj['close'] !== 'The last Client')) {
+				let separateOpenTimeHour = dayObj['open'].split(':');
+				let separateCloseTimeHour = dayObj['close'].split(':');
+
+				let from = new Date(moment(date).format('YYYY-MM-DD'));
+				from.setHours(+separateOpenTimeHour[0], +separateOpenTimeHour[1]);
+				let to = new Date(moment(date).format('YYYY-MM-DD'));
+				to.setHours(+separateCloseTimeHour[0], +separateCloseTimeHour[1]);
+
+				if (todayDate.getTime() > from.getTime() && todayDate.getTime() < to.getTime()) {
+					counter['open']++;
+				} else {
+					counter['close']++;
+				}
+			}
+			counter['all']++;
+		});
+	});
+
+	return counter;
+
 };
 
 BarSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
