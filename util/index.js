@@ -5,8 +5,12 @@
 let crypto = require('crypto');
 let path = require('path');
 let fs = require('fs');
+let mime = require('mime');
+let sizeOfImage = require('image-size');
 
-let util = {
+let util;
+util = {
+	_t: this,
 	isset: function (data) {
 		return typeof data !== 'undefined' && data !== null;
 	},
@@ -29,19 +33,40 @@ let util = {
 	getImage: function (object_data, field, default_image) {
 		let result = default_image;
 		let data_field = object_data[field];
+		let allowedMimeTypesForImages = this.allowedMimeTypesForImages;
 
-		if (typeof data_field !== 'undefined'
+		if (typeof data_field !== 'undefined' && data_field !== null
 			&& data_field.indexOf('http://') === -1 && data_field.indexOf('https://') === -1
 		) {
 			let path = 'public' + data_field;
 			if (fs.existsSync(path)) {
-				result = data_field;
+				let type = mime.lookup(path);
+
+
+				if (allowedMimeTypesForImages.includes(type)) {
+					try {
+						let dimensions = sizeOfImage(path);
+						if (dimensions.width && dimensions.height) {
+							result = data_field;
+						}
+					} catch (e) {
+						result = default_image;
+					}
+
+				} else {
+					result = default_image;
+				}
 			} else {
 				result = default_image;
 			}
 		} else {
 			result = data_field;
 		}
+
+		if (result === undefined || result.trim().length < 5) {
+			result = default_image;
+		}
+
 		return result;
 	},
 	isEmptyValidator: {
@@ -52,6 +77,14 @@ let util = {
 		},
 		message: 'Can not be empty.'
 	},
+	allowedMimeTypesForImages: [
+		'image/gif',
+		'image/jpeg',
+		'image/pjpeg',
+		'image/png',
+		'image/tiff',
+		'image/webp'
+	]
 
 
 };

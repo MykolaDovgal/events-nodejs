@@ -15,30 +15,25 @@ let default_image_user = config.get('images:default_image_user');
 
 // get all lines
 router.get('/line/followers', function (req, res, next) {
-
+	let randomNumber = Math.floor((Math.random() * 50) + 10);
 	Promise.props({
-		users: User.find().execAsync()
+		users: User.find().limit(randomNumber).execAsync()
 	})
 		.then(function (results) {
-			let randomNumber = Math.floor((Math.random() * 50) + 10);
 
 			let users = [];
 
-			for(let i = 0; i< randomNumber;i+=1){
-
-				if (!fs.existsSync('public' + results.users[i].profile_picture_circle) && !results.users[i].profile_picture_circle.includes('http') || results.users[i].profile_picture_circle === '')
-					results.users[i].profile_picture_circle = default_image_user;
+			for (let i = 0; i < randomNumber; i += 1) {
 
 				users.push({
-					profile_picture_circle: results.users[i].profile_picture_circle,
-					id:  results.users[i].id,
+					profile_picture_circle: results.users[i].image_circle,
+					id: results.users[i].id,
 					username: results.users[i].username,
-					time_attended: moment(faker.date.past(5)).format('DD/MM/YYYY HH:mm') ,
+					time_attended: moment(faker.date.past(5)).format('DD/MM/YYYY HH:mm'),
 					last_attendance: moment(faker.date.past(10)).format('DD/MM/YYYY HH:mm'),
-					full_name:  results.users[i].firstname + ' ' + results.users[i].lastname
+					full_name: results.users[i].firstname + ' ' + results.users[i].lastname
 				});
 			}
-
 
 			res.json({data: users, total_number: randomNumber});
 		})
