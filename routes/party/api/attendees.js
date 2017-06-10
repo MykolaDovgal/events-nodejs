@@ -7,23 +7,21 @@ let config = require('config');
 let default_image_user = config.get('images:default_image_user');
 
 let Party = require('models/Party');
-let User = require('models/User');
 
 router.get('/party/:id/attendees', function (req, res, next) {
 
 	Promise.props({
-		event: Party.findOne({id: req.params.id}).execAsync()
+		party: Party.findOne({id: req.params.id}).execAsync()
 	})
 		.then(function (results) {
-			//let users = results.users;
-			let attendees = results.event.attendees;
+			let attendees = results.party.attendees;
 			let data = [];
 			attendees.forEach(function (attendee, index) {
 				let user = attendee.user;
 				if (user !== null) {
 
 					let username = user.username;
-					let user_pic = user.image_circle;
+					let user_pic = user.image;
 
 					data.push({
 						user_picture: user_pic,
@@ -45,7 +43,6 @@ router.get('/party/:id/attendees', function (req, res, next) {
 			next(err)
 		});
 });
-
 
 
 module.exports = router;

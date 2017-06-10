@@ -18,55 +18,58 @@ let text = {
 let router = express.Router();
 
 router.get('/party/:id', function (request, response, next) {
-
-	Promise.props({
-		party: Party.findOne({ id: request.params.id }).execAsync(),
-	})
-		.then(function (results) {
-			let party = results.party;
-
-
-			if (typeof party.cover_picture !== 'undefined' && party.cover_picture.indexOf('http://') === -1 && party.cover_picture.indexOf('https://') === -1) {
-				if (!fs.existsSync('public' + party.cover_picture)) {
-					party.cover_picture = default_image_line;
-				}
-			}
-
-			Promise.props({
-				line: Line.findOne({ id: party.lineId }).execAsync(),
-				event: Event.findOne({ id: party.eventId }).execAsync(),
-			})
-				.then(function (results_le) {
-					if (results_le.line === null) {
-						results_le.line = {
-							line_name_eng: text.not_selected,
-							line_name_ol: text.not_selected
-						};
-					}
-					if (results_le.event === null) {
-						results_le.event = {
-							title_ol: text.not_selected,
-							title_eng: text.not_selected,
-						};
-					}
-
-					let data = {
-						title: results.party.title_eng,
-						showMenu: true,
-						party: party,
-						party_date: party.date ? moment(party.date).format('DD/MM/YYYY HH:mm') : '',
-						line: results_le.line,
-						event: results_le.event
-					};
-
-					response.render('pages/party/singleParty', data);
-				});
-
-
+	let id = parseInt(+request.params.id);
+	if (!isNaN(id) && id > 0) {
+		Promise.props({
+			party: Party.findOne({id: +request.params.id}).execAsync(),
 		})
-		.catch(function (err) {
-			next(err);
-		});
+			.then(function (results) {
+				let party = results.party;
+
+				if (party) {
+					party.cover_picture = party.image;
+
+					Promise.props({
+						line: Line.findOne({id: party.lineId}).execAsync(),
+						event: Event.findOne({id: party.eventId}).execAsync(),
+					})
+						.then(function (results_le) {
+							if (results_le.line === null) {
+								results_le.line = {
+									line_name_eng: text.not_selected,
+									line_name_ol: text.not_selected
+								};
+							}
+							if (results_le.event === null) {
+								results_le.event = {
+									title_ol: text.not_selected,
+									title_eng: text.not_selected,
+								};
+							}
+
+							let data = {
+								title: results.party.title_eng,
+								showMenu: true,
+								party: party,
+								party_date: party.date ? moment(party.date).format('DD/MM/YYYY HH:mm') : '',
+								line: results_le.line,
+								event: results_le.event
+							};
+
+							response.render('pages/party/singleParty', data);
+						});
+
+				} else {
+					next();
+				}
+
+			})
+			.catch(function (err) {
+				next(err);
+			});
+	} else {
+		next();
+	}
 });
 
 

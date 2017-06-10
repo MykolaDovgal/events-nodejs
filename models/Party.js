@@ -6,6 +6,9 @@ let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
 let util = require('util/index');
 
+let config = require('config');
+let default_image_party = config.get('images:default_image_line');
+
 autoIncrement.initialize(mongoose.connection);
 
 let PartySchema = new Schema({
@@ -269,6 +272,10 @@ PartySchema.pre('save', function (next) {
 PartySchema.pre('update', function (next) {
 	this.options.runValidators = true;
 	next();
+});
+
+PartySchema.virtual('image').get(function () {
+	return util.getImage(this, 'cover_picture', default_image_party);
 });
 
 PartySchema.plugin(mongoosePaginate);

@@ -26,7 +26,7 @@ router.get('/event/:id', function (request, response, next) {
 
 
 			let data = {
-				cover_picture: event.cover_picture,
+				cover_picture: event.image,
 				title: results.event.title_eng,
 				showMenu: true,
 				event: event,
