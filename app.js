@@ -5,6 +5,7 @@ let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let compression = require('compression');
+let minify = require('express-minify');
 
 
 let mongoose = require('mongoose');
@@ -45,6 +46,9 @@ let app = express();
 // use gzip
 app.use(compression());
 
+//use minify
+app.use(minify());
+
 // Passport:
 app.use(require('express-session')({secret: 'secret', resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
@@ -62,16 +66,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
+// folder with optimized images
+// app.use(
+// 	express.static(
+// 		path.join(__dirname, 'public_static'),
+// 		{maxAge: '1y'}
+// 	)
+// );
+
 app.use(
 	express.static(
 		path.join(__dirname, 'public'),
 		{maxAge: '1y'}
 	)
 );
-
-// setup.createParty();
-// setup.createEvent();
-// setup.createBar();
 
 // auth
 let userModel = User;

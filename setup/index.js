@@ -6,6 +6,12 @@ let fs = require('fs');
 let request = require('request');
 let Promise = require('bluebird');
 let path = require('path');
+let json = require('json-update');
+let moment = require('moment');
+
+const imagemin = require('imagemin');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminOptipng = require('imagemin-optipng');
 
 
 require('rootpath')();
@@ -367,7 +373,7 @@ setup = {
 					followers.push({
 						userId: faker.random.arrayElement(users),
 						times_attended: faker.random.number({min: 0, max: 30}),
-						last_attendence: faker.date.past(30)						
+						last_attendence: faker.date.past(30)
 					})
 				}
 
@@ -476,9 +482,64 @@ setup = {
 			result = array.slice(0, count);
 		}
 		return result;
+	},
+	optimizeImages: function () {
+
+		let app_path = path.join(__dirname, '../');
+
+
+		let static_folder = 'public_static';
+		let public_folder = 'public';
+
+		let dirs_images = [
+			'/images/',
+			'/images/icons/',
+			'/images/icons/posters/',
+			'/uploads/events/',
+			'/uploads/parties/',
+			'/uploads/lines/',
+			'/uploads/users/',
+		];
+
+		let config_file = app_path + static_folder + '/config';
+
+		json.load(config_file, function (err, config) {
+			let last_update = new Date(config.last_update);
+			let need_update = true;
+			if (last_update) {
+				let today = new Date();
+				let diff = moment(today - last_update);
+				console.warn('diff', diff);
+			}
+		});
+
+		let promise_calls = [];
+
+		dirs_images.forEach((dir) => {
+			let input_folder = app_path + public_folder + dir + '*.{jpg,png}';
+			let output_folder = app_path + static_folder + dir;
+
+
+			promise_calls.push(imagemin([input_folder], output_folder, {
+				plugins: [
+					imageminMozjpeg(),
+					imageminOptipng()
+				]
+			}));
+		});
+
+		let results = Promise.all(promise_calls);
+
+		results.then(data => {
+				let total = 0;
+				data.forEach(items => {
+					total += items.length;
+				});
+				console.warn('Total optimized images ', total);
+				json.update(config_file, {last_update: new Date()});
+			}
+		);
 	}
-
-
 };
 
 let downloadImage = function (uri, filename, callback) {

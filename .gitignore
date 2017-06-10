@@ -38,3 +38,4 @@ npm-debug.log
 # VS Code files
 .vscode
 
+/public_static/*
