@@ -420,6 +420,8 @@ setup = {
 			app_path + 'public/uploads/parties/',
 			app_path + 'public/uploads/lines/',
 			app_path + 'public/uploads/users/',
+			app_path + 'public_static/',
+			app_path + 'public_static/cache/',
 		];
 
 		dirs.forEach(function (dir) {
@@ -504,41 +506,56 @@ setup = {
 		let config_file = app_path + static_folder + '/config';
 
 		json.load(config_file, function (err, config) {
-			let last_update = new Date(config.last_update);
+			let last_update = 0;
+			if (config && config.hasOwnProperty('last_update')) {
+				last_update = config.last_update;
+			}
+
+			if (last_update) {
+				last_update = new Date((config.last_update));
+			}
+
 			let need_update = true;
 			if (last_update) {
 				let today = new Date();
-				let diff = moment(today - last_update);
-				console.warn('diff', diff);
+				let duration = moment.duration(today - last_update);
+				let days = duration.days();
+				if (days === 0) {
+					need_update = false;
+				}
 			}
-		});
-
-		let promise_calls = [];
-
-		dirs_images.forEach((dir) => {
-			let input_folder = app_path + public_folder + dir + '*.{jpg,png}';
-			let output_folder = app_path + static_folder + dir;
 
 
-			promise_calls.push(imagemin([input_folder], output_folder, {
-				plugins: [
-					imageminMozjpeg(),
-					imageminOptipng()
-				]
-			}));
-		});
+			if (need_update) {
+				let promise_calls = [];
+				dirs_images.forEach((dir) => {
+					let input_folder = app_path + public_folder + dir + '*.{jpg,png}';
+					let output_folder = app_path + static_folder + dir;
 
-		let results = Promise.all(promise_calls);
 
-		results.then(data => {
-				let total = 0;
-				data.forEach(items => {
-					total += items.length;
+					promise_calls.push(imagemin([input_folder], output_folder, {
+						plugins: [
+							imageminMozjpeg(),
+							imageminOptipng()
+						]
+					}));
 				});
-				console.warn('Total optimized images ', total);
-				json.update(config_file, {last_update: new Date()});
+
+				let results = Promise.all(promise_calls);
+
+				results.then(data => {
+						let total = 0;
+						data.forEach(items => {
+							total += items.length;
+						});
+						console.warn('Total optimized images ', total);
+						json.update(config_file, {last_update: new Date()});
+					}
+				);
+			} else {
+				console.log('Images don\'t need optimization');
 			}
-		);
+		});
 	}
 };
 

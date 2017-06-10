@@ -5,7 +5,6 @@ let fs = require('fs');
 
 let config = require('config');
 
-let Party = require('models/Party');
 let Line = require('models/Line');
 let default_image_line = config.get('images:default_image_line');
 
@@ -83,22 +82,10 @@ router.post('/lines/:page?', function (req, res, next) {
 	}).then(function (results) {
 
 		let lines = results.lines.docs;
-		// lines.forEach(function (line) {
-		// 	let cover_img = line.cover_picture;
-		// 	console.log(cover_img);
-		// 	if (cover_img !== undefined && cover_img.indexOf('http://') === -1 && cover_img.indexOf('https://') === -1) {
-		// 		if (!fs.existsSync('public' + cover_img)) {
-		// 			line.cover_picture = default_image_line;
-		// 		}
-		//
-		// 	}
-		// });
 
 		let data = {
 			data: lines
 		};
-
-		console.warn(lines);
 
 		res.json(data);
 	}).catch(function (err) {

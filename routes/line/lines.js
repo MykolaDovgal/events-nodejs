@@ -34,8 +34,6 @@ router.get('/lines', function (request, response, next) {
 				cities: [...new Set(addresses.filter((address) => address.country == country).map((address) => address.city))]
 			});
 
-		console.log(map);
-
 		let data = {
 			title: title_page,
 			showMenu: true,

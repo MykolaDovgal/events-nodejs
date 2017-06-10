@@ -47,7 +47,7 @@ let app = express();
 app.use(compression());
 
 //use minify
-app.use(minify());
+app.use(minify({cache: __dirname + '/public_static/cache'}));
 
 // Passport:
 app.use(require('express-session')({secret: 'secret', resave: true, saveUninitialized: true}));
@@ -66,13 +66,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// folder with optimized images
-// app.use(
-// 	express.static(
-// 		path.join(__dirname, 'public_static'),
-// 		{maxAge: '1y'}
-// 	)
-// );
+//folder with optimized images
+app.use(
+	express.static(
+		path.join(__dirname, 'public_static'),
+		{maxAge: '1y'}
+	)
+);
 
 app.use(
 	express.static(
