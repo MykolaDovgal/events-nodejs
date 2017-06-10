@@ -4,6 +4,7 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
+let compression = require('compression');
 
 let mongoose = require('mongoose');
 let Promise = require('bluebird');
@@ -40,8 +41,10 @@ let api_routes = require('./routes/api');
 
 let app = express();
 
-// Passport:
+// use gzip
+app.use(compression());
 
+// Passport:
 app.use(require('express-session')({secret: 'secret', resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());

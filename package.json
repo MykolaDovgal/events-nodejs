@@ -11,6 +11,7 @@
     "better-console": "^1.0.0",
     "bluebird": "latest",
     "body-parser": "~1.17.1",
+    "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
