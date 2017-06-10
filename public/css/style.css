@@ -1,5 +1,4 @@
 @import url(font-awesome.min.css);
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,700,900");
 
 @font-face {
 	font-family: Montserrat-Regular;
@@ -1112,7 +1111,7 @@ pre {
 	border-color: #123339;
 }
 
-.table-tab>tbody>tr>td{
+.table-tab > tbody > tr > td {
 	vertical-align: middle;
 }
 
