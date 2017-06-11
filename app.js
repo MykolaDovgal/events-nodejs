@@ -6,6 +6,7 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let compression = require('compression');
 let minify = require('express-minify');
+let minifyHTML = require('express-minify-html');
 
 
 let mongoose = require('mongoose');
@@ -48,6 +49,20 @@ app.use(compression());
 
 //use minify
 app.use(minify({cache: __dirname + '/public_static/cache'}));
+
+// use minify for views
+app.use(minifyHTML({
+	override: true,
+	exception_url: false,
+	htmlMinifier: {
+		removeComments: true,
+		collapseWhitespace: true,
+		collapseBooleanAttributes: true,
+		removeAttributeQuotes: true,
+		removeEmptyAttributes: true,
+		minifyJS: true
+	}
+}));
 
 // Passport:
 app.use(require('express-session')({secret: 'secret', resave: true, saveUninitialized: true}));
