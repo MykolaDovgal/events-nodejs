@@ -811,11 +811,11 @@ body.is-menu-visible #menu .closes {
 .justified-gallery {
 	margin-top: 15px;
 }
-
+/*
 .group-btn > *:not(:last-child) {
 	margin-right: 10px;
 }
-
+*/
 /***style page line***/
 .cr-boundary {
 	background: rgba(204, 204, 204, 0.11);
@@ -1117,4 +1117,23 @@ pre {
 
 .modal-open {
 	overflow-y: hidden !important;
+}
+
+.radio input[type="radio"] {
+	opacity: 0;
+}
+
+.radio-default{
+	margin: 0;
+	float: left;
+}
+
+.radio-default .btn{
+	padding: 6px 12px !important;
+}
+
+.radio input[type="radio"]:checked + label{
+	color: #fff !important;
+	background-color: #207780 !important;
+	border-color: #123339 !important;
 }

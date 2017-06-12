@@ -46,31 +46,32 @@
 
 						<div class="pull-left group-btn lines-btb-group">
 							<div class="pull-left">
-                                <label class="filter-all btn btn-circle btn-success">
-                                    <input name="line_filter" value="past" type="radio" autocomplete="off">All
-                                </label>
-								<!--<a class="filter-all btn btn-circle btn-success active">-->
-									<!--All-->
-								<!--</a>-->
-								<span><%= lineTotalCount %></span>
+								<div class="radio radio-default">
+									<input name="line_filter" value="past" type="radio" autocomplete="off" id="radio1">
+									<label for="radio1" class="filter-status btn btn-circle btn-success">
+										All
+									</label>
+								</div>
+								<label class="btn"><%= lineTotalCount %></label>
+							</div>
+							<div class="pull-left">
+								<div class="radio radio-default">
+									<input  name="line_filter" data-status="true" value="past" type="radio" autocomplete="off" id="radio2">
+									<label for="radio2" class="filter-status btn btn-circle btn-success">
+										Active
+									</label>
+								</div>
+								<label class="btn"><%= lineActiveCount %></label>
 							</div>
 
 							<div class="pull-left">
-                                <label class="filter-status btn btn-circle btn-success">
-                                    <input name="line_filter" data-status="true" value="past" type="radio" autocomplete="off">Active
-                                </label>
-								<!--<a data-status="true" class="filter-status btn btn-circle btn-success"> Active-->
-								<!--</a>-->
-								<span><%= lineActiveCount %></span>
-							</div>
-
-							<div class="pull-left">
-                                <label data-status="false" class="filter-status btn btn-circle btn-success">
-                                    <input name="line_filter" data-status="false" value="past" type="radio" autocomplete="off">Active
-                                </label>
-								<!--<a data-status="false" class="filter-status btn btn-circle btn-success"> Inactive-->
-								<!--</a>-->
-								<span><%= lineUnActiveCount %></span>
+								<div class="radio radio-default">
+									<input  name="line_filter" data-status="false" value="past" type="radio" autocomplete="off" id="radio3">
+									<label for="radio3" class="filter-status btn btn-circle btn-success">
+										Inactive
+									</label>
+								</div>
+								<label class="btn"><%= lineUnActiveCount %></label>
 							</div>
 							<a class="btn btn-circle btn-info" data-target="#modal-add-line"
 							   data-toggle="modal"> Add
