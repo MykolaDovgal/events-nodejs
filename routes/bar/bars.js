@@ -8,6 +8,7 @@ router.get('/bars', function (req, res, next) {
 
 	Promise.props({
 		addresses: Bar.find({}, 'location').execAsync(),
+		barCounter: Bar.countByDate()
 	}).then(function (results) {
 		let addresses = [];
 		results.addresses.forEach(function (event) {
@@ -24,13 +25,13 @@ router.get('/bars', function (req, res, next) {
 				cities: [...new Set(addresses.filter((address) => address.country == country).map((address) => address.city))]
 			});
 
+		let barCounter = results.barCounter;
 		let data = {
 			title: "Bars",
 			showMenu: true,
-			eventTotalCount: results.eventTotalCount,
-			eventCountToday: results.eventCountToday,
-			eventCountPast: results.eventCountPast,
-			eventCountFuture: results.eventCountFuture,
+			barCountOpen: barCounter.open,
+			barCountClose: barCounter.close,
+			barCountAll: barCounter.all,
 			addresses: map
 		};
 

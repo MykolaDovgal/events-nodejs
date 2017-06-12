@@ -13,7 +13,6 @@ $(document).ready(function () {
 		if(!isMusicInit){
 			initStages();
 			isMusicInit = true;
-
 		}
 	});
 
@@ -46,7 +45,6 @@ $(document).ready(function () {
 	}).on('click','.remove_genres_btn_flag',function () {
 		deleteGenre($(this).closest('.tab_flag').attr('id'));
 	});
-
 });
 
 let collapseAllStageTab = function () {

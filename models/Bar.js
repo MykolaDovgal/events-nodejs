@@ -140,7 +140,7 @@ let autoPopulateUser = function (next) {
 	next();
 };
 
-BarSchema.statics.countByDate1 = function () {
+BarSchema.statics.countByDate = function () {
 	let date = Date.now();
 	let barModel = this.model('Bar');
 	let todayDate = new Date(date);
@@ -149,7 +149,9 @@ BarSchema.statics.countByDate1 = function () {
 
 
 	barModel.find({}, ['opening_times.' + dayArrays[todayDate.getDay()]]).exec(function (err, result) {
+
 		result.forEach((openingTime) => {
+
 			let dayObj = openingTime.opening_times[dayArrays[todayDate.getDay()]];
 			if (dayObj['open'] && dayObj['close'] && (dayObj['open'] !== '-' && dayObj['open'] !== 'The last Client') && (dayObj['close'] !== '-' && dayObj['close'] !== 'The last Client')) {
 				let separateOpenTimeHour = dayObj['open'].split(':');
@@ -161,13 +163,16 @@ BarSchema.statics.countByDate1 = function () {
 				to.setHours(+separateCloseTimeHour[0], +separateCloseTimeHour[1]);
 
 				if (todayDate.getTime() > from.getTime() && todayDate.getTime() < to.getTime()) {
-					counter['open']++;
+					counter['open']+=1;
 				} else {
-					counter['close']++;
+					counter['close']+=1;
+
 				}
 			}
-			counter['all']++;
+
+			counter['all']+=1;
 		});
+
 	});
 
 	return counter;

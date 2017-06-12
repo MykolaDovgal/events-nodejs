@@ -46,20 +46,29 @@
 
 						<div class="pull-left group-btn lines-btb-group">
 							<div class="pull-left">
-								<a class="filter-all btn btn-circle btn-success active">
-									All
-								</a>
+                                <label class="filter-all btn btn-circle btn-success">
+                                    <input name="line_filter" value="past" type="radio" autocomplete="off">All
+                                </label>
+								<!--<a class="filter-all btn btn-circle btn-success active">-->
+									<!--All-->
+								<!--</a>-->
 								<span><%= lineTotalCount %></span>
 							</div>
 
 							<div class="pull-left">
-								<a data-status="true" class="filter-status btn btn-circle btn-success"> Active
-								</a>
+                                <label class="filter-status btn btn-circle btn-success">
+                                    <input name="line_filter" data-status="true" value="past" type="radio" autocomplete="off">Active
+                                </label>
+								<!--<a data-status="true" class="filter-status btn btn-circle btn-success"> Active-->
+								<!--</a>-->
 								<span><%= lineActiveCount %></span>
 							</div>
 							<div class="pull-left">
-								<a data-status="false" class="filter-status btn btn-circle btn-success"> Inactive
-								</a>
+                                <label data-status="false" class="filter-status btn btn-circle btn-success">
+                                    <input name="line_filter" data-status="false" value="past" type="radio" autocomplete="off">Active
+                                </label>
+								<!--<a data-status="false" class="filter-status btn btn-circle btn-success"> Inactive-->
+								<!--</a>-->
 								<span><%= lineUnActiveCount %></span>
 							</div>
 							<a class="btn btn-circle btn-info" data-target="#modal-add-line"

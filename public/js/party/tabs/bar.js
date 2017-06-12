@@ -15,6 +15,7 @@ $(document).ready(() => {
 
 	$('#party_add_bar').on('click', () => {
 		addBarTab();
+		collapseAllBarTab();
 	});
 
 	$('body').on('click', '.add-tender-button', function () {
@@ -45,9 +46,10 @@ $(document).ready(() => {
 				createCategoryTab({bar_name_eng: 'Bar ' + barCount, _id: barId}, {
 					category_name: 'Category ' + catCount,
 					_id: _id
-				});
+				},false);
 			}
 		});
+		collapseAllCategoryTab.call(this);
 	});
 
 	$('body').on('click', '.collapse_category', function (e) {
@@ -133,16 +135,24 @@ $(document).ready(() => {
 		});
 	});
 
-	let createCategoryTab = (bar, category) => {
-		let categoryTemplate = getCategoryTabTemplate(catCount, bar, category);
+	let collapseAllBarTab = () => $('#bar_accordion_container div.panel-collapse').slideUp(300);
+
+	let collapseAllCategoryTab = function () {
+		console.log(this);
+		console.log($(this).closest('.table-drinks'));
+		$(this).closest('.table-drinks').find('div.panel-collapse').slideUp(300);
+	};
+
+	let createCategoryTab = (bar, category,isCollapsed = true) => {
+		let categoryTemplate = getCategoryTabTemplate(catCount, bar, category,isCollapsed);
 		$(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
 		setCategoryEditable(category);
 		initDrinks('category_' + category._id + '_drinks', bar._id, category._id);
 		catCount += 1;
 	};
 
-	let createBarTab = bar => {
-		let barTemplate = getBarTabTemplate(barCount, bar);
+	let createBarTab = (bar,isCollapsed = true) => {
+		let barTemplate = getBarTabTemplate(barCount, bar,isCollapsed);
 		$('#bar_accordion_container').append(barTemplate);
 		setBarEditable(barCount);
 		setTypeahead('bar_' + barCount + '_tenders_input');
@@ -160,7 +170,7 @@ $(document).ready(() => {
 			type: 'POST',
 			data: {partyId: party.id, name: 'Bar ' + barCount},
 			success: (_id) => {
-				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id});
+				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id},false);
 			}
 		});
 	};
@@ -237,7 +247,7 @@ $(document).ready(() => {
 		})
 	}
 
-	let getCategoryTabTemplate = (catCounter, bar, category) => {
+	let getCategoryTabTemplate = (catCounter, bar, category,isCollapsed) => {
 		return $(`
             <div class="panel panel-default">
                 <div class="panel-heading collapse_category">
@@ -248,7 +258,7 @@ $(document).ready(() => {
                         <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
                 </div>
-                <div id="bar_${bar._id}_drinks_${catCounter}" class="panel-collapse collapse">
+                <div id="bar_${bar._id}_drinks_${catCounter}" class="panel-collapse ${isCollapsed ? 'collapse' : ''}">
                     <div class="panel-body"><div class="portlet-body table-both-scroll">
                         <table id="category_${category._id}_drinks" class="table table-striped table-bordered table-hover order-column not-initialized">
                             <thead>
@@ -268,7 +278,7 @@ $(document).ready(() => {
         `)
 	};
 
-	let getBarTabTemplate = (counter, bar) => {
+	let getBarTabTemplate = (counter, bar, isCollapsed) => {
 		return $(`
             <div id="${bar._id}" class="panel panel-default bar-tab tab_flag">
                 <div class="panel-heading collapse_accordion init_table_flag">
@@ -279,7 +289,7 @@ $(document).ready(() => {
                         <i bar-id="${bar._id}" class="fa fa-trash"></i>
                     </button>
                 </div>
-                <div id="bar_${counter}_body" class="panel-collapse collapse horizontal-tab">
+                <div id="bar_${counter}_body" class="panel-collapse  ${isCollapsed ? 'collapse' : ''} horizontal-tab">
                     <div class="row">
                         <div class="col-md-12 col-lg-5 table-tenders">
                             <div class="portlet light bordered">
@@ -507,7 +517,6 @@ $(document).ready(() => {
 	let eventForSubmitDrink = function () {
 		console.log();
 	};
-
 
 	let updateTable = function (table, reload = false) {
 		if (reload) {

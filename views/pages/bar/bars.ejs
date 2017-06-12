@@ -47,24 +47,24 @@
                         <div class="btn-group pull-left" id="button-filters" data-toggle="buttons">
 
                             <label class="btn btn-circle btn-success">
-                            <input value="past" type="checkbox" autocomplete="off">Past
+                            <input value="past" type="checkbox" autocomplete="off">Open Today
                             </label>
                             <label class="btn">
-                            <span><%= eventCountPast %></span>
+                            <span><%= barCountOpen %></span>
                             </label>
 
                             <label class="btn btn-circle btn-success active">
-                            <input checked value="today" type="checkbox" autocomplete="off">Today
+                            <input checked value="today" type="checkbox" autocomplete="off">Close Today
                             </label>
                             <label class="btn">
-                            <span><%= eventCountToday %></span>
+                            <span><%= barCountClose %></span>
                             </label>
 
                             <label class="btn btn-circle btn-success active">
-                            <input checked value="future" type="checkbox" autocomplete="off">Future
+                            <input checked value="future" type="checkbox" autocomplete="off">All
                             </label>
                             <label class="btn">
-                            <span><%= eventCountFuture %></span>
+                            <span><%= barCountAll %></span>
                             </label>
 
                             <a class="btn btn-circle btn-info" data-target="#modal-add-bar"

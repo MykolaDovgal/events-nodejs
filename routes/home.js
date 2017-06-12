@@ -21,7 +21,7 @@ Promise.promisifyAll(mongoose);
 module.exports = function (req, res, next) {
 
 	Promise.props({
-		barCounter: Bar.countByDate1(),
+		barCounter: Bar.countByDate(),
 		userAllCount: User.count().execAsync(),
 		userAllActiveCount: User.count({active: true}).execAsync(),
 		lineActiveCount: Line.count({active: true}).execAsync(),
@@ -37,7 +37,6 @@ module.exports = function (req, res, next) {
 
 	})
 		.then(function (results) {
-			console.warn(results);
 			let data = {
 				title: 'Home',
 				showMenu: true,
@@ -57,7 +56,6 @@ module.exports = function (req, res, next) {
 				barCountClose: results.barCounter.close,
 				barCountAll: results.barCounter.all
 			};
-			console.log(results);
 			res.render('pages/home', data);
 		})
 		.catch(function (err) {
