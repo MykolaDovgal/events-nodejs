@@ -53,8 +53,6 @@ router.use(notifications);
 router.use(events);
 
 
-
-
 router.get('/users', function (req, res, next) {
 	Promise.props({
 		users: User.find({}).execAsync()
@@ -119,7 +117,6 @@ router.get('/activity/:id?', function (req, res, next) {
 		next(err);
 	});
 });
-
 
 
 //get line managers
@@ -230,25 +227,6 @@ router.get('/user/lines/:id?', function (req, res, next) {
 		});
 });
 
-//add manager to line
-router.post('/line/manager/add', function (req, res, next) {
-
-	//TODO fix: add only one user
-	let body = req.body;
-
-	Promise.props({
-		line: Line.update({
-			id: body.lineId,
-			"managers.user_id": {$nin: [body.id]}
-		}, {$addToSet: {"managers": {user_id: body.id}},}).execAsync()
-	}).then(function (results) {
-		res.send(200);
-	})
-		.catch(function (err) {
-			next(err);
-		});
-
-});
 
 //delete manager from line
 router.post('/line/manager/delete', function (req, res, next) {

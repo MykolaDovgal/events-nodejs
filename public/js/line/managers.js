@@ -85,8 +85,9 @@ $(document).ready(function () {
 			templates: {
 				suggestion: function (item) {
 					return '<div class="col-md-12">' +
-						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
-						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>' + '</div>' +
+						'<div class="pull-left">' +
+						'<img class="img-circle" style="width:20px;height:20px;" src="' + item.picture + '"/></div>' +
+						'<div class="pull-right"> ID:(' + item.id + ') <strong>' + item.name + '</strong>' + '</div>' +
 						'</div>';
 				}
 			}
@@ -95,17 +96,26 @@ $(document).ready(function () {
 
 	$('#add_manager_user').click(() => {
 		selectedResult.lineId = line.id;
-		let data = JSON.stringify(selectedResult);
+
 		$.ajax({
 			url: '/api/line/manager/add',
 			type: 'POST',
 			data: selectedResult,
 			success: function (data) {
 				updateManagersTable();
+
+				bootbox.confirm({
+					size: "small",
+					message: "Do you want to add this user as manager to all line's parties?",
+					callback: function (result) {
+						if (result) {
+							addUserToLineParties();
+						}
+					}
+				});
 			},
 			error: function (jqXHR, textStatus, err) {
 			}
-		}).then(function () {
 		});
 		selectedResult = {};
 		$('#user_search').val('');
@@ -120,7 +130,27 @@ $(document).ready(function () {
 		}, 1000);
 	}
 
-	lock = false;
+	let addUserToLineParties = function () {
+		let lineId = line.id;
+		let userId = selectedResult.id;
+		let data = {lineId, userId};
+
+		$.ajax({
+			url: '/api/line/manager/addToParties',
+			type: 'POST',
+			data: data,
+			success: function (data) {
+				bootbox.confirm({
+					size: "small",
+					message: "User added",
+				});
+			}
+		});
+
+	};
+
+
+	let lock = false;
 
 	$('#table-line-managers tbody').on('click', 'td', function (event) {
 		if (!lock)
