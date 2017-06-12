@@ -168,7 +168,6 @@ $(document).ready(function () {
 			_t = $(this).parent('tr').get(0);
 		}
 
-		console.log(tag);
 		let partyRow = parties_tables.row(_t).data();
 		if (check) {
 			window.location = '/party/' + partyRow.party_id;

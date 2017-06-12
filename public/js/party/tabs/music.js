@@ -76,7 +76,6 @@ let deleteDjs = function () {
 	let stage = $(this).closest('.tab_flag');
 	let parent = this.parentElement;
 	let table = $(stage.find('table')[1]);
-	console.log(table);
 	let tableInstance = $('#' + table.attr('id')).DataTable();
 
 	bootbox.confirm({
@@ -173,7 +172,6 @@ let setStageTable = function (stage_table_id,_id) {
 			{
 				data: 'delete_button',
 				render: function (data, type, full, meta) {
-					console.log(full);
 					return `<div data-id="${full.id}" class="text-center remove_djs_btn_flag"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>`;
 				},
 				width: '5%'
@@ -257,14 +255,23 @@ let initStages = function () {
 
 let deleteStage = function () {
 	let stageItemId = $(this).data('id');
-	$.ajax({
-		url: '/api/party/music/stage/delete',
-		type: 'POST',
-		data: {_id: stageItemId},
-		success: function (data) {
-			$('#' + stageItemId).remove();
-		},
+	bootbox.confirm({
+		size: "small",
+		message: "Are you sure you want to remove this stage?",
+		callback: function (result) {
+			if (result) {
+				$.ajax({
+					url: '/api/party/music/stage/delete',
+					type: 'POST',
+					data: {_id: stageItemId},
+					success: function (data) {
+						$('#' + stageItemId).remove();
+					},
+				});
+			}
+		}
 	});
+
 
 };
 

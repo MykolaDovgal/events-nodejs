@@ -89,11 +89,9 @@ $(document).ready(() => {
 							contentType: "application/json; charset=utf-8",
 							data: data,
 							success: function () {
-								console.log('OK')
 								updateTable(table, true)
 							},
 							error: function () {
-								console.log('NOT OK')
 								updateTable(table, true)
 							}
 						});
@@ -138,8 +136,6 @@ $(document).ready(() => {
 	let collapseAllBarTab = () => $('#bar_accordion_container div.panel-collapse').slideUp(300);
 
 	let collapseAllCategoryTab = function () {
-		console.log(this);
-		console.log($(this).closest('.table-drinks'));
 		$(this).closest('.table-drinks').find('div.panel-collapse').slideUp(300);
 	};
 
@@ -209,6 +205,7 @@ $(document).ready(() => {
 
 	function deleteBar() {
 		let barId = $(this).data('id');
+		let tab = $(this);
 		bootbox.confirm({
 			size: "small",
 			message: "Are you sure you want to remove this bar?",
@@ -219,7 +216,8 @@ $(document).ready(() => {
 						type: 'POST',
 						data: {partyId: party.id, barId: barId},
 						success: () => {
-							initBars();
+							tab.closest('.panel-default').remove();
+							//initBars();
 						}
 					});
 				}
@@ -229,6 +227,7 @@ $(document).ready(() => {
 
 	function deleteCategory() {
 		let categoryId = $(this).data('id');
+		let tab = $(this);
 		bootbox.confirm({
 			size: 'small',
 			message: 'Are you sure you want to remove this category?',
@@ -239,7 +238,8 @@ $(document).ready(() => {
 						type: 'POST',
 						data: {categoryId: categoryId},
 						success: () => {
-							initBars();
+							tab.closest('.panel-default').remove();
+							//initBars();
 						}
 					})
 				}
@@ -515,7 +515,7 @@ $(document).ready(() => {
 	}
 
 	let eventForSubmitDrink = function () {
-		console.log();
+		//
 	};
 
 	let updateTable = function (table, reload = false) {
@@ -569,7 +569,6 @@ $(document).ready(() => {
 			params: function (params) {
 				let t = $(this);
 
-				console.log(t.text());
 				let currentTable = $(t.closest('table'));
 				let currentTableRow = $(t.closest('tr'));
 				let currentDataTable = currentTable.DataTable();
