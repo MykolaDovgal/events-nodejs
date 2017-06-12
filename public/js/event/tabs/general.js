@@ -349,9 +349,8 @@ $(document).ready(function () {
 		$('.language_switch_container').toggle();
 	});
 
-	$('#delete_event').click(function (event) {
-		event.preventDefault();
-		console.log(event);
+	$('#delete_event').click(function (e) {
+		e.preventDefault();
 		bootbox.confirm({
 			size: "small",
 			message: "Are you sure you want to remove this event?",
