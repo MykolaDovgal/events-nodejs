@@ -209,6 +209,7 @@ $(document).ready(() => {
 
 	function deleteBar() {
 		let barId = $(this).data('id');
+		let tab = $(this);
 		bootbox.confirm({
 			size: "small",
 			message: "Are you sure you want to remove this bar?",
@@ -219,7 +220,8 @@ $(document).ready(() => {
 						type: 'POST',
 						data: {partyId: party.id, barId: barId},
 						success: () => {
-							initBars();
+							tab.closest('.panel-default').remove();
+							//initBars();
 						}
 					});
 				}
@@ -229,6 +231,7 @@ $(document).ready(() => {
 
 	function deleteCategory() {
 		let categoryId = $(this).data('id');
+		let tab = $(this);
 		bootbox.confirm({
 			size: 'small',
 			message: 'Are you sure you want to remove this category?',
@@ -239,7 +242,8 @@ $(document).ready(() => {
 						type: 'POST',
 						data: {categoryId: categoryId},
 						success: () => {
-							initBars();
+							tab.closest('.panel-default').remove();
+							//initBars();
 						}
 					})
 				}
