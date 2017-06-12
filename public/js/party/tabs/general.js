@@ -320,7 +320,6 @@ $(document).ready(function () {
 					xhr.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							let percentComplete = evt.loaded / evt.total;
-							console.log(percentComplete);
 							progress_bar_j.css({
 								width: percentComplete * 100 + '%'
 							});
@@ -386,7 +385,6 @@ $(document).ready(function () {
 
 	$('#delete_party').click(function (event) {
 		event.preventDefault();
-		console.log(party);
 		bootbox.confirm({
 			size: "small",
 			message: "Are you sure you want to remove this party?",
@@ -527,10 +525,8 @@ $(document).ready(function () {
 
 
 	$('#table_party_managers').on('click', '.remove_party_manager_column', function (event) {
-		console.log($(event.target).prop("tagName"));
 		if ($(event.target).prop("tagName") == "I") {
 			let parent = this.parentElement;
-			console.log($(event.target).prop("tagName"));
 			bootbox.confirm({
 				size: "small",
 				message: "Are you sure you want to remove this user from managers?",

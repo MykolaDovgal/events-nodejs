@@ -36,7 +36,6 @@ function initMap() {
 
 			},
 			error: function (jqXHR, textStatus, err) {
-				console.error(err);
 				toastr.error('Server error!');
 			}
 		});

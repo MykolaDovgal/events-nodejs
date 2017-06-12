@@ -22,8 +22,8 @@ router.post('/bar/add', function (request, response, next) {
 	};
 
 	let newBar = Bar({
-		bar_name_ol: body['barEnglishName'],
-		bar_name_eng: body['barOriginName'],
+		bar_name_ol: body['barOriginName'],
+		bar_name_eng: body['barEnglishName'],
 		description_eng: body['englishDescription'],
 		description_ol: body['originDescription'],
 		location: location,

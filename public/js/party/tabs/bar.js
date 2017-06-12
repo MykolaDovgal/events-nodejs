@@ -89,11 +89,9 @@ $(document).ready(() => {
 							contentType: "application/json; charset=utf-8",
 							data: data,
 							success: function () {
-								console.log('OK')
 								updateTable(table, true)
 							},
 							error: function () {
-								console.log('NOT OK')
 								updateTable(table, true)
 							}
 						});
@@ -138,8 +136,6 @@ $(document).ready(() => {
 	let collapseAllBarTab = () => $('#bar_accordion_container div.panel-collapse').slideUp(300);
 
 	let collapseAllCategoryTab = function () {
-		console.log(this);
-		console.log($(this).closest('.table-drinks'));
 		$(this).closest('.table-drinks').find('div.panel-collapse').slideUp(300);
 	};
 
@@ -519,7 +515,7 @@ $(document).ready(() => {
 	}
 
 	let eventForSubmitDrink = function () {
-		console.log();
+		//
 	};
 
 	let updateTable = function (table, reload = false) {
@@ -573,7 +569,6 @@ $(document).ready(() => {
 			params: function (params) {
 				let t = $(this);
 
-				console.log(t.text());
 				let currentTable = $(t.closest('table'));
 				let currentTableRow = $(t.closest('tr'));
 				let currentDataTable = currentTable.DataTable();
