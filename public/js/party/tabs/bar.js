@@ -262,8 +262,7 @@ $(document).ready(() => {
                     <div class="panel-body"><div class="portlet-body table-both-scroll">
                         <table id="category_${category._id}_drinks" class="table table-striped table-bordered table-hover order-column not-initialized">
                             <thead>
-							<th></th>
-                            <th>#</th>
+							<th></th>                           
                             <th>Drink</th>
                             <th>Serve&nbsp;Method</th>
                             <th>Volume</th>
@@ -404,14 +403,6 @@ $(document).ready(() => {
 						},
 						orderable: false,
 						width: '5%'
-					},
-					{
-						data: 'drinkId',
-						render: function (data) {
-							return data || '-'
-						},
-						width: 30,
-						className: 'text-center'
 					},
 					{
 						data: 'drinkname_eng',

@@ -556,7 +556,8 @@ setup = {
 				console.log('Images don\'t need optimization');
 			}
 		});
-	}
+	},
+
 };
 
 let downloadImage = function (uri, filename, callback) {

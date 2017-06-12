@@ -51,6 +51,9 @@ util = {
 							result = data_field;
 						}
 					} catch (e) {
+						fs.unlink(path, () => {
+							console.warn('Image ' + path + ' removed');
+						});
 						result = default_image;
 					}
 
@@ -120,6 +123,26 @@ util = {
 		}
 
 		return counter;
+	},
+	isImage: function (path) {
+		let result = false;
+		let allowedMimeTypesForImages = this.allowedMimeTypesForImages;
+		if (fs.existsSync(path)) {
+			let type = mime.lookup(path);
+
+
+			if (allowedMimeTypesForImages.includes(type)) {
+				try {
+					let dimensions = sizeOfImage(path);
+					if (dimensions.width && dimensions.height) {
+						result = true;
+					}
+				} catch (e) {
+				}
+
+			}
+		}
+		return result;
 	}
 
 

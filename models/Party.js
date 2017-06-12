@@ -100,7 +100,7 @@ let PartySchema = new Schema({
 						serve_method: {type: String, trim: true},
 						volume: {type: String, trim: true},
 						price: {type: Number},
-						in_stock: {type: Boolean, default: false}
+						in_stock: {type: Boolean, default: true}
 					}
 				]
 			}
