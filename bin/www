@@ -96,7 +96,7 @@ function onListening() {
 
 let execute_task = function () {
 	// update user images
-	setup.updateUserImages();
+	//setup.updateUserImages();
 
 	setup.createDirectories();
 	setup.optimizeImages();

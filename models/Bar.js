@@ -145,38 +145,10 @@ BarSchema.statics.countByDate = function () {
 	let barModel = this.model('Bar');
 	let todayDate = new Date(date);
 	let dayArrays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-	let counter = {open: 0, close: 0, all: 0};
 
+	let field = 'opening_times.' + dayArrays[todayDate.getDay()];
 
-	barModel.find({}, ['opening_times.' + dayArrays[todayDate.getDay()]]).exec(function (err, result) {
-
-		result.forEach((openingTime) => {
-
-			let dayObj = openingTime.opening_times[dayArrays[todayDate.getDay()]];
-			if (dayObj['open'] && dayObj['close'] && (dayObj['open'] !== '-' && dayObj['open'] !== 'The last Client') && (dayObj['close'] !== '-' && dayObj['close'] !== 'The last Client')) {
-				let separateOpenTimeHour = dayObj['open'].split(':');
-				let separateCloseTimeHour = dayObj['close'].split(':');
-
-				let from = new Date(moment(date).format('YYYY-MM-DD'));
-				from.setHours(+separateOpenTimeHour[0], +separateOpenTimeHour[1]);
-				let to = new Date(moment(date).format('YYYY-MM-DD'));
-				to.setHours(+separateCloseTimeHour[0], +separateCloseTimeHour[1]);
-
-				if (todayDate.getTime() > from.getTime() && todayDate.getTime() < to.getTime()) {
-					counter['open']+=1;
-				} else {
-					counter['close']+=1;
-
-				}
-			}
-
-			counter['all']+=1;
-		});
-
-	});
-
-	return counter;
-
+	return barModel.find({}, field).exec()
 };
 
 BarSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);

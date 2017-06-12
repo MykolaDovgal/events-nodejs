@@ -7,6 +7,7 @@ let path = require('path');
 let fs = require('fs');
 let mime = require('mime');
 let sizeOfImage = require('image-size');
+let moment = require('moment');
 
 let util;
 util = {
@@ -84,7 +85,42 @@ util = {
 		'image/png',
 		'image/tiff',
 		'image/webp'
-	]
+	],
+	barCounterResult: function (result) {
+		let dayArrays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+		let date = Date.now();
+		let todayDate = new Date(date);
+
+		let counter = {open: 0, close: 0, all: 0};
+		try {
+			result.forEach((openingTime) => {
+
+				let dayObj = openingTime.opening_times[dayArrays[todayDate.getDay()]];
+				if (dayObj['open'] && dayObj['close'] && (dayObj['open'] !== '-' && dayObj['open'] !== 'The last Client') && (dayObj['close'] !== '-' && dayObj['close'] !== 'The last Client')) {
+					let separateOpenTimeHour = dayObj['open'].split(':');
+					let separateCloseTimeHour = dayObj['close'].split(':');
+
+					let from = new Date(moment(date).format('YYYY-MM-DD'));
+					from.setHours(+separateOpenTimeHour[0], +separateOpenTimeHour[1]);
+					let to = new Date(moment(date).format('YYYY-MM-DD'));
+					to.setHours(+separateCloseTimeHour[0], +separateCloseTimeHour[1]);
+
+					if (todayDate.getTime() > from.getTime() && todayDate.getTime() < to.getTime()) {
+						counter['open'] += 1;
+					} else {
+						counter['close'] += 1;
+
+					}
+				}
+
+				counter['all'] += 1;
+			});
+		} catch (e) {
+			console.warn(e);
+		}
+
+		return counter;
+	}
 
 
 };

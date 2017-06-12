@@ -15,10 +15,13 @@ let Party = require('models/Party');
 let Event = require('models/Event');
 let Bar = require('models/Bar');
 
+let util = require('util/index');
+
 
 Promise.promisifyAll(mongoose);
 
 module.exports = function (req, res, next) {
+
 
 	Promise.props({
 		barCounter: Bar.countByDate(),
@@ -37,6 +40,10 @@ module.exports = function (req, res, next) {
 
 	})
 		.then(function (results) {
+
+			let barCounterResult = util.barCounterResult(results.barCounter);
+
+
 			let data = {
 				title: 'Home',
 				showMenu: true,
@@ -52,10 +59,11 @@ module.exports = function (req, res, next) {
 				eventCountToday: results.eventCountToday,
 				eventCountPast: results.eventCountPast,
 				eventCountFuture: results.eventCountFuture,
-				barCountOpen: results.barCounter.open,
-				barCountClose: results.barCounter.close,
-				barCountAll: results.barCounter.all
+				barCountOpen: barCounterResult.open,
+				barCountClose: barCounterResult.close,
+				barCountAll: barCounterResult.all
 			};
+
 			res.render('pages/home', data);
 		})
 		.catch(function (err) {
