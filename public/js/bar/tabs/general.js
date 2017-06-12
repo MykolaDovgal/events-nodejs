@@ -363,4 +363,27 @@ $(document).ready(function () {
 			window.location = '/users/' + bar_managers_table.row(this).data().id;
 		}
 	});
-})
+
+	$('#delete_bar').click(deleteBar)
+});
+
+let deleteBar = () => {
+	bootbox.confirm({
+		size: "small",
+		message: "Are you sure you want to remove this bar?",
+		callback: function (result) {
+			if (result) {
+				$.ajax({
+					url: '/bar/delete/' + bar.id,
+					type: 'POST',
+					success: function () {
+						window.location = '/bars';
+					},
+					error: function (jqXHR, textStatus, err) {
+
+					}
+				});
+			}
+		}
+	});
+};
