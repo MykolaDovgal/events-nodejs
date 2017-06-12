@@ -107,19 +107,19 @@ $(document).ready(function () {
 				{
 					"data": 'event_title',
 					render: function (data, type, full, meta) {
-						let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
-						let open_event = '';
+						if(data){
+							let text = data.length > title_length ? data.substr(0, title_length) + '...' : data;
+							let open_event = '';
 
-						let eventId = full.eventId || 0;
-						if (eventId > 0) {
-							open_event = '<a target="_blank" title="Open event - ' + data + '" class="open_link pull-right" href="/event/' + eventId + '">' +
-								'<i class="fa fa-external-link" aria-hidden="true"></i>' +
-								'</a> ';
+							let eventId = full.eventId || 0;
+							if (eventId > 0) {
+								open_event = '<a target="_blank" title="Open event - ' + data + '" class="open_link pull-right" href="/event/' + eventId + '">' +
+									'<i class="fa fa-external-link" aria-hidden="true"></i>' +
+									'</a> ';
+							}
+							return '<div class="title_data_row" ><span title="' + data + '">' + text + '</span>' + open_event + '</div>';
 						}
-
-						return '<div class="title_data_row" ><span title="' + data + '">' + text + '</span>' + open_event + '</div>';
-						//return '<span title="' + data + '">' + text + '</span>' + open_event;
-
+						return '<span title="Empty">-</span>';
 					},
 				},
 
