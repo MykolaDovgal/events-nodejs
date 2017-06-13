@@ -43,15 +43,23 @@ router.post('/line/manager/add', function (req, res, next) {
 router.post('/line/manager/addToParties', function (req, res, next) {
 
 	let body = req.body;
-	let userId = +body.id;
-	let lineId = +body.lineId;
+	let userId = parseInt(body.userId);
+	let lineId = parseInt(body.lineId);
+
 
 	if (userId > 0 && lineId > 0) {
+
 		Promise.props({
-			update: Party.update({
-				lineId: lineId,
-				"party_managers.userId": {$nin: [userId]}
-			}, {$addToSet: {"party_managers": {userId: userId}},}).execAsync()
+			update: Party.update(
+				{
+					lineId: lineId,
+					'party_managers.userId': {$nin: [userId]}
+				},
+				{
+					$addToSet: {'party_managers': {userId: userId}}
+				},
+				{'multi': true}
+			).execAsync()
 		}).then(function (results) {
 			results.userId = userId;
 			res.json(results);

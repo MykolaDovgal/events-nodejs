@@ -19,6 +19,11 @@
 	height: 20px;
 }
 
+button .no_link {
+	text-decoration: none !important;
+	color: inherit;
+}
+
 body {
 	background: #35a2c1;
 	background-image: url(/images/party-bg.jpg);
@@ -811,6 +816,7 @@ body.is-menu-visible #menu .closes {
 .justified-gallery {
 	margin-top: 15px;
 }
+
 /*
 .group-btn > *:not(:last-child) {
 	margin-right: 10px;
@@ -1123,16 +1129,16 @@ pre {
 	opacity: 0;
 }
 
-.radio-default{
+.radio-default {
 	margin: 0;
 	float: left;
 }
 
-.radio-default .btn{
+.radio-default .btn {
 	padding: 6px 12px !important;
 }
 
-.radio input[type="radio"]:checked + label{
+.radio input[type="radio"]:checked + label {
 	color: #fff !important;
 	background-color: #207780 !important;
 	border-color: #123339 !important;

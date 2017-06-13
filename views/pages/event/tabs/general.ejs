@@ -126,21 +126,24 @@
 		</div>
 
 	</div>
-	
+
 </form>
 <div class="col-xs-12 offset-top-5">
 	<div class="pull-right group-btn">
-		<button class="btn yellow btn-outline sbold" id="delete_event">
+		<button class="btn yellow btn-outline" id="delete_event">
 			Delete Event
 		</button>
-		<a href="/events">
-			<button type="button" class="btn green pull-right">
+		<button class="btn btn-info" data-target="#send_event_notification" data-toggle="modal">Send
+			Notification
+		</button>
+
+
+		<button type="button" class="btn green">
+			<a class="no_link" href="/events">
 				Save & Quit
-			</button>
-		</a>
-        <a class="btn btn-circle btn-info" data-target="#send_event_notification" data-toggle="modal">Send
-            Notification
-        </a>
+			</a>
+		</button>
+
 
 	</div>
 </div>

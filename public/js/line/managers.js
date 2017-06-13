@@ -117,8 +117,7 @@ $(document).ready(function () {
 			error: function (jqXHR, textStatus, err) {
 			}
 		});
-		selectedResult = {};
-		$('#user_search').val('');
+
 
 	});
 
@@ -140,12 +139,31 @@ $(document).ready(function () {
 			type: 'POST',
 			data: data,
 			success: function (data) {
-				bootbox.confirm({
-					size: "small",
-					message: "User added",
+				let count;
+				try {
+					count = data.update.nModified;
+				} catch (e) {
+					count = 0;
+				}
+				let message = '';
+				let start_message = 'User added to ';
+				let end_message = 'Line does not contain any parties or user already is manager for these line\'s parties';
+				if (count > 0) {
+					end_message = (count === 1) ? ' party' : ' parties';
+					message = start_message + count + end_message;
+				} else {
+					message = end_message;
+				}
+
+				bootbox.alert({
+					size: 'small',
+					message: message
 				});
 			}
 		});
+
+		selectedResult = {};
+		$('#user_search').val('');
 
 	};
 
