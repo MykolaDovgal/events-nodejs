@@ -186,6 +186,26 @@ $(document).ready(function () {
 		});
 	};
 
+	$('#form_add_party').submit(event => {
+		event.preventDefault();
+		let form;
+
+		bootbox.confirm({
+			size: 'small',
+			message: 'Do you want to assign as manager to the party?',
+			callback: function (result) {
+				if (result) {
+					$('#add_current_user_manager').val('1');
+				}else{
+					$('#add_current_user_manager').val('0');
+				}
+				form = $('#form_add_party');
+				form.unbind('submit').submit();
+			}
+		});
+
+	});
+
 });
 
 

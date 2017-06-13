@@ -24,6 +24,16 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 	};
 
 	let timeArray = body['party_start_time'].split(' ');
+
+
+	let add_current_user_manager = !!+(body['add_current_user_manager']);
+	let party_managers = [];
+	if (add_current_user_manager) {
+		let user = request.user;
+		party_managers.push({userId: user.id});
+	}
+
+
 	let newParty = Party({
 		title_eng: body['lineEnglishName'],
 		title_ol: body['lineOriginName'],
@@ -33,17 +43,13 @@ router.post('/party/add', urlencodedParser, function (request, response, next) {
 		open_time: timeArray[1],
 		location: location,
 		lineId: body['lineId'],
-		eventId: body['eventId']
+		eventId: body['eventId'],
+		party_managers
 	});
 
-	let data = {
-		title: 'Line Page',
-		showMenu: true,
-	};
 
 	newParty.save()
 		.then(function (doc) {
-			data.party = doc;
 			response.redirect('/party/' + doc.id);
 		})
 		.catch(function (err) {
