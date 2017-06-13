@@ -32,7 +32,14 @@ let dataTableHelper = {
 	},
 };
 
-let sourceOfServeMethods = ['Bottle', 'Shot (50ml)', 'Shot (100ml)'];
+let sourceOfServeMethods = [
+	'Bottle',
+	'Glass',
+	'Cup',
+	'Can',
+	'Shot (plastic)',
+	'Shot (glass)'
+];
 
 let serialize = function (obj, prefix) {
 	let str = [], p;
