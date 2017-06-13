@@ -301,9 +301,9 @@ $(document).ready(function () {
 			let data = $('#notification_form').serialize();
 
 			$.ajax({
-				url: '/notification/add' + '/?' + data.toString(),
+				url: '/api/line/notification/add' + '/?' + data.toString(),
 				type: 'POST',
-				data: {},
+				data: {id: line.id},
 				success: function (data) {
 					toastr.options.showMethod = 'slideDown';
 					toastr.success('Notification successfully sent!')

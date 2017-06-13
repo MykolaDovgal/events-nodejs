@@ -44,7 +44,16 @@ let LineSchema = new Schema({
 			countryCode: {type: String, trim: true},
 			latitude: {type: Number},
 			longitude: {type: Number}
-		}
+		},
+		notifications: [{
+			notificationId: {type: Number},
+			time: {type: Date},
+			content: {type: String},
+			link: {type: String},
+			sender: {type: Number},
+			audience: {type: String}
+		}]
+
 	},
 	{
 		toObject: {virtuals: true},
