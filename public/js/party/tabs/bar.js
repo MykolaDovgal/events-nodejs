@@ -46,7 +46,7 @@ $(document).ready(() => {
 				createCategoryTab({bar_name_eng: 'Bar ' + barCount, _id: barId}, {
 					category_name: 'Category ' + catCount,
 					_id: _id
-				},false);
+				}, false);
 			}
 		});
 		collapseAllCategoryTab.call(this);
@@ -139,16 +139,16 @@ $(document).ready(() => {
 		$(this).closest('.table-drinks').find('div.panel-collapse').slideUp(300);
 	};
 
-	let createCategoryTab = (bar, category,isCollapsed = true) => {
-		let categoryTemplate = getCategoryTabTemplate(catCount, bar, category,isCollapsed);
+	let createCategoryTab = (bar, category, isCollapsed = true) => {
+		let categoryTemplate = getCategoryTabTemplate(catCount, bar, category, isCollapsed);
 		$(`#bar_${bar._id}_drinks_accordion`).append(categoryTemplate);
 		setCategoryEditable(category);
 		initDrinks('category_' + category._id + '_drinks', bar._id, category._id);
 		catCount += 1;
 	};
 
-	let createBarTab = (bar,isCollapsed = true) => {
-		let barTemplate = getBarTabTemplate(barCount, bar,isCollapsed);
+	let createBarTab = (bar, isCollapsed = true) => {
+		let barTemplate = getBarTabTemplate(barCount, bar, isCollapsed);
 		$('#bar_accordion_container').append(barTemplate);
 		setBarEditable(barCount);
 		setTypeahead('bar_' + barCount + '_tenders_input');
@@ -166,7 +166,7 @@ $(document).ready(() => {
 			type: 'POST',
 			data: {partyId: party.id, name: 'Bar ' + barCount},
 			success: (_id) => {
-				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id},false);
+				createBarTab({bar_name_eng: 'Bar ' + barCount, _id: _id}, false);
 			}
 		});
 	};
@@ -247,7 +247,7 @@ $(document).ready(() => {
 		})
 	}
 
-	let getCategoryTabTemplate = (catCounter, bar, category,isCollapsed) => {
+	let getCategoryTabTemplate = (catCounter, bar, category, isCollapsed) => {
 		return $(`
             <div class="panel panel-default">
                 <div class="panel-heading collapse_category">
@@ -265,7 +265,7 @@ $(document).ready(() => {
 							<th></th>                           
                             <th>Drink</th>
                             <th>Serve&nbsp;Method</th>
-                            <th>Volume</th>
+                            <th>Volume&nbsp;(ml)</th>
                             <th>Price</th>
                             <th>In&nbsp;Stock</th>                             
                             </thead>
@@ -588,7 +588,7 @@ $(document).ready(() => {
 			selector: '.volume_input',
 			url: '/api/party/bar/category/drink/update',
 			type: 'text',
-			title: 'Enter volume of drink',
+			title: 'Enter volume(ml) of drink',
 			params: function (params) {
 				let t = $(this);
 				let currentTable = $(t.closest('table'));
@@ -703,7 +703,6 @@ $(document).ready(() => {
 		});
 
 	};
-
 
 
 });
