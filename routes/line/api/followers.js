@@ -26,7 +26,7 @@ router.get('/line/followers', function (req, res, next) {
 			for (let i = 0; i < randomNumber; i += 1) {
 
 				users.push({
-					profile_picture_circle: results.users[i].image_circle,
+					profile_picture_circle: results.users[i].image,
 					id: results.users[i].id,
 					username: results.users[i].username,
 					time_attended: moment(faker.date.past(5)).format('DD/MM/YYYY HH:mm'),
