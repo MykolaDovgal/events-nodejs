@@ -2,6 +2,7 @@ let express = require('express');
 let Promise = require('bluebird');
 let Bar = require('models/Bar');
 let router = express.Router();
+let util = require('util/index');
 
 router.get('/bars', function (req, res, next) {
 
@@ -26,13 +27,12 @@ router.get('/bars', function (req, res, next) {
 				cities: [...new Set(addresses.filter((address) => address.country == country).map((address) => address.city))]
 			});
 
-		let barCounter = results.barCounter;
+		let barCounterResult = util.barCounterResult(results.barCounter);
 		let data = {
 			title: "Bars",
 			showMenu: true,
-			barCountOpen: barCounter.open,
-			barCountClose: barCounter.close,
-			barCountAll: barCounter.all,
+			barCountOpen: barCounterResult.open,
+			barCountClose: barCounterResult.close,
 			addresses: map
 		};
 
