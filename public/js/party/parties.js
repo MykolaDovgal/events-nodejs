@@ -9,7 +9,6 @@ $(document).ready(function () {
 		onChange: function () {
 			let values = $('#country-city-select').val();
 			let filter = global.filter;
-			//console.log(values);
 			if (values) {
 				if (!filter) {
 					filter = {};

@@ -39,13 +39,11 @@ router.post('/login', function (req, res, next) {
 			return next(err)
 		}
 		if (!user) {
-			console.log(info);
+
 			return res.redirect('/login')
 		}
 		// user ok
 		req.logIn(user, function (err) {
-			console.log(info);
-			console.error(user);
 			// save login time
 			User.setLogInTime(user.id);
 			if (err) {

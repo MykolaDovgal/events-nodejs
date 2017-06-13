@@ -511,7 +511,10 @@ $(document).ready(() => {
 
 	let updateTable = function (table, reload = false) {
 		if (reload) {
-			table.DataTable().ajax.reload();
+			setTimeout(function () {
+				table.DataTable().ajax.reload();
+			}, 1000);
+
 		}
 		table.DataTable().columns.adjust().draw();
 	};

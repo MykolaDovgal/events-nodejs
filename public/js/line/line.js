@@ -5,6 +5,13 @@ $(document).ready(function () {
 		FormEditable.init();
 	});
 
+	$('#datetime_input').datetimepicker({
+		format: 'yyyy/mm/dd hh:ii',
+		autoclose: true,
+		useCurrent: false,
+		setDate: Date.now()
+	});
+
 
 	let loc = window.location.pathname.split('/');
 	let id = loc[loc.length - 1];
@@ -160,7 +167,6 @@ $(document).ready(function () {
 					xhr.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							let percentComplete = evt.loaded / evt.total;
-							console.log(percentComplete);
 							progress_bar_j.css({
 								width: percentComplete * 100 + '%'
 							});
@@ -332,7 +338,6 @@ $(document).ready(function () {
 			let formData = new FormData();
 			formData.append('cover_picture', this.files[0], 'cover_picture.png');
 
-			console.log(formData);
 
 			$.ajax({
 				url: '/line/update/' + id,

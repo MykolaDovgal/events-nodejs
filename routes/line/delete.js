@@ -6,7 +6,6 @@ var Line = require('../../models/Line');
 
 router.post('/line/delete/:id', function (req, res, next) {
 
-	console.log(req.params.id);
 
 	Line.findOneAndRemove({ id: req.params.id }, function(err) {
 		res.send(200);

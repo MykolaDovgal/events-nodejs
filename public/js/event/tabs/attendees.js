@@ -31,7 +31,6 @@ let initAttendeesTable = function () {
 				$('#total_attendees_number').text(json.total_count);
 				$('#total_tickets_sold').text(json.tkt_purchase_count);
 				$('#total_checked_in').text(json.ticket_checkin_count);
-				console.log(json.total_number);
 				return json.data;
 			}
 		},

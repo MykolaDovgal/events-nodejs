@@ -31,7 +31,6 @@ router.post('/user/change-picture', upload.any(), function (req, res, next) {
 
     var files = req.files;
 
-    console.log(files);
 
     var body = req.body;
 
@@ -56,7 +55,6 @@ router.post('/user/change-picture', upload.any(), function (req, res, next) {
         profile_picture: imageOriginalProfile,
         profile_picture_circle: imageCircleProfile,
     };
-    console.warn(userData);
 });
 
 module.exports = router;

@@ -31,7 +31,6 @@ router.post('/user/add', upload.any(), function (req, res, next) {
 
     var files = req.files;
 
-    console.log(files);
 
     var result = {
         message: 'User added',
@@ -92,7 +91,7 @@ router.post('/user/add', upload.any(), function (req, res, next) {
         profile_picture_circle: imageCircleProfile,
         date_of_birth: dateofbirthObject
     };
-    console.warn(userData);
+
 
 
     Promise.props({

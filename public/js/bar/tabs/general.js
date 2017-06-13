@@ -73,7 +73,6 @@ $(document).ready(function () {
 					xhr.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							let percentComplete = evt.loaded / evt.total;
-							console.log(percentComplete);
 							progress_bar_j.css({
 								width: percentComplete * 100 + '%'
 							});

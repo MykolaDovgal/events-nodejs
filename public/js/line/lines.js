@@ -9,7 +9,6 @@ $(document).ready(function () {
 		onChange: function () {
 			let values = $('#country-city-select').val();
 			let filter = global.filter;
-			console.log(values);
 			if (values) {
 				if (!filter) {
 					filter = {};
@@ -116,7 +115,6 @@ function addNewLines(page, filter) {
 		filter = global.filter;
 	}
 	let query = serialize(filter);
-	console.log(query);
 
 	if (page === undefined || page < 1) {
 		page = 1;

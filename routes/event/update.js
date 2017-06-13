@@ -36,7 +36,7 @@ let upload = multer({storage: storage});
 
 router.post('/event/update/:id', upload.any(), function (req, res, next) {
 
-	console.warn(req.body);
+
 
 	let body = {};
 	let files = req.files;
@@ -111,7 +111,7 @@ router.post('/event/update/address/:id', function (req, res, next) {
 		}
 	};
 
-	console.warn('location', location);
+
 
 	if (!location.city || !location.country) {
 		result.status = false;

@@ -108,7 +108,6 @@ $(document).ready(function () {
 				}
 
 				let partyRow = event_parties_table.row(_t).data();
-				console.log(partyRow);
 				if (check) {
 					window.open('/party/' + partyRow.id, '_blank');
 					//window.location = '/party/' + partyRow.party_id;

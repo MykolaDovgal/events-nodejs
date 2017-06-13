@@ -27,7 +27,6 @@ router.post('/line/update/:id', upload.any(), function (req, res, next) {
 	let body = {};
 	let files = req.files;
 
-	console.log(files);
 
 	let imageOriginal = '';
 	let image = '';

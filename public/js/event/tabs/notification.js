@@ -13,7 +13,6 @@ $(document).ready(function () {
 
 			let data = $('#notification_form').serialize();
 
-			console.log(data);
 
 			$.ajax({
 				url: '/api/event/notification/add' + '/?' + data.toString(),

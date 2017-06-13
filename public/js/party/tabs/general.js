@@ -92,8 +92,7 @@ $(document).ready(function () {
 				tpl: '<select style="width:200px;">',
 				type: 'select2',
 				success: function success(response, newValue) {
-					// console.log(newValue);
-					//$('#lineTitle').text(title);
+
 				},
 				display: function (value, sourceData) {
 

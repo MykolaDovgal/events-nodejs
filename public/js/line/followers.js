@@ -22,12 +22,10 @@ $(document).ready(function () {
 					type: 'GET',
 					'url': "/api/line/followers",
 					'data': function (d) {
-						console.log(d);
 						return d;
 					},
 					"dataSrc": function (json) {
 						$('#total_number').text(json.total_number);
-						console.log(json.total_number);
 						return json.data;
 					}
 				},

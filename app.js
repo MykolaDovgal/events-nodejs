@@ -101,7 +101,6 @@ let userModel = User;
 
 
 passport.serializeUser(function (user, done) {
-	//console.log(user);
 	done(null, user);
 });
 
@@ -117,16 +116,13 @@ passport.use(new LocalStrategy(
 		passReqToCallback: true // with req
 	},
 	function (req, username, password, done) {
-		//console.log('username');
-		//console.log(email);
+
 
 		process.nextTick(function () {
 
 			userModel.findOne({username: username}).exec(function (err, user) {
 				if (user) {
 
-					console.log(user);
-					console.log(password);
 
 					user.comparePassword(password, function (err, isMatch) {
 						// check if the password was a match

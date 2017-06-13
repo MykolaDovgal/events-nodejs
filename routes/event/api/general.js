@@ -55,7 +55,6 @@ router.get('/event/:id/managers', function (req, res, next) {
 
 router.post('/event/manager/delete', function (req, res, next) {
 	let body = req.body;
-	console.log(body);
 	Promise.props({
 		event: Event.update({id: body.eventId}, {$pull: {managers: {userId: body.userId}}}).execAsync()
 	}).then(function (results) {

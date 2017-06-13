@@ -99,7 +99,6 @@ $(document).ready(function () {
 				size: 'viewport',
 				circle: true
 			}).then(function (blob) {
-				console.log(blob);
 				formData.append('userpic', blob, 'userpic.png');
 				$.ajax({
 					url: '/user/update/' + user.id,
@@ -140,7 +139,6 @@ $(document).ready(function () {
 					xhr.upload.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							let percentComplete = evt.loaded / evt.total;
-							console.log(percentComplete);
 							progress_bar_j.css({
 								width: percentComplete * 100 + '%'
 							});
@@ -152,7 +150,6 @@ $(document).ready(function () {
 					xhr.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							let percentComplete = evt.loaded / evt.total;
-							console.log(percentComplete);
 							progress_bar_j.css({
 								width: percentComplete * 100 + '%'
 							});
@@ -188,7 +185,6 @@ $(document).ready(function () {
 
 	$('#form-date-of-birth').change(function () {
 		let date_of_birth = {name: 'date_of_birth', value: $(this).val(), pk: 1};
-		console.log(date_of_birth);
 		$.ajax({
 			url: '/user/update/' + user.id,
 			type: 'POST',
