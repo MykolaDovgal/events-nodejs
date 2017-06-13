@@ -40,7 +40,6 @@ module.exports = function (req, res, next) {
 
 	})
 		.then(function (results) {
-
 			let barCounterResult = util.barCounterResult(results.barCounter);
 
 

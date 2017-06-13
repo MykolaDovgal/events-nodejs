@@ -148,7 +148,7 @@ BarSchema.statics.countByDate = function () {
 
 	let field = 'opening_times.' + dayArrays[todayDate.getDay()];
 
-	return barModel.find({}, field).exec()
+	return barModel.find({}, [field,'id']).exec()
 };
 
 BarSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);

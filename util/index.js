@@ -94,7 +94,7 @@ util = {
 		let date = Date.now();
 		let todayDate = new Date(date);
 
-		let counter = {open: 0, close: 0, all: 0};
+		let counter = {open: 0, close: 0, all: 0,openBarId : [],closeBarId : []};
 		try {
 			result.forEach((openingTime) => {
 
@@ -110,9 +110,10 @@ util = {
 
 					if (todayDate.getTime() > from.getTime() && todayDate.getTime() < to.getTime()) {
 						counter['open'] += 1;
+						counter['openBarId'].push(openingTime.id);
 					} else {
 						counter['close'] += 1;
-
+						counter['closeBarId'].push(openingTime.id);
 					}
 				}
 

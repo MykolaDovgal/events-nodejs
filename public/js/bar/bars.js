@@ -144,7 +144,6 @@ let addNewBars = function(page, filter) {
 	} else {
 		page = global.page;
 	}
-
 	$.ajax({
 		url: '/api/scrollBars/' + page + '/?' + query,
 		type: 'POST',
