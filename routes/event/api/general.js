@@ -15,18 +15,18 @@ let router = express.Router();
 
 router.get('/event/:id/managers', function (req, res, next) {
 	Promise.props({
-		managers: Event.findOne({'id':  req.params.id}).select('managers').execAsync()
+		managers: Event.findOne({'id': req.params.id}).select('managers').execAsync()
 	}).then(function (results) {
 
 		let array = [];
 
 		results.managers.managers.forEach(managerId => {
-			 array.push(managerId.userId)
+			array.push(managerId.userId)
 		});
 
 
 		User.find({
-			id : {$in: array }
+			id: {$in: array}
 		}).exec().then((results) => {
 			let users = [];
 
@@ -52,26 +52,10 @@ router.get('/event/:id/managers', function (req, res, next) {
 		});
 });
 
-router.post('/event/manager/add', function (req, res, next) {
-	let body = req.body;
-
-	Promise.props({
-		event: Event.update({
-			id: body.lineId,
-			"managers.userId": {$nin: [body.id]}
-		}, {$addToSet: {"managers": {userId: body.id}},}).execAsync()
-	}).then(function (results) {
-		res.send(200);
-	})
-		.catch(function (err) {
-			next(err);
-		});
-
-});
 
 router.post('/event/manager/delete', function (req, res, next) {
 	let body = req.body;
-    console.log(body);
+	console.log(body);
 	Promise.props({
 		event: Event.update({id: body.eventId}, {$pull: {managers: {userId: body.userId}}}).execAsync()
 	}).then(function (results) {

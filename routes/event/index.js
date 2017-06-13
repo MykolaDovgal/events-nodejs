@@ -10,6 +10,7 @@ let update = require('./update');
 let pricing = require('./api/pricing');
 let attendees = require('./api/attendees');
 let general = require('./api/general');
+let manager_api = require('./api/manager');
 let event_party = require('./api/parties');
 
 
@@ -24,6 +25,7 @@ router.use('/api', attendees);
 router.use('/api', general);
 router.use('/api', event_party);
 router.use('/api', getAll);
+router.use('/api', manager_api);
 
 module.exports = router;
 

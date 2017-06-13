@@ -472,13 +472,21 @@ $(document).ready(function () {
 			data: SelectedManager,
 			success: function (data) {
 				updateManagersTable();
+
+				bootbox.confirm({
+					size: "small",
+					message: "Do you want to add this user as manager to all event's parties?",
+					callback: function (result) {
+						if (result) {
+							addUserToEventParties();
+						}
+					}
+				});
 			},
 			error: function (jqXHR, textStatus, err) {
 			}
-		}).then(function () {
 		});
-		SelectedManager = {};
-		$('#event_managers_search').val('');
+
 	});
 
 	function updateManagersTable() {
@@ -488,6 +496,44 @@ $(document).ready(function () {
 			event_managers_table.columns.adjust().draw();
 		}, 1000);
 	}
+
+	let addUserToEventParties = function () {
+		let eventId = event.id;
+		let userId = SelectedManager.id;
+		let data = {eventId, userId};
+
+		$.ajax({
+			url: '/api/event/manager/addToParties',
+			type: 'POST',
+			data: data,
+			success: function (data) {
+				let count;
+				try {
+					count = data.update.nModified;
+				} catch (e) {
+					count = 0;
+				}
+				let message = '';
+				let start_message = 'User added to ';
+				let end_message = 'Event does not contain any parties or user already is manager for these event\'s parties';
+				if (count > 0) {
+					end_message = (count === 1) ? ' event' : ' events';
+					message = start_message + count + end_message;
+				} else {
+					message = end_message;
+				}
+
+				bootbox.alert({
+					size: 'small',
+					message: message
+				});
+			}
+		});
+
+		SelectedManager = {};
+		$('#event_managers_search').val('');
+
+	};
 
 
 	$('#table_event_managers').on('click', '.remove_event_manager_column', function (e) {
