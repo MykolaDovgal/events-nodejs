@@ -24,8 +24,9 @@ router.get('/parties', function (request, response, next) {
 
 		let map = [];
 		let uniqueCountry = new Set(addresses.map(address => address.country));
+		let uniqueCountryArray = Array.from(uniqueCountry).sort(alphabetSort);
 
-		for (let country of uniqueCountry.values())
+		for (let country of uniqueCountryArray)
 			map.push({
 				country: country,
 				cities: [...new Set(addresses.filter((address) => address.country == country).map((address) => address.city))]
@@ -47,5 +48,14 @@ router.get('/parties', function (request, response, next) {
 	});
 
 });
+
+
+let alphabetSort = (firstStr,secondStr) => {
+	if (firstStr > secondStr)
+		return 1;
+	if (firstStr <secondStr)
+		return -1;
+	return 0;
+};
 
 module.exports = router;
