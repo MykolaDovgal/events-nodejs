@@ -4,6 +4,7 @@
 
 let SelectedManager = {};
 $(document).ready(function () {
+	let party_managers_table;
 
 	let datetime = $('#datetime_div').datetimepicker({
 		format: 'dd/mm/yyyy hh:ii',
@@ -22,6 +23,7 @@ $(document).ready(function () {
 
 	jQuery(document).ready(function () {
 		FormEditable.init();
+		initManagerTable();
 	});
 
 	let loc = window.location.pathname.split('/');
@@ -406,49 +408,61 @@ $(document).ready(function () {
 		return false;
 	});
 
+	let initManagerTable = function () {
 
-	let party_managers_table = $('#table_party_managers').DataTable({
-		"ajax": "/api/party/" + party.id + "/managers",
-		"columns": [
-			{
-				data: 'delete_button',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center remove_party_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+		party_managers_table = $('#table_party_managers').DataTable({
+			"ajax": "/api/party/" + party.id + "/managers",
+			"columns": [
+				{
+					data: 'delete_button',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center remove_party_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					},
+					width: '5%'
 				},
-				width: '5%'
-			},
-			{
-				'data': 'id',
-				width: '10%'
-			},
-			{
-				data: 'profile_picture_circle',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+				{
+					'data': 'id',
+					width: '10%'
 				},
-				width: '20%'
-			},
-			{
-				"data": 'username',
-				width: '45%'
-			},
-			{
-				"data": 'permission_level',
-				width: '20%'
-			}
-		],
-		"columnDefs": [
-			{
-				"targets": 'no-sort',
-				"orderable": false
-			}
-		],
-		scrollY: 200,
-		scrollX: true,
-		scroller: true,
-		responsive: false,
-		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
-	});
+				{
+					data: 'profile_picture_circle',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+					},
+					width: '20%'
+				},
+				{
+					"data": 'username',
+					width: '45%'
+				},
+				{
+					"data": 'permission_level',
+					render: function (data, type, full, meta) {
+						let className = 'permission_level editable';
+						if (!data || data.length < 1 || data === 'Empty') {
+							className += ' editable-empty';
+						}
+						return `<a class="` + className + `" data-pk="${full.id}" data-name="permission_level" data-value="` + data + `" data-original-title="Select permission level">` + (data || 'Empty') + `</a>`;
+					},
+					width: '20%'
+				}
+			],
+			"columnDefs": [
+				{
+					"targets": 'no-sort',
+					"orderable": false
+				}
+			],
+			scrollY: 200,
+			scrollX: true,
+			scroller: true,
+			responsive: false,
+			"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+		});
+		initPartyManagerTableEditable('table_party_managers');
+
+	};
+
 
 	//user dataset for search
 	let users = new Bloodhound({
@@ -556,7 +570,8 @@ $(document).ready(function () {
 	});
 
 	$('#table_party_managers').on('click', 'td', function (event) {
-		if ($(event.target).prop("tagName") != "I") {
+		let tagName = $(event.target).prop("tagName");
+		if (tagName != "I" && tagName != "A") {
 			window.location = '/users/' + party_managers_table.row(this).data().id;
 		}
 	});
@@ -571,5 +586,26 @@ $(document).ready(function () {
 		} else {
 			jquery_div_link.addClass('hide');
 		}
+	}
+
+	let initPartyManagerTableEditable = function (tableId) {
+		let table = $('#' + tableId);
+
+		table.editable({
+			mode: 'popup',
+			name: 'permission_level',
+			container: 'body',
+			placement: 'right',
+			selector: '.permission_level',
+			url: '/api/party/manager/update',
+			type: 'select',
+			source: sourceOfPermissionLevel,
+			title: 'Select permission level',
+			params: function (params) {
+					params.partyId = party.id;
+				return params;
+			},
+		});
+
 	}
 });

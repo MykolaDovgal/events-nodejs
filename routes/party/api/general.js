@@ -19,15 +19,17 @@ router.get('/party/:id/managers', function (req, res, next) {
 		managers: Party.findOne({'id': req.params.id}).select('party_managers').execAsync()
 	}).then(function (results) {
 
-		let array = [];
+		let permissionLevelHashArray = [];
+		let userIdArray = [];
 
 		results.managers.party_managers.forEach(managerId => {
-			array.push(managerId.userId)
+			permissionLevelHashArray[managerId.userId] = managerId.permission_level || 0;
+			userIdArray.push(managerId.userId);
 		});
 
 
 		User.find({
-			id: {$in: array}
+			id: {$in: userIdArray}
 		}).exec().then((results) => {
 			let users = [];
 
@@ -40,7 +42,7 @@ router.get('/party/:id/managers', function (req, res, next) {
 					profile_picture_circle: user.profile_picture_circle,
 					id: user.id,
 					username: user.username,
-					permission_level: user.permission_level
+					permission_level: permissionLevelHashArray[user.id]
 				});
 
 			});
@@ -61,7 +63,7 @@ router.post('/party/manager/add', function (req, res, next) {
 		party: Party.update({
 			id: body.lineId,
 			"party_managers.userId": {$nin: [body.id]}
-		}, {$addToSet: {"party_managers": {userId: body.id}},}).execAsync()
+		}, {$addToSet: {"party_managers": {userId: body.id, permission_level: 0}},}).execAsync()
 	}).then(function (results) {
 		res.send(200);
 	})
@@ -75,6 +77,18 @@ router.post('/party/manager/delete', function (req, res, next) {
 	let body = req.body;
 	Promise.props({
 		party: Party.update({id: body.partyId}, {$pull: {party_managers: {userId: body.userId}}}).execAsync()
+	}).then(function (results) {
+		res.sendStatus(200);
+	})
+		.catch(function (err) {
+			next(err);
+		});
+});
+
+router.post('/party/manager/update', function (req, res, next) {
+	let body = req.body;
+	Promise.props({
+		party: Party.findOneAndUpdate({id: body.partyId, 'party_managers': {$elemMatch: { userId: body.pk } }}, {'party_managers.$.permission_level' : body['value']}).execAsync()
 	}).then(function (results) {
 		res.sendStatus(200);
 	})

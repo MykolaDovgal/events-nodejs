@@ -41,6 +41,10 @@ let sourceOfServeMethods = [
 	'Shot (glass)'
 ];
 
+let sourceOfPermissionLevel = [
+	'1','2','3'
+];
+
 let serialize = function (obj, prefix) {
 	let str = [], p;
 	for (p in obj) {
