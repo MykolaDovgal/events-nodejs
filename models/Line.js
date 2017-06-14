@@ -31,9 +31,12 @@ let LineSchema = new Schema({
 		phone_number: {type: String, trim: true},
 		cover_picture_original: {type: String, trim: true},
 		cover_picture: {type: String, trim: true},
-		managers: [{
-			user_id: {type: Number}
-		}],
+		managers: [
+			{
+				user_id: {type: Number},
+				permission_level: {type: Number}
+			}
+		],
 		music: {
 			music_genres: [{type: String}],
 			music_sample: {type: String}

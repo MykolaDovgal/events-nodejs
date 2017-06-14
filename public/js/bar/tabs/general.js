@@ -404,8 +404,6 @@ let deleteBar = () => {
 	});
 };
 
-
-
 let initBarManagerTableEditable = function (tableId) {
 
 	let table = $('#' + tableId);

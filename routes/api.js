@@ -119,55 +119,7 @@ router.get('/activity/:id?', function (req, res, next) {
 });
 
 
-//get line managers
-router.get('/line/managers/:lineid?', function (req, res, next) {
-	let lineid = req.params.lineid;
 
-	if (lineid > 0) {
-		Promise.props({
-			managers: Line.findOne({id: lineid}).select('managers').lean()
-		}).then(function (results) {
-			let users = [];
-
-			if (Array.isArray(results.managers.managers)) {
-				results.managers.managers.forEach(function (manager) {
-					if (manager.user_id > 0) {
-						users.push(manager.user_id);
-					}
-				});
-			}
-
-			User.find({
-				'id': {$in: users}
-			})
-				.select(['id', 'username', 'profile_picture_circle', 'permission_level', 'realname'])
-				.exec(function (err, users) {
-					if (users === undefined) {
-						users = [];
-					}
-
-					users.forEach(function (user) {
-						if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
-							user.profile_picture_circle = default_image_user;
-					});
-
-					let data = {
-						data: users
-					};
-
-
-					res.json(data);
-				});
-
-
-		}).catch(function (err) {
-			next(err);
-		});
-		``
-	} else {
-		next();
-	}
-});
 
 //get user information to search
 router.get('/users/usersname', function (req, res, next) {

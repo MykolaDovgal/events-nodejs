@@ -593,7 +593,7 @@ $(document).ready(function () {
 
 		table.editable({
 			mode: 'popup',
-			name: 'permission_level',
+			name: '',
 			container: 'body',
 			placement: 'right',
 			selector: '.permission_level',
@@ -602,10 +602,11 @@ $(document).ready(function () {
 			source: sourceOfPermissionLevel,
 			title: 'Select permission level',
 			params: function (params) {
-					params.partyId = party.id;
+				params.partyId = party.id;
 				return params;
 			},
 		});
-
 	}
+
+
 });

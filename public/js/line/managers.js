@@ -2,49 +2,65 @@ let selectedResult;
 
 $(document).ready(function () {
 
-	let line_managers_table = $('#table-line-managers').DataTable({
-		"ajax": "/api/line/managers/" + line.id,
-		"columns": [
-			{
-				data: 'delete_button',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
-				},
-				width: '5%'
-			},
-			{
-				'data': 'id',
-				width: '10%'
-			},
-			{
-				data: 'profile_picture_circle',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
-				},
-				width: '20%'
-			},
-			{
-				"data": 'username',
-				width: '45%'
-			},
-			{
-				"data": 'permission_level',
-				width: '20%'
-			}
-		],
-		"columnDefs": [
-			{
-				"targets": 'no-sort',
-				"orderable": false
-			}
-		],
-		scrollY: 200,
-		scrollX: true,
-		scroller: true,
-		responsive: false,
-		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+	let line_managers_table;
+
+	jQuery(document).ready(function () {
+		initLineManagerTable();
 	});
 
+
+	let initLineManagerTable = function () {
+		line_managers_table = $('#table-line-managers').DataTable({
+			"ajax": "/api/line/managers/" + line.id,
+			"columns": [
+				{
+					data: 'delete_button',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center remove-column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					},
+					width: '5%'
+				},
+				{
+					'data': 'id',
+					width: '10%'
+				},
+				{
+					data: 'profile_picture_circle',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+					},
+					width: '20%'
+				},
+				{
+					"data": 'username',
+					width: '45%'
+				},
+				{
+					"data": 'permission_level',
+					render: function (data, type, full, meta) {
+						let className = 'permission_level editable';
+						if (!data || data.length < 1 || data === 'Empty') {
+							className += ' editable-empty';
+						}
+						return `<a class="` + className + `" data-pk="${full.id}" data-name="permission_level" data-value="` + data + `" data-original-title="Select permission level">` + (data || 'Empty') + `</a>`;
+					},
+					width: '20%'
+				}
+			],
+			"columnDefs": [
+				{
+					"targets": 'no-sort',
+					"orderable": false
+				}
+			],
+			scrollY: 200,
+			scrollX: true,
+			scroller: true,
+			responsive: false,
+			"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+		});
+		initPartyManagerTableEditable('table-line-managers');
+	};
 
 	//user dataset for search
 	let users = new Bloodhound({
@@ -205,4 +221,26 @@ $(document).ready(function () {
 			lock = false
 		}, 150);
 	});
+
+	let initPartyManagerTableEditable = function (tableId) {
+		let table = $('#' + tableId);
+
+		table.editable({
+			mode: 'popup',
+			name: 'permission_level',
+			container: 'body',
+			placement: 'right',
+			selector: '.permission_level',
+			url: '/api/line/manager/update',
+			type: 'select',
+			source: sourceOfPermissionLevel,
+			title: 'Select permission level',
+			params: function (params) {
+				params.lineId = line.id;
+				return params;
+			},
+		});
+
+
+	}
 });
