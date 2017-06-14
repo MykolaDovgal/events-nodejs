@@ -261,4 +261,23 @@ router.post('/party/bar/category/drink/update', (req, res, next) => {
 	}
 });
 
+// update move drink
+router.post('/party/bar/category/drink/move', (req, res, next) => {
+	let body = req.body;
+	let drinkId = +body.drinkId;
+	let categoryId = body.categoryId;
+	let partyId = +body.partyId;
+
+
+	if (drinkId > -1 && partyId > 0 && categoryId) {
+
+		Party.moveDrinkToCategory(partyId, drinkId, categoryId, function () {
+			res.sendStatus(200);
+		});
+
+	} else {
+		next();
+	}
+});
+
 module.exports = router;

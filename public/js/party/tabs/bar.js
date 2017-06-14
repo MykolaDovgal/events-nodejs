@@ -52,6 +52,7 @@ $(document).ready(() => {
 		collapseAllCategoryTab.call(this);
 	});
 
+	// collapse category
 	$('body').on('click', '.collapse_category', function (e) {
 		if ($(e.target).prop("tagName") == 'DIV') {
 			$(this).closest('.category-accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
@@ -69,6 +70,10 @@ $(document).ready(() => {
 			});
 		}
 	});
+
+	let collapseAllCategoryTabs = function () {
+		$('.category-accordion').find('.panel-collapse').not($(this).siblings('.panel-collapse')).slideUp(300);
+	};
 
 	$('body').on('click', '.remove_tender_column', function (event) {
 		if ($(event.target).prop("tagName") == "I") {
@@ -250,7 +255,7 @@ $(document).ready(() => {
 	let getCategoryTabTemplate = (catCounter, bar, category, isCollapsed) => {
 		return $(`
             <div class="panel panel-default">
-                <div class="panel-heading collapse_category">
+                <div data-category="${category._id}" class="panel-heading collapse_category">
                     <a id="category_${category._id}" class="editable editable-click editable-disabled" data-name="category_name" href="#bar_${bar._id}_drinks_${catCounter}"
                     style="margin:10px;display: inline-block" data-type="text" data-pk="${category._id}"
                     data-parent="#bar_${bar._id}_drinks_accordion">${category.category_name}</a>
@@ -263,6 +268,7 @@ $(document).ready(() => {
                         <table id="category_${category._id}_drinks" class="table table-striped table-bordered table-hover order-column not-initialized">
                             <thead>
 							<th></th>                           
+							<th>Move</th>                           
                             <th>Drink</th>
                             <th>Serve&nbsp;Method</th>
                             <th>Volume&nbsp;(ml)</th>
@@ -390,7 +396,8 @@ $(document).ready(() => {
 	}
 
 	function initDrinks(tableId, barId, categoryId) {
-		let currentTable = $('#' + tableId)
+		let table = $('#' + tableId);
+		let currentTable = table
 			.DataTable({
 				"ajax": {
 					"url": "/api/party/bar/" + barId + "/drinks/" + categoryId,
@@ -400,6 +407,14 @@ $(document).ready(() => {
 						data: 'delete_button',
 						render: function (data, type, full, meta) {
 							return '<div data-drink_id="' + full.drinkId + '" class="text-center remove_drink_button"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+						},
+						orderable: false,
+						width: '5%'
+					},
+					{
+						data: 'move_icon',
+						render: function (data, type, full, meta) {
+							return '<div data-drink_id="' + full.drinkId + '" class="text-center draggable_drink"><a class="btn-circle"><i class="fa fa-arrows"></i></a></div>';
 						},
 						orderable: false,
 						width: '5%'
@@ -471,10 +486,89 @@ $(document).ready(() => {
 				autoWidth: false,
 				sScrollX: "100%",
 				"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>> <'row'<'col-md-12'i>>",
+				'createdRow': function (row, data, dataIndex) {
+					let row_el = $(row);
+					row_el.addClass('drink_row');
+					row_el.data('drink', data);
+					initDrinkMoveRow(row_el);
+				}
 			});
 
 
 		initForDrinkEditable(tableId);
+
+		let collapse_category = table.closest('.panel-default').find('.collapse_category').first();
+		let collapse_category_body = collapse_category.next('.panel-collapse').find('.panel-body').first();
+
+
+		collapse_category.droppable({
+			greedy: true,
+			activeClass: 'droppable-active',
+			tolerance: "pointer",
+			over: function (event, ui) {
+				let cur = $(event.target);
+				let _category = cur.next('.panel-collapse');
+				_category.slideDown(300);
+				console.log('over tabs category');
+			},
+			drop: function () {
+				return false
+			}
+		});
+
+		collapse_category_body.droppable({
+			greedy: true,
+			//accept: ".draggable_drink",
+			activeClass: 'droppable_active_body',
+			hoverClass: "drop_hover",
+			tolerance: "pointer",
+			over: function (event, ui) {
+
+				console.log('over tabs category body');
+			},
+			drop: function (event, ui) {
+				let drink = ui.helper.data('drink');
+				let drinkId = drink.drinkId;
+				let collapse_category = $(event.target).parent('.panel-collapse').prev('.collapse_category');
+				let categoryId = collapse_category.data('category');
+				let partyId = party.id;
+				let send_data = {partyId, categoryId, drinkId};
+
+				console.log(send_data);
+
+				// $.ajax({
+				// 	url: '/api/party/' + party.id + '/bars',
+				// 	type: 'GET',
+				// 	success: (data) => {
+				// 		let accordion = $('#bar_accordion_container');
+				// 		//accordion.empty();
+				// 		barCount = 1;
+				// 		catCount = 1;
+				// 		// data.forEach((bar) => {
+				// 		// 	createBarTab(bar);
+				// 		// });
+				// 	}
+				// });
+
+				$.ajax({
+					url: '/api/party/bar/category/drink/move',
+					type: 'POST',
+					data: send_data,
+					success: (data) => {
+						let accordion = $('#bar_accordion_container');
+						//accordion.empty();
+						barCount = 1;
+						catCount = 1;
+						// data.forEach((bar) => {
+						// 	createBarTab(bar);
+						// });
+					}
+				});
+
+			}
+		});
+
+		console.log(collapse_category_body);
 
 	}
 
@@ -505,9 +599,6 @@ $(document).ready(() => {
 		})
 	}
 
-	let eventForSubmitDrink = function () {
-		//
-	};
 
 	let updateTable = function (table, reload = false) {
 		if (reload) {
@@ -704,5 +795,27 @@ $(document).ready(() => {
 
 	};
 
+	let initDrinkMoveRow = function (element) {
+		element.disableSelection();
+
+		let c = {};
+		element.draggable({
+			handle: '.draggable_drink',
+			cursor: 'move',
+			containment: '#bar_accordion_container',
+			helper: function (event) {
+				return $(this).clone(true).appendTo('body');
+
+			},
+			zIndex: 10000,
+			start: function (event, ui) {
+				c.tr = this;
+				c.helper = ui.helper;
+			},
+			revert: 'invalid',
+			scroll: false,
+			//stop: handleDragStop
+		});
+	};
 
 });

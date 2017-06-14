@@ -46,3 +46,7 @@
 	top: 0;
 	font-size: 20px;
 }
+
+.droppable_active_body {
+	background-color: lightslategray;
+}
