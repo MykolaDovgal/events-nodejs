@@ -31,7 +31,10 @@ let BarSchema = new Schema({
 	phone_number: {type: String},
 	cover_picture: {type: String},
 	managers: [
-		{userId: {type: Number},}
+		{
+			userId: {type: Number},
+			permission_level: {type: Number}
+		}
 	],
 	attendees: [{
 		user: {type: Object},

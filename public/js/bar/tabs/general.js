@@ -3,8 +3,11 @@
  */
 
 $(document).ready(function () {
+	let bar_managers_table;
+
     jQuery(document).ready(function () {
 		FormEditable.init();
+	    initBarManagerTable();
 	});
 
     $('#button-open-upload').click(function () {
@@ -210,48 +213,7 @@ $(document).ready(function () {
 		};
 	}();
 
-    let bar_managers_table = $('#table_bar_managers').DataTable({
-		"ajax": "/api/bar/" + bar.id + "/managers",
-		"columns": [
-			{
-				data: 'delete_button',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center remove_bar_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
-				},
-				width: '5%'
-			},
-			{
-				'data': 'id',
-				width: '10%'
-			},
-			{
-				data: 'profile_picture_circle',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
-				},
-				width: '20%'
-			},
-			{
-				"data": 'username',
-				width: '45%'
-			},
-			{
-				"data": 'permission_level',
-				width: '20%'
-			}
-		],
-		"columnDefs": [
-			{
-				"targets": 'no-sort',
-				"orderable": false
-			}
-		],
-		scrollY: 200,
-		scrollX: true,
-		scroller: true,
-		responsive: false,
-		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
-	});
+
 
 	//user dataset for search
 	let users = new Bloodhound({
@@ -358,12 +320,67 @@ $(document).ready(function () {
 	});
 
 	$('#table_bar_managers').on('click', 'td', function (event) {
-		if ($(event.target).prop("tagName") != "I") {
+		let param = $(event.target).prop("tagName")
+		if (param != "I" && param != "A") {
 			window.location = '/users/' + bar_managers_table.row(this).data().id;
 		}
 	});
 
 	$('#delete_bar').click(deleteBar)
+
+	let initBarManagerTable = function (tableId) {
+
+		bar_managers_table = $('#table_bar_managers').DataTable({
+			"ajax": "/api/bar/" + bar.id + "/managers",
+			"columns": [
+				{
+					data: 'delete_button',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center remove_bar_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					},
+					width: '5%'
+				},
+				{
+					'data': 'id',
+					width: '10%'
+				},
+				{
+					data: 'profile_picture_circle',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+					},
+					width: '20%'
+				},
+				{
+					"data": 'username',
+					width: '45%'
+				},
+				{
+					"data": 'permission_level',
+					render: function (data, type, full, meta) {
+						let className = 'permission_level editable';
+						if (!data || data.length < 1 || data === 'Empty') {
+							className += ' editable-empty';
+						}
+						return `<a class="` + className + `" data-pk="${full.id}" data-name="permission_level" data-value="` + data + `" data-original-title="Select permission level">` + (data || 'Empty') + `</a>`;
+					},
+					width: '20%'
+				}
+			],
+			"columnDefs": [
+				{
+					"targets": 'no-sort',
+					"orderable": false
+				}
+			],
+			scrollY: 200,
+			scrollX: true,
+			scroller: true,
+			responsive: false,
+			"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+		});
+		initBarManagerTableEditable('table_bar_managers');
+	};
 });
 
 let deleteBar = () => {
@@ -385,4 +402,28 @@ let deleteBar = () => {
 			}
 		}
 	});
+};
+
+
+
+let initBarManagerTableEditable = function (tableId) {
+
+	let table = $('#' + tableId);
+
+	table.editable({
+		mode: 'popup',
+		name: 'permission_level',
+		container: 'body',
+		placement: 'right',
+		selector: '.permission_level',
+		url: '/api/bar/manager/update',
+		type: 'select',
+		source: sourceOfPermissionLevel,
+		title: 'Select permission level',
+		params: function (params) {
+			params.barId = bar.id;
+			return params;
+		},
+	});
+
 };

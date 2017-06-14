@@ -14,19 +14,22 @@ let router = express.Router();
 
 
 router.get('/bar/:id/managers', function (req, res, next) {
+
 	Promise.props({
 		managers: Bar.findOne({'id':  req.params.id}).select('managers').execAsync()
 	}).then(function (results) {
 
-		let array = [];
+		let permissionLevelHashArray = [];
+		let userIdArray = [];
 
 		results.managers.managers.forEach(managerId => {
-			 array.push(managerId.userId)
+			permissionLevelHashArray[managerId.userId] = managerId.permission_level || 0;
+			userIdArray.push(managerId.userId);
 		});
 
 
 		User.find({
-			id : {$in: array }
+			id : {$in: userIdArray }
 		}).exec().then((results) => {
 			let users = [];
 
@@ -39,7 +42,7 @@ router.get('/bar/:id/managers', function (req, res, next) {
 					profile_picture_circle: user.profile_picture_circle,
 					id: user.id,
 					username: user.username,
-					permission_level: user.permission_level
+					permission_level: permissionLevelHashArray[user.id]
 				});
 
 			});
@@ -73,6 +76,18 @@ router.post('/bar/manager/delete', function (req, res, next) {
 	let body = req.body;
 	Promise.props({
 		bar: Bar.update({id: body.barId}, {$pull: {managers: {userId: body.userId}}}).execAsync()
+	}).then(function (results) {
+		res.sendStatus(200);
+	})
+		.catch(function (err) {
+			next(err);
+		});
+});
+
+router.post('/bar/manager/update', function (req, res, next) {
+	let body = req.body;
+	Promise.props({
+		bar: Bar.findOneAndUpdate({id: body.barId, 'managers': {$elemMatch: { userId: body.pk } }}, {'managers.$.permission_level' : body['value']}).execAsync()
 	}).then(function (results) {
 		res.sendStatus(200);
 	})
