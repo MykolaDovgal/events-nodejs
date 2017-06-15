@@ -509,23 +509,19 @@ $(document).ready(() => {
 				let cur = $(event.target);
 				let _category = cur.next('.panel-collapse');
 				_category.slideDown(300);
-				console.log('over tabs category');
 			},
 			drop: function () {
 				return false
 			}
 		});
 
+		// for drop
 		collapse_category_body.droppable({
 			greedy: true,
 			//accept: ".draggable_drink",
 			activeClass: 'droppable_active_body',
 			hoverClass: "drop_hover",
 			tolerance: "pointer",
-			over: function (event, ui) {
-
-				console.log('over tabs category body');
-			},
 			drop: function (event, ui) {
 				let drink = ui.helper.data('drink');
 				let drinkId = drink.drinkId;
@@ -534,41 +530,25 @@ $(document).ready(() => {
 				let partyId = party.id;
 				let send_data = {partyId, categoryId, drinkId};
 
-				console.log(send_data);
-
-				// $.ajax({
-				// 	url: '/api/party/' + party.id + '/bars',
-				// 	type: 'GET',
-				// 	success: (data) => {
-				// 		let accordion = $('#bar_accordion_container');
-				// 		//accordion.empty();
-				// 		barCount = 1;
-				// 		catCount = 1;
-				// 		// data.forEach((bar) => {
-				// 		// 	createBarTab(bar);
-				// 		// });
-				// 	}
-				// });
 
 				$.ajax({
 					url: '/api/party/bar/category/drink/move',
 					type: 'POST',
 					data: send_data,
 					success: (data) => {
-						let accordion = $('#bar_accordion_container');
-						//accordion.empty();
-						barCount = 1;
-						catCount = 1;
-						// data.forEach((bar) => {
-						// 	createBarTab(bar);
-						// });
+						let currentTable = collapse_category_body.find('table');
+
+						collapseAllCategoryTab.call(currentTable.get(0));
+
+						let currentDataTable = currentTable.DataTable();
+						dataTableHelper.updateTable(currentDataTable);
+
+						collapse_category.trigger('click');
 					}
 				});
 
 			}
 		});
-
-		console.log(collapse_category_body);
 
 	}
 
@@ -804,17 +784,24 @@ $(document).ready(() => {
 			cursor: 'move',
 			containment: '#bar_accordion_container',
 			helper: function (event) {
-				return $(this).clone(true).appendTo('body');
-
+				return $(this).clone(true).addClass('drag_drink_row').appendTo('body');
 			},
 			zIndex: 10000,
 			start: function (event, ui) {
 				c.tr = this;
 				c.helper = ui.helper;
 			},
+			stop: function (event, ui) {
+				// reload from dragged
+				let table = $(c.tr).closest('table');
+				table.addClass('not-initialized');
+				let currentDataTable = table.DataTable();
+				setTimeout(() => {
+					dataTableHelper.updateTable(currentDataTable);
+				}, 900);
+			},
 			revert: 'invalid',
 			scroll: false,
-			//stop: handleDragStop
 		});
 	};
 

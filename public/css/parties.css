@@ -50,3 +50,24 @@
 .droppable_active_body {
 	background-color: lightslategray;
 }
+
+.drag_drink_row {
+	height: 50px;
+	vertical-align: middle;
+	min-width: 400px;
+	background-color: #dfdfdf;
+	line-height: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.drag_drink_row td {
+	min-width: 50px;
+	pointer-events: none;
+}
+
+.drag_drink_row td:last-child {
+	min-width: 70px;
+}
+

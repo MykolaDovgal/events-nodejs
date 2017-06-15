@@ -5,6 +5,7 @@ let autoIncrement = require('mongoose-auto-increment');
 let mongoosePaginate = require('mongoose-paginate');
 let moment = require('moment');
 let util = require('util/index');
+const Promise = require('bluebird');
 
 let config = require('config');
 let default_image_party = config.get('images:default_image_line');
@@ -206,6 +207,7 @@ PartySchema.statics.removeDrinkById = function (partyId, drinkId, cb) {
 
 PartySchema.statics.moveDrinkToCategory = function (partyId, drinkId, categoryId, cb) {
 	let _t = this;
+	let partyModel = this.model('Party');
 	this.findOne({id: partyId})
 		.exec(function (err, result) {
 			let bars = result.bar;
@@ -220,36 +222,42 @@ PartySchema.statics.moveDrinkToCategory = function (partyId, drinkId, categoryId
 						drinks.forEach(function (drink) {
 							if (drink.drinkId === drinkId) {
 								drink_copy = drink;
-								//drink.remove();
+								drink.remove();
 							}
 						});
 					});
 				});
 				result.save();
 
-				result.drink_copy = drink_copy;
-
 
 			} catch (e) {
 			}
 
-			_t.findOne({'bar.drinkCategories._id': categoryId}).select(['bar.0.drinkCategories']).exec(function (err_, result_) {
-				//console.warn(drink_copy);
-				console.warn(result_);
+			_t.findOne({'bar.drinkCategories._id': categoryId}).select({'bar.$': 1}).exec(function (err_, doc_bar) {
 
-				// let category = result_.party.bar.find(bar => {
-				// 	return bar._id == body.barId
-				// }).drinkCategories.find(category => {
-				// 	return category._id == body.categoryId
-				// });
-				// category.drinks.push({});
-				// results.party.save();
+				let bar = doc_bar.bar[0];
+				let barId = bar._id;
 
-			}).then(() => {
-				if (cb) {
-					cb();
-				}
+				console.warn('barId', barId);
+				console.warn('categoryId', categoryId);
+
+				Promise.props({
+					party: partyModel.findOne({'bar.drinkCategories._id': categoryId}).execAsync()
+				}).then((results) => {
+
+					let bar = results.party.bar.id(barId);
+					let category = bar.drinkCategories.id(categoryId);
+
+					category.drinks.push(drink_copy);
+					results.party.save();
+
+					if (cb) {
+						cb();
+					}
+
+				})
 			});
+
 
 		});
 };
