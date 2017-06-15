@@ -60,7 +60,10 @@ let EventSchema = new Schema({
 			location_ver_time: {type: Date}
 		}],
 		managers: [
-			{userId: {type: Number}}
+			{
+				userId: {type: Number},
+				permission_level: {type: Number}
+			}
 		],
 		notifications: [{
 			notificationId: {type: Number},

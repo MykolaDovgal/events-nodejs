@@ -39,6 +39,7 @@ $(document).ready(function () {
 
 	jQuery(document).ready(function () {
 		FormEditable.init();
+		initEventManagerTable();
 	});
 
 	let loc = window.location.pathname.split('/');
@@ -373,48 +374,81 @@ $(document).ready(function () {
 	});
 
 
-	let event_managers_table = $('#table_event_managers').DataTable({
-		"ajax": "/api/event/" + event.id + "/managers",
-		"columns": [
-			{
-				data: 'delete_button',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center remove_event_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+	let event_managers_table;
+
+	let initEventManagerTable = function () {
+		event_managers_table = $('#table_event_managers').DataTable({
+			"ajax": "/api/event/" + event.id + "/managers",
+			"columns": [
+				{
+					data: 'delete_button',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center remove_event_manager_column"><a class="btn-circle"><i class="fa fa-remove"></i></a></div>';
+					},
+					width: '5%'
 				},
-				width: '5%'
-			},
-			{
-				'data': 'id',
-				width: '10%'
-			},
-			{
-				data: 'profile_picture_circle',
-				render: function (data, type, full, meta) {
-					return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+				{
+					'data': 'id',
+					width: '10%'
 				},
-				width: '20%'
+				{
+					data: 'profile_picture_circle',
+					render: function (data, type, full, meta) {
+						return '<div class="text-center"><img class="profile-picture" src="' + data + '"/></div>';
+					},
+					width: '20%'
+				},
+				{
+					"data": 'username',
+					width: '45%'
+				},
+				{
+					"data": 'permission_level',
+					render: function (data, type, full, meta) {
+						let className = 'permission_level editable';
+						if (!data || data.length < 1 || data === 'Empty') {
+							className += ' editable-empty';
+						}
+						return `<a class="` + className + `" data-pk="${full.id}" data-name="permission_level" data-value="` + data + `" data-original-title="Select permission level">` + (data || 'Empty') + `</a>`;
+					},
+					width: '20%'
+				}
+			],
+			"columnDefs": [
+				{
+					"targets": 'no-sort',
+					"orderable": false
+				}
+			],
+			scrollY: 200,
+			scrollX: true,
+			scroller: true,
+			responsive: false,
+			"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
+		});
+		initPartyManagerTableEditable('table_event_managers')
+
+	};
+
+	let initPartyManagerTableEditable = function (tableId) {
+		let table = $('#' + tableId);
+
+		table.editable({
+			mode: 'popup',
+			name: 'permission_level',
+			container: 'body',
+			placement: 'right',
+			selector: '.permission_level',
+			url: '/api/event/manager/update',
+			type: 'select',
+			source: sourceOfPermissionLevel,
+			title: 'Select permission level',
+			params: function (params) {
+				params.eventId = event.id;
+				return params;
 			},
-			{
-				"data": 'username',
-				width: '45%'
-			},
-			{
-				"data": 'permission_level',
-				width: '20%'
-			}
-		],
-		"columnDefs": [
-			{
-				"targets": 'no-sort',
-				"orderable": false
-			}
-		],
-		scrollY: 200,
-		scrollX: true,
-		scroller: true,
-		responsive: false,
-		"dom": "<'row' <'col-md-12'> > t <'row'<'col-md-12'>>",
-	});
+		});
+	};
 
 	//user dataset for search
 	let users = new Bloodhound({
@@ -567,7 +601,8 @@ $(document).ready(function () {
 	});
 
 	$('#table_event_managers').on('click', 'td', function (event) {
-		if ($(event.target).prop("tagName") != "I") {
+		let propName = $(event.target).prop("tagName");
+		if (propName != "I" && propName != "A") {
 			window.location = '/users/' + event_managers_table.row(this).data().id;
 		}
 	});

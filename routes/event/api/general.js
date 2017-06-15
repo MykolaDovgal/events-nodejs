@@ -9,24 +9,29 @@ let default_image_user = config.get('images:default_image_user');
 
 let Event = require('models/Event');
 let User = require('models/User');
+let Party = require('models/Party');
 
 let router = express.Router();
 
 
 router.get('/event/:id/managers', function (req, res, next) {
+
 	Promise.props({
 		managers: Event.findOne({'id': req.params.id}).select('managers').execAsync()
 	}).then(function (results) {
 
-		let array = [];
+		let permissionLevelHashArray = [];
+		let userIdArray = [];
 
 		results.managers.managers.forEach(managerId => {
-			array.push(managerId.userId)
+			userIdArray.push(managerId.userId);
+			permissionLevelHashArray[managerId.userId] = managerId.permission_level;
+			console.warn('kek')
 		});
 
 
 		User.find({
-			id: {$in: array}
+			id: {$in: userIdArray}
 		}).exec().then((results) => {
 			let users = [];
 
@@ -39,7 +44,7 @@ router.get('/event/:id/managers', function (req, res, next) {
 					profile_picture_circle: user.profile_picture_circle,
 					id: user.id,
 					username: user.username,
-					permission_level: user.permission_level
+					permission_level: permissionLevelHashArray[user.id]
 				});
 
 			});
@@ -52,11 +57,42 @@ router.get('/event/:id/managers', function (req, res, next) {
 		});
 });
 
-
 router.post('/event/manager/delete', function (req, res, next) {
 	let body = req.body;
 	Promise.props({
 		event: Event.update({id: body.eventId}, {$pull: {managers: {userId: body.userId}}}).execAsync()
+	}).then(function (results) {
+		res.sendStatus(200);
+	})
+		.catch(function (err) {
+			next(err);
+		});
+});
+
+router.post('/event/manager/update', function (req, res, next) {
+
+	let body = req.body;
+	Promise.props({
+		event_update: Event.findOneAndUpdate(
+			{
+				id: body.eventId,
+				'managers': {$elemMatch: {userId: body.pk}}
+			},
+			{
+				'managers.$.permission_level': body['value']
+			}
+		).execAsync(),
+		party_update: Party.update(
+			{
+				eventId: body.eventId,
+				'party_managers': {$elemMatch: {userId: body.pk}}
+			},
+			{
+				$set: {'party_managers.$.permission_level' : body['value']}
+			},
+			{'multi': true}
+		).execAsync()
+
 	}).then(function (results) {
 		res.sendStatus(200);
 	})

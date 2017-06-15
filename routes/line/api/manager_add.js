@@ -24,7 +24,7 @@ router.get('/line/managers/:lineid?', function (req, res, next) {
 		Promise.props({
 			managers: Line.findOne({id: lineid}).select('managers').lean()
 		}).then(function (results) {
-			let userIdArray = [];
+
 
 			if (Array.isArray(results.managers.managers)) {
 				results.managers.managers.forEach(function (manager) {
