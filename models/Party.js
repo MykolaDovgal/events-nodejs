@@ -204,6 +204,56 @@ PartySchema.statics.removeDrinkById = function (partyId, drinkId, cb) {
 		});
 };
 
+PartySchema.statics.moveDrinkToCategory = function (partyId, drinkId, categoryId, cb) {
+	let _t = this;
+	this.findOne({id: partyId})
+		.exec(function (err, result) {
+			let bars = result.bar;
+			let drink_copy = [];
+
+			try {
+				bars.forEach(function (bar) {
+					let drinkCategories = bar.drinkCategories;
+					drinkCategories.forEach(function (drinkCategory) {
+						let drinks = drinkCategory.drinks;
+
+						drinks.forEach(function (drink) {
+							if (drink.drinkId === drinkId) {
+								drink_copy = drink;
+								//drink.remove();
+							}
+						});
+					});
+				});
+				result.save();
+
+				result.drink_copy = drink_copy;
+
+
+			} catch (e) {
+			}
+
+			_t.findOne({'bar.drinkCategories._id': categoryId}).select(['bar.0.drinkCategories']).exec(function (err_, result_) {
+				//console.warn(drink_copy);
+				console.warn(result_);
+
+				// let category = result_.party.bar.find(bar => {
+				// 	return bar._id == body.barId
+				// }).drinkCategories.find(category => {
+				// 	return category._id == body.categoryId
+				// });
+				// category.drinks.push({});
+				// results.party.save();
+
+			}).then(() => {
+				if (cb) {
+					cb();
+				}
+			});
+
+		});
+};
+
 // update drink
 PartySchema.statics.updateDrinkById = function (partyId, drinkId, update_data, cb) {
 	this.findOne({id: partyId})
