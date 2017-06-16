@@ -144,8 +144,8 @@ function addNewEvents(page, filter) {
 }
 
 function generateEvent(event) {
-	let start_date = moment(new Date(event.start_date)).format('MMMM Do YYYY');
-	let end_date = moment(new Date(event.end_date)).format('MMMM Do YYYY');
+	let start_date = moment(new Date(event.start_date)).format('dddd, DD-MM-YYYY');
+	let end_date = moment(new Date(event.end_date)).format('dddd, DD-MM-YYYY');
 
 	let html = `<div class="mt-element-overlay col-xs-12 col-sm-6  col-lg-4" data-event="` + event.id + `">
                     <div class="mt-overlay-3">

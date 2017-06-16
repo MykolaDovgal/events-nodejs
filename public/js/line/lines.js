@@ -147,7 +147,7 @@ function addNewLines(page, filter) {
 
 function generateLine(line) {
 	let address = line.address ? '<br>' + line.address.city + ', ' + line.address.country : '';
-	let next_party = moment(new Date()).format('MMMM Do YYYY, HH:mm:ss');
+	let next_party = moment(new Date()).format('dddd, DD-MM-YYYY');
 
 	let html = `<div class="mt-element-overlay col-xs-12 col-sm-6 col-lg-4" data-line="` + line.id + `">
                     <div class="mt-overlay-3">
