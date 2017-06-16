@@ -5,6 +5,7 @@ let bar = require('./bar');
 let bars = require('./bars');
 let add = require('./add');
 let attendees = require('./api/attendees');
+let followers = require('./api/followers');
 let update = require('./update');
 let delete_bar = require('./delete');
 let general = require('./api/general');
@@ -19,6 +20,7 @@ router.use(add);
 
 router.use('/api', scroll_bars);
 router.use('/api', attendees);
+router.use('/api', followers);
 router.use('/api', general);
 router.use('/api', opening_hours);
 

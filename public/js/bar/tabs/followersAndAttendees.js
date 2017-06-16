@@ -10,12 +10,15 @@ $(document).ready(function () {
 			initAttendeesTable();
 			isAttendeesInit = true;
 		}
+	});
+
+	$('#followers_tab_btn').on('click', function () {
 		if (!isFollowersInit) {
 			initFollowersTable();
 			isFollowersInit = true;
 		}
 	});
-	
+
 	$('#bar_attendees').on('click', 'td', function (event) {
 		window.location = '/users/' + attendees_table.row(this).data().userId;
 	});
@@ -33,7 +36,7 @@ let initAttendeesTable = function () {
 			type: 'GET',
 			'url': '/api/bar/' + bar.id + '/attendees',
 			'data': function (d) {
-				return d ;
+				return d;
 			},
 			"dataSrc": function (json) {
 				return json.data;
@@ -100,12 +103,12 @@ let initAttendeesTable = function () {
 
 let initFollowersTable = function () {
 
-	followers_table = $('#bar_followers').DataTable({
+	let followers_table = $('#bar_followers').DataTable({
 		'ajax': {
 			type: 'GET',
 			'url': '/api/bar/' + bar.id + '/followers',
 			'data': function (d) {
-				return d ;
+				return d;
 			},
 			"dataSrc": function (json) {
 				return json.data;

@@ -13,40 +13,45 @@ let default_image_user = config.get('images:default_image_user');
 autoIncrement.initialize(mongoose.connection);
 
 let UserSchema = new Schema({
-	id: {type: Number, required: true, index: {unique: true}},
-	username: {type: String, required: true, index: {unique: true}},
-	email: {type: String, index: {unique: true}},
-	active: {type: Boolean, default: true},
-	password: {type: String, required: true},
-	firstname: {
-		type: String, trim: true, validate: [
-			util.isEmptyValidator
-		]
+		id: {type: Number, required: true, index: {unique: true}},
+		username: {type: String, required: true, index: {unique: true}},
+		email: {type: String, index: {unique: true}},
+		active: {type: Boolean, default: true},
+		password: {type: String, required: true},
+		firstname: {
+			type: String, trim: true, validate: [
+				util.isEmptyValidator
+			]
+		},
+		lastname: {type: String, trim: true},
+		realname: {type: String, trim: true},
+		permission_level: {type: Number},
+		facebook_profile: {type: String, trim: true},
+		profile_picture: {type: String, trim: true},
+		profile_picture_circle: {type: String, trim: true},
+		friends: [{
+			userid: {type: Number},
+			time_added: {type: Date, default: Date.now}
+		}],
+		friend_requests: [{
+			userid: {type: Number},
+			time_added: {type: Date, default: Date.now}
+		}],
+		about: {type: String},
+		date_of_birth: {type: Date},
+		date_of_birth_visible: {type: Boolean},
+		age: {type: Number},
+		phone: {type: String},
+		activity: [{
+			login_time: {type: Date, default: Date.now},
+			logout_time: {type: Date}
+		}]
 	},
-	lastname: {type: String, trim: true},
-	realname: {type: String, trim: true},
-	permission_level: {type: Number},
-	facebook_profile: {type: String, trim: true},
-	profile_picture: {type: String, trim: true},
-	profile_picture_circle: {type: String, trim: true},
-	friends: [{
-		userid: {type: Number},
-		time_added: {type: Date, default: Date.now}
-	}],
-	friend_requests: [{
-		userid: {type: Number},
-		time_added: {type: Date, default: Date.now}
-	}],
-	about: {type: String},
-	date_of_birth: {type: Date},
-	date_of_birth_visible: {type: Boolean},
-	age: {type: Number},
-	phone: {type: String},
-	activity: [{
-		login_time: {type: Date, default: Date.now},
-		logout_time: {type: Date}
-	}]
-});
+	{
+		toObject: {virtuals: true},
+		toJSON: {virtuals: true}
+	}
+);
 
 UserSchema.pre('save', function (next) {
 	let user = this;
@@ -139,6 +144,10 @@ UserSchema.statics.setLogOutTime = function (userId) {
 };
 
 UserSchema.virtual('image').get(function () {
+	return util.getImage(this, 'profile_picture_circle', default_image_user);
+});
+
+UserSchema.virtual('image_circle').get(function () {
 	return util.getImage(this, 'profile_picture_circle', default_image_user);
 });
 
