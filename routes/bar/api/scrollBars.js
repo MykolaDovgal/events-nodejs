@@ -71,19 +71,23 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 	}
 
 
-
 	Promise.props({
 		barCounter: Bar.countByDate(),
 	})
 		.then(function (results) {
 			let barCounterResult = util.barCounterResult(results.barCounter);
-
+			let active_filter = [];
 			if (active && active.indexOf('open') > -1) {
-				filter.push({'id': {$in: barCounterResult.openBarId}});
+				active_filter.push({'id': {$in: barCounterResult.openBarId}});
 			}
 			if (active && active.indexOf('close') > -1) {
-				filter.push({'id': {$in: barCounterResult.closeBarId}});
+				active_filter.push({'id': {$in: barCounterResult.closeBarId}});
 			}
+
+			if (active_filter.length > 0) {
+				filter.push({$or: active_filter});
+			}
+
 
 			Promise.props({
 				bars: Bar.paginate({$and: filter}, {page: page, limit: limit})
@@ -103,12 +107,6 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 		.catch(function (err) {
 			res.send(err);
 		});
-
-
-
-
-
-
 
 
 });

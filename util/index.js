@@ -94,12 +94,14 @@ util = {
 		let date = Date.now();
 		let todayDate = new Date(date);
 
-		let counter = {open: 0, close: 0, all: 0,openBarId : [],closeBarId : []};
+		let counter = {open: 0, close: 0, all: 0, openBarId: [], closeBarId: []};
 		try {
 			result.forEach((openingTime) => {
 
 				let dayObj = openingTime.opening_times[dayArrays[todayDate.getDay()]];
-				if (dayObj['open'] && dayObj['close'] && (dayObj['open'] !== '-' && dayObj['open'] !== 'The last Client') && (dayObj['close'] !== '-' && dayObj['close'] !== 'The last Client')) {
+
+				if ((dayObj['open'] !== '-' && dayObj['open'] !== 'The last Client')
+					&& (dayObj['close'] !== '-' && dayObj['close'] !== 'The last Client')) {
 					let separateOpenTimeHour = dayObj['open'].split(':');
 					let separateCloseTimeHour = dayObj['close'].split(':');
 
@@ -108,7 +110,7 @@ util = {
 					let to = new Date(moment(date).format('YYYY-MM-DD'));
 					to.setHours(+separateCloseTimeHour[0], +separateCloseTimeHour[1]);
 
-					if (todayDate.getTime() > from.getTime() && todayDate.getTime() < to.getTime()) {
+					if (todayDate.getTime() >= from.getTime() && todayDate.getTime() <= to.getTime()) {
 						counter['open'] += 1;
 						counter['openBarId'].push(openingTime.id);
 					} else {

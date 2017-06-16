@@ -74,39 +74,39 @@ let BarSchema = new Schema({
 	}],
 	opening_times: {
 		sunday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		},
 		monday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		},
 		tuesday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		},
 		wednesday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		},
 		thursday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		},
 		friday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		},
 		saturday: {
-			open: {type: String},
-			close: {type: String},
-			notes: {type: String}
+			open: {type: String, default: '00:00'},
+			close: {type: String, default: '00:00'},
+			notes: {type: String, default: ''}
 		}
 	},
 	active: {type: Boolean}
@@ -151,7 +151,7 @@ BarSchema.statics.countByDate = function () {
 
 	let field = 'opening_times.' + dayArrays[todayDate.getDay()];
 
-	return barModel.find({}, [field,'id']).exec()
+	return barModel.find({}, [field, 'id']).exec()
 };
 
 BarSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
