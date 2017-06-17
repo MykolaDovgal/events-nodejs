@@ -26,7 +26,6 @@ router.get('/event/:id/managers', function (req, res, next) {
 		results.managers.managers.forEach(managerId => {
 			userIdArray.push(managerId.userId);
 			permissionLevelHashArray[managerId.userId] = managerId.permission_level;
-			console.warn('kek')
 		});
 
 
@@ -88,7 +87,7 @@ router.post('/event/manager/update', function (req, res, next) {
 				'party_managers': {$elemMatch: {userId: body.pk}}
 			},
 			{
-				$set: {'party_managers.$.permission_level' : body['value']}
+				$set: {'party_managers.$.permission_level': body['value']}
 			},
 			{'multi': true}
 		).execAsync()

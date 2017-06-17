@@ -186,11 +186,6 @@ $(document).ready(function () {
 
 	let lock = false;
 
-	$('#table-line-managers tbody').on('click', 'td', function (event) {
-		if (!lock)
-			window.location = '/users/' + line_managers_table.row(this).data().id;
-	});
-
 	$('#table-line-managers tbody').on('click', 'td > div.remove-column', function (event) {
 		lock = true;
 		let parent = this.parentElement;
@@ -240,7 +235,12 @@ $(document).ready(function () {
 				return params;
 			},
 		});
+	};
 
-
-	}
+	$('#table-line-managers').on('click', 'td', function (event) {
+		let propName = $(event.target).prop("tagName");
+		if (propName != "I" && propName != "A") {
+			window.location = '/users/' + line_managers_table.row(this).data().id;
+		}
+	});
 });
