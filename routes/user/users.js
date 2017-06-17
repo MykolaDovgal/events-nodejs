@@ -27,7 +27,7 @@ router.get('/users', function (req, res, next) {
 			res.render('pages/user/users', data);
 		})
 		.catch(function (err) {
-			res.send(500);
+			next(err);
 		});
 });
 

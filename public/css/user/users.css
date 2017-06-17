@@ -27,3 +27,11 @@
 #user-button .btn {
 	margin-right: 5px;
 }
+
+#tab_managing table {
+	width: 100%;
+}
+
+#table-events {
+	width: 100%;
+}
