@@ -9,40 +9,40 @@ $(document).ready(function () {
 
 	usersSet = initUsersDataSet();
 
-	$('#music_tab_btn').on('click',function () {
-		if(!isMusicInit){
+	$('#music_tab_btn').on('click', function () {
+		if (!isMusicInit) {
 			initStages();
 			isMusicInit = true;
 		}
 	});
 
 
-	$('#party_add_stage').on('click',() => {
+	$('#party_add_stage').on('click', () => {
 		collapseAllStageTab();
 		generateStageTab();
 	});
 
 
-	$('body').on('click','.collapse_accordion',function (e) {
-		if($(e.target).prop("tagName") =='DIV' ){
+	$('body').on('click', '.collapse_accordion', function (e) {
+		if ($(e.target).prop("tagName") == 'DIV') {
 			collapseAnimatedStageTab.call(this);
 		}
-	}).on('click','.delete_stage_btn_flag',function () {
+	}).on('click', '.delete_stage_btn_flag', function () {
 		deleteStage.apply(this);
-	}).on('click','.add_dj_btn_flag',function () {
+	}).on('click', '.add_dj_btn_flag', function () {
 		addDjs.apply(this);
-	}).on('click','.init_table_flag',function () {
+	}).on('click', '.init_table_flag', function () {
 		fixTableLayout.apply(this);
 		$(this).removeClass('init_table_flag')
 	}).on('change', 'select[name="genres"]', function () {
 		updateStageGenres($(this).closest('.tab_flag').attr('id'));
-	}).on('click','.add_genres_btn_flag',function () {
+	}).on('click', '.add_genres_btn_flag', function () {
 		let stage = $(this).closest('.tab_flag');
 		stage.find('.select_container').append(generateDefaultSelect(stage.attr('id')));
 		updateStageGenres(stage.attr('id'));
 	}).on('click', '.remove_djs_btn_flag', function (event) {
 		deleteDjs.apply(this);
-	}).on('click','.remove_genres_btn_flag',function () {
+	}).on('click', '.remove_genres_btn_flag', function () {
 		deleteGenre($(this).closest('.tab_flag').attr('id'));
 	});
 });
@@ -64,7 +64,7 @@ let fixTableLayout = function () {
 let deleteGenre = function (stageId) {
 
 	let parent = $('#' + stageId);
-	if(parent.find('select[name="genres"]').length <= 0)
+	if (parent.find('select[name="genres"]').length <= 0)
 		return null;
 
 	parent.find('select[name="genres"]').last().remove();
@@ -83,7 +83,11 @@ let deleteDjs = function () {
 		message: "Are you sure you want to remove this user from djs?",
 		callback: function (result) {
 			if (result) {
-				let data = { userId: tableInstance.row(parent).data().id, stageId: stage.attr('id') };
+				let data = {
+					partyId: party.id,
+					userId: tableInstance.row(parent).data().id,
+					stageId: stage.attr('id')
+				};
 				$.ajax({
 					url: '/api/party/music/stage/djs/delete',
 					type: 'POST',
@@ -121,8 +125,8 @@ let updateStageGenres = function (stageId) {
 	});
 };
 
-let generateDefaultSelect = function(stageId) {
-	if(stageId &&  $("#" + stageId).find('select').length > 4)
+let generateDefaultSelect = function (stageId) {
+	if (stageId && $("#" + stageId).find('select').length > 4)
 		return null;
 
 	let tmpGenres = [];
@@ -140,12 +144,12 @@ let generateStageTab = function () {
 		type: 'POST',
 		data: {partyId: party.id},
 		success: function (item) {
-			let stageTemplate = getStageTabTemplate(stageCount,item,false);
+			let stageTemplate = getStageTabTemplate(stageCount, item, false);
 			$('#music_accordion_container').append(stageTemplate);
 			setStageNameEditable(stageCount);
-			setStageTable('party_stage_'+ stageCount +'_djs',item._id);
-			setTypeahead('party_stage_'+ stageCount +'_djs_search');
-			stageCount+=1;
+			setStageTable('party_stage_' + stageCount + '_djs', item._id);
+			setTypeahead('party_stage_' + stageCount + '_djs_search');
+			stageCount += 1;
 
 		}
 	});
@@ -155,18 +159,18 @@ let generateStageTab = function () {
 
 let setStageNameEditable = function (counter) {
 
-	$('#party_stage_' + counter+ '_name').editable({
+	$('#party_stage_' + counter + '_name').editable({
 		url: '/api/party/music/stage/update',
 		type: 'text',
 		title: 'Enter title',
 	});
 };
 
-let setStageTable = function (stage_table_id,_id) {
+let setStageTable = function (stage_table_id, _id) {
 
 	let tmpTable = $('#' + stage_table_id).DataTable({
 
-		"ajax": "/api/party/music/stage/"+ _id +"/djs",
+		"ajax": "/api/party/music/stage/" + _id + "/djs",
 
 		"columns": [
 			{
@@ -226,7 +230,7 @@ let setStageTable = function (stage_table_id,_id) {
 	});
 
 	$('#' + stage_table_id).on('click', 'td', function (event) {
-		if($(event.target).prop("tagName") != "I") {
+		if ($(event.target).prop("tagName") != "I") {
 			window.location = '/users/' + tmpTable.row(this).data().id;
 		}
 	});
@@ -236,16 +240,16 @@ let setStageTable = function (stage_table_id,_id) {
 let initStages = function () {
 
 	$.ajax({
-		url: '/api/party/'+ party.id + '/music/stages',
+		url: '/api/party/' + party.id + '/music/stages',
 		type: 'GET',
 		success: function (data) {
 			data.forEach((item) => {
-				let stageTemplate = getStageTabTemplate(stageCount,item);
+				let stageTemplate = getStageTabTemplate(stageCount, item);
 				$('#music_accordion_container').append(stageTemplate);
 				setStageNameEditable(stageCount);
-				setTypeahead('party_stage_'+ stageCount +'_djs_search');
-				setStageTable('party_stage_'+ stageCount +'_djs',item._id);
-				stageCount+=1;
+				setTypeahead('party_stage_' + stageCount + '_djs_search');
+				setStageTable('party_stage_' + stageCount + '_djs', item._id);
+				stageCount += 1;
 
 			});
 		}
@@ -279,7 +283,7 @@ let initUsersDataSet = function () {
 
 	//user dataset for search
 	return new Bloodhound({
-		datumTokenizer : function(datum) {
+		datumTokenizer: function (datum) {
 			let idTokens = Bloodhound.tokenizers.whitespace(datum.id);
 			let lastNameTokens = Bloodhound.tokenizers.whitespace(datum.name);
 			let firstNameTokens = Bloodhound.tokenizers.whitespace(datum.username);
@@ -289,9 +293,9 @@ let initUsersDataSet = function () {
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
 		prefetch: {
 			url: '/api/users/usersname',
-			cache: false ,
-			transform: function(response) {
-				return $.map(response, function(item) {
+			cache: false,
+			transform: function (response) {
+				return $.map(response, function (item) {
 					return {
 						id: item.id,
 						name: item.name,
@@ -316,9 +320,9 @@ let setTypeahead = function (inputId) {
 			source: usersSet,
 			templates: {
 				suggestion: function (item) {
-					return  '<div class="col-md-12">' +
+					return '<div class="col-md-12">' +
 						'<div class="col-md-4" style="float:left;"><img style="width:50px;height:50px;border-radius: 50%;" src="' + item.picture + '"/></div>' +
-						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>'  + '</div>' +
+						'<div> ID:(' + item.id + ') <strong>' + item.name + '</strong>' + '</div>' +
 						'</div>';
 				}
 			}
@@ -335,7 +339,7 @@ let addDjs = function () {
 	$.ajax({
 		url: '/api/party/music/stage/djs/add',
 		type: 'POST',
-		data: selectedResults ,
+		data: selectedResults,
 		success: function (data) {
 			updateTable($(table).attr('id'));
 		},
@@ -348,8 +352,8 @@ let addDjs = function () {
 
 };
 
-let updateTable = function(tableId) {
-	let table = $('#'+ tableId).DataTable();
+let updateTable = function (tableId) {
+	let table = $('#' + tableId).DataTable();
 	table.clear().draw();
 	setTimeout(function () {
 		table.ajax.reload();
@@ -360,12 +364,12 @@ let updateTable = function(tableId) {
 let generateSelectTemplate = function (genresArray) {
 	let selectTemplate = $('<div></div>');
 
-	if(genresArray.music_genres && genresArray.music_genres.length > 0){
+	if (genresArray.music_genres && genresArray.music_genres.length > 0) {
 		genresArray.music_genres.forEach((selectedGenre) => {
-			let select = $('<select name="genres" value="' + selectedGenre +'" class="form-control"></select>');
-			partyGenres.forEach( (genre) => {
+			let select = $('<select name="genres" value="' + selectedGenre + '" class="form-control"></select>');
+			partyGenres.forEach((genre) => {
 				let optionGenre = $('<option value="' + genre + '">' + genre + '</option>');
-				if(genre == selectedGenre)
+				if (genre == selectedGenre)
 					optionGenre.attr('selected', true);
 				select.append(optionGenre);
 			});
@@ -379,7 +383,7 @@ let generateSelectTemplate = function (genresArray) {
 
 };
 
-let getStageTabTemplate = function (counter,tabItem,isCollapsed = true) {
+let getStageTabTemplate = function (counter, tabItem, isCollapsed = true) {
 
 	let musicTemplate = `
 									<div class="col-md-6">

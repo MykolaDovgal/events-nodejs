@@ -171,13 +171,34 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 router.post('/party/music/stage/djs/delete', function (req, res, next) {
 	let body = req.body;
 
+
+	let partyId = +body.partyId;
+	let userId = +body.userId;
+	let stageId = body.stageId;
+
 	Promise.props({
-		party: Party.findOne({'stage': {$elemMatch: {_id: body.stageId}}}, 'stage.djs').execAsync()
+		party: Party.findOne({
+			'id': partyId,
+			'stage': {$elemMatch: {_id: stageId}},
+			//'stage.djs.userId': userId
+		}, {'stage.djs': 1}).execAsync()
 	}).then(function (results) {
-		let ind = results.party.stage[0].djs.findIndex(x => x.userId == body.userId);
-		results.party.stage[0].djs.splice(ind, 1);
-		results.party.save();
-		res.sendStatus(200);
+		try {
+			let party = results.party;
+			let djs = party.stage[0].djs;
+
+			djs.forEach((dj) => {
+				console.warn(dj);
+				if (dj.userId == body.userId) {
+					dj.remove();
+				}
+			});
+			party.save();
+			console.warn(party);
+			res.sendStatus(200);
+		} catch (e) {
+			next(e);
+		}
 	})
 		.catch(function (err) {
 			next(err);
