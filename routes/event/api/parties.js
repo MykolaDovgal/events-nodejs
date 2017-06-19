@@ -19,7 +19,7 @@ router.get('/event/:id/parties', function (req, res, next) {
 				parties.push({
 					id: party.id,
 					title: party.title_eng,
-					club: party.location.club_name,
+					club: party.location.club_name || '',
 					event_only: !!party.only_for_event_att,
 					date: party.date ? moment(party.date).format('DD/MM/YYYY') : '',
 					open_time: party.date ? moment(party.date).format('HH:mm') : '',
