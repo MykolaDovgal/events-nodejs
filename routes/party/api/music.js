@@ -171,38 +171,26 @@ router.post('/party/music/stage/djs/add', function (req, res, next) {
 router.post('/party/music/stage/djs/delete', function (req, res, next) {
 	let body = req.body;
 
-
 	let partyId = +body.partyId;
 	let userId = +body.userId;
 	let stageId = body.stageId;
 
-	Promise.props({
-		party: Party.findOne({
-			'id': partyId,
-			'stage': {$elemMatch: {_id: stageId}},
-			//'stage.djs.userId': userId
-		}, {'stage.djs': 1}).execAsync()
-	}).then(function (results) {
-		try {
-			let party = results.party;
-			let djs = party.stage[0].djs;
+	try {
 
-			djs.forEach((dj) => {
-				console.warn(dj);
-				if (dj.userId == body.userId) {
-					dj.remove();
-				}
+		Party.findOneAndUpdate({
+				'id': partyId,
+				'stage': {$elemMatch: {_id: stageId}},
+				'stage.djs.userId': userId
+			},
+			{
+				$pull: {'stage.$.djs': {userId: userId}}
+			}, function (err, _result) {
+				res.sendStatus(200);
 			});
-			party.save();
-			console.warn(party);
-			res.sendStatus(200);
-		} catch (e) {
-			next(e);
-		}
-	})
-		.catch(function (err) {
-			next(err);
-		});
+
+	} catch (e) {
+		next(e);
+	}
 
 });
 
