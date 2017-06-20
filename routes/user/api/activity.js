@@ -13,7 +13,6 @@ let Line = require('models/Line');
 let Party = require('models/Party');
 let Event = require('models/Event');
 
-
 router.get('/users', function (req, res, next) {
 	Promise.props({
 		users: User.find({}).execAsync(),
@@ -33,6 +32,7 @@ router.get('/users', function (req, res, next) {
 				userIdArray.push(user.id);
 				return user;
 			});
+
 
 			let barManagersCount = getManagerCount(results.bar, userIdArray);
 			let eventManagersCount = getManagerCount(results.event, userIdArray);
