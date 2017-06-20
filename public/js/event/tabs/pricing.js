@@ -131,7 +131,7 @@ let initPricingTable = function () {
 				render: function (data, type, full, meta) {
 					return `
 								<div class="identity_flag">
-									<input data-id="${full.id != undefined ? full.id : ''}" value="${data != undefined ? data : ''}"  name="price" class="form-control" type="text" style="width: 100%">			
+									<input data-id="${full.id != undefined ? full.id : ''}" value="${data != undefined ? data : ''}"  name="price" class="form-control" type="number" style="width: 100%">			
 								</div>
 							`;
 				},
