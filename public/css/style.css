@@ -1090,15 +1090,15 @@ pre {
 	margin-top: 10px;
 }
 
-/***gallery-grid***/
+/***gallery-grid***//*
 .gallery-grid .mt-element-overlay img {
 	height: 300px;
-}
+}*/
 
 .gallery-grid .mt-element-overlay {
-	max-height: 300px;
 	padding: 0 3px;
 	margin: 3px 0;
+	overflow: hidden;
 }
 
 .mt-element-overlay .mt-overlay-5 .mt-overlay {

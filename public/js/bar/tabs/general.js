@@ -17,11 +17,11 @@ $(document).ready(function () {
     let $uploadCrop;
     $uploadCrop = $('#upload-cover-picture').croppie({
         viewport: {
-            width: 368,
-            height: 200,
+            width: 555,
+            height: 300,
         },
         boundary: {
-            width: 552,
+            width: 555,
             height: 300
         }
     });
