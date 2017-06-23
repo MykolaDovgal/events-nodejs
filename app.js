@@ -173,6 +173,7 @@ app.use(function (err, req, res, next) {
 });
 
 console.warn('App Started');
+console.warn('port',app.address().port);
 
 app.set('absolute_view', __dirname + '/views');
 app.set('absolute_path', __dirname);
