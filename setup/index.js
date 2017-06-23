@@ -166,7 +166,7 @@ setup = {
 			let line_name = faker.name.title();
 			let color = faker.random.arrayElement(['FFFF00', 'CC0000', '663366', 'FF3366', '0099FF', '00FF66', 'FFFF99']);
 			//let cover_picture = 'http://dummyimage.com/415x240/' + color + '/000.png';
-			let cover_picture = 'https://placeimg.com/450/240/arch?' + line_name;
+			let cover_picture = 'https://placeimg.com/555/300/arch?' + line_name;
 			//http://dummyimage.com/415x240/000/ffffff.png
 
 			let lineData = {
@@ -231,7 +231,7 @@ setup = {
 				}
 
 				let party_name = faker.name.title();
-				let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
+				let cover_picture = 'https://placeimg.com/555/300/arch?' + party_name;
 
 				let partyData = {
 					lineId: faker.random.arrayElement(lines),
@@ -300,7 +300,7 @@ setup = {
 				}
 
 				let event_name = faker.name.title();
-				let cover_picture = 'https://placeimg.com/450/240/arch?' + event_name;
+				let cover_picture = 'https://placeimg.com/555/300/arch?' + event_name;
 
 				let eventData = {
 					title_eng: event_name + ' (eng)',
@@ -352,7 +352,7 @@ setup = {
 
 			for (let i = 0; i < COUNT_OF_BARS; i += 1) {
 				let party_name = faker.name.title();
-				let cover_picture = 'https://placeimg.com/450/240/arch?' + party_name;
+				let cover_picture = 'https://placeimg.com/555/300/arch?' + party_name;
 				let attendees = [];
 				let followers = [];
 
@@ -485,6 +485,7 @@ setup = {
 		}
 		return result;
 	},
+
 	optimizeImages: function () {
 
 		let app_path = path.join(__dirname, '../');

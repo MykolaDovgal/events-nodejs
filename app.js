@@ -37,6 +37,9 @@ User.count({username: config.get('project:admin:username')}, function (err, coun
 	}
 });
 
+// setup.createLines();
+// setup.createBar();
+// setup.createEvent();
 
 // routes
 let routes = require('./routes');
