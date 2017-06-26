@@ -141,7 +141,7 @@ PartySchema.statics.countByDate = function (type = 'eq', date = Date.now()) {
 PartySchema.plugin(autoIncrement.plugin, {
 	model: 'Party',
 	field: 'id',
-	startAt: 1
+	startAt: 1322
 });
 
 PartySchema.virtual('attendees.user', {

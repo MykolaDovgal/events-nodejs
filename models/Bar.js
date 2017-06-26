@@ -116,7 +116,7 @@ let BarSchema = new Schema({
 BarSchema.plugin(autoIncrement.plugin, {
 	model: 'Bar',
 	field: 'id',
-	startAt: 1
+	startAt: 2213
 });
 
 BarSchema.virtual('image_circle').get(function () {

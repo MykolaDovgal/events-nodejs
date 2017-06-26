@@ -155,7 +155,7 @@ UserSchema.virtual('image_circle').get(function () {
 UserSchema.plugin(autoIncrement.plugin, {
 	model: 'User',
 	field: 'id',
-	startAt: 1
+	startAt: 1489
 });
 
 // validate on update

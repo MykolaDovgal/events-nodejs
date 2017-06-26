@@ -113,7 +113,7 @@ EventSchema.pre('update', function (next) {
 EventSchema.plugin(autoIncrement.plugin, {
 	model: 'Event',
 	field: 'id',
-	startAt: 1
+	startAt: 1221
 });
 
 EventSchema.virtual('attendees.user', {
