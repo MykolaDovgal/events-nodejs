@@ -154,6 +154,10 @@ BarSchema.statics.countByDate = function () {
 	return barModel.find({}, [field, 'id']).exec()
 };
 
+BarSchema.virtual('image').get(function () {
+	return util.getImage(this, 'cover_picture', default_image_bar);
+});
+
 BarSchema.pre('findOne', autoPopulateUser).pre('find', autoPopulateUser);
 
 BarSchema.plugin(mongoosePaginate);

@@ -1,6 +1,6 @@
 let Bar = require('models/Bar');
 let config = require('config');
-let default_image_event = config.get('images:default_image_event');
+let default_image_event = config.get('images:default_image_lines');
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');

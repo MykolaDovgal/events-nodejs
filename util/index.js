@@ -151,10 +151,10 @@ util = {
 
 	getAbsolutePath: function (finalFolder) {
 		let absolutePath = path.resolve('') + path.normalize(`/public/uploads/${finalFolder}/`);
-		absolutePath.replace('util', '');
-		absolutePath.replace('bin', '');
+		let fix1 = absolutePath.replace('util', '');
+		let fix2 = fix1.replace('bin', '');
 
-		return path.normalize(absolutePath);
+		return path.normalize(fix2);
 	},
 
 	getRelativePath: function (absPath) {

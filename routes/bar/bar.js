@@ -22,13 +22,7 @@ router.get('/bar/:id', function (request, response, next) {
 	})
 		.then(function (results) {
 			let bar = results.bar;
-
-			if (typeof bar.cover_picture !== 'undefined' && bar.cover_picture.indexOf('http://') === -1 && bar.cover_picture.indexOf('https://') === -1) {
-				if (!fs.existsSync('public' + bar.cover_picture)) {
-					bar.cover_picture = default_image_line;
-				}
-			}
-
+			bar.cover_picture = bar.image;
 			let data = {
 				title: bar.bar_name_eng,
 				showMenu: true,
