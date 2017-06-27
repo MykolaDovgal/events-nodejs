@@ -146,6 +146,21 @@ util = {
 			}
 		}
 		return result;
+	},
+
+
+	getAbsolutePath: function (finalFolder) {
+		let absolutePath = path.resolve('') + path.normalize(`/public/uploads/${finalFolder}/`);
+		absolutePath.replace('util', '');
+
+		return absolutePath;
+	},
+
+	getRelativePath: function (absPath) {
+		let pathArray = absPath.split(path.sep);
+		pathArray.splice(0, pathArray.indexOf('public') + 1);
+
+		return path.sep + pathArray.join(path.sep);
 	}
 
 

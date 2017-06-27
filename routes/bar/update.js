@@ -4,6 +4,8 @@ let path = require('path');
 let crypto = require('crypto');
 let config = require('config');
 let multer = require('multer');
+let util = require('../../util/index');
+
 
 let Bar = require('models/Bar');
 
@@ -16,8 +18,9 @@ let text = {
 };
 
 let storage = multer.diskStorage({
+
 	destination: function (req, file, cb) {
-		cb(null, './public/uploads/bars/')
+		cb(null, util.getAbsolutePath('bars'));
 	},
 	filename: function (req, file, cb) {
 		crypto.pseudoRandomBytes(16, function (err, raw) {
@@ -36,24 +39,16 @@ router.post('/bar/update/:id', upload.any(), function (req, res, next) {
 	let body = {};
 	let files = req.files;
 
-	let imageOriginal = '';
-	let image = '';
-
 	let picture = {};
+
 
 	if (files) {
 		files.forEach(function (file) {
 			if (file.fieldname === 'cover-image') {
-				imageOriginal = file.path + '';
-				imageOriginal = imageOriginal.replace(/\//g, '/');
-				imageOriginal = imageOriginal.replace('public', '');
-				picture.original = imageOriginal;
+				picture.original = util.getRelativePath(file.path);
 			}
 			if (file.fieldname === 'cover_picture') {
-				image = file.path + '';
-				image = image.replace(/\//g, '/');
-				image = image.replace('public', '');
-				picture.circle = image;
+				picture.circle = util.getRelativePath(file.path);
 			}
 		});
 		Promise.props({

@@ -13,7 +13,7 @@ var moment = require('moment');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './public/uploads/users/')
+        cb(null, util.getAbsolutePath('users'))
     },
     filename: function (req, file, cb) {
         crypto.pseudoRandomBytes(16, function (err, raw) {
@@ -31,24 +31,16 @@ router.post('/user/update/:id?', upload.any(), function (req, res, next) {
     let body = {};
     let files = req.files;
 
-    let imageOriginalProfile = '';
-    let imageCircleProfile = '';
 
     let picture = {};
 
     if (files) {
         files.forEach(function (file) {
             if (file.fieldname === 'profile-image') {
-                imageOriginalProfile = file.path + '';
-                imageOriginalProfile = imageOriginalProfile.replace(/\//g, '/');
-                imageOriginalProfile = imageOriginalProfile.replace('public', '');
-                picture.original = imageOriginalProfile;
+                picture.original = util.getRelativePath(file.path);
             }
             if (file.fieldname === 'userpic') {
-                imageCircleProfile = file.path + '';
-                imageCircleProfile = imageCircleProfile.replace(/\//g, '/');
-                imageCircleProfile = imageCircleProfile.replace('public', '');
-                picture.circle = imageCircleProfile;
+                picture.circle = util.getRelativePath(file.path);
             }
         });
         Promise.props({

@@ -3,13 +3,13 @@ let Promise = require('bluebird');
 let path = require('path');
 let crypto = require('crypto');
 let Line = require('models/Line');
-
+let util = require('../../util/index');
 let router = express.Router();
 let multer = require('multer');
 
 let storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-		cb(null, './public/uploads/lines/')
+		cb(null, util.getAbsolutePath('lines'))
 	},
 	filename: function (req, file, cb) {
 		crypto.pseudoRandomBytes(16, function (err, raw) {
@@ -28,24 +28,16 @@ router.post('/line/update/:id', upload.any(), function (req, res, next) {
 	let files = req.files;
 
 
-	let imageOriginal = '';
-	let image = '';
 
 	let picture = {};
 
 	if (files) {
 		files.forEach(function (file) {
 			if (file.fieldname === 'cover-image') {
-				imageOriginal = file.path + '';
-				imageOriginal = imageOriginal.replace(/\//g, '/');
-				imageOriginal = imageOriginal.replace('public', '');
-				picture.original = imageOriginal;
+				picture.original = util.getRelativePath(file.path);
 			}
 			if (file.fieldname === 'cover_picture') {
-				image = file.path + '';
-				image = image.replace(/\//g, '/');
-				image = image.replace('public', '');
-				picture.circle = image;
+				picture.circle = util.getRelativePath(file.path);
 			}
 		});
 		Promise.props({
