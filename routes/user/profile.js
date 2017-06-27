@@ -24,8 +24,7 @@ router.get('/users/:id?', function (req, res, next) {
 			let user = results.user;
 			let title_page = user.username + "'s Profile";
 
-			if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
-				user.profile_picture_circle = default_image_user;
+			user.profile_picture_circle = user.image_circle;
 
 			let data = {
 				title: title_page,

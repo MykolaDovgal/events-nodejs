@@ -43,7 +43,6 @@ util = {
 			let path = getPictureAbsolutePath('/public' + data_field);
 			if (fs.existsSync(path)) {
 				let type = mime.lookup(path);
-				console.log(path);
 
 				if (allowedMimeTypesForImages.includes(type)) {
 					try {
