@@ -94,6 +94,9 @@ router.post('/scrollBars/:page?', function (req, res, next) {
 			}).then(function (results) {
 
 				let bars = results.bars.docs;
+				bars.forEach(function (bars) {
+					bars.cover_picture = bars.image;
+				});
 				let data = {
 					data: bars
 				};

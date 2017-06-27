@@ -82,7 +82,9 @@ router.post('/lines/:page?', function (req, res, next) {
 	}).then(function (results) {
 
 		let lines = results.lines.docs;
-
+		lines.forEach(function (lines) {
+			lines.cover_picture = lines.image;
+		});
 		let data = {
 			data: lines
 		};

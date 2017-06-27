@@ -31,6 +31,7 @@ util = {
 		month -= 1;
 		return new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
 	},
+
 	getImage: function (object_data, field, default_image) {
 		let result = default_image;
 		let data_field = object_data[field];
@@ -39,10 +40,10 @@ util = {
 		if (typeof data_field !== 'undefined' && data_field !== null
 			&& data_field.indexOf('http://') === -1 && data_field.indexOf('https://') === -1
 		) {
-			let path = 'public' + data_field;
+			let path = getPictureAbsolutePath('\\public' + data_field);
 			if (fs.existsSync(path)) {
 				let type = mime.lookup(path);
-
+				console.log(path);
 
 				if (allowedMimeTypesForImages.includes(type)) {
 					try {
@@ -165,6 +166,15 @@ util = {
 	}
 
 
+};
+
+let getPictureAbsolutePath = function (picturePath) {
+
+	let absolutePath = path.resolve('') + path.normalize(picturePath);
+	let fix1 = absolutePath.replace('util', '');
+	let fix2 = fix1.replace('bin', '');
+
+	return path.normalize(fix2);
 };
 
 module.exports = util;
