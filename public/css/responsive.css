@@ -26,6 +26,14 @@
     .tiles{
         width: 90%;
     }
+    .line-tab-width>.nav-tabs>li{
+        width: 17% !important;
+    }
+    .tabbable-line>.nav-tabs>li>a{
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+        font-size: 13px !important;
+    }
 }
 
 @media (max-width: 991px) {
