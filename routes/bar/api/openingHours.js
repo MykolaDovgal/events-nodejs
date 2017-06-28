@@ -27,7 +27,6 @@ router.get('/bar/:id/opening', function (req, res, next) {
 		times: Bar.findOne({id: req.params.id}).select('opening_times').execAsync()
 	})
 		.then(function (results) {
-			let data = [];
 			res.json(results.times.opening_times);
 		})
 		.catch(function (err) {

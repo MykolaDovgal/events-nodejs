@@ -13,8 +13,9 @@ router.post('/event/delete/:id', function (req, res, next) {
 
 	if (eventId > 0) {
 		Promise.props({
-			party: Party.update({eventId: eventId}, {eventId : -1}).execAsync(),
-			event: Event.findOneAndRemove({id: eventId},() => {})
+			party: Party.update({eventId: eventId}, {eventId: -1}).execAsync(),
+			event: Event.findOneAndRemove({id: eventId}, () => {
+			})
 		}).then(function (result) {
 			res.sendStatus(200);
 		})

@@ -1,6 +1,5 @@
 let express = require('express');
 let router = express.Router();
-let moment = require('moment');
 let bodyParser = require("body-parser");
 let Promise = require('bluebird');
 

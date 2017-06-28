@@ -28,7 +28,6 @@ router.post('/event/add', function (request, response, next) {
 		start_date: body['event_start_time'],
 		end_date: body['event_end_time'],
 		location: location,
-		//cover_picture: default_image_event
 	});
 
 	let data = {

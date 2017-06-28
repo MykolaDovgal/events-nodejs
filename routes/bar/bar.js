@@ -5,7 +5,6 @@ let config = require('config');
 let default_image_line = config.get('images:default_image_line');
 let moment = require('moment');
 
-let Party = require('models/Party');
 let Bar = require('models/Bar');
 
 let text = {

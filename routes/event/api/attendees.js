@@ -35,12 +35,12 @@ router.get('/event/:id/attendees', function (req, res, next) {
 						user_picture: user_pic,
 						userId: attendee.userId,
 						user_name: username,
-						attend_mark_time: attendee.attend_mark_time ? moment(attendee.attend_mark_time).format('DD/MM/YYYY HH:mm') : '',
+						attend_mark_time: attendee.attend_mark_time ? moment(attendee.attend_mark_time).format('DD/MM/YYYY HH:mm') : '-',
 						ticket_purchase: attendee.ticket_purchase,
 						ticket_checkin: attendee.ticket_checkin,
-						checkin_time: attendee.checkin_time ? moment(attendee.checkin_time).format('DD/MM/YYYY HH:mm') : '',
+						checkin_time: attendee.checkin_time ? moment(attendee.checkin_time).format('DD/MM/YYYY HH:mm') : '-',
 						location_ver: attendee.location_ver,
-						location_ver_time: attendee.location_ver_time ? moment(attendee.location_ver_time).format('DD/MM/YYYY HH:mm') : ''
+						location_ver_time: attendee.location_ver_time ? moment(attendee.location_ver_time).format('DD/MM/YYYY HH:mm') : '-'
 					});
 				}
 			});

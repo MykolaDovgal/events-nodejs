@@ -16,7 +16,7 @@ let router = express.Router();
 router.get('/bar/:id/managers', function (req, res, next) {
 
 	Promise.props({
-		managers: Bar.findOne({'id':  req.params.id}).select('managers').execAsync()
+		managers: Bar.findOne({'id': req.params.id}).select('managers').execAsync()
 	}).then(function (results) {
 
 		let permissionLevelHashArray = [];
@@ -29,17 +29,15 @@ router.get('/bar/:id/managers', function (req, res, next) {
 
 
 		User.find({
-			id : {$in: userIdArray }
+			id: {$in: userIdArray}
 		}).exec().then((results) => {
 			let users = [];
 
 			results.forEach((user) => {
 
-				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
-					user.profile_picture_circle = default_image_user;
 
 				users.push({
-					profile_picture_circle: user.profile_picture_circle,
+					profile_picture_circle: user.image_circle,
 					id: user.id,
 					username: user.username,
 					permission_level: permissionLevelHashArray[user.id]
@@ -87,7 +85,10 @@ router.post('/bar/manager/delete', function (req, res, next) {
 router.post('/bar/manager/update', function (req, res, next) {
 	let body = req.body;
 	Promise.props({
-		bar: Bar.findOneAndUpdate({id: body.barId, 'managers': {$elemMatch: { userId: body.pk } }}, {'managers.$.permission_level' : body['value']}).execAsync()
+		bar: Bar.findOneAndUpdate({
+			id: body.barId,
+			'managers': {$elemMatch: {userId: body.pk}}
+		}, {'managers.$.permission_level': body['value']}).execAsync()
 	}).then(function (results) {
 		res.sendStatus(200);
 	})

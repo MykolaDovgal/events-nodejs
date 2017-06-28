@@ -35,12 +35,8 @@ router.get('/event/:id/managers', function (req, res, next) {
 			let users = [];
 
 			results.forEach((user) => {
-
-				if (!fs.existsSync('public' + user.profile_picture_circle) && !user.profile_picture_circle.includes('http') || user.profile_picture_circle === '')
-					user.profile_picture_circle = default_image_user;
-
 				users.push({
-					profile_picture_circle: user.profile_picture_circle,
+					profile_picture_circle: user.image_circle,
 					id: user.id,
 					username: user.username,
 					permission_level: permissionLevelHashArray[user.id]
