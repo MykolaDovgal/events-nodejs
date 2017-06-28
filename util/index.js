@@ -156,7 +156,6 @@ util = {
 
 		return path.normalize(fix2);
 	},
-
 	getRelativePath: function (absPath) {
 		let pathArray = absPath.split(path.sep);
 		pathArray.splice(0, pathArray.indexOf('public') + 1);
@@ -168,7 +167,6 @@ util = {
 };
 
 let getPictureAbsolutePath = function (picturePath) {
-
 	let absolutePath = path.resolve('') + path.normalize(picturePath);
 	let fix1 = absolutePath.replace('util', '');
 	let fix2 = fix1.replace('bin', '');
