@@ -19,15 +19,9 @@
 	transform: scale(2.5) !important;
 }
 
-#events-gallery .mt-element-overlay img {
-
-	height: 300px;
-
-}
 
 #events-gallery .mt-element-overlay {
 	max-height: 300px;
-	width: 33%;
 }
 
 #events-gallery {
