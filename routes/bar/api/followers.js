@@ -4,9 +4,6 @@ let Promise = require('bluebird');
 let moment = require('moment');
 let util = require('util/index');
 
-let config = require('config');
-let default_image_user = config.get('images:default_image_user');
-
 let Bar = require('models/Bar');
 
 

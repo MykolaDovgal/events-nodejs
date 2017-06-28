@@ -155,9 +155,7 @@ function generateLine(line) {
                         <div class="mt-overlay">
                             <h2>` + line.line_name_eng + `</h2>
                             <a class="mt-info" href="/line/` + line.id + `">
-                                <div style="position: relative; top: -50px;">#` + line.id + address + `
-                                    <br>Next Party: ` + next_party + `
-                                </div>
+                                <div style="position: relative; top: -50px;">#` + line.id + address + ` </div>
                             </a>
                         </div>
                     </div>

@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 				'ajax': {
 					type: 'GET',
-					'url': "/api/line/followers",
+					'url': "/api/line/" + line.id + "/followers",
 					'data': function (d) {
 						return d;
 					},

@@ -31,6 +31,12 @@ let LineSchema = new Schema({
 		phone_number: {type: String, trim: true},
 		cover_picture_original: {type: String, trim: true},
 		cover_picture: {type: String, trim: true},
+		followers: [{
+			user: {type: Object},
+			userId: {type: Number},
+			times_attended: {type: Number},
+			last_attendence: {type: Date}
+		}],
 		managers: [
 			{
 				user_id: {type: Number},

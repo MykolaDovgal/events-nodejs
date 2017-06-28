@@ -1,41 +1,40 @@
 let express = require('express');
 let Promise = require('bluebird');
-let faker = require('faker');
 let moment = require('moment');
 
-let User = require('models/User');
+let Line = require('models/Line');
 
 let router = express.Router();
 
 
-let fs = require('fs');
-let config = require('config');
-let default_image_user = config.get('images:default_image_user');
+router.get('/line/:id/followers', function (req, res, next) {
+	let totalNumber = 0;
 
-
-// get all lines
-router.get('/line/followers', function (req, res, next) {
-	let randomNumber = Math.floor((Math.random() * 50) + 10);
 	Promise.props({
-		users: User.find().limit(randomNumber).execAsync()
+		line: Line.findOne({id: req.params.id}).execAsync()
 	})
 		.then(function (results) {
+			let followers = results.line.followers;
+			let data = [];
 
-			let users = [];
+			followers.forEach(function (follower) {
+				let user = follower.user;
 
-			for (let i = 0; i < randomNumber; i += 1) {
-
-				users.push({
-					profile_picture_circle: results.users[i].image,
-					id: results.users[i].id,
-					username: results.users[i].username,
-					time_attended: moment(faker.date.past(5)).format('DD/MM/YYYY HH:mm'),
-					last_attendance: moment(faker.date.past(10)).format('DD/MM/YYYY HH:mm'),
-					full_name: results.users[i].firstname + ' ' + results.users[i].lastname
-				});
-			}
-
-			res.json({data: users, total_number: randomNumber});
+				if (user !== null) {
+					totalNumber += 1;
+					let username = user.username;
+					let user_pic = user.image_circle;
+					data.push({
+						user_picture: user_pic,
+						userId: follower.userId,
+						user_name: username,
+						times_attended: follower.times_attended,
+						last_attendence: follower.last_attendence ? moment(follower.last_attendence).format('DD/MM/YYYY HH:mm') : ''
+					});
+				}
+			});
+			let temp = {data: data, total_number: totalNumber};
+			res.json(temp);
 		})
 		.catch(function (err) {
 			next(err)
