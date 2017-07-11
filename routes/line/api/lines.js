@@ -6,6 +6,7 @@ let fs = require('fs');
 let config = require('config');
 
 let Line = require('models/Line');
+let Party = require('models/Party');
 let default_image_line = config.get('images:default_image_line');
 
 let router = express.Router();
@@ -79,17 +80,39 @@ router.post('/lines/:page?', function (req, res, next) {
 
 	Promise.props({
 		lines: Line.paginate({$and: filter}, {page: page, limit: limit})
-	}).then(function (results) {
+	}).then(function (lineResults) {
 
-		let lines = results.lines.docs;
-		lines.forEach(function (lines) {
-			lines.cover_picture = lines.image;
+		let lines = Array.from(lineResults.lines.docs);
+		let linesIdArray = lines.map((line) => line.id);
+		let linesIdHash = [];
+
+		Promise.props({
+			parties: Party.find({
+				lineId: {$in: linesIdArray},
+				date: {$gt: Date.now()}
+			}).sort({date: 1}).select('id lineId date')
+		}).then(function (partyResults) {
+
+			linesIdArray.forEach((lineId) => {
+				let tempCloserDateIndex = partyResults.parties.findIndex((item) => item.lineId === lineId);
+
+				if (tempCloserDateIndex > -1) {
+					linesIdHash['id' + lineId] = moment(partyResults.parties[tempCloserDateIndex].date).format('DD/MM/YYYY HH:mm');
+				}
+			});
+
+			let data = {
+				data: lines.map((line) => {
+					return Object.assign({nextParty:linesIdHash['id' + line.id] || '-'},line._doc,{image: line.image});
+				})
+			};
+
+			res.json(data);
+
+		}).catch(function (err) {
+			next(err);
 		});
-		let data = {
-			data: lines
-		};
 
-		res.json(data);
 	}).catch(function (err) {
 		next(err);
 	});
