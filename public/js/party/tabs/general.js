@@ -225,6 +225,28 @@ $(document).ready(function () {
 				name: 'description_ol',
 				title: 'Enter description'
 			});
+
+			$('#remarks').editable({
+				type: 'text',
+				pk: 1,
+				name: 'remarks',
+				title: 'Enter remarks'
+			});
+
+			$('#age_range_min').editable({
+				pk: 1,
+				name: 'age_range.min',
+				title: 'Enter age range min',
+				validate: xeditable.validators.minMaxRange
+			});
+
+			$('#age_range_max').editable({
+				pk: 1,
+				name: 'age_range.max',
+				title: 'Enter age range max',
+				validate: xeditable.validators.minMaxRange
+			});
+
 		};
 		return {
 			//main function to initiate the module

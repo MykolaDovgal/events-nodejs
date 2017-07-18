@@ -109,7 +109,12 @@ let BarSchema = new Schema({
 			notes: {type: String, default: ''}
 		}
 	},
-	active: {type: Boolean}
+	active: {type: Boolean},
+	remarks: {type: String, trim: true},
+	age_range: {
+		min: {type: Number, default: 15},
+		max: {type: Number, default: 100}
+	}
 });
 
 
