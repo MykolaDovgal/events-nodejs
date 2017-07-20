@@ -28,7 +28,6 @@ router.post('/line/update/:id', upload.any(), function (req, res, next) {
 	let files = req.files;
 
 
-
 	let picture = {};
 
 	if (files) {
@@ -55,6 +54,7 @@ router.post('/line/update/:id', upload.any(), function (req, res, next) {
 	}
 
 	let val;
+	let error_message = 'Problem with update values';
 	if (body['value'])
 		val = body['value'];
 	else
@@ -66,9 +66,10 @@ router.post('/line/update/:id', upload.any(), function (req, res, next) {
 		res.status(200).send(body['value']);
 	})
 		.catch(function (err) {
+
 			console.warn(err);
 			res.status(500);
-			res.send(err.message);
+			res.send(error_message);
 		});
 });
 

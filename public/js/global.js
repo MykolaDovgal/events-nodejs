@@ -8,6 +8,12 @@ let xeditable = {
 			if (value === null || value === '') {
 				return 'Empty values not allowed';
 			}
+		},
+		minMaxRange: function (value) {
+			let min = 15, max = 100;
+			if (value < min || value > max) {
+				return 'Value not matches a range';
+			}
 		}
 	}
 };
@@ -42,7 +48,7 @@ let sourceOfServeMethods = [
 ];
 
 let sourceOfPermissionLevel = [
-	'1','2','3'
+	'1', '2', '3'
 ];
 
 let serialize = function (obj, prefix) {

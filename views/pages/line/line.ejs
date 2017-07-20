@@ -211,11 +211,47 @@
 
 
 											</div>
+
+											<div class="row vertical-row vertical-top offset-bottom-1_5">
+												<label class="col-xs-4 col-md-3 control-label">
+													Remarks
+												</label>
+
+												<div class="col-xs-8 col-md-9 description-general form-group form-textarea">
+													<div id="remarks" data-pk="1" data-type="wysihtml5"
+													     data-original-title="Enter remarks"
+													     class="editable editable-open"><%= line.remarks %></div>
+												</div>
+											</div>
+
+											<div class="row vertical-row vertical-center">
+												<label class="col-xs-4 col-md-3 control-label">
+													Age Range
+												</label>
+												<div class="col-xs-8 col-md-9">
+													<div class="col-xs-12">
+														<a
+																id="age_range_min" data-type="number"
+																class="editable editable-click"> <%= line.age_range.min %> </a>
+														<span>&nbsp; &mdash; &nbsp;</span>
+														<a
+																id="age_range_max" data-type="number"
+																class="editable editable-click"> <%= line.age_range.max %> </a>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-12">
+													<hr/>
+												</div>
+											</div>
+
 											<div class="row offset-top-xs-2">
 												<div class="col-xs-12">
 													<div class="block-music form-group form-md-line-input has-info wrapper-line border-line">
 														<p class="title-block">Music</p>
-														<!--ToDO: genre does not saving after add only after change -->
+
 														<div class="col-md-5" id="select_container">
 															<% if(line.music.music_genres) { %>
 															<% line.music.music_genres.forEach(function(el, index) { %>
@@ -396,7 +432,7 @@
 
 			<div class="modal-footer">
 				<button type="button" data-dismiss="modal" class="btn btn-outline dark">Cancel</button>
-				<button data-dismiss="modal" id="button_send_notification"  type="button"
+				<button data-dismiss="modal" id="button_send_notification" type="button"
 				        class="btn green">Send
 				</button>
 			</div>

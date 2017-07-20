@@ -110,7 +110,12 @@ let PartySchema = new Schema({
 			}
 		]
 	}],
-	global_drink_id: {type: Number, default: 0}
+	global_drink_id: {type: Number, default: 0},
+	remarks: {type: String, trim: true},
+	age_range: {
+		min: {type: Number, default: 15},
+		max: {type: Number, default: 100}
+	}
 });
 
 PartySchema.statics.countByDate = function (type = 'eq', date = Date.now()) {

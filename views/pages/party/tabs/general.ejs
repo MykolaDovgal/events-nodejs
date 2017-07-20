@@ -86,7 +86,8 @@
 			<div class="col-md-9 md-checkbox-inline">
 				<div class="col-xs-12 md-checkbox-list">
 					<div class="md-checkbox">
-						<input id="visible-switch" type="checkbox" class="md-check" <%= party.only_for_event_att ? 'checked' : '' %> />
+						<input id="visible-switch" type="checkbox"
+						       class="md-check" <%= party.only_for_event_att ? 'checked' : '' %> />
 						<label for="visible-switch">
 							<span></span>
 							<span class="check"></span>
@@ -152,6 +153,43 @@
 				     class="editable editable-open language_switch_container"><%= party.description_ol %></div>
 			</div>
 		</div>
+
+		<div class="row vertical-row vertical-top offset-bottom-1_5">
+			<label class="col-xs-4 col-md-3 control-label">
+				Remarks
+			</label>
+
+			<div class="col-xs-8 col-md-9 description-general form-group form-textarea">
+				<div id="remarks" data-pk="1" data-type="wysihtml5"
+				     data-original-title="Enter remarks"
+				     class="editable editable-open"><%= party.remarks %></div>
+			</div>
+		</div>
+
+		<div class="row vertical-row vertical-top offset-bottom-1_5">
+
+			<label class=" col-md-3 control-label">
+				Age Range
+			</label>
+			<div class=" col-md-9">
+				<div class="col-xs-12">
+					<a
+							id="age_range_min" data-type="number"
+							class="editable editable-click"> <%= party.age_range.min %> </a>
+					<span>&nbsp; &mdash; &nbsp;</span>
+					<a
+							id="age_range_max" data-type="number"
+							class="editable editable-click"> <%= party.age_range.max %> </a>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<hr/>
+			</div>
+		</div>
+
 	</div>
 
 	<div class="col-md-5 border-line block-manager offset-top-xs-2">
