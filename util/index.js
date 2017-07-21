@@ -161,6 +161,17 @@ util = {
 		pathArray.splice(0, pathArray.indexOf('public') + 1);
 
 		return path.sep + pathArray.join(path.sep);
+	},
+	validateAgeRange: function (data_body) { // !remove
+		let name = data_body['name'];
+		let value = data_body['value'];
+		if (name === 'age_range.min' || name === 'age_range.max') {
+			if (!value) {
+				value = null;
+				data_body['value'] = value;
+			}
+		}
+		return data_body;
 	}
 
 
