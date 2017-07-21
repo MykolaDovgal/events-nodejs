@@ -38,7 +38,7 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 
 	let body = {};
 	let files = req.files;
-
+	let error_message = 'Problem with update values';
 
 	let picture = {};
 
@@ -73,14 +73,17 @@ router.post('/party/update/:id', upload.any(), function (req, res, next) {
 	else
 		val = body['value[]'];
 
+
+
 	Promise.props({
-		party: Party.update({id: req.params.id}, {[body.name]: val,}).execAsync()
+		party: Party.update({id: req.params.id}, {[body.name]: val}).execAsync()
 	}).then(function (results) {
 		res.status(200).send(body['value']);
 	})
 		.catch(function (err) {
 			res.status(500);
-			res.send(err.message);
+			res.send(error_message);
+			//res.send(err.message);
 		});
 });
 

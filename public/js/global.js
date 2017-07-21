@@ -11,7 +11,9 @@ let xeditable = {
 		},
 		minMaxRange: function (value) {
 			let min = 15, max = 100;
-			if (value < min || value > max) {
+			let length = value.length;
+			console.log(typeof value);
+			if ((length > 0) && (value < min || value > max)) {
 				return 'Value not matches a range';
 			}
 		}

@@ -75,8 +75,8 @@ let EventSchema = new Schema({
 		}],
 		remarks: {type: String, trim: true},
 		age_range: {
-			min: {type: Number, default: 15},
-			max: {type: Number, default: 100}
+			min: {type: String},
+			max: {type: String}
 		}
 	},
 	{
