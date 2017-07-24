@@ -1141,3 +1141,7 @@ pre {
 	background-color: #207780 !important;
 	border-color: #123339 !important;
 }
+
+#remarks {
+    word-break: break-all;
+}
