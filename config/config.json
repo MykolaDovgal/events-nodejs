@@ -6,7 +6,7 @@
   },
   "url": "http://ec2-34-227-9-77.compute-1.amazonaws.com/",
   "db": {
-    "connection": "mongodb://admin:tegos@ds157500.mlab.com:57500/eventsnode?socketTimeoutMS=90000",
+    "connection": "mongodb://admin:tegos@ds157500.mlab.com:57500/eventsnode",
     "name": "eventsnode",
     "options": {
       "server": {
