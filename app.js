@@ -23,7 +23,7 @@ let setup = require('./setup');
 let mongo_uri = config.get('db:connection');
 //console.log(mongo_uri);
 mongoose.Promise = Promise;
-mongoose.connect(mongo_uri);
+mongoose.connect(mongo_uri,{useMongoClient: true});
 
 Promise.promisifyAll(mongoose);
 
