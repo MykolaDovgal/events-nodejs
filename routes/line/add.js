@@ -13,6 +13,7 @@ router.post('/line/add', urlencodedParser, function (request, response, next) {
 	let body = request.body;
 
 	let address = {
+		address: body.route,
 		city: body.locality,
 		country: body.country,
 		countryCode: body.country_short,

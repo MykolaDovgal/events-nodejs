@@ -85,7 +85,7 @@
 						<div class=" wrapper-line border-line offset-top-2">
 							<div class="input-group">
 								<% if (event.location) { %>
-								<input value="<%= event.location.city %> <%= event.location.country ? ', ' + event.location.country : '' %>"
+								<input value="<%= event.location.city %> <%= event.location.country ? ', ' + event.location.country : '' %> <%= event.location.address ? ', ' + event.location.address : '' %>"
 								<% } else { %>
 								<input
 										<% } %>
@@ -102,6 +102,7 @@
 								<input id="lat" name="lat" type="text" value=""/>
 								<input id="lng" name="lng" type="text" value=""/>
 								<input id="locality" name="locality" type="text" value=""/>
+                                <input id="route" name="route" type="text" value=""/>
 								<input id="country" name="country" type="text" value=""/>
 								<input id="country_short" name="country_short" type="text" value=""/>
 							</div>

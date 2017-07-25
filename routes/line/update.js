@@ -80,6 +80,7 @@ router.post('/line/update/address/:id', function (req, res, next) {
 	let result = {status: true};
 
 	let address = {
+		address: body.route,
 		city: body.locality,
 		country: body.country,
 		countryCode: body.country_short,

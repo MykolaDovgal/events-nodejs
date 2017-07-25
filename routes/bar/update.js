@@ -93,7 +93,7 @@ router.post('/bar/update/address/:id', function (req, res, next) {
 	let location = {
 		country: body.country,
 		city: body.locality,
-		address: '',
+		address: body.route,
 		longitude: {
 			lat: body.lat,
 			lng: body.lng

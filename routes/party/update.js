@@ -97,7 +97,7 @@ router.post('/party/update/address/:id', function (req, res, next) {
 		club_name: '',
 		country: body.country,
 		city: body.locality,
-		address: '',
+		address: body.route,
 		longitude: {
 			lat: body.lat,
 			lng: body.lng

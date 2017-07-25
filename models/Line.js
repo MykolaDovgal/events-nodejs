@@ -48,6 +48,7 @@ let LineSchema = new Schema({
 			music_sample: {type: String}
 		},
 		address: {
+			address: {type: String, trim: true},
 			city: {type: String, trim: true},
 			country: {type: String, trim: true},
 			countryCode: {type: String, trim: true},

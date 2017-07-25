@@ -17,13 +17,14 @@ window.initGeoAddLine = function () {
 
 	var geocomplete_line_add = $('#geocomplete_line_add').geocomplete({
 		details: '.geo-data',
-		types: ['(cities)']
+		//types: ['(cities)']
 
 	}).on('geocode:result', function (e, result) {
 		var geo_data = $('.geo-data');
 		var data = {
 			lat: $('#lat').val(),
 			lng: $('#lng').val(),
+			route: $('#route').val(),
 			locality: $('#locality').val(),
 			country: $('#country').val(),
 			country_short: $('#country_short').val(),

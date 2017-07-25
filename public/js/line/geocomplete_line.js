@@ -4,18 +4,19 @@
 
 function initMap() {
 
-	var geocomplete_line = $("#geocomplete_line").geocomplete({
+	let geocomplete_line = $("#geocomplete_line").geocomplete({
 		map: '#map',
 		details: '.geo-data',
-		types: ['(cities)']
+		//types: ['(cities)']
 
 	}).on('geocode:result', function (e, result) {
-		var geo_data = $('.geo-data');
+		let geo_data = $('.geo-data');
 
-		var data = {
+		let data = {
 			lat: $('#lat').val(),
 			lng: $('#lng').val(),
 			locality: $('#locality').val(),
+			route: $('#route').val(),
 			country: $('#country').val(),
 			country_short: $('#country_short').val(),
 		};
@@ -28,7 +29,7 @@ function initMap() {
 				if (req.status) {
 					$('#place_title').text('in ' + data['locality'] + ', ' + data['country']);
 					toastr.success(req.msg);
-					var text_val = data['locality'] + ', ' + data['country'];
+					let text_val = data['locality'] + ', ' + data['country'] + ', ' + data['route'];
 					$('#geocomplete_line').val(text_val);
 				} else {
 					toastr.error(req.msg);

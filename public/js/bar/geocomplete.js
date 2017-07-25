@@ -13,6 +13,7 @@ function initMap() {
 			lat: $('#lat').val(),
 			lng: $('#lng').val(),
 			locality: $('#locality').val(),
+			route: $('#route').val(),
 			country: $('#country').val(),
 			country_short: $('#country_short').val(),
 		};
@@ -25,7 +26,9 @@ function initMap() {
 				if (req.status) {
 					$('#place_title').text('in ' + data['locality'] + ', ' + data['country']);
 					toastr.success(req.msg);
-					let text_val = data['locality'] + ', ' + data['country'];
+					let text_val = data['locality'] + ', ' + data['country'] + ', ' + data['route'];
+					console.log('req',req);
+					console.log('data',data);
 					$('#geocomplete').val(text_val);
 				} else {
 					toastr.error(req.msg);
