@@ -52,7 +52,7 @@
 							</div>
 							<h4>#<%= party.id %></h4>
 							<h4 id="place_title">
-								in <%= party.location ? party.location.city + ', ' + party.location.country : '' %></h4>
+								in <%= party.location ? party.location.city + ', ' + party.location.country : '' %> <%= party.location.address ? ', ' + party.location.address : '' %></h4>
 						</div>
 
 						<div class="switch-lang party-item">

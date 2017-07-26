@@ -52,7 +52,7 @@
 							</div>
 							<h4>#<%= line.id %></h4>
 							<% if (line.address.city) { %>
-							<h4 id="place_title">in <%= line.address.city + ', ' + line.address.country %></h4>
+							<h4 id="place_title">in <%= line.address.city + ', ' + line.address.country %> <%= line.address.address ? ', ' + line.address.address : '' %></h4>
 							<% } %>
 						</div>
 						<div class="switch-lang"><input id="language_switch" type="checkbox"
