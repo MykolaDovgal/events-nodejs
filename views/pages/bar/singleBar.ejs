@@ -51,7 +51,7 @@
 							</div>
 							<h4>#<%= bar.id %></h4>
 							<h4 id="place_title">
-								in <%= bar.location ? bar.location.city + ', ' + bar.location.country + ', ' + bar.location.address ? bar.location.address : '' : ''  %></h4>
+								in <%= bar.location ? bar.location.city + ', ' + bar.location.country + ', ' : ''  %> <%= bar.location.address ? bar.location.address : ''%></h4>
 						</div>
 						<div class="switch-lang party-item">
 							<input id="language_switch" type="checkbox"
