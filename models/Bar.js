@@ -74,38 +74,38 @@ let BarSchema = new Schema({
 	}],
 	opening_times: {
 		sunday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		},
 		monday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		},
 		tuesday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		},
 		wednesday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		},
 		thursday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		},
 		friday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		},
 		saturday: {
-			open: {type: String, default: '00:00'},
-			close: {type: String, default: '00:00'},
+			open: {type: String, default: '-'},
+			close: {type: String, default: '-'},
 			notes: {type: String, default: ''}
 		}
 	},
