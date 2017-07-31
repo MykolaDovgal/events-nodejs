@@ -75,6 +75,27 @@ let PartySchema = new Schema({
 		location_ver: {type: Boolean},
 		location_ver_time: {type: Date}
 	}],
+    likes: [{
+        user: {type: Object},
+        userId: {type: Number},
+        likeTime: {type: Date}
+    }],
+    comments:[{
+        commentId: {type: Number, required: true, index: {unique: true}},
+        user: {type: Object},
+        createdAt: {type: Date},
+        deletedAt: {type: Date},
+        content: {type: String},
+        liked: [{user: {type: Object}}]
+    }],
+    announcements: [{
+        announcementId: {type: Number, required: true, index: {unique: true}},
+        user: {type: Object},
+        createdAt: {type: Date},
+        deletedAt: {type: Date},
+        content: {type: String},
+        liked: [{user: {type: Object}}]
+    }],
 	stage: [{
 		stage_name: {type: String},
 		music_genres: [{type: String}],
