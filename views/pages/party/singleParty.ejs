@@ -52,7 +52,7 @@
 							</div>
 							<h4>#<%= party.id %></h4>
 							<h4 id="place_title">
-								in <%= party.location ? party.location.city + ', ' + party.location.country : '' %> <%= party.location.address ? ', ' + party.location.address : '' %></h4>
+								in <%= party.location.address ? party.location.address + ', ': '' %> <%= party.location.city ? party.location.city + ', ' : '' %> <%= party.location.country ? party.location.country : '' %> </h4>
 						</div>
 
 						<div class="switch-lang party-item">
@@ -87,7 +87,7 @@
 						<div class=" wrapper-line border-line offset-top-2">
 							<div class="input-group">
 								<% if (party.location) { %>
-								<input value="<%= party.location.city %> <%= party.location.country ? ', ' + party.location.country : '' %> <%= party.location.address ? ', ' + party.location.address : '' %>"
+								<input value="<%= party.location.address ? party.location.address + ', ': '' %> <%= party.location.city ? party.location.city + ', ' : '' %> <%= party.location.country ? party.location.country : '' %>"
 								<% } else { %>
 								<input
 										<% } %>
