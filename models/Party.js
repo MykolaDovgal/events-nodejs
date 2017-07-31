@@ -65,7 +65,7 @@ let PartySchema = new Schema({
 	active: {type: Boolean},
 	attendees: [{
 		user: {type: Object},
-		userId: {type: Schema.Types.ObjectId},
+		userId: {type: Number},
 		ticket_purchase: {type: Boolean},
 		purchase_priceId: {type: String},
 		ticket_checkin: {type: Boolean},
