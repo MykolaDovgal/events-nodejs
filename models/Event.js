@@ -49,7 +49,7 @@ let EventSchema = new Schema({
 		}],
 		attendees: [{
 			user: {type: Object},
-			userId: {type: Number},
+			userId: {type: Schema.Types.ObjectId},
 			ticket_purchase: {type: Boolean},
 			purchase_priceId: {type: Number},
 			ticket_checkin: {type: Boolean},

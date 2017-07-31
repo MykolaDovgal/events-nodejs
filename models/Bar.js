@@ -38,7 +38,7 @@ let BarSchema = new Schema({
 	],
 	attendees: [{
 		user: {type: Object},
-		userId: {type: Number},
+		userId: {type: Schema.Types.ObjectId},
 		ticket_purchase: {type: Boolean},
 		purchase_priceId: {type: String},
 		ticket_checkin: {type: Boolean},
