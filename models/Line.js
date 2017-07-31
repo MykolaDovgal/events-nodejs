@@ -59,7 +59,7 @@ let LineSchema = new Schema({
         }],
         pictures: [{
             picture: {type: Schema.Types.ObjectId},
-            pictureUrl: {type: string},
+            pictureUrl: {type: String},
             uploadedAt: {type: Date},
             uploader: {type: Schema.Types.ObjectId},
             isPrivate: {type: Boolean},
