@@ -1,13 +1,10 @@
 {
   "port": 3000,
   "defaultUpdate": 5000,
-  "api": {
-    "url": "http://82.207.107.126:13541/SimpleRIDE/LAD/SM.WebApi/api/"
-  },
   "url": "http://ec2-34-227-9-77.compute-1.amazonaws.com/",
   "db": {
-    "connection": "mongodb://admin:tegos@ds157500.mlab.com:57500/eventsnode",
-    "name": "eventsnode",
+    "connection": "mongodb://solidbrain:solid1992brain@ds137101.mlab.com:37101/chillz",
+    "name": "chillz",
     "options": {
       "server": {
         "socketOptions": {
