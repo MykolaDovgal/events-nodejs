@@ -48,12 +48,52 @@ let BarSchema = new Schema({
 		location_ver: {type: Boolean},
 		location_ver_time: {type: Date}
 	}],
+
 	followers: [{
 		user: {type: Object},
 		userId: {type: Number},
 		times_attended: {type: Number},
 		last_attendence: {type: Date}
 	}],
+    likes: [{
+        userId: {type: Schema.Types.ObjectId},
+        likeTime: {type: Date}
+    }],
+    comments:[{
+        commentId: {type: Schema.Types.ObjectId},
+        userId: {type: Schema.Types.ObjectId},
+        createdAt: {type: Date},
+        deletedAt: {type: Date},
+        content: {type: String},
+        likes: [{type: Schema.Types.ObjectId}]
+    }],
+    announcements: [{
+        announcementId: {type: Number, required: true, index: {unique: true}},
+        userId: {type: Schema.Types.ObjectId},
+        createdAt: {type: Date},
+        deletedAt: {type: Date},
+        content: {type: String},
+        likes: [{type: Schema.Types.ObjectId}]
+    }],
+    pictures: [{
+        picture: {type: Schema.Types.ObjectId},
+        pictureUrl: {type: String},
+        uploadedAt: {type: Date},
+        uploader: {type: Schema.Types.ObjectId},
+        isPrivate: {type: Boolean},
+        isOfficial: {type: Boolean},
+        comments: [{
+            commentId: {type: Schema.Types.ObjectId},
+            userId: {type: Schema.Types.ObjectId},
+            createdAt: {type: Date},
+            deletedAt: {type: Date},
+            content: {type: String},
+            liked: [{type: Schema.Types.ObjectId}]
+        }],
+        tagged: [{type: Schema.Types.ObjectId}],
+        likes: [{type: Schema.Types.ObjectId}]
+
+    }],
 	music: [{
 		date: {type: Date},
 		music_genres: [{type: String}],
